@@ -4,6 +4,21 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:relayune_mobile/src/network/instance_endpoint.dart';
 import 'package:relayune_mobile/src/network/relay_api.dart';
 
+class _HandshakeCaptureClient implements HttpClient {
+  Uri? requested;
+  bool closed = false;
+  @override
+  Future<HttpClientRequest> openUrl(String method, Uri url) {
+    requested = url;
+    return Future.error(StateError('Synthetic handshake captured'));
+  }
+
+  @override
+  void close({bool force = false}) => closed = true;
+  @override
+  dynamic noSuchMethod(Invocation invocation) => super.noSuchMethod(invocation);
+}
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = null;
@@ -169,7 +184,10 @@ void main() {
     instanceIoClient(ecPem).close(force: true);
     const malformed =
         '-----BEGIN CERTIFICATE-----\nAA==\n-----END CERTIFICATE-----';
-    expect(() => certificateFingerprint(malformed), throwsA(isA<TlsException>()));
+    expect(
+      () => certificateFingerprint(malformed),
+      throwsA(isA<TlsException>()),
+    );
     expect(() => instanceIoClient(malformed), throwsA(isA<TlsException>()));
   });
   test('HTTP and WSS never follow credential-bearing redirects', () async {
@@ -219,6 +237,78 @@ void main() {
         connectInstanceSocket(origin, pem, 'wss://example.invalid/socket', {}),
         throwsFormatException,
       );
+    },
+  );
+  test(
+    'SDK handshake retains default WSS 443 and loopback WS 80 ports',
+    () async {
+      for (final fixture in [
+        (
+          origin: 'https://server.example',
+          url: 'wss://server.example/api/stream',
+          port: 443,
+          loopback: false,
+        ),
+        (
+          origin: 'http://localhost',
+          url: 'ws://localhost/api/stream',
+          port: 80,
+          loopback: true,
+        ),
+      ]) {
+        final capture = _HandshakeCaptureClient();
+        await HttpOverrides.runZoned(() async {
+          await expectLater(
+            connectInstanceSocket(
+              fixture.origin,
+              null,
+              fixture.url,
+              {},
+              allowInsecureLoopbackForTesting: fixture.loopback,
+            ),
+            throwsA(isA<StateError>()),
+          );
+        }, createHttpClient: (_) => capture);
+        expect(capture.requested?.scheme, fixture.loopback ? 'http' : 'https');
+        expect(capture.requested?.origin, fixture.origin);
+        expect(capture.requested?.port, fixture.port);
+        expect(capture.closed, isTrue);
+      }
+    },
+  );
+  test(
+    'omitted WSS port completes SDK handshake with scoped CA verification',
+    () async {
+      int? observedPort;
+      final fixtureContext = SecurityContext(withTrustedRoots: true)
+        ..setTrustedCertificatesBytes(
+          await File('${tmp.path}/ca.pem').readAsBytes(),
+        );
+      final socket = await connectInstanceSocket(
+        'https://127.0.0.1',
+        pem,
+        'wss://127.0.0.1/socket',
+        {},
+        onClientCreated: (client) {
+          // Route only this fixture to its random listening port. The secure
+          // socket still verifies the original host and the selected CA.
+          client.connectionFactory = (uri, proxyHost, proxyPort) {
+            observedPort = uri.port;
+            expect(uri.scheme, 'https');
+            expect(uri.host, '127.0.0.1');
+            expect(proxyHost, isNull);
+            return SecureSocket.startConnect(
+              uri.host,
+              server.port,
+              context: fixtureContext,
+            );
+          };
+        },
+      );
+      expect(observedPort, 443);
+      socket.add('default-port-with-verified-TLS');
+      expect(await socket.first, 'default-port-with-verified-TLS');
+      await socket.close();
     },
   );
 }

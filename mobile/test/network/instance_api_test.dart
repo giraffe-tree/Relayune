@@ -59,7 +59,10 @@ void main() {
         'wss://server.example/api/stream',
         'wss://server.example:443/api/stream',
       ]) {
-        expect(normalizeInstanceSocketUri(origin, url).scheme, 'wss');
+        final normalized = normalizeInstanceSocketUri(origin, url);
+        expect(normalized.scheme, 'wss');
+        expect(normalized.port, 443);
+        expect(normalized.toString(), 'wss://server.example:443/api/stream');
       }
     }
     expect(
@@ -100,14 +103,14 @@ void main() {
         'ws://localhost/api/stream',
         'ws://localhost:80/api/stream',
       ]) {
-        expect(
-          normalizeInstanceSocketUri(
-            'http://localhost',
-            url,
-            allowInsecureLoopbackForTesting: true,
-          ).scheme,
-          'ws',
+        final normalized = normalizeInstanceSocketUri(
+          'http://localhost',
+          url,
+          allowInsecureLoopbackForTesting: true,
         );
+        expect(normalized.scheme, 'ws');
+        expect(normalized.port, 80);
+        expect(normalized.toString(), 'ws://localhost:80/api/stream');
         expect(
           () => normalizeInstanceSocketUri('http://localhost', url),
           throwsFormatException,

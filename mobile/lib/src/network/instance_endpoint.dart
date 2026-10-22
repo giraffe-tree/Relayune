@@ -127,7 +127,9 @@ Uri normalizeInstanceSocketUri(
     '${expected.scheme}${url.substring(url.indexOf(':'))}',
   );
   if (transportUri.port != expected.port) throw mismatch;
-  return uri;
+  // WebSocket.connect forwards Uri.port into its HTTP handshake URI. Carry an
+  // explicit WS(S) port so the SDK does not forward its default zero port.
+  return uri.replace(port: transportUri.port);
 }
 
 Future<WebSocket> connectInstanceSocket(
