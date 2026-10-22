@@ -1,0 +1,34 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1024 1024"
+  role="img"
+  aria-labelledby="title description"
+>
+  <title id="title">Relayune Phase Relay icon concept</title>
+  <desc id="description">
+    Two opposing lunar endpoints hand off a signal baton through a secure relay.
+  </desc>
+
+  <rect width="1024" height="1024" rx="224" fill="#0B0D12"/>
+  <path
+    d="M450 238C302 266 222 374 236 512c13 132 91 235 214 274"
+    fill="none"
+    stroke="#5EF0C3"
+    stroke-linecap="round"
+    stroke-width="112"
+  />
+  <path
+    d="M574 238c148 28 228 136 214 274-13 132-91 235-214 274"
+    fill="none"
+    stroke="#7A63FF"
+    stroke-linecap="round"
+    stroke-width="112"
+  />
+  <path
+    d="M420 572 604 452"
+    fill="none"
+    stroke="#F7F8F5"
+    stroke-linecap="round"
+    stroke-width="94"
+  />
+</svg>

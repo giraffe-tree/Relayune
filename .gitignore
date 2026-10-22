@@ -1,0 +1,114 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/.vinext/
+/out/
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+!.env.example
+!.env.*.example
+
+# vercel
+.vercel
+
+# typescript
+next-env.d.ts
+/tsconfig.tsbuildinfo
+/dist/
+/.wrangler/
+/outputs/
+/work/
+/.codex-relay/
+/.codex-deploy/
+
+# Unused local marketing concept renders
+/public/marketing/relayune-product-intro*.png
+
+# Local video production projects and renders
+/video/
+
+# Relayune desktop build products and generated sidecars
+/desktop/node_modules
+/desktop/dist/
+/desktop/src-tauri/target/
+/desktop/src-tauri/gen/
+/desktop/src-tauri/binaries/agent-relay-core-*
+/desktop/src-tauri/binaries/relayune-core-*
+/desktop/.sidecar-build/
+/desktop/src-tauri/resources/generated-notices/
+
+# APNs authentication keys must remain outside the repository.
+*.p8
+
+# Local IDE configuration
+/.idea/
+
+# Private signing material and runtime configuration
+*.p12
+*.pfx
+*.key
+*.jks
+*.keystore
+*.mobileprovision
+*.provisionprofile
+/mobile/android/local.properties
+/mobile/android/key.properties
+/mobile/android/push.local.properties
+
+# Local credential exports, databases, and scan reports
+/.secrets/
+/secrets/
+/private/
+/.public-prep/
+/gitleaks-report*.json
+/gitleaks*.sarif
+*.sqlite
+*.sqlite3
+*.sqlite-wal
+*.sqlite-shm
+*.log
+
+# Python audit caches and local application release artifacts
+__pycache__/
+*.py[cod]
+*.sqlite-journal
+*.sqlite3-wal
+*.sqlite3-shm
+*.sqlite3-journal
+*.apk
+*.aab
+*.ipa
+*.dmg
+*.app/
+
+# Internal archives are retained only in the private repository
+/data/
+/output/
+/docs/qa/runs/
+/docs/research/
+/docs/app-store/

@@ -1,0 +1,23 @@
+{
+  "version": "0.3.5",
+  "publishedAt": "2026-08-27T08:29:26.000Z",
+  "platforms": ["android"],
+  "copy": {
+    "zh": {
+      "title": "手机端新增 Claude Code 与会话续接",
+      "items": [
+        "手机端现在可在 Codex、Kimi 与 Claude 之间切换，并新建或继续电脑端 Claude Code 会话。",
+        "Claude Code 的流式回复、工具审批、提问与子 Agent 状态通过端到端加密链路显示和操作。",
+        "会话选择会按设备与 Agent 恢复，刷新后继续停留在正确会话；默认 Agent 仍保持 Kimi。"
+      ]
+    },
+    "en": {
+      "title": "Claude Code and session continuity on mobile",
+      "items": [
+        "Mobile can now switch between Codex, Kimi, and Claude, then create or continue Claude Code sessions running on the paired computer.",
+        "Claude Code streaming responses, tool approvals, questions, and subagent status are available through the end-to-end encrypted link.",
+        "Session selection now restores per device and agent after refresh, while Kimi remains the default agent."
+      ]
+    }
+  }
+}

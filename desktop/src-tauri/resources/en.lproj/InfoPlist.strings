@@ -1,0 +1,7 @@
+"NSAppleEventsUsageDescription" = "Relayune opens Terminal so you can sign in to local coding agents.";
+"NSDesktopFolderUsageDescription" = "Relayune accesses files in your default working folder so local coding agents can work on them.";
+"NSDocumentsFolderUsageDescription" = "Relayune accesses files in your default working folder so local coding agents can work on them.";
+"NSDownloadsFolderUsageDescription" = "Relayune accesses files in your default working folder so local coding agents can work on them.";
+"NSNetworkVolumesUsageDescription" = "Relayune accesses files in your default working folder so local coding agents can work on them.";
+"NSRemovableVolumesUsageDescription" = "Relayune accesses files in your default working folder so local coding agents can work on them.";
+"NSFileProviderDomainUsageDescription" = "Relayune accesses files in your default working folder so local coding agents can work on them.";

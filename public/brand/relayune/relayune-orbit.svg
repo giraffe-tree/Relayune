@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+  <title id="title">Relayune living channel</title>
+  <desc id="description">Compatibility alias for the Eclipse Relay breathe animation.</desc>
+  <style>
+    .channel { animation: channel 4.8s ease-in-out infinite; }
+    .moon { transform-box: fill-box; transform-origin: center; animation: moon 4.8s ease-in-out infinite; }
+    @keyframes channel { 0%, 100% { stroke-width: 58; } 50% { stroke-width: 70; } }
+    @keyframes moon { 0%, 100% { transform: scale(.985); opacity: .92; } 50% { transform: scale(1); opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { .channel, .moon { animation: none; } }
+  </style>
+  <defs>
+    <mask id="orbit-compat-channel" maskUnits="userSpaceOnUse">
+      <rect width="512" height="512" fill="#fff"/>
+      <path class="channel" d="M75 313C149 138 216.5 139 256 256s107 118 181-57" fill="none" stroke="#000" stroke-linecap="round" stroke-width="64"/>
+    </mask>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0B1220"/>
+  <circle class="moon" cx="256" cy="256" r="154" fill="#F6F8F5" mask="url(#orbit-compat-channel)"/>
+</svg>

@@ -1,0 +1,4 @@
+"CFBundleDisplayName" = "Relayune";
+"NSCameraUsageDescription" = "Relayune utilise l’appareil photo pour scanner le code QR d’association à usage unique affiché sur votre ordinateur.";
+"NSPhotoLibraryUsageDescription" = "Relayune utilise les photos sélectionnées comme pièces jointes chiffrées envoyées à l’Agent sur votre ordinateur.";
+"NSLocalNetworkUsageDescription" = "Relayune peut se connecter directement à votre ordinateur sur le même réseau pour transférer l’historique et les pièces jointes chiffrés.";

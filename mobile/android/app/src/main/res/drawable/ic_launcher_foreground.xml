@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!--
+      Adaptive icon artwork uses Android's 66 dp safe-zone inside the 108 dp
+      canvas. The Eclipse Relay channel is a real alpha cut-out, rather than a
+      transparent stroke drawn on top (which would leave a solid moon).
+    -->
+    <!-- Compensate for the 72/108 adaptive viewport, then apply mobile's 0.85 scale. -->
+    <group android:pivotX="54" android:pivotY="54"
+        android:scaleX="0.566667" android:scaleY="0.566667">
+        <clip-path
+            android:pathData="M54,21.5A32.5,32.5 0,1 1,54 86.5A32.5,32.5 0,1 1,54 21.5Z" />
+        <path
+            android:fillColor="#F6F8F5"
+            android:fillType="evenOdd"
+            android:pathData="M54,21.5A32.5,32.5 0,1 1,54 86.5A32.5,32.5 0,1 1,54 21.5ZM21.78,68.44L24.57,62.24L27.28,56.93L29.88,52.52L32.34,49L34.59,46.36L36.53,44.59L38.05,43.61L39.05,43.23L39.61,43.18L40.09,43.29L40.86,43.72L41.99,44.72L43.38,46.46L44.87,48.95L46.38,52.17L47.84,56.07L49.63,60.85L51.64,65.13L53.92,68.92L56.55,72.20L59.65,74.91L63.34,76.87L67.51,77.78L71.79,77.44L75.80,75.98L79.43,73.66L82.79,70.61L85.98,66.87L89.07,62.42L92.12,57.24L95.16,51.29L98.19,44.53L98.70,42.05L98.22,39.56L96.83,37.44L94.73,36.01L92.25,35.50L89.76,35.98L87.64,37.37L86.21,39.47L83.43,45.69L80.72,51.01L78.11,55.43L75.66,58.96L73.41,61.61L71.46,63.39L69.94,64.38L68.94,64.76L68.38,64.81L67.90,64.70L67.14,64.28L66,63.27L64.62,61.54L63.13,59.05L61.62,55.83L60.16,51.93L58.37,47.15L56.36,42.87L54.08,39.08L51.45,35.80L48.35,33.09L44.67,31.12L40.50,30.21L36.22,30.54L32.22,31.99L28.58,34.31L25.22,37.35L22.03,41.08L18.93,45.52L15.88,50.69L12.85,56.62L9.82,63.36L9.30,65.85L9.77,68.34L11.17,70.46L13.26,71.88L15.75,72.40L18.24,71.93L20.36,70.53L21.78,68.44Z" />
+    </group>
+</vector>

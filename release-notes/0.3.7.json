@@ -1,0 +1,23 @@
+{
+  "version": "0.3.7",
+  "publishedAt": "2026-08-28T09:57:35.000Z",
+  "platforms": ["web", "server", "android", "macos"],
+  "copy": {
+    "zh": {
+      "title": "任务状态以结构化信号为准",
+      "items": [
+        "Web 和电脑端 Relay 不再根据标题中的“进行中”“运行中”等文字推断任务状态。",
+        "只有 Agent 返回的结构化 active 状态才会把任务标记为运行中；idle、notLoaded 或缺少状态的任务不会被标题误判。",
+        "跨进程工具活动仍会正常同步，但不会因此篡改任务的运行状态。"
+      ]
+    },
+    "en": {
+      "title": "Task status follows structured signals",
+      "items": [
+        "The Web app and desktop Relay no longer infer task state from labels such as Running or In progress in a title.",
+        "Only the Agent's structured active status marks a task as running; idle, notLoaded, and missing states cannot be overridden by a title.",
+        "Cross-process tool activity continues to sync without changing the task's authoritative runtime state."
+      ]
+    }
+  }
+}

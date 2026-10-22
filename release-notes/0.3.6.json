@@ -1,0 +1,23 @@
+{
+  "version": "0.3.6",
+  "publishedAt": "2026-08-27T10:48:38.000Z",
+  "platforms": ["web", "server", "android", "ios", "macos"],
+  "copy": {
+    "zh": {
+      "title": "标准化跨端安全配对",
+      "items": [
+        "浏览器和 Android 的新设备配对已切换到 RFC 9382 SPAKE2-P256-SHA256-HKDF-HMAC，8 位连接码仍只留在两端设备。",
+        "Web、Android 与电脑端现在使用一致的 transcript、HKDF 和双向 HMAC 确认；错误连接码会在保存内容密钥前被拒绝。",
+        "现有已授权设备可继续使用；新设备配对需要使用本版本的 Web、Server、Android 与电脑端协议实现。"
+      ]
+    },
+    "en": {
+      "title": "Standardized secure pairing across devices",
+      "items": [
+        "New browser and Android device pairing now uses RFC 9382 SPAKE2-P256-SHA256-HKDF-HMAC, while the eight-character connection code remains only on the two endpoints.",
+        "Web, Android, and desktop now share the same transcript, HKDF, and bidirectional HMAC confirmation flow; incorrect codes are rejected before a content key is stored.",
+        "Existing authorized devices continue to work; new pairings require this version of the Web, Server, Android, and desktop protocol implementation."
+      ]
+    }
+  }
+}

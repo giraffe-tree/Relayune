@@ -1,0 +1,97 @@
+/* Shared reading roles. Keep compact chrome separate from conversation text. */
+.app-shell {
+  --reading-size: 15px;
+  --interface-size: 13px;
+  --caption-size: 12px;
+  --reading-color: #d9ddda;
+}
+
+.message-body, .message-markdown { min-width: 0; font-size: var(--reading-size, 15px); }
+.message-body p, .message-markdown-fallback,
+.message-markdown ul, .message-markdown ol {
+  font-size: var(--reading-size, 15px);
+  line-height: 1.75;
+  color: var(--reading-color, #d9ddda);
+}
+.message-markdown p + p { margin-top: 0.8em; }
+.message-markdown li + li { margin-top: 0.35em; }
+.message-markdown :is(h1, h2, h3, h4) { line-height: 1.4; font-weight: 650; margin-block: 1.1em 0.5em; }
+.message-markdown h1 { font-size: 1.45em; }
+.message-markdown h2 { font-size: 1.3em; }
+.message-markdown h3, .message-markdown h4 { font-size: 1.12em; }
+.message-markdown table { font-size: 13px; line-height: 1.6; display: block; max-width: 100%; overflow-x: auto; }
+.message-markdown pre { padding: 14px 16px; font-size: 13px; line-height: 1.65; }
+.message-markdown pre code { font-size: inherit; }
+.message-meta, .day-divider small, .history-toolbar,
+.message-running-status, .message-running-elapsed {
+  font-size: var(--caption-size, 12px);
+  color: #969e98;
+}
+.message-running-status { flex-wrap: wrap; padding: 5px 9px; }
+.message { padding-block: 16px; }
+.system-reminder summary, .system-reminder-action { font-size: 12px; }
+.system-reminder-body p, .message.user .system-reminder-body p,
+.message.system .system-reminder-body p { font-size: 13px; }
+.turn-activity > summary, .tool-activity-message, .message-file-copy small { font-size: 12px; }
+.session-title, .session-copy strong, .project-name { font-size: 13px; line-height: 1.45; }
+.session-meta, .session-copy small { font-size: 12px; line-height: 1.4; }
+.session-button { min-height: 52px; }
+
+.composer textarea { min-height: 62px; max-height: clamp(62px, 28dvh, 220px); font-size: 15px; line-height: 1.6; padding: 14px 14px 6px; }
+.composer-keyboard-hint { margin: 0; padding: 2px 14px 5px; color: #939a94; font-size: 11px; line-height: 1.4; }
+.conversation-latest-bar { height: 0; position: relative; z-index: 5; display: flex; justify-content: center; }
+.conversation-latest-bar button {
+  position: absolute; bottom: 12px; max-width: calc(100% - 32px); min-height: 36px;
+  padding: 7px 14px; border: 1px solid #42554a; border-radius: 999px;
+  background: #1c2721; color: #d3e8db; font: inherit; font-size: 12px; cursor: pointer;
+  box-shadow: 0 4px 18px #0005;
+}
+.conversation-latest-bar button:focus-visible { outline: 2px solid #a6e3b9; outline-offset: 3px; }
+
+dialog.file-preview-backdrop {
+  width: 100dvw; max-width: none; height: 100dvh; max-height: none;
+  margin: 0; border: 0; color: inherit; background: transparent; backdrop-filter: none;
+}
+dialog.file-preview-backdrop:not([open]) { display: none; }
+dialog.file-preview-backdrop::backdrop { background: rgb(0 0 0 / 72%); backdrop-filter: blur(5px); }
+.file-preview-dialog { text-align: start; }
+.file-preview-dialog h2 { font-size: 14px; }
+.file-preview-text, .file-preview-state { font-size: 14px; }
+.file-preview-close { min-width: 44px; min-height: 44px; }
+
+.inline-agent-header-copy strong, .inline-agent-row-title strong { font-size: 13px; line-height: 1.45; }
+.inline-agent-header-copy small, .inline-agent-toggle-meta,
+.inline-agent-metadata, .inline-agent-task, .inline-agent-current,
+.inline-agent-row-title > span, .inline-agent-row-title time,
+.inline-agent-detail-task p, .inline-agent-detail-current p,
+.inline-agent-detail-result p, .inline-agent-detail-timeline p { font-size: 12px; line-height: 1.5; }
+.inline-agent-row-title { flex-wrap: wrap; }
+.inline-agent-detail-result { margin: 12px 0; padding: 12px; border-inline-start: 2px solid #78aa90; background: #17221b; }
+.inline-agent-detail-result strong { font-size: 12px; color: #a6d2b8; }
+.inline-agent-detail-result p { white-space: pre-wrap; overflow-wrap: anywhere; }
+.inline-agent-status.settled { border-color: #343d37; background: #151b17; box-shadow: none; }
+.inline-agent-status.settled .inline-agent-summary-icon i { animation: none; border-color: #849a8c; }
+.inline-agent-status.settled .inline-agent-summary-icon::after { background: #95a99d; box-shadow: none; }
+.inline-agent-wave-progress { display: none; }
+
+/* The selected task owns motion; background work stays legible and quiet. */
+.session-activity-orbit, .session-activity-core, .message-running-dot { animation: none; }
+.session-activity-icon.running { filter: none; }
+.inline-agent-current.scrolling .inline-agent-current-track { animation: none; transform: none; will-change: auto; }
+.inline-agent-current-track { width: auto; }
+.inline-agent-current-copy { flex: 1 1 auto; min-width: 0; }
+.inline-agent-current-copy + .inline-agent-current-copy { display: none; }
+.inline-agent-current-text { white-space: normal; overflow-wrap: anywhere; }
+.inline-agent-current.scrolling .inline-agent-current-copy { padding: 0; }
+.inline-agent-current.scrolling .inline-agent-current-viewport { mask-image: none; }
+
+@media (max-width: 820px) {
+  .composer textarea { font-size: 16px; }
+  .composer-keyboard-hint { display: none; }
+  .inline-agent-toggle { grid-template-columns: 27px minmax(0, 1fr) 14px; }
+  .inline-agent-toggle-meta, .inline-agent-toggle > .inline-agent-avatars { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .conversation *, .conversation *::before, .conversation *::after,
+  .sidebar .session-activity-icon * { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+}

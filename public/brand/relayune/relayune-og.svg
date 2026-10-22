@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1680 941" role="img" aria-labelledby="title description">
+  <title id="title">Relayune</title>
+  <desc id="description">Continue the AI agents on your computer from any trusted browser or phone.</desc>
+  <defs>
+    <clipPath id="og-icon-disc"><circle cx="180" cy="180" r="108"/></clipPath>
+  </defs>
+  <rect width="1680" height="941" fill="#0B1220"/>
+  <circle cx="1390" cy="-12" r="460" fill="#69E1D2" fill-opacity=".07"/>
+  <path d="M890 75c190-450 364-448 466 0s276 450 466 0" fill="none" stroke="#0B1220" stroke-linecap="round" stroke-width="184"/>
+  <g transform="translate(126 150)">
+    <rect width="360" height="360" rx="78" fill="#0B1220" stroke="#F6F8F5" stroke-opacity=".14" stroke-width="3"/>
+    <circle cx="180" cy="180" r="108" fill="#F6F8F5"/>
+    <path d="M53 220c52-123 99-122 127-40s75 83 127-40" fill="none" stroke="#0B1220" stroke-linecap="round" stroke-width="44"/>
+    <path d="M53 220c52-123 99-122 127-40s75 83 127-40" pathLength="100" fill="none" stroke="#69E1D2" stroke-dasharray="10 90" stroke-dashoffset="48" stroke-linecap="round" stroke-width="7" clip-path="url(#og-icon-disc)"/>
+  </g>
+  <text x="126" y="650" fill="#F6F8F5" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="116" font-weight="650" letter-spacing="-5">relayune</text>
+  <text x="132" y="729" fill="#F6F8F5" fill-opacity=".66" font-family="-apple-system, BlinkMacSystemFont, 'Helvetica Neue', Arial, sans-serif" font-size="32" font-weight="450">随时回到你的本机 Agent</text>
+  <path d="M132 787h1416" stroke="#F6F8F5" stroke-opacity=".18"/>
+  <text x="132" y="843" fill="#69E1D2" fill-opacity=".68" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="20" letter-spacing="4">PRIVATE · LOCAL · END-TO-END ENCRYPTED</text>
+</svg>

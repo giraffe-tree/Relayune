@@ -1,0 +1,97 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 512 512"
+  role="img"
+  aria-labelledby="title description"
+>
+  <title id="title">Relayune kinetic lunar wait</title>
+  <desc id="description">The circular Eclipse Relay moon accelerates and settles while its inner channel flexes.</desc>
+  <style>
+    .wait-rotor {
+      transform-box: view-box;
+      transform-origin: 256px 256px;
+      animation: wait-rotate 2.8s infinite;
+    }
+
+    .wait-channel {
+      transform-box: view-box;
+      transform-origin: 256px 256px;
+      animation: wait-channel 2.8s infinite;
+      animation-delay: 110ms;
+    }
+
+    @keyframes wait-rotate {
+      0% {
+        transform: rotate(0deg);
+        animation-timing-function: cubic-bezier(.7, 0, .82, .25);
+      }
+      16% {
+        transform: rotate(12deg);
+        animation-timing-function: cubic-bezier(.12, .72, .18, 1);
+      }
+      82% {
+        transform: rotate(366deg);
+        animation-timing-function: cubic-bezier(.34, 1.45, .64, 1);
+      }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes wait-channel {
+      0%, 100% {
+        stroke-width: 62;
+        transform: translate(0) rotate(0deg);
+        animation-timing-function: cubic-bezier(.55, 0, .7, .25);
+      }
+      22% {
+        stroke-width: 68;
+        transform: translate(-2px, 3px) rotate(-.7deg);
+        animation-timing-function: cubic-bezier(.18, .75, .22, 1);
+      }
+      40% {
+        stroke-width: 76;
+        transform: translate(-9px, 5px) rotate(-3deg);
+        animation-timing-function: cubic-bezier(.35, 0, .2, 1);
+      }
+      64% {
+        stroke-width: 50;
+        transform: translate(7px, -4px) rotate(2deg);
+        animation-timing-function: cubic-bezier(.45, 0, .2, 1);
+      }
+      82% {
+        stroke-width: 70;
+        transform: translate(-3px, 2px) rotate(-1deg);
+        animation-timing-function: cubic-bezier(.34, 1.45, .64, 1);
+      }
+      92% {
+        stroke-width: 58;
+        transform: translate(2px, -1px) rotate(.5deg);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .wait-rotor,
+      .wait-channel {
+        animation: none;
+      }
+    }
+  </style>
+  <defs>
+    <clipPath id="eclipse-wait-disc">
+      <circle cx="256" cy="256" r="154"/>
+    </clipPath>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0B1220"/>
+  <g class="wait-rotor">
+    <g clip-path="url(#eclipse-wait-disc)">
+      <circle cx="256" cy="256" r="154" fill="#F6F8F5"/>
+      <path
+        class="wait-channel"
+        d="M75 313C149 138 216.5 139 256 256s107 118 181-57"
+        fill="none"
+        stroke="#0B1220"
+        stroke-linecap="round"
+        stroke-width="62"
+      />
+    </g>
+  </g>
+</svg>

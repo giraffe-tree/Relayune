@@ -1,0 +1,27 @@
+{
+  "version": "0.2.8",
+  "publishedAt": "2026-08-11T10:19:42.000Z",
+  "platforms": ["web", "android", "macos"],
+  "copy": {
+    "zh": {
+      "title": "Android 与 macOS 自动更新",
+      "items": [
+        "Android 每次冷启动或回到前台都会在后台检查更新，并以持久化的十分钟最短间隔避免重复请求。",
+        "新版 APK 会下载到应用受控目录，完成文件大小与 SHA-256 校验后才进入待安装状态；失败或不完整文件不会替换已验证版本。",
+        "Android 在下一次打开时提示安装，由用户确认后交给系统安装器；系统继续强制校验相同包名与生产签名，不支持静默安装。",
+        "macOS 在启动、重新聚焦和持续运行期间静默检查更新；用户确认后使用 Tauri 签名更新包完成下载、验签、安装和安全重启。",
+        "Android 更新清单采用短缓存动态入口，安装包与 macOS 更新包继续使用版本化、不可覆盖的 OSS 公共对象。"
+      ]
+    },
+    "en": {
+      "title": "Automatic updates for Android and macOS",
+      "items": [
+        "Android checks quietly on every cold launch or foreground return, with a persisted minimum interval of ten minutes to avoid duplicate requests.",
+        "New APKs are staged in app-controlled storage and become installable only after size and SHA-256 verification; failed or partial downloads never replace a verified build.",
+        "Android prompts on the next open and hands installation to the system installer after confirmation; Android still enforces the package name and production signing identity, and silent installation is not used.",
+        "macOS checks quietly at launch, on focus, and while running; after confirmation, the signed Tauri updater downloads, verifies, installs, and safely restarts Relayune.",
+        "The Android update manifest uses a short-lived dynamic endpoint, while Android installers and macOS updater artifacts remain immutable, versioned OSS objects."
+      ]
+    }
+  }
+}

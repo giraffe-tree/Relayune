@@ -1,0 +1,92 @@
+{
+  "version": "0.3.31",
+  "publishedAt": "2026-10-05T17:51:45.603Z",
+  "platforms": [
+    "macos",
+    "android",
+    "web",
+    "server"
+  ],
+  "copy": {
+    "zh": {
+      "title": "更快打开历史，恢复实时回复",
+      "items": [
+        "简化历史读取与缓存：先显示已有内容，再同步最新消息；最近一页最多读取 500 条，图片按引用加载。",
+        "修复服务器中转下发送后长时间等待、回复不自动出现的问题，包括后台恢复和连续同步。",
+        "加载时显示实际读取阶段与可测量的数据大小，首页最近会话使用加载占位。"
+      ]
+    },
+    "en": {
+      "title": "Faster history opening and reliable live replies",
+      "items": [
+        "Simplify history reads and caching: show available content first, then sync recent messages; load up to 500 records per recent page and fetch images by reference.",
+        "Fix long waits and missing live replies after sending over server relay, including background recovery and consecutive sync requests.",
+        "Show actual loading stages and measurable data sizes, with loading placeholders for recent conversations on the home screen."
+      ]
+    },
+    "hi": {
+      "title": "इतिहास जल्दी खोलें और लाइव उत्तर पाएँ",
+      "items": [
+        "इतिहास और कैश पढ़ना सरल किया; उपलब्ध सामग्री पहले दिखती है और हालिया पृष्ठ में अधिकतम 500 रिकॉर्ड लोड होते हैं।",
+        "सर्वर रिले पर भेजने के बाद लंबे इंतज़ार और न दिखने वाले उत्तर ठीक किए, पृष्ठभूमि से लौटने पर भी।",
+        "वास्तविक लोडिंग चरण, मापे गए डेटा आकार और हालिया बातचीत के लिए प्लेसहोल्डर दिखाएँ।"
+      ]
+    },
+    "es": {
+      "title": "Historial más rápido y respuestas en vivo fiables",
+      "items": [
+        "Simplifica la lectura y la caché: muestra primero el contenido disponible y carga hasta 500 registros por página reciente; las imágenes se obtienen por referencia.",
+        "Corrige esperas largas y respuestas que no aparecen al enviar por el servidor, también tras volver del segundo plano.",
+        "Muestra etapas reales de carga, tamaños medidos y marcadores de carga para las conversaciones recientes."
+      ]
+    },
+    "ar": {
+      "title": "فتح أسرع للسجل وردود مباشرة موثوقة",
+      "items": [
+        "تبسيط قراءة السجل والتخزين المؤقت: عرض المحتوى المتاح أولاً وتحميل حتى 500 سجل في الصفحة الحديثة، مع تحميل الصور عبر مراجعها.",
+        "إصلاح الانتظار الطويل والردود التي لا تظهر بعد الإرسال عبر الخادم، بما في ذلك العودة من الخلفية.",
+        "عرض مراحل التحميل الفعلية وأحجام البيانات المقاسة وعناصر مؤقتة للمحادثات الأخيرة."
+      ]
+    },
+    "fr": {
+      "title": "Historique plus rapide et réponses en direct fiables",
+      "items": [
+        "Simplifie la lecture et le cache : affiche d’abord le contenu disponible, jusqu’à 500 entrées par page récente, et charge les images par référence.",
+        "Corrige les longues attentes et les réponses absentes après un envoi via le serveur, y compris au retour de l’arrière-plan.",
+        "Affiche les étapes réelles, les tailles mesurées et des espaces de chargement pour les conversations récentes."
+      ]
+    },
+    "bn": {
+      "title": "দ্রুত ইতিহাস খুলুন এবং সরাসরি উত্তর পান",
+      "items": [
+        "ইতিহাস ও ক্যাশ পড়া সহজ করা হয়েছে: আগে উপলব্ধ বিষয়বস্তু দেখায়, সাম্প্রতিক পৃষ্ঠায় সর্বোচ্চ ৫০০ রেকর্ড এবং রেফারেন্স দিয়ে ছবি লোড করে।",
+        "সার্ভার রিলেতে পাঠানোর পর দীর্ঘ অপেক্ষা ও না দেখা উত্তর ঠিক করা হয়েছে, পটভূমি থেকে ফেরার পরও।",
+        "প্রকৃত লোডিং ধাপ, মাপা ডেটার আকার এবং সাম্প্রতিক কথোপকথনের লোডিং স্থানধারক দেখায়।"
+      ]
+    },
+    "pt": {
+      "title": "Histórico mais rápido e respostas ao vivo confiáveis",
+      "items": [
+        "Simplifica a leitura e o cache: mostra primeiro o conteúdo disponível, carrega até 500 registros por página recente e busca imagens por referência.",
+        "Corrige longas esperas e respostas ausentes após enviar pelo servidor, inclusive ao voltar do segundo plano.",
+        "Mostra etapas reais, tamanhos medidos e espaços de carregamento para conversas recentes."
+      ]
+    },
+    "id": {
+      "title": "Riwayat lebih cepat dan balasan langsung yang andal",
+      "items": [
+        "Menyederhanakan pembacaan dan cache: tampilkan konten tersedia dahulu, muat hingga 500 catatan per halaman terbaru, dan ambil gambar melalui referensi.",
+        "Memperbaiki penantian panjang dan balasan yang tidak muncul setelah mengirim melalui server, termasuk setelah kembali dari latar belakang.",
+        "Menampilkan tahap pemuatan nyata, ukuran data terukur, dan placeholder percakapan terbaru."
+      ]
+    },
+    "ur": {
+      "title": "تیز تاریخ اور قابل اعتماد براہ راست جوابات",
+      "items": [
+        "تاریخ اور کیش پڑھنا آسان بنایا: پہلے دستیاب مواد دکھائیں، حالیہ صفحے میں زیادہ سے زیادہ 500 ریکارڈ اور حوالوں سے تصاویر لوڈ کریں۔",
+        "سرور ریلے پر بھیجنے کے بعد طویل انتظار اور غائب جوابات درست کیے، پس منظر سے واپسی سمیت۔",
+        "اصل لوڈنگ مراحل، ناپے گئے ڈیٹا سائز اور حالیہ گفتگو کے لوڈنگ پلیس ہولڈر دکھائیں۔"
+      ]
+    }
+  }
+}

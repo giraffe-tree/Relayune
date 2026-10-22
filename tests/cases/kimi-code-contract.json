@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "fixture": "tests/fixtures/fake-kimi-acp.mjs",
+  "network_account_required": false,
+  "cases": [
+    { "id": "KIMI-ACP-001", "priority": "P0", "title": "初始化版本与 session/list 能力门禁" },
+    { "id": "KIMI-ACP-002", "priority": "P0", "title": "分页会话目录过滤、上限与确定性排序" },
+    { "id": "KIMI-ACP-003", "priority": "P0", "title": "独立 load 历史合并流式分片、隐藏思考并稳定分页" },
+    { "id": "KIMI-ACP-004", "priority": "P0", "title": "模型、Thinking、权限模式、快捷命令与上下文用量" },
+    { "id": "KIMI-ACP-005", "priority": "P0", "title": "文本与 image block 流式回合、审批和 Swarm Agent" },
+    { "id": "KIMI-ACP-006", "priority": "P0", "title": "拒绝审批、非法决定和已消费审批不可重放" },
+    { "id": "KIMI-ACP-007", "priority": "P0", "title": "停止活跃回合并恢复空闲状态" },
+    { "id": "KIMI-ACP-008", "priority": "P0", "title": "Prompt 异常和 ACP 断线收敛且清除陈旧审批" },
+    { "id": "KIMI-ACP-009", "priority": "P0", "title": "陈旧工具事件不能污染新回合" },
+    { "id": "KIMI-ACP-010", "priority": "P1", "title": "畸形配置、命令、用量与重复数据有界归一化" },
+    { "id": "KIMI-ACP-011", "priority": "P0", "title": "鉴权错误转换为可操作的本机登录提示" },
+    { "id": "KIMI-ACP-012", "priority": "P0", "title": "createAgents 委派原生 Swarm 并生成两阶段 Agent 生命周期" }
+  ]
+}

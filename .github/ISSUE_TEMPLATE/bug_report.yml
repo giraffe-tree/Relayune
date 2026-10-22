@@ -1,0 +1,31 @@
+name: Bug report
+description: Report a reproducible problem with synthetic data.
+body:
+  - type: markdown
+    attributes:
+      value: "For security issues, follow SECURITY.md and report privately. Do not attach credentials, pairing codes, full histories, or raw logs."
+  - type: input
+    id: version
+    attributes:
+      label: Version and platform
+      placeholder: "Relayune version, Web/Desktop/iOS/Android, OS version"
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Steps to reproduce
+      description: Use synthetic accounts and content. Include whether this is self-hosted.
+    validations:
+      required: true
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized evidence and checks
+      description: Include only the smallest useful excerpt. Review screenshots for private information.

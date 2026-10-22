@@ -1,0 +1,22 @@
+title = "Relayune publication scan"
+
+[extend]
+useDefault = true
+
+# Only these exact deterministic values at these exact test paths are exempt.
+# Do not exempt whole test directories or disable the generic-api-key rule.
+[[allowlists]]
+description = "Deterministic SPAKE2 cross-language vector (scalar 7, synthetic pairing/code)"
+targetRules = ["generic-api-key"]
+condition = "AND"
+regexTarget = "secret"
+paths = ['''(^|/)mobile/test/crypto/pairing_pake_test\.dart$''']
+regexes = ['''^qTKm7keiYCyhyAJmSf_4GZrBXpKOO1HHypXleBc2Fsc$''']
+
+[[allowlists]]
+description = "Approval UI fixture: base64url bytes 0 through 31, not a user key"
+targetRules = ["generic-api-key"]
+condition = "AND"
+regexTarget = "secret"
+paths = ['''(^|/)mobile/test/ui/conversation_approval_test\.dart$''']
+regexes = ['''^AAECAwQFBgcICQoLDA0ODxAREhMUFRYXGBkaGxwdHh8$''']

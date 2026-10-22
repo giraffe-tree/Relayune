@@ -1,0 +1,7 @@
+"NSAppleEventsUsageDescription" = "Relayune membuka Terminal agar Anda dapat masuk ke Agent pemrograman lokal.";
+"NSDesktopFolderUsageDescription" = "Relayune mengakses file di folder kerja default agar Agent pemrograman lokal dapat mengerjakannya.";
+"NSDocumentsFolderUsageDescription" = "Relayune mengakses file di folder kerja default agar Agent pemrograman lokal dapat mengerjakannya.";
+"NSDownloadsFolderUsageDescription" = "Relayune mengakses file di folder kerja default agar Agent pemrograman lokal dapat mengerjakannya.";
+"NSNetworkVolumesUsageDescription" = "Relayune mengakses file di folder kerja default agar Agent pemrograman lokal dapat mengerjakannya.";
+"NSRemovableVolumesUsageDescription" = "Relayune mengakses file di folder kerja default agar Agent pemrograman lokal dapat mengerjakannya.";
+"NSFileProviderDomainUsageDescription" = "Relayune mengakses file di folder kerja default agar Agent pemrograman lokal dapat mengerjakannya.";

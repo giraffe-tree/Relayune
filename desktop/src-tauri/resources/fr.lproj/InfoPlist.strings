@@ -1,0 +1,7 @@
+"NSAppleEventsUsageDescription" = "Relayune ouvre Terminal pour vous permettre de vous connecter aux Agents de programmation locaux.";
+"NSDesktopFolderUsageDescription" = "Relayune accède aux fichiers de votre dossier de travail par défaut afin que les Agents de programmation locaux puissent les utiliser.";
+"NSDocumentsFolderUsageDescription" = "Relayune accède aux fichiers de votre dossier de travail par défaut afin que les Agents de programmation locaux puissent les utiliser.";
+"NSDownloadsFolderUsageDescription" = "Relayune accède aux fichiers de votre dossier de travail par défaut afin que les Agents de programmation locaux puissent les utiliser.";
+"NSNetworkVolumesUsageDescription" = "Relayune accède aux fichiers de votre dossier de travail par défaut afin que les Agents de programmation locaux puissent les utiliser.";
+"NSRemovableVolumesUsageDescription" = "Relayune accède aux fichiers de votre dossier de travail par défaut afin que les Agents de programmation locaux puissent les utiliser.";
+"NSFileProviderDomainUsageDescription" = "Relayune accède aux fichiers de votre dossier de travail par défaut afin que les Agents de programmation locaux puissent les utiliser.";

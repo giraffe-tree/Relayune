@@ -1,0 +1,1508 @@
+{
+  "workbenchStateAnswered": "Answered",
+  "workbenchTurnIncomplete": "This run did not complete",
+  "controllerQueueUnconfirmed": "Message processing status is unconfirmed. Refresh the conversation to check.",
+  "homeGreetingMorning": "Good morning",
+  "homeGreetingNoon": "Good afternoon",
+  "homeGreetingAfternoon": "Good afternoon",
+  "homeGreetingEvening": "Good evening",
+  "homeGreetingNight": "A quiet night",
+  "homeCareLongBreak": "You’ve focused a while. Take a longer break if you’d like.",
+  "homeCarePause": "A sip of water, a look outside. A moment for you.",
+  "homeCareNightWorking": "Still working? Leave a little room for rest tonight.",
+  "homeCareNightQuiet": "It’s okay to leave a little for tomorrow.",
+  "homeCareBusyDay": "You’ve been here a while. Save some time for yourself, too.",
+  "homeCareDecision": "Take your time with this decision.",
+  "homeCareLongWait": "A long wait. A little time to look after yourself.",
+  "homeCareWelcomeBack": "Welcome back. Find your own pace.",
+  "homeCareFirstIdea": "Start with an idea, whenever you’re ready.",
+  "homeCareMeal": "Haven’t eaten yet? Make a little time for a meal.",
+  "homeCareEasterEgg": "Secret achievement: self-care. No progress bar needed.",
+  "homeCareWeekend": "A weekend at your pace, with a little room to spare.",
+  "homeCareDailyProgress": "Here’s to a little progress and a little breathing room.",
+  "homeCareDailySpace": "Ideas need space. So do you.",
+  "homeCareDailyPace": "One thing at a time, with a little room for yourself.",
+  "@homeGreetingMorning": {
+    "description": "Mobile home time-of-day greeting. Translate naturally for this local time; noon is 12:00–14:00."
+  },
+  "@homeGreetingNoon": {
+    "description": "Mobile home time-of-day greeting. Translate naturally for this local time; noon is 12:00–14:00."
+  },
+  "@homeGreetingAfternoon": {
+    "description": "Mobile home time-of-day greeting. Translate naturally for this local time; noon is 12:00–14:00."
+  },
+  "@homeGreetingEvening": {
+    "description": "Mobile home time-of-day greeting. Translate naturally for this local time; noon is 12:00–14:00."
+  },
+  "@homeGreetingNight": {
+    "description": "Mobile home time-of-day greeting. Translate naturally for this local time; noon is 12:00–14:00."
+  },
+  "@homeCareLongBreak": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "@homeCarePause": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "@homeCareNightWorking": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "@homeCareNightQuiet": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "@homeCareBusyDay": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "@homeCareDecision": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "@homeCareLongWait": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "@homeCareWelcomeBack": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "@homeCareFirstIdea": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "@homeCareMeal": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "@homeCareEasterEgg": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "@homeCareWeekend": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "@homeCareDailyProgress": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "@homeCareDailySpace": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "@homeCareDailyPace": {
+    "description": "Mobile home quiet care message. Keep concise, warm and optional; avoid guilt, productivity pressure or promises about task success. Naturally localize the metaphor."
+  },
+  "workbenchReturnHome": "Return home",
+  "workbenchVisualization": "Visualization",
+  "workbenchVisualizationUnavailable": "This visualization is not available yet.",
+  "workbenchDesktopVersionUnknown": "Version unknown",
+  "@@locale": "en",
+  "appTitle": "Relayune",
+  "commonBack": "Back",
+  "commonCancel": "Cancel",
+  "commonClose": "Close",
+  "commonContinue": "Continue",
+  "commonRetry": "Try again",
+  "commonSave": "Save",
+  "commonSubmit": "Submit",
+  "commonSettings": "Settings",
+  "commonLogOut": "Log out",
+  "commonReject": "Reject",
+  "commonAllow": "Allow",
+  "unavailableTitle": "Relayune is temporarily unavailable",
+  "clearLoginSession": "Clear login session",
+  "updateInstallerUnavailable": "Unable to open the system installer. Please try again later.",
+  "updateReadyTitle": "Update ready",
+  "updateDownloaded": "Relayune {version} was securely downloaded and verified in the background.",
+  "@updateDownloaded": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "updateLater": "Later",
+  "updateInstall": "Install update",
+  "authSecurityBadge": "End-to-end encrypted workspace",
+  "authEmailTitle": "Continue your computer tasks from your phone",
+  "authPasswordTitle": "Sign in or create an account",
+  "authVerificationTitle": "Check your email",
+  "authEmailSubtitle": "After signing in, use the 8-character code shown on desktop to create an end-to-end encrypted connection.",
+  "authPasswordSubtitle": "Sign in with your password, or verify your email first if this is your first time.",
+  "authVerificationSubtitle": "The verification link can be used once and expires shortly.",
+  "authEmailLabel": "Email",
+  "authInvalidEmail": "Enter a valid email address.",
+  "authContinue": "Continue",
+  "authChangeEmail": "Change email",
+  "authPasswordLabel": "Password",
+  "authShowPassword": "Show password",
+  "authHidePassword": "Hide password",
+  "authPasswordRequired": "Enter your password.",
+  "authSignIn": "Sign in",
+  "authVerifyEmailAction": "First time or forgot your password? Verify email",
+  "authVerificationInstructions": "Open the verification email and set a password on the secure web page. Then return here to continue.",
+  "authPasswordSet": "I set my password",
+  "authResendEmail": "Resend email",
+  "authSecurityNote": "The server only routes ciphertext. Your connection code and content keys are never uploaded.",
+  "pairingExit": "Exit",
+  "pairingTitle": "Scan to connect your computer",
+  "pairingSubtitle": "Take your work with you.",
+  "pairingEnterCodeTitle": "Or enter the 8-character code",
+  "pairingEnterCodeHelp": "Enter the connection code shown on your computer.",
+  "pairingSearching": "Looking for computers waiting to connect to your account…",
+  "pairingComputerLabel": "Computer to connect",
+  "pairingWillConnect": "Connecting to: {device}",
+  "@pairingWillConnect": {
+    "placeholders": {
+      "device": {
+        "type": "String"
+      }
+    }
+  },
+  "pairingStartOnDesktop": "First choose “Connect new client” on desktop, then enter the new code.",
+  "pairingSearchAgain": "Search again",
+  "pairingCodeLabel": "8-character connection code",
+  "pairingSecureConnect": "Connect securely",
+  "pairingScanTitle": "Where is the QR code?",
+  "pairingScanHelp": "Open Relayune on your computer and select “Connect new client”.\nScan the QR code in that window.",
+  "pairingOpenCamera": "Scan to connect",
+  "pairingPrivacyNote": "End-to-end encrypted. Only your devices can read your sessions.",
+  "pairingMinimumDesktop": "Minimum compatible desktop version: {version}",
+  "@pairingMinimumDesktop": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "pairingDeriving": "Verifying connection…",
+  "pairingWaitingDesktop": "Waiting for computer confirmation…",
+  "pairingActivating": "Creating encrypted channel…",
+  "pairingDerivingDetail": "Creating the SPAKE2 responder share and an independent content key on this device.",
+  "pairingWaitingDesktopDetail": "Keep Relayune open on your computer.",
+  "pairingActivatingDetail": "Verifying the first encrypted session catalog.",
+  "scannerTitle": "Scan the connection QR code on your computer",
+  "scannerResume": "Resume scanning",
+  "scannerInvalid": "This is not a Relayune connection QR code. Scan the current code shown on desktop.",
+  "scannerHelp": "Place the QR code shown by Relayune on your computer inside the frame. An end-to-end encrypted connection starts after recognition.",
+  "scannerUnavailable": "The camera is unavailable. Allow Relayune to use the camera in system settings, or return and connect manually.",
+  "settingsTitle": "Settings",
+  "settingsSignedInAccount": "Signed-in account",
+  "settingsAccountSection": "Account",
+  "settingsPreferencesSection": "Preferences",
+  "settingsHelpLegalSection": "Support & legal",
+  "settingsLanguage": "Language",
+  "settingsLanguageSystemDefault": "Default (system language)",
+  "settingsLanguageSystemDefaultValue": "Default · {language}",
+  "@settingsLanguageSystemDefaultValue": {
+    "placeholders": {
+      "language": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsLanguageSaveFailed": "The language changed, but the preference could not be saved.",
+  "settingsReleaseNotes": "Release notes",
+  "settingsSupport": "Support",
+  "settingsTerms": "Terms of Service",
+  "settingsPrivacy": "Privacy Policy",
+  "settingsLegalLanguage": "English",
+  "settingsOpenLinkFailed": "Unable to open this link. Please try again.",
+  "releaseTitle": "Release notes",
+  "releaseLoading": "Loading release notes",
+  "releaseErrorTitle": "Release notes unavailable",
+  "releaseErrorMessage": "Check your connection and try again.",
+  "releaseEmptyTitle": "No release notes yet",
+  "releaseEmptyMessage": "Future updates will appear here.",
+  "releaseVersion": "Version",
+  "releaseWeb": "Web",
+  "releaseServer": "Server",
+  "notificationEnabledTitle": "Task notifications are on",
+  "notificationPrimerTitle": "Your task runs on the computer, so you do not have to keep watching",
+  "notificationEnabledBody": "Relayune alerts you when a task needs attention or the main task finishes.",
+  "notificationPrimerBody": "Handle approvals and questions promptly, then see the task name and reply summary when it finishes.",
+  "notificationBenefitAction": "Needs attention: quickly allow, reject, or open an answer from a notification",
+  "notificationBenefitCompletion": "Task complete: preview the reply summary before opening it",
+  "notificationBenefitPrivacy": "Notifications never show commands, file paths, connection codes, or keys",
+  "notificationPermissionRejected": "System notifications are still off. You can allow Relayune notifications in system settings.",
+  "notificationGotIt": "Got it",
+  "notificationOpenSettings": "Open system settings",
+  "notificationEnable": "Enable task notifications",
+  "notificationNotNow": "Not now",
+  "notificationSemanticsExample": "Notification examples: approval needs attention, a question needs an answer, and a Claude task completed with a reply summary",
+  "notificationNow": "Now",
+  "notificationSampleTask": "Improve mobile notifications",
+  "notificationSampleBody": "Notification permission guidance and a task-completion summary are ready…",
+  "notificationApprovalTitle": "Operation awaiting confirmation",
+  "notificationQuestionTitle": "Your answer is needed",
+  "notificationTaskPaused": "{provider} · task paused",
+  "@notificationTaskPaused": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationApprovalBody": "Allow or reject this operation within {minutes, plural, =1{1 minute} other{{minutes} minutes}}.",
+  "@notificationApprovalBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationQuestionBody": "Answer within {minutes, plural, =1{1 minute} other{{minutes} minutes}}. The task continues after you submit.",
+  "@notificationQuestionBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "notificationTaskCompleted": "{provider} task completed",
+  "@notificationTaskCompleted": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationMainTask": "Main task",
+  "notificationMainResultReady": "The main task result is ready. Tap to view.",
+  "notificationNamedResultReady": "The result for “{name}” is ready. Tap to view.",
+  "@notificationNamedResultReady": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "notificationAllowOnce": "Allow once",
+  "notificationAnswer": "Answer",
+  "notificationChannelAttention": "Needs attention",
+  "notificationChannelCompleted": "Task completed",
+  "notificationChannelAttentionDescription": "Relayune approval and question alerts",
+  "notificationChannelCompletedDescription": "Relayune main-task completion alerts",
+  "notificationRedactedLink": "[link]",
+  "notificationRedactedPath": "[path]",
+  "notificationRedactedSecret": "[hidden]",
+  "workbenchTitle": "Workspace",
+  "workbenchDevice": "Device",
+  "workbenchOpenNavigation": "Open navigation",
+  "workbenchPendingApprovals": "{count, plural, =1{1 approval pending} other{{count} approvals pending}}",
+  "@workbenchPendingApprovals": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchSessions": "Sessions",
+  "workbenchOnline": "Online",
+  "workbenchOffline": "Offline",
+  "workbenchDeviceOnlineRealtime": "Computer online · realtime sync",
+  "workbenchDeviceOfflineQueued": "Computer offline · cached records only",
+  "workbenchDeviceOnlineReconnecting": "Computer online · restoring realtime connection",
+  "workbenchDeviceOfflineReconnecting": "Computer offline · restoring realtime connection",
+  "workbenchDeviceOnlineWaiting": "Computer online · waiting for realtime connection",
+  "workbenchDeviceOfflineWaiting": "Computer offline · waiting for realtime connection",
+  "workbenchProjectsSessions": "Projects & sessions",
+  "workbenchNoSessionsSynced": "No sessions have synced from the computer",
+  "workbenchSignedInAccount": "Signed-in account",
+  "workbenchNotSignedIn": "Not signed in",
+  "workbenchNewSession": "New session",
+  "workbenchDefaultSessionName": "New remote session",
+  "workbenchHistoryFailed": "History could not be loaded; current content may be incomplete",
+  "workbenchLoadEarlier": "Load earlier messages",
+  "workbenchSendFirst": "Send your first instruction to begin",
+  "workbenchAtBeginning": "This is the first message",
+  "workbenchAddAttachment": "Add attachment",
+  "workbenchRemoveAttachment": "Remove {name}",
+  "@workbenchRemoveAttachment": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchReadOnly": "This session is read-only",
+  "workbenchOfflineQueued": "Computer offline · sending unavailable",
+  "workbenchSteerPlaceholder": "Send a new instruction to stop and continue…",
+  "workbenchSendPlaceholder": "Send instructions to your computer…",
+  "workbenchStopTask": "Stop task",
+  "workbenchSending": "Sending",
+  "workbenchSend": "Send",
+  "workbenchYou": "You",
+  "workbenchLocalActivity": "Local activity",
+  "workbenchToday": "Today",
+  "workbenchYesterday": "Yesterday",
+  "workbenchDayBeforeYesterday": "The day before yesterday",
+  "workbenchSystemNotice": "System notice",
+  "workbenchApprovalSource": "Source: {name}",
+  "@workbenchApprovalSource": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchApprovalDirectory": "Directory: {path}",
+  "@workbenchApprovalDirectory": {
+    "placeholders": {
+      "path": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchApprovalPermission": "Request permission for a local operation",
+  "workbenchSelect": "Select",
+  "workbenchOtherAnswer": "Other answer…",
+  "workbenchSkipAnswer": "Not now",
+  "workbenchHighRiskTitle": "Allow a high-risk operation?",
+  "workbenchOperationOnComputer": "This operation will run on your computer.",
+  "workbenchConfirmAllow": "Confirm and allow",
+  "workbenchAnswerLabel": "Answer",
+  "workbenchAllowOnce": "Allow once",
+  "workbenchAlwaysAllowSession": "Always allow in this session",
+  "workbenchAllowAndRemember": "Allow and remember this rule",
+  "workbenchAlwaysRejectSession": "Always reject in this session",
+  "workbenchRejectAndRemember": "Reject and remember this rule",
+  "workbenchSaveDecisionTitle": "Save this decision?",
+  "workbenchSaveDecisionMessage": "Codex may reuse this decision for matching operations instead of asking every time.",
+  "workbenchConfirm": "Confirm",
+  "workbenchRejectAndStop": "Reject and stop the current task",
+  "workbenchNotificationSettings": "Task notifications",
+  "workbenchConnectAnother": "Connect another computer",
+  "workbenchConnectAnotherSubtitle": "Delete the current content key and device authorization from this phone",
+  "workbenchConnectAnotherTitle": "Connect another computer?",
+  "workbenchConnectAnotherMessage": "The current content key and phone authorization token will be deleted from this device's secure credential store. Data on the server and computer will not be deleted.",
+  "workbenchNoSessions": "No sessions available",
+  "workbenchNoSessionsHelp": "Keep desktop online, or create a new session in a project directory on your computer.",
+  "workbenchHistoryLoading": "Loading message history",
+  "workbenchHistoryLoadingOlder": "Loading earlier messages…",
+  "workbenchHistoryLimit": "History loads after you open a session, up to 500 messages at a time",
+  "workbenchFilePreviewRetry": "File preview failed. Please try again.",
+  "workbenchSecureFileReading": "Securely reading from your computer…",
+  "workbenchFileUnavailable": "The file has expired or was removed from the computer.",
+  "workbenchApprovalCommand": "Run command",
+  "workbenchApprovalFileChange": "Change file",
+  "workbenchApprovalChoice": "Your choice is needed",
+  "workbenchApprovalTool": "Run local tool",
+  "workbenchStatePending": "Pending",
+  "workbenchStateDeciding": "Sending",
+  "workbenchStateApproved": "Approved",
+  "workbenchStateRejected": "Rejected",
+  "workbenchStateExpired": "Expired",
+  "workbenchLocalRelay": "Local Relay",
+  "workbenchEncryptionProtocol": "Encryption protocol",
+  "workbenchPairingProtocol": "Pairing protocol",
+  "workbenchRealtimeChannel": "Realtime channel",
+  "workbenchTechnicalDetails": "Technical details",
+  "workbenchRealtimeConnection": "Realtime connection",
+  "workbenchHeartbeatPath": "iPhone ↔ Server · WebSocket",
+  "workbenchHeartbeatHealthy": "Heartbeat healthy",
+  "workbenchHeartbeatWaiting": "Waiting for heartbeat",
+  "workbenchLastHeartbeat": "Last heartbeat",
+  "workbenchRoundTrip": "Round trip",
+  "workbenchWebSocketHeartbeat": "WebSocket heartbeat",
+  "workbenchDesktopHeartbeat": "Computer heartbeat",
+  "workbenchJustNow": "Just now",
+  "workbenchSecondsAgo": "{seconds}s ago",
+  "@workbenchSecondsAgo": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchMinutesAgo": "{minutes}m ago",
+  "@workbenchMinutesAgo": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchStateVersion": "State version",
+  "workbenchAwaitingConfirmation": "Awaiting confirmation",
+  "workbenchLastConfirmed": "Last confirmed",
+  "workbenchEventAck": "Event acknowledgement",
+  "workbenchOfflineQueue": "Offline queue",
+  "workbenchSecurityBoundary": "End-to-end encryption boundary",
+  "workbenchPhonePlaintextEndpoint": "The phone is an application-plaintext endpoint",
+  "workbenchServerCiphertextOnly": "The server stores only authenticated ciphertext envelopes",
+  "workbenchKeyInSecureStorage": "Content keys are stored in the system secure credential store",
+  "workbenchCodeNeverUploaded": "The 8-character connection code is never uploaded",
+  "workbenchNotConfirmed": "Not confirmed yet",
+  "workbenchRealtimeConnected": "WebSocket connected",
+  "workbenchRealtimeConnecting": "Connecting",
+  "workbenchRealtimeReconnecting": "Reconnecting",
+  "workbenchRealtimeIdle": "Waiting to connect",
+  "workbenchNotificationStatus": "{status} · notifications work while the app's background connection remains alive; delivery is not guaranteed after the system terminates it",
+  "@workbenchNotificationStatus": {
+    "placeholders": {
+      "status": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchNotificationAllowed": "Allowed",
+  "workbenchNotificationDisabled": "Off",
+  "workbenchNotificationUnknown": "Unknown",
+  "workbenchClose": "Close",
+  "workbenchProjectConfiguration": "Project settings",
+  "workbenchProjectConfigurationTitle": "Project settings",
+  "workbenchProjectName": "Project name",
+  "workbenchProjectNameHelp": "This changes only the name shown in this app. It does not rename the folder on your computer.",
+  "workbenchFullPath": "Full path",
+  "workbenchProjectPathUnavailable": "The computer did not provide a project path",
+  "workbenchSessionCount": "{count} sessions",
+  "@workbenchSessionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchMoreSessions": "Show more sessions ({count})",
+  "@workbenchMoreSessions": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchAgentRunning": "Agent running",
+  "workbenchAgentNotRunning": "Agent not running",
+  "workbenchRunning": "Running",
+  "workbenchKimiSettings": "Kimi settings",
+  "workbenchEnableYoloTitle": "Enable YOLO mode?",
+  "workbenchEnableAutoTitle": "Enable Auto mode?",
+  "workbenchYoloWarning": "Kimi will automatically approve more local tool calls. Enable this only when you trust the current task and project.",
+  "workbenchAutoWarning": "Kimi will automatically approve routine tool calls, but may still ask you questions.",
+  "workbenchConfirmEnable": "Confirm and enable",
+  "workbenchUploadTooManyImages": "You can add up to 4 images to each message.",
+  "workbenchUploadUnsupportedImages": "{names} are not supported. Choose PNG, JPEG, WebP, GIF, or AVIF.",
+  "@workbenchUploadUnsupportedImages": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchUploadTooLarge": "Attachments in one message cannot exceed 20 MiB in total.",
+  "workbenchPreviewGenerateFailed": "Could not read or generate a preview for {name}. Try again.",
+  "@workbenchPreviewGenerateFailed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchKimiViewAgents": "View subagents",
+  "workbenchKimiViewAgentsDescription": "Open the Agent work window above the composer without starting another model task.",
+  "workbenchKimiOpenNow": "Open now",
+  "workbenchKimiSessionStatus": "Session status",
+  "workbenchKimiSessionStatusDescription": "View task, approval, context, and local sync status.",
+  "workbenchKimiLocalStatus": "Local status",
+  "workbenchKimiModel": "Model",
+  "workbenchKimiModelDescription": "Change the model used by this Kimi session.",
+  "workbenchKimiSessionSettings": "Session settings",
+  "workbenchKimiPermissionMode": "Permission mode",
+  "workbenchKimiPermissionModeDescription": "View or change the local tool approval policy.",
+  "workbenchKimiSecuritySettings": "Security settings",
+  "workbenchKimiPlanMode": "Plan mode",
+  "workbenchKimiPlanModeDescription": "Ask Kimi to plan before carrying out the task.",
+  "workbenchKimiYoloMode": "YOLO mode",
+  "workbenchKimiYoloModeDescription": "Automatically approve more tool calls; confirmation is required before enabling.",
+  "workbenchKimiConfirmationRequired": "Confirmation required",
+  "workbenchKimiSettingsDescription": "Open model, Thinking, and permission settings.",
+  "workbenchKimiInputRequired": "Input required: {hint}",
+  "@workbenchKimiInputRequired": {
+    "placeholders": {
+      "hint": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchKimiNativeCommandDescription": "Native Kimi ACP command that runs as a real command task.",
+  "workbenchKimiNativeCommand": "Native command",
+  "workbenchKimiContextSyncing": "Context waiting to sync",
+  "workbenchKimiWaitingForSync": "Waiting to sync",
+  "workbenchKimiContextUsage": "Context {percent}% · {used}/{size}",
+  "@workbenchKimiContextUsage": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      },
+      "used": {
+        "type": "String"
+      },
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchKimiContextUsed": "Context {used}",
+  "@workbenchKimiContextUsed": {
+    "placeholders": {
+      "used": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchKimiContext": "Context",
+  "workbenchKimiModelSyncing": "Model waiting to sync",
+  "workbenchKimiQuickCommands": "Quick commands",
+  "workbenchKimiNoMatchingCommands": "No matching commands",
+  "workbenchKimiTask": "Task",
+  "workbenchKimiIdle": "Idle",
+  "workbenchKimiSubagents": "Subagents",
+  "workbenchKimiActiveCount": "{count} active",
+  "@workbenchKimiActiveCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchKimiApprovals": "Approvals",
+  "workbenchKimiPendingCount": "{count} pending",
+  "@workbenchKimiPendingCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchKimiSettingsOffline": "Kimi settings cannot be changed while Relay is offline.",
+  "workbenchKimiSettingsRunning": "Stop the main Kimi task before changing settings.",
+  "workbenchKimiNoOptions": "The computer has not synced any configurable options yet.",
+  "workbenchKimiEncryptedSettings": "Settings are sent end-to-end encrypted to Kimi Code on your computer. The server cannot read them.",
+  "workbenchKimiManualApproval": "Manual approval",
+  "workbenchSessionSettings": "Session settings",
+  "workbenchSessionSettingsOffline": "Session settings cannot be changed while Relay is offline.",
+  "workbenchSessionSettingsRunning": "Stop the current task before changing its settings.",
+  "workbenchNoConfigOptions": "The computer has not synced any configurable options yet.",
+  "workbenchEncryptedSessionSettings": "Settings are sent end-to-end encrypted to {provider} on your computer. The server cannot read them.",
+  "@workbenchEncryptedSessionSettings": {
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchUnrestrictedPermissionsTitle": "Change permission mode?",
+  "workbenchUnrestrictedPermissionsWarning": "This changes whether local tools are allowed, denied, or require approval. Review the selected mode before continuing.",
+  "workbenchCoworkCreateOnDesktop": "Create Cowork tasks in Claude Desktop first; existing tasks can be controlled here.",
+  "workbenchProcessing": "Processing",
+  "workbenchProcess": "Process",
+  "workbenchDurationMinutesSeconds": "{minutes} min {seconds} sec",
+  "@workbenchDurationMinutesSeconds": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchDurationSeconds": "{seconds} sec",
+  "@workbenchDurationSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchMonthDay": "{month}/{day}",
+  "@workbenchMonthDay": {
+    "placeholders": {
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchYearMonthDay": "{year}/{month}/{day}",
+  "@workbenchYearMonthDay": {
+    "placeholders": {
+      "year": {
+        "type": "int"
+      },
+      "month": {
+        "type": "int"
+      },
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchImageUrlUnavailable": "The image address is unavailable.",
+  "workbenchFilePreviewAvailable": "Previewable · {kind} · up to 1 MB",
+  "@workbenchFilePreviewAvailable": {
+    "placeholders": {
+      "kind": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchFilePreviewUnsupported": "This file format cannot be previewed",
+  "workbenchImageReadFailed": "{name}\nCould not read image",
+  "@workbenchImageReadFailed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchImageThumbnailLabel": "{name} thumbnail; tap to open the preview",
+  "@workbenchImageThumbnailLabel": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchViewOriginal": "View original",
+  "workbenchLoadingOriginal": "Securely loading the original…",
+  "workbenchOriginalReadFailed": "Could not read the original image. Try again.",
+  "workbenchActivityFailed": "{label} failed",
+  "@workbenchActivityFailed": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchActivityCompleted": "{label} completed",
+  "@workbenchActivityCompleted": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchActivityRunning": "Running {label}",
+  "@workbenchActivityRunning": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchViewOutput": "Tap to view output",
+  "workbenchViewThumbnail": "Tap to view thumbnail",
+  "workbenchSemanticSeparator": ", ",
+  "workbenchCommandsRunning": "Running {count} commands",
+  "@workbenchCommandsRunning": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchCommandsFailed": "Some of {count} commands failed",
+  "@workbenchCommandsFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchCommandsCompleted": "Ran {count} commands",
+  "@workbenchCommandsCompleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchFilesReading": "Reading {count} files",
+  "@workbenchFilesReading": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchFilesReadFailed": "Some of {count} files could not be read",
+  "@workbenchFilesReadFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchFilesRead": "Read {count} files",
+  "@workbenchFilesRead": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchFilesChanging": "Changing {count} files",
+  "@workbenchFilesChanging": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchFilesChangeFailed": "Some changes to {count} files failed",
+  "@workbenchFilesChangeFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchFilesChanged": "Changed {count} files",
+  "@workbenchFilesChanged": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchOperationsRunning": "Processing {count} file and command operations",
+  "@workbenchOperationsRunning": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchOperationsFailed": "Some of {count} file and command operations failed",
+  "@workbenchOperationsFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchOperationsCompleted": "Completed {count} file and command operations",
+  "@workbenchOperationsCompleted": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchToolCommand": "Run command",
+  "workbenchToolReadFilesSubject": "Read {count} files: {subject}",
+  "@workbenchToolReadFilesSubject": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "subject": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchToolReadFiles": "Read {count} files",
+  "@workbenchToolReadFiles": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchToolReadFileSubject": "Read file: {subject}",
+  "@workbenchToolReadFileSubject": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchToolReadFile": "Read file",
+  "workbenchToolChangeFilesSubject": "Change {count} files: {subject}",
+  "@workbenchToolChangeFilesSubject": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "subject": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchToolChangeFiles": "Change {count} files",
+  "@workbenchToolChangeFiles": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchToolChangeFileSubject": "Change file: {subject}",
+  "@workbenchToolChangeFileSubject": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchToolChangeFile": "Change file",
+  "workbenchToolCallNamed": "Call tool: {name}",
+  "@workbenchToolCallNamed": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchToolCall": "Call tool",
+  "workbenchToolWebSearchSubject": "Search the web: {subject}",
+  "@workbenchToolWebSearchSubject": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchToolWebSearch": "Search the web",
+  "workbenchToolImageViewSubject": "View image: {subject}",
+  "@workbenchToolImageViewSubject": {
+    "placeholders": {
+      "subject": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchToolImageView": "View image",
+  "workbenchToolImageGeneration": "Generate image",
+  "workbenchToolContextCompaction": "Compact context automatically",
+  "workbenchToolWait": "Wait for task",
+  "workbenchLocalOperation": "Local operation",
+  "workbenchDeliverySent": "Sent",
+  "workbenchDeliverySending": "Sending",
+  "workbenchDeliveryFailed": "Send failed",
+  "workbenchAssistantRunningElapsed": "{agent} is running; elapsed {duration}",
+  "@workbenchAssistantRunningElapsed": {
+    "placeholders": {
+      "agent": {
+        "type": "String"
+      },
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchAssistantRunning": "{agent} is running",
+  "@workbenchAssistantRunning": {
+    "placeholders": {
+      "agent": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchAssistantElapsed": "· elapsed {duration}",
+  "@workbenchAssistantElapsed": {
+    "placeholders": {
+      "duration": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchCloseFilePreview": "Close file preview",
+  "workbenchFileReadCompleted": "File read complete: {name}",
+  "@workbenchFileReadCompleted": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchFileReading": "Reading file: {name}",
+  "@workbenchFileReading": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchFileReadFailed": "File read failed: {message}",
+  "@workbenchFileReadFailed": {
+    "placeholders": {
+      "message": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchFilePreviewFailed": "File preview failed. Try again.",
+  "workbenchFileKindTableText": "Tabular text",
+  "workbenchFileKindLog": "Log",
+  "workbenchFileKindPlainText": "Plain text",
+  "workbenchFileKindCodeOrConfig": "Code or configuration",
+  "workbenchAgentsWorking": "{count} subagents working in parallel",
+  "@workbenchAgentsWorking": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchAgentWindow": "Agent work window",
+  "workbenchAgentWindowDescription": "Syncs task status and tool activity without showing private reasoning",
+  "workbenchMoreAgents": "{count} more Agents · scroll down to view",
+  "@workbenchMoreAgents": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchCurrentActivity": "Current · {activity}",
+  "@workbenchCurrentActivity": {
+    "placeholders": {
+      "activity": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchAllAgents": "All Agents",
+  "workbenchActivityTimeline": "Activity timeline",
+  "workbenchActivityCount": "{count} entries",
+  "@workbenchActivityCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchAgentSyncing": "Syncing from this computer…",
+  "workbenchNoPublicActivity": "No public activity yet. Only task status and tool activity are synced; private model reasoning is not.",
+  "workbenchLatestResult": "Latest result",
+  "workbenchWaitingForTask": "Waiting for a task",
+  "controllerRestoreFailed": "Unable to restore the secure connection. Sign in or pair again.",
+  "controllerAuthorizationRevoked": "Authorization for this phone was revoked. Connect it again.",
+  "controllerDeviceNotConnected": "This account is not connected to this computer. Start the connection again on the computer.",
+  "controllerProjectNameRequired": "Project name is required.",
+  "controllerProjectNameTooLong": "Project name cannot exceed {maximum} characters.",
+  "@controllerProjectNameTooLong": {
+    "placeholders": {
+      "maximum": {
+        "type": "int"
+      }
+    }
+  },
+  "controllerProjectNameSaveFailed": "Could not save the project name locally. Try again.",
+  "controllerProjectNameUpdated": "Project name updated.",
+  "controllerNewPairingLinkReceived": "A new connection link was received. Sign out of the current device to connect again.",
+  "controllerPairingLinkRequired": "Enter the Relayune connection link shown by the desktop app.",
+  "controllerPairingDiscoveryFailed": "Unable to find computers waiting to connect. Try again later.",
+  "controllerVerificationResent": "Verification email sent again.",
+  "controllerSetPasswordFirst": "Set a password from the email link first, then return here.",
+  "controllerNoPendingComputer": "No computer is waiting to connect. Select “Connect new client” on the computer first.",
+  "controllerSelectComputer": "Select the computer to connect.",
+  "controllerPairingFailed": "Secure connection failed. Check the connection code and try again.",
+  "controllerHistoryReadFailed": "Unable to read history.",
+  "controllerAgentRefreshFailed": "Unable to refresh this subagent's activity right now.",
+  "controllerAttachmentTooLarge": "Files over 1 MB cannot be previewed yet.",
+  "controllerAttachmentUnsupported": "This file format cannot be previewed yet.",
+  "controllerAttachmentGone": "The file expired or was removed from the computer.",
+  "controllerAttachmentReadFailed": "Unable to read the attachment.",
+  "controllerUploadTooMany": "You can upload up to {maximum} images per message.",
+  "@controllerUploadTooMany": {
+    "placeholders": {
+      "maximum": {
+        "type": "int"
+      }
+    }
+  },
+  "controllerUploadTotalTooLarge": "Attachments in one message cannot exceed 20 MiB in total.",
+  "controllerUploadUnsupported": "Choose PNG, JPEG, WebP, GIF, or AVIF images.",
+  "controllerSteeringUnsupported": "This task cannot accept more instructions. Stop it first.",
+  "controllerPreparingAgent": "Received on computer · Preparing Agent",
+  "controllerWaitingForAgent": "Waiting for the local Agent to receive it",
+  "controllerWaitingForComputer": "Waiting for the computer to come online",
+  "controllerStopSent": "Stop request sent.",
+  "controllerApprovalExpired": "This approval has expired.",
+  "controllerApprovalOffline": "Approvals cannot be handled while the computer is offline.",
+  "controllerApprovalAllowedSent": "Allow decision sent; waiting for computer confirmation.",
+  "controllerApprovalRejectedSent": "Reject decision sent; waiting for computer confirmation.",
+  "controllerDelegatedTasks": "Delegated {count} parallel tasks.",
+  "@controllerDelegatedTasks": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "controllerSelectProject": "Select a synced project from the sidebar first.",
+  "controllerCreateSessionOffline": "The computer is offline. A session cannot be created right now.",
+  "controllerSessionNameLength": "Session name must contain 1–{maximum} characters.",
+  "@controllerSessionNameLength": {
+    "placeholders": {
+      "maximum": {
+        "type": "int"
+      }
+    }
+  },
+  "controllerSessionCreationBusy": "The previous session is still being created. Please wait.",
+  "controllerSessionCreating": "Creating “{name}”…",
+  "@controllerSessionCreating": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "controllerSessionCreateFailed": "Unable to create the session. Try again later.",
+  "controllerDesktopSessionCreateFailed": "The desktop app could not create the session.",
+  "controllerSessionCreateTimeout": "Timed out waiting for the desktop app to create the session. Check again later; do not create a duplicate.",
+  "controllerSessionCreated": "Created “{name}”.",
+  "@controllerSessionCreated": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "controllerCoworkCreateOnDesktop": "Create this Cowork task in Claude Desktop first, then control it here.",
+  "controllerDesktopConfigFailed": "The desktop app could not apply the session settings.",
+  "controllerConfigApplied": "Session settings applied.",
+  "controllerConfigUpdateFailed": "Unable to update session settings. Try again later.",
+  "controllerConfigTimeout": "Timed out waiting for the desktop app to apply session settings. Refresh to confirm.",
+  "controllerInvalidEncryptedEvent": "An encrypted event could not be verified. Sync cursor advancement has stopped.",
+  "controllerApprovalNeeded": "Waiting for your approval",
+  "controllerContinuing": "Continuing",
+  "controllerApprovalProcessFailed": "The computer could not handle this approval. Try again.",
+  "controllerAgentProcessing": "{name} is processing",
+  "@controllerAgentProcessing": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "controllerSummarizing": "Summarizing results",
+  "controllerThinking": "Thinking",
+  "controllerLocalTaskFailed": "Local task failed.",
+  "controllerInterruptFailed": "Unable to stop the current task.",
+  "controllerReplying": "Replying",
+  "controllerFinishing": "Finishing",
+  "controllerOrganizingFileChanges": "Organizing file changes",
+  "controllerFilesModified": "Modified {count} files.",
+  "@controllerFilesModified": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "controllerUpdatingPlan": "Updating the plan",
+  "controllerMessageQueued": "Message queued. It will be sent automatically later.",
+  "@controllerSessionPersisted": {
+    "placeholders": {
+      "agent": {
+        "type": "String"
+      }
+    }
+  },
+  "controllerSessionPersisted": "Session saved to {agent}.",
+  "controllerLocalTool": "Local tool: {label}",
+  "@controllerLocalTool": {
+    "placeholders": {
+      "label": {
+        "type": "String"
+      }
+    }
+  },
+  "controllerProcessingLocalResult": "Processing local result",
+  "controllerEncryptedResponseTimeout": "Timed out waiting for the encrypted response from the computer.",
+  "controllerPairingUsedOrExpired": "This connection has already been used or has expired.",
+  "controllerPairingConfirmationTimeout": "Timed out waiting for desktop confirmation. Start the connection again.",
+  "controllerPairingConfirmationFailed": "The computer did not confirm the encrypted connection. Connect again.",
+  "controllerDesktopOffline": "The desktop app is not online yet. Keep Relayune open and try again.",
+  "workbenchDefault": "Default",
+  "workbenchAgentToolCount": "{count} tools",
+  "@workbenchAgentToolCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchAgentTokenCount": "{count} tok",
+  "@workbenchAgentTokenCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "apiErrorNetworkUnavailable": "Unable to connect to Relayune. Check your network and try again.",
+  "apiErrorTimeout": "The request timed out. Please try again.",
+  "apiErrorInvalidResponse": "Relayune received an invalid server response. Please try again.",
+  "apiErrorInvalidCredentials": "The email or password is incorrect.",
+  "apiErrorAuthentication": "Your sign-in has expired. Please sign in again.",
+  "apiErrorService": "Relayune is temporarily unavailable. Please try again later.",
+  "apiErrorGeneric": "Something went wrong. Please try again.",
+  "controllerFileAccessDenied": "Relayune on your computer cannot read some session files. Check file access permissions. On Mac, allow access in System Settings → Privacy & Security → Files and Folders, then retry.",
+  "workbenchImageWaiting": "Waiting to load",
+  "workbenchImageLoading": "Loading",
+  "feedbackTitle": "Feedback",
+  "feedbackIntro": "What could be better?",
+  "feedbackSubtitle": "Share an idea or tell us about a problem.",
+  "feedbackSuggestion": "Suggestion",
+  "feedbackBug": "Bug report",
+  "feedbackDescription": "Description",
+  "feedbackSuggestionHint": "What would you improve, and how would it help?",
+  "feedbackBugHint": "What did you do, what did you expect, and what happened?",
+  "feedbackInfo": "Included with your feedback",
+  "feedbackPrivacy": "Device details are included. Chats and logs are never uploaded automatically.",
+  "feedbackVersion": "App version",
+  "feedbackModel": "Device model",
+  "feedbackSystem": "Operating system",
+  "feedbackUnknown": "Unavailable",
+  "feedbackLoading": "Reading device information…",
+  "feedbackSend": "Submit feedback",
+  "feedbackFailed": "Could not submit. Your feedback is still here. Check your connection and try again.",
+  "feedbackEmpty": "Please describe your feedback first.",
+  "feedbackSending": "Submitting…",
+  "feedbackSubmitNote": "Your description and the information above will be saved for investigation and improvements.",
+  "feedbackSuccess": "Feedback received. Thank you for your help.",
+  "feedbackReference": "Feedback ID",
+  "feedbackDone": "Done",
+  "workbenchStoppingTask": "Stopping…",
+  "workbenchStopUnconfirmed": "Stop has not been confirmed yet. Please try again.",
+  "workbenchPreparingImages": "Preparing images…",
+  "workbenchImagePickFailed": "Could not open photos. Please try again.",
+  "feedbackImages": "Images",
+  "feedbackOptional": "Optional",
+  "feedbackImageLimit": "You can add up to 3 images.",
+  "feedbackImageFailed": "Could not add the image. Try another image or retry.",
+  "feedbackImagePreview": "Image preview",
+  "feedbackRemoveImage": "Remove image",
+  "feedbackPreparingImages": "Preparing images…",
+  "feedbackAddImage": "Add images",
+  "feedbackImagesHint": "Add screenshots to help us understand.",
+  "feedbackContact": "Contact details",
+  "feedbackEmail": "Email",
+  "feedbackEmailHint": "Your account email; edit or leave blank",
+  "feedbackWechat": "WeChat ID",
+  "feedbackWechatHint": "Enter your WeChat ID",
+  "feedbackContactHint": "Only used to reply to this feedback. Both fields are optional.",
+  "feedbackEmailInvalid": "Enter a valid email or leave it blank.",
+  "deviceAgents": "Agents",
+  "deviceAgentReady": "Connected",
+  "deviceAgentRunning": "Running",
+  "deviceAgentNotInstalled": "Not installed",
+  "deviceAgentUnavailable": "Unavailable",
+  "deviceAgentNotEnabled": "Not enabled",
+  "deviceAgentUnknown": "Not reported",
+  "deviceAgentOffline": "Computer offline · Last reported status",
+  "openingTitle": "Still connected. Wherever you are.",
+  "openingSubtitle": "Pick up your computer’s AI work, from anywhere.",
+  "openingSkip": "Skip animation",
+  "deviceQuota": "Subscription limits",
+  "quotaFiveHour": "5 hours",
+  "quotaSevenDay": "7 days",
+  "quotaUsed": "{percent}% used",
+  "quotaResets": "Resets {time}",
+  "quotaUpdated": "Updated {time}",
+  "quotaPending": "Not reported",
+  "quotaExpired": "Awaiting new limits",
+  "quotaLimitReached": "Limit reached",
+  "quotaSnapshot": "Last reported",
+  "quotaClaudeHint": "Claude reports limits during sessions. Unreported windows are not estimated.",
+  "@quotaUsed": {
+    "placeholders": {
+      "percent": {
+        "type": "String"
+      }
+    }
+  },
+  "@quotaResets": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "@quotaUpdated": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "settingsHapticsTitle": "Touch feedback",
+  "settingsHapticsSubtitle": "A gentle tap when a connection or decision is confirmed.",
+  "workbenchBackToLatest": "Back to latest",
+  "settingsFontSize": "Font size",
+  "settingsFontSizeSmall": "Small",
+  "settingsFontSizeMedium": "Medium",
+  "settingsFontSizeLarge": "Large",
+  "settingsFontSizeSaveFailed": "Font size changed, but could not be saved. Please try again.",
+  "workbenchAgentOrderHint": "Touch and hold, then drag to reorder",
+  "workbenchAgentOrderSaveFailed": "Order changed, but could not be saved. Please try again.",
+  "settingsBuildInfo": "Version information",
+  "buildTime": "Built at",
+  "buildSourceCommit": "Source commit",
+  "buildUnrecorded": "Not recorded",
+  "buildUncommitted": "Includes uncommitted changes",
+  "agentTasksTitle": "Subtasks",
+  "agentTasksCount": "{count} subtasks",
+  "@agentTasksCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agentTasksViewAll": "View all {count} subtasks",
+  "@agentTasksViewAll": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agentTasksRunning": "{count} running",
+  "@agentTasksRunning": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agentTasksFinished": "{count} ended",
+  "@agentTasksFinished": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agentTasksAttention": "Needs your attention",
+  "agentTasksInProgress": "In progress",
+  "agentTasksEnded": "Ended",
+  "agentTaskPreparing": "Preparing",
+  "agentTaskUnknown": "Status awaiting sync",
+  "agentTaskCompleted": "Completed",
+  "agentTaskFailed": "Failed",
+  "agentTaskStopped": "Stopped",
+  "agentTaskAnswer": "Waiting for your answer",
+  "agentTaskApprove": "Waiting for your approval",
+  "agentTaskNoResult": "No result received yet",
+  "agentTaskInstructions": "Task instructions",
+  "agentTaskRuntime": "Run information",
+  "agentTaskParent": "From: {name}",
+  "@agentTaskParent": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "agentTaskUpdated": "Updated {time}",
+  "@agentTaskUpdated": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "agentTaskOffline": "Computer offline · showing last known status",
+  "agentTaskOpenConversation": "View conversation history",
+  "agentTaskEmpty": "No subtasks yet",
+  "agentTaskFinishedResult": "Latest reply",
+  "liveTaskRunning": "Working",
+  "liveTaskApproval": "Needs approval",
+  "liveTaskQuestion": "Needs an answer",
+  "liveTaskCompleted": "Completed",
+  "liveTaskFailed": "Task failed",
+  "liveTaskStopped": "Stopped",
+  "liveTaskStale": "Check latest status",
+  "liveTaskOpen": "View task",
+  "liveTaskReview": "Review",
+  "liveTaskElapsed": "Elapsed",
+  "liveTaskUpdated": "Last synced",
+  "androidPushDisclosure": "Enable background alerts with JPush and, on supported devices, vivo Push. They process a push identifier, Android ID, device/system and network information for delivery. Task content and encryption keys are not sent to these providers. You can turn alerts off in system settings.",
+  "controllerSessionUnavailable": "This conversation is unavailable on the connected computer. Check that its Agent is running and the conversation still exists, then retry or start a new conversation.",
+  "settingsSidebarAgents": "Sidebar agents",
+  "settingsSidebarAgentsSubtitle": "Choose which agents appear in the sidebar",
+  "turnStatusRunning": "Processing",
+  "turnStatusCompleted": "Turn completed",
+  "turnStatusInterrupted": "This turn did not complete",
+  "turnStatusUnknown": "Activity log",
+  "localWebTitle": "Computer webpage",
+  "localWebOpen": "Open webpage",
+  "localWebNotice": "This page can load resources and submit forms or API requests to this address on your computer.",
+  "localWebUnavailable": "The webpage is unavailable. Check that the computer and local service are running. A timed-out submission may already have succeeded; check before submitting again.",
+  "localWebUpdate": "Update the desktop app to preview computer webpages.",
+  "localWebPaused": "The preview closed when the app left the foreground. Reopen to continue.",
+  "localWebRefresh": "Reload webpage",
+  "localWebBack": "Previous page",
+  "localWebBlocked": "This preview only permits the selected computer address.",
+  "localWebForward": "Next page",
+  "localWebAddress": "Page address",
+  "localWebLoading": "Connecting to your computer…",
+  "accountDeletionTitle": "Delete account",
+  "accountDeletionBody": "This permanently deletes your Relayune account, device authorizations, preferences and submitted feedback. Your signed-in devices will lose access. History cache keys on this phone will be removed. Agent projects and files on your computers are not deleted.",
+  "accountDeletionPassword": "Confirm your password",
+  "accountDeletionConfirm": "Permanently delete my account",
+  "accountDeletionBusy": "Deleting…",
+  "accountDeletionWrongPassword": "Incorrect password. Please try again.",
+  "accountDeletionFailed": "Could not complete deletion. Check your connection and retry. If deletion has started, other account access remains disabled until cleanup finishes.",
+  "accountDeletionDone": "Your account has been deleted.",
+  "controllerPendingInputSaveFailed": "Your message could not be saved on this phone. Free up storage and try again.",
+  "workbenchHistoryRequestSending": "Sending request",
+  "workbenchHistoryWaitingComputer": "Waiting for your computer",
+  "workbenchHistoryReadingComputer": "Reading history on your computer",
+  "workbenchHistoryPreparing": "Preparing messages",
+  "workbenchHistoryElapsed": "{seconds}s elapsed",
+  "@workbenchHistoryElapsed": {
+    "description": "Elapsed time for the current history read, in whole seconds.",
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "workbenchHistoryTransferring": "Transferring history",
+  "workbenchHistorySourceRead": "Computer read {read} / {total}",
+  "workbenchHistoryPendingTransfer": "Page awaiting transfer: {size}",
+  "workbenchHistoryReceived": "Received {size}",
+  "workbenchHistoryPendingReceive": "Awaiting reception: {size}",
+  "@workbenchHistorySourceRead": {
+    "description": "Observed byte counts for the current history read; unknown counts are not displayed. Sizes use decimal B/KB/MB units.",
+    "placeholders": {
+      "read": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "@workbenchHistoryPendingTransfer": {
+    "description": "Observed byte counts for the current history read; unknown counts are not displayed. Sizes use decimal B/KB/MB units.",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "@workbenchHistoryReceived": {
+    "description": "Observed byte counts for the current history read; unknown counts are not displayed. Sizes use decimal B/KB/MB units.",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "@workbenchHistoryPendingReceive": {
+    "description": "Observed byte counts for the current history read; unknown counts are not displayed. Sizes use decimal B/KB/MB units.",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+  "workbenchHistoryReadingCache": "Reading saved history on this phone",
+  "localWebResources": "Page resources",
+  "localWebGettingPage": "Getting the webpage…",
+  "localWebLoadingPage": "Loading the page…",
+  "localWebResourceSummary": "{completed} received · {active} in progress",
+  "localWebResourceFailures": "{count} failed",
+  "localWebResourceWaiting": "Waiting for response",
+  "localWebResourceReceiving": "Receiving",
+  "localWebResourcePreparing": "Preparing",
+  "localWebResourceComplete": "Received",
+  "localWebResourceFailed": "Failed",
+  "localWebResourceCancelled": "Stopped",
+  "localWebResourceTransferNote": "Progress measures response reception. The page may request more resources.",
+  "localWebResourceEmpty": "Resources requested by this page will appear here.",
+  "localWebResourceRecent": "Showing the latest {count} resources",
+  "localWebElapsed": "{seconds} s",
+  "localWebOpeningTitle": "A page from your computer",
+  "localWebOpeningHint": "Keep your computer and webpage service running. The page will appear automatically.",
+  "@localWebResourceSummary": {
+    "placeholders": {
+      "completed": {
+        "type": "int"
+      },
+      "active": {
+        "type": "int"
+      }
+    }
+  },
+  "@localWebResourceFailures": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@localWebResourceRecent": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@localWebElapsed": {
+    "placeholders": {
+      "seconds": {
+        "type": "String"
+      }
+    }
+  },
+  "replyBranchLabel": "Branch to new chat",
+  "replyBranchSameDirectory": "Use original project directory",
+  "replyBranchSameDirectoryDescription": "Continue sharing project files",
+  "replyBranchWorktree": "Create new worktree",
+  "replyBranchWorktreeDescription": "Separate directory, based on the current commit",
+  "controllerReplyBranchOffline": "Connect to your computer to branch",
+  "controllerReplyBranchCreating": "Creating new chat…",
+  "controllerReplyBranchCreated": "Branched to a new chat using the original project directory.",
+  "controllerReplyBranchFailed": "Could not create the new chat. Try again.",
+  "controllerReplyBranchUnconfirmed": "Branch result is unconfirmed. Stay connected and retry to check.",
+  "controllerReplyBranchUnavailable": "This reply cannot be branched. Refresh the conversation.",
+  "controllerReplyBranchBusy": "Another chat operation is in progress. Try again shortly.",
+  "controllerReplyBranchWorktreeFailed": "Could not create the worktree. Check the project on your computer and try again.",
+  "controllerReplyBranchWorktreeCreated": "Branched to a new chat using a separate worktree.",
+  "agentTasksCompletedCount": "{count} completed",
+  "@agentTasksCompletedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agentTasksStoppedCount": "{count} stopped",
+  "@agentTasksStoppedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agentTasksFailedCount": "{count} failed",
+  "@agentTasksFailedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agentTasksPreparingCount": "{count} preparing",
+  "@agentTasksPreparingCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agentTasksUnknownCount": "{count} awaiting sync",
+  "@agentTasksUnknownCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "agentTasksSearch": "Search tasks, nicknames or models",
+  "agentTasksNoMatches": "No matching subtasks",
+  "agentTaskModelConfiguration": "Model configuration"
+}

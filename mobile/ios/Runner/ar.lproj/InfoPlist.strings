@@ -1,0 +1,4 @@
+"CFBundleDisplayName" = "Relayune";
+"NSCameraUsageDescription" = "يستخدم Relayune الكاميرا لمسح رمز QR للاقتران لمرة واحدة الظاهر على جهاز الكمبيوتر.";
+"NSPhotoLibraryUsageDescription" = "يستخدم Relayune الصور التي تختارها كمرفقات مشفّرة تُرسل إلى Agent على جهاز الكمبيوتر.";
+"NSLocalNetworkUsageDescription" = "يمكن لـ Relayune الاتصال مباشرة بكمبيوترك على الشبكة نفسها لنقل السجل والمرفقات المشفرة.";

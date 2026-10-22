@@ -1,0 +1,4 @@
+"CFBundleDisplayName" = "Relayune";
+"NSCameraUsageDescription" = "Relayune आपके कंप्यूटर पर दिखाए गए एक बार उपयोग होने वाले पेयरिंग QR कोड को स्कैन करने के लिए कैमरे का उपयोग करता है।";
+"NSPhotoLibraryUsageDescription" = "Relayune आपकी चुनी हुई तस्वीरों को आपके कंप्यूटर के Agent को भेजे जाने वाले एन्क्रिप्टेड अटैचमेंट के रूप में उपयोग करता है।";
+"NSLocalNetworkUsageDescription" = "Relayune एन्क्रिप्ट किया गया इतिहास और अटैचमेंट भेजने के लिए उसी नेटवर्क पर आपके कंप्यूटर से सीधे जुड़ सकता है।";

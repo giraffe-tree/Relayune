@@ -1,0 +1,119 @@
+PODS:
+  - app_links (6.4.1):
+    - Flutter
+  - device_info_plus (0.0.1):
+    - Flutter
+  - Flutter (1.0.0)
+  - flutter_local_notifications (0.0.1):
+    - Flutter
+  - flutter_secure_storage (6.0.0):
+    - Flutter
+  - flutter_webrtc (1.6.2):
+    - Flutter
+    - WebRTC-SDK (= 150.7871.01)
+  - gal (1.0.0):
+    - Flutter
+    - FlutterMacOS
+  - image_picker_ios (0.0.1):
+    - Flutter
+  - integration_test (0.0.1):
+    - Flutter
+  - mobile_scanner (7.0.0):
+    - Flutter
+    - FlutterMacOS
+  - package_info_plus (0.4.5):
+    - Flutter
+  - path_provider_foundation (0.0.1):
+    - Flutter
+    - FlutterMacOS
+  - pdfrx (0.0.6):
+    - Flutter
+    - FlutterMacOS
+  - sqflite_darwin (0.0.4):
+    - Flutter
+    - FlutterMacOS
+  - url_launcher_ios (0.0.1):
+    - Flutter
+  - WebRTC-SDK (150.7871.01)
+  - webview_flutter_wkwebview (0.0.1):
+    - Flutter
+    - FlutterMacOS
+
+DEPENDENCIES:
+  - app_links (from `.symlinks/plugins/app_links/ios`)
+  - device_info_plus (from `.symlinks/plugins/device_info_plus/ios`)
+  - Flutter (from `Flutter`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
+  - flutter_secure_storage (from `.symlinks/plugins/flutter_secure_storage/ios`)
+  - flutter_webrtc (from `.symlinks/plugins/flutter_webrtc/ios`)
+  - gal (from `.symlinks/plugins/gal/darwin`)
+  - image_picker_ios (from `.symlinks/plugins/image_picker_ios/ios`)
+  - integration_test (from `.symlinks/plugins/integration_test/ios`)
+  - mobile_scanner (from `.symlinks/plugins/mobile_scanner/darwin`)
+  - package_info_plus (from `.symlinks/plugins/package_info_plus/ios`)
+  - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
+  - pdfrx (from `.symlinks/plugins/pdfrx/darwin`)
+  - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
+  - url_launcher_ios (from `.symlinks/plugins/url_launcher_ios/ios`)
+  - webview_flutter_wkwebview (from `.symlinks/plugins/webview_flutter_wkwebview/darwin`)
+
+SPEC REPOS:
+  trunk:
+    - WebRTC-SDK
+
+EXTERNAL SOURCES:
+  app_links:
+    :path: ".symlinks/plugins/app_links/ios"
+  device_info_plus:
+    :path: ".symlinks/plugins/device_info_plus/ios"
+  Flutter:
+    :path: Flutter
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
+  flutter_secure_storage:
+    :path: ".symlinks/plugins/flutter_secure_storage/ios"
+  flutter_webrtc:
+    :path: ".symlinks/plugins/flutter_webrtc/ios"
+  gal:
+    :path: ".symlinks/plugins/gal/darwin"
+  image_picker_ios:
+    :path: ".symlinks/plugins/image_picker_ios/ios"
+  integration_test:
+    :path: ".symlinks/plugins/integration_test/ios"
+  mobile_scanner:
+    :path: ".symlinks/plugins/mobile_scanner/darwin"
+  package_info_plus:
+    :path: ".symlinks/plugins/package_info_plus/ios"
+  path_provider_foundation:
+    :path: ".symlinks/plugins/path_provider_foundation/darwin"
+  pdfrx:
+    :path: ".symlinks/plugins/pdfrx/darwin"
+  sqflite_darwin:
+    :path: ".symlinks/plugins/sqflite_darwin/darwin"
+  url_launcher_ios:
+    :path: ".symlinks/plugins/url_launcher_ios/ios"
+  webview_flutter_wkwebview:
+    :path: ".symlinks/plugins/webview_flutter_wkwebview/darwin"
+
+SPEC CHECKSUMS:
+  app_links: 3dbc685f76b1693c66a6d9dd1e9ab6f73d97dc0a
+  device_info_plus: 21fcca2080fbcd348be798aa36c3e5ed849eefbe
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  flutter_local_notifications: a5a732f069baa862e728d839dd2ebb904737effb
+  flutter_secure_storage: 1ed9476fba7e7a782b22888f956cce43e2c62f13
+  flutter_webrtc: 99283145164f482a16bf7122ef407b5d59d43158
+  gal: baecd024ebfd13c441269ca7404792a7152fde89
+  image_picker_ios: 7fe1ff8e34c1790d6fff70a32484959f563a928a
+  integration_test: 4a889634ef21a45d28d50d622cf412dc6d9f586e
+  mobile_scanner: 9157936403f5a0644ca3779a38ff8404c5434a93
+  package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
+  path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
+  pdfrx: 310e84d01e06fd2af26e16507a0e48c27e99195c
+  sqflite_darwin: 20b2a3a3b70e43edae938624ce550a3cbf66a3d0
+  url_launcher_ios: 694010445543906933d732453a59da0a173ae33d
+  WebRTC-SDK: 7dc931c64c00c735a614382f1a59cf65019c3c17
+  webview_flutter_wkwebview: 1821ceac936eba6f7984d89a9f3bcb4dea99ebb2
+
+PODFILE CHECKSUM: ce2a4dd764e1c7aeed6a7cdc5e61d092b6dc6d32
+
+COCOAPODS: 1.16.2

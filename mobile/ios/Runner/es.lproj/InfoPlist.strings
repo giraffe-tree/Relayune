@@ -1,0 +1,4 @@
+"CFBundleDisplayName" = "Relayune";
+"NSCameraUsageDescription" = "Relayune usa la cámara para escanear el código QR de vinculación de un solo uso que aparece en tu ordenador.";
+"NSPhotoLibraryUsageDescription" = "Relayune usa las fotos que selecciones como archivos adjuntos cifrados enviados al Agent de tu ordenador.";
+"NSLocalNetworkUsageDescription" = "Relayune puede conectarse directamente a tu ordenador en la misma red para transferir el historial y los archivos adjuntos cifrados.";

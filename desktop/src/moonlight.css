@@ -1,0 +1,238 @@
+/* Moonlight: macOS-only compact companion. Status and native controls stay live. */
+body.minimal-macos {
+  --mac-bg: #151b1e;
+  --mac-surface: #1e272b;
+  --mac-text: #f0f1ec;
+  --mac-muted: #a6afaf;
+  --mac-line: #354043;
+  --mac-blue: #e6d29c;
+  --mac-hover: #293438;
+  --moon-green: #a3d8b2;
+  background: var(--mac-bg);
+  color: var(--mac-text);
+  color-scheme: dark;
+}
+body.minimal-macos .shell,
+body.minimal-macos .shell:has(.home-view:not(.is-hidden)) {
+  display: flex; flex-direction: column; width: 100%; max-width: none;
+  min-height: 100vh; height: 100vh; padding: 0; margin: 0; overflow: hidden;
+}
+body.minimal-macos .app-header,
+body.minimal-macos .shell:has(.home-view:not(.is-hidden)) > .app-header {
+  display: flex; flex: 0 0 46px; margin: 0; padding: 0 14px 0 86px;
+  border-bottom: 1px solid var(--mac-line); background: #192024;
+}
+body.minimal-macos .app-header h1 { font-size: 12px; font-weight: 500; letter-spacing: .01em; }
+body.minimal-macos .app-header .brand { gap: 7px; }
+body.minimal-macos .app-header .brand-mark { width: 18px; height: 18px; border-radius: 5px; }
+body.minimal-macos .warm-header-settings { display: grid; }
+body.minimal-macos .header-settings-button { position: relative; z-index: 11; color: var(--mac-muted); width: 28px; height: 28px; }
+body.minimal-macos .window-drag-strip { height: 30px; right: 58px; }
+body.minimal-macos .home-view:not(.is-hidden) {
+  display: flex; flex-direction: column; height: auto; flex: 1; min-height: 0; overflow: hidden;
+}
+body.minimal-macos .warm-content { flex: 1; min-height: 0; padding: 16px 22px 12px; scroll-padding-top: 16px; }
+body.minimal-macos .warm-content > .minimal-screen { max-width: 480px; }
+body.minimal-macos .moonlight-back { display: inline-flex; gap: 7px; align-items: center; background: transparent; color: var(--mac-muted); min-height: 30px; padding: 4px 0; margin-bottom: 16px; font-size: 12px; }
+body.minimal-macos .moonlight-back::before { content: '‹'; font-size: 22px; line-height: 1; }
+body.minimal-macos .moonlight-back[hidden] { display: none; }
+body.minimal-macos .moonlight-emblem { position: relative; display: grid; place-items: center; height: 42px; margin-bottom: 8px; color: #efdfaf; }
+body.minimal-macos .moonlight-emblem::before { content: ''; position: absolute; inset: -16px 20%; background: radial-gradient(ellipse, #ddbe6422, transparent 68%); pointer-events: none; }
+body.minimal-macos .moonlight-emblem svg { position: relative; width: 34px; height: 34px; }
+body.minimal-macos .moonlight-machine { display: flex; justify-content: center; align-items: center; gap: 10px; margin-bottom: 10px; font-size: 12px; }
+body.minimal-macos #moonlight-device-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 60%; }
+body.minimal-macos .moonlight-connection { display: inline-flex; align-items: center; gap: 5px; color: var(--mac-muted); font-size: 11px; flex-shrink: 0; }
+body.minimal-macos .moonlight-connection i { width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+body.minimal-macos .moonlight-connection[data-connected=true] { color: var(--moon-green); }
+body.minimal-macos .status-card { text-align: center; }
+body.minimal-macos #minimal-home .status-copy strong { font-size: 23px; font-weight: 550; line-height: 1.4; letter-spacing: -.025em; }
+body.minimal-macos #minimal-home .status-copy p { margin: 8px 0 0; font-size: 12px; line-height: 1.5; color: var(--mac-muted); }
+body.minimal-macos #minimal-home .warm-home-actions { display: flex; flex-direction: column; align-items: stretch; margin: 18px 22px 18px; gap: 9px; }
+body.minimal-macos .primary { color: #24251f; background: #e9d7a4; border: 1px solid #f3e3b6; min-height: 38px; border-radius: 9px; font-weight: 600; box-shadow: inset 0 1px #ffffff28; }
+body.minimal-macos .primary:hover:not(:disabled) { background: #f1e0b2; }
+body.minimal-macos #minimal-home-action:not([hidden]) { background: transparent; border-color: var(--mac-line); color: var(--mac-text); }
+body.minimal-macos #minimal-home-action[hidden] { display: none; }
+body.minimal-macos #minimal-home .warm-agents { padding: 8px 14px 0; margin: 0; border: 1px solid var(--mac-line); border-radius: 11px; background: #1c2528; }
+body.minimal-macos .warm-section-heading { min-height: 27px; }
+body.minimal-macos .warm-section-heading h2 { color: var(--mac-muted); font-size: 11px; }
+body.minimal-macos .warm-agents .warm-link { min-height: 27px; padding: 2px 0; font-size: 10px; color: var(--mac-muted); }
+body.minimal-macos .warm-agent { min-height: 42px; padding: 7px 0; gap: 10px; font-size: 12px; }
+body.minimal-macos .warm-agent-name { min-width: 0; }
+body.minimal-macos .warm-agent-status { font-size: 10px; max-width: 44%; display: flex; gap: 5px; align-items: center; }
+body.minimal-macos .warm-agent-status::before { content: ''; width: 5px; height: 5px; background: currentColor; border-radius: 50%; flex-shrink: 0; }
+body.minimal-macos .warm-agent[data-tone=success] .warm-agent-status { color: var(--moon-green); }
+body.minimal-macos .moonlight-agent-icon { display: grid; place-items: center; width: 25px; height: 25px; flex-shrink: 0; border: 1px solid #414a4b; border-radius: 7px; background: #141a1d; color: #eeeee7; font-size: 16px; }
+body.minimal-macos [data-warm-agent=claude] .moonlight-agent-icon { color: #dd9470; border-color: transparent; background: transparent; font-size: 23px; }
+body.minimal-macos #minimal-manage { margin: 12px 0 0; padding: 10px 14px; min-height: 44px; gap: 10px; border: 1px solid var(--mac-line); border-radius: 10px; background: #1c2528; font-size: 12px; }
+body.minimal-macos .moonlight-device-count { flex: 1; text-align: end; color: var(--mac-muted); font-size: 10px; }
+body.minimal-macos #minimal-home > .minimal-footer { margin: 15px 0 0; text-align: center; font-size: 10px; }
+body.minimal-macos .moonlight-footer { flex-shrink: 0; border-top: 1px solid var(--mac-line); background: #192024; padding: 5px 12px; }
+body.minimal-macos .moonlight-footer .minimal-account-entry { width: 100%; max-width: 100%; min-height: 34px; padding: 3px 7px; border: 0; gap: 8px; border-radius: 7px; }
+body.minimal-macos .minimal-account-avatar { flex: 0 0 24px; height: 24px; color: #e2e7e4; background: #3a454a; }
+body.minimal-macos .minimal-account-avatar svg { width: 16px; height: 16px; }
+body.minimal-macos .minimal-account-copy { flex: 1 1 auto; }
+body.minimal-macos .minimal-account-copy strong { display: block; max-width: none; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; font-size: 11px; }
+body.minimal-macos .minimal-account-chevron { display: block; font-size: 16px; color: var(--mac-muted); padding-inline-start: 4px; }
+body.minimal-macos #moonlight-account-dialog { position: fixed; inset: auto auto 56px 12px; margin: 0; padding: 22px; width: min(380px, calc(100vw - 24px)); max-height: calc(100vh - 80px); overflow-y: auto; border-radius: 13px; background: #20292d; color: var(--mac-text); box-shadow: 0 20px 60px #0008; }
+body.minimal-macos #moonlight-account-dialog::backdrop { background: #080d102e; backdrop-filter: none; }
+body.minimal-macos .moonlight-account-close { float: inline-end; padding: 3px 0 6px 12px; color: var(--mac-muted); background: transparent; font-size: 11px; }
+body.minimal-macos #moonlight-account-title { font-size: 17px; margin: 0 0 22px; }
+body.minimal-macos #minimal-account-page .warm-account { display: flex; flex-wrap: wrap; padding: 0; margin: 0 0 20px; background: transparent; border: 0; }
+body.minimal-macos #moonlight-account-identity { font-size: 12px; overflow-wrap: anywhere; }
+body.minimal-macos #warm-section-account .account-card .row-action { color: var(--mac-blue); font-size: 11px; }
+body.minimal-macos #warm-section-account .logout-button { color: #e6aaa0; }
+body.minimal-macos .warm-content > .minimal-screen > h2,
+body.minimal-macos #minimal-settings > h2, body.minimal-macos #minimal-help > h2 { margin-bottom: 22px; font-size: 20px; }
+body.minimal-macos #minimal-pairing { text-align: center; }
+body.minimal-macos #minimal-pairing .minimal-page-header { justify-content: center; margin-bottom: 16px; }
+body.minimal-macos #minimal-pairing .minimal-page-header h2 { font-size: 21px; }
+body.minimal-macos .minimal-pairing-methods { max-width: 250px; margin: 0 auto 15px; padding: 3px; border: 1px solid var(--mac-line); background: #101719; }
+body.minimal-macos #minimal-pairing-instruction { font-size: 12px; color: var(--mac-muted); margin: 0 0 12px; }
+body.minimal-macos .pairing-panel-heading { justify-content: center; padding: 0; }
+body.minimal-macos .pairing-panel-copy p { font-size: 11px; }
+body.minimal-macos .pairing-options { flex-direction: column; gap: 13px; margin: 14px 0; }
+body.minimal-macos .pairing-code-column { order: 0; width: 100%; }
+body.minimal-macos .pairing-qr-card { padding: 9px; background: #f5f5ee; border-radius: 11px; border: 1px solid #a7b1ae; }
+body.minimal-macos .pairing-qr-card span { color: #4a5753; font-size: 10px; }
+body.minimal-macos .pairing-panel .pairing-qr { width: 126px; height: 126px; }
+body.minimal-macos .pairing-panel .pairing-code { display: block; width: 100%; max-width: 290px; margin: 0 auto 8px; padding: 10px; border: 1px solid var(--mac-line); border-radius: 9px; background: #20292c; color: #e9d7a4; font-size: 25px; letter-spacing: .18em; }
+body.minimal-macos .pairing-link-actions { justify-content: center; }
+body.minimal-macos .pairing-expiry { font-size: 10px; }
+body.minimal-macos .pairing-cancel { width: 100%; max-width: 290px; min-height: 34px; margin-top: 8px; background: #2a3438; }
+body.minimal-macos[data-screen=pairing] #minimal-devices { display: none; }
+body.minimal-macos .browser-list { max-height: none; }
+body.minimal-macos .browser-title-actions { width: 100%; justify-content: space-between; }
+body.minimal-macos .warm-general select { background: var(--mac-surface); }
+body.minimal-macos .login-view { overflow-y: auto; min-height: 0; padding: 30px 26px; flex: 1; }
+body.minimal-macos .loading-view { min-height: 0; flex: 1; }
+body.minimal-macos .shell > .update-card:not(.is-hidden),
+body.minimal-macos:has(.home-view:not(.is-hidden)) .shell > .update-card:not(.is-hidden) { position: static; flex: 0 0 auto; margin: 0; border-radius: 0; padding: 10px 16px; background: var(--mac-surface); }
+body.minimal-macos .error-copy { text-align: start; padding: 10px 12px; color: #f1bbb3; background: #382727; }
+body.minimal-macos :is(button, a, summary, input, textarea, select):focus-visible { outline: 2px solid #e6d29c !important; outline-offset: 3px; background-image: none; }
+@media(max-height:560px) {
+  body.minimal-macos .moonlight-emblem { height: 40px; margin-bottom: 6px; }
+  body.minimal-macos .warm-content { padding-top: 12px; }
+  body.minimal-macos #minimal-home .warm-home-actions { margin-block: 16px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  body.minimal-macos *, body.minimal-macos *::before, body.minimal-macos *::after { animation: none !important; transition: none !important; }
+}
+
+body.minimal-macos .status-card:focus-visible { background: transparent; background-image: none; }
+
+body.minimal-macos[data-screen=pairing] .moonlight-back { margin-bottom: 8px; }
+body.minimal-macos .pairing-options { margin-block: 10px; }
+body.minimal-macos .pairing-panel .pairing-qr { width: 116px; height: 116px; }
+body.minimal-macos #minimal-pairing .minimal-page-header { margin-bottom: 12px; }
+
+body.minimal-macos .browser-online {
+  display: inline-flex; align-items: center; gap: 5px; margin-inline-start: 9px;
+  color: #8ed4ad; font-size: 11px; font-weight: 500; white-space: nowrap; vertical-align: baseline;
+}
+body.minimal-macos .browser-online::before {
+  content: ""; width: 5px; height: 5px; border-radius: 50%; background: #77d39f;
+  box-shadow: 0 0 6px #77d39f30; flex: 0 0 auto;
+}
+
+/* Devices: compact, scannable cards in the same moonlit palette. */
+body.minimal-macos[data-screen=devices] .warm-content { padding-top: 12px; }
+body.minimal-macos[data-screen=devices] .moonlight-back { margin-bottom: 14px; }
+body.minimal-macos #minimal-devices .minimal-page-header { justify-content: space-between; align-items: center; gap: 12px; margin: 0 0 22px; }
+body.minimal-macos .device-page-copy { min-width: 0; }
+body.minimal-macos #minimal-devices h2 { margin: 0; font-size: 21px; font-weight: 550; letter-spacing: -.025em; }
+body.minimal-macos #device-page-total { margin: 5px 0 0; font-size: 11px; color: var(--mac-muted); }
+body.minimal-macos #minimal-devices #new-pairing { display: inline-flex; align-items: center; justify-content: center; gap: 6px; flex: 0 0 auto; min-height: 33px; max-width: 52%; padding: 6px 11px; border: 1px solid #e2ce96; border-radius: 8px; background: #e9d7a4; color: #25291f; font-size: 11px; font-weight: 550; line-height: 1.4; box-shadow: inset 0 1px #fff3; }
+body.minimal-macos #minimal-devices #new-pairing::before { content: '+'; font-size: 17px; font-weight: 400; line-height: 1; }
+body.minimal-macos #minimal-devices #new-pairing:hover:not(:disabled) { background: #f0dfb1; }
+body.minimal-macos #minimal-devices #new-pairing.is-hidden { display: none; }
+body.minimal-macos #minimal-devices .browser-devices > .section-title { display: none; }
+body.minimal-macos #minimal-devices .browser-devices { overflow: visible; }
+body.minimal-macos #minimal-devices .browser-list { overflow: visible; border: 0; }
+body.minimal-macos .device-group + .device-group { margin-top: 22px; }
+body.minimal-macos .device-group-title { display: flex; align-items: center; gap: 7px; margin: 0 2px 9px; font-size: 10px; line-height: 1.4; font-weight: 500; color: #9ca9aa; letter-spacing: .035em; }
+body.minimal-macos .device-group-title span { padding: 0 5px; border-radius: 4px; background: #263135; color: #9caaab; font-size: 9px; font-variant-numeric: tabular-nums; }
+body.minimal-macos .device-group[data-online=true] .device-group-title { color: #9bceb0; }
+body.minimal-macos #minimal-devices .browser-row { min-height: 0; display: block; padding: 0; border: 1px solid #303b3f; border-radius: 11px; background: #1b2428; transition: border-color .15s, background .15s; }
+body.minimal-macos #minimal-devices .browser-row + .browser-row { margin-top: 7px; }
+body.minimal-macos #minimal-devices .browser-row:hover { background: #202a2e; border-color: #455358; }
+body.minimal-macos #minimal-devices .browser-row[data-online=true] { border-color: #3d5b50; background: linear-gradient(110deg, #20332e, #1c2928 80%); }
+body.minimal-macos #minimal-devices .browser-device-details { padding: 0; }
+body.minimal-macos #minimal-devices .browser-device-details summary { display: flex; align-items: center; gap: 11px; padding: 13px 12px; min-height: 75px; list-style: none; border-radius: 10px; }
+body.minimal-macos #minimal-devices summary::-webkit-details-marker { display: none; }
+body.minimal-macos #minimal-devices summary::marker { content: ''; }
+body.minimal-macos #minimal-devices .browser-icon { width: 34px; height: 38px; border: 1px solid #37474b; border-radius: 9px; color: #b9c7c8; background: #233035; }
+body.minimal-macos #minimal-devices .browser-icon svg { width: 23px; height: 23px; }
+body.minimal-macos #minimal-devices [data-online=true] .browser-icon { color: #b2d7bf; background: #2a4239; border-color: #416052; }
+body.minimal-macos .device-card-label { display: flex; flex: 1; flex-direction: column; min-width: 0; gap: 3px; }
+body.minimal-macos .device-card-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 5px 9px; }
+body.minimal-macos #minimal-devices summary strong { font-size: 13px; font-weight: 550; line-height: 1.4; overflow-wrap: anywhere; }
+body.minimal-macos .device-platform { font-size: 10px; color: #b0bcbc; line-height: 1.45; overflow-wrap: anywhere; }
+body.minimal-macos .device-recent { font-size: 10px; color: #849395; line-height: 1.45; }
+body.minimal-macos #minimal-devices .browser-online { margin: 0; padding: 1px 5px; border: 1px solid #426352; border-radius: 5px; font-size: 9px; line-height: 1.5; }
+body.minimal-macos .device-chevron { flex: 0 0 auto; color: #718588; font-size: 20px; line-height: 1; transition: transform .15s; }
+body.minimal-macos details[open] .device-chevron { transform: rotate(90deg); }
+body.minimal-macos .device-card-expanded { margin: 0 12px; padding: 10px 0 12px; border-top: 1px solid #3a494c; }
+body.minimal-macos #minimal-devices .device-card-expanded p { font-size: 10px; line-height: 1.7; color: #9eadae; }
+body.minimal-macos #minimal-devices .device-card-expanded .device-full-name { color: #c1cdcd; margin-bottom: 6px; }
+body.minimal-macos #minimal-devices .browser-revoke { display: block; margin: 10px 0 0 auto; padding: 5px 9px; min-height: 28px; color: #dfaaa2; border: 1px solid #624642; border-radius: 6px; background: #382a29; font-size: 10px; }
+body.minimal-macos #minimal-devices .browser-revoke:hover:not(:disabled) { background: #4a302d; color: #f5c2b9; }
+body.minimal-macos #minimal-devices > .minimal-footer { margin: 16px 4px 4px; color: #839294; font-size: 10px; line-height: 1.6; text-align: center; }
+body.minimal-macos #minimal-devices .browser-list-state { border: 1px solid #354347; border-radius: 11px; background: #1b2528; padding: 22px 16px; }
+body.minimal-macos #minimal-devices .browser-list-state strong { color: var(--mac-text); }
+body.minimal-macos #minimal-devices .browser-list-state p { color: var(--mac-muted); }
+body.minimal-macos .device-card-metadata { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 6px; row-gap: 2px; }
+body.minimal-macos .device-card-metadata .device-platform + .device-recent::before { content: '·'; margin-inline-end: 6px; color: #65777a; }
+body.minimal-macos #minimal-devices .browser-device-details summary { min-height: 68px; padding-block: 12px; }
+body.minimal-macos #minimal-devices .browser-row[data-online=true] summary { min-height: 76px; }
+
+/* Agent management shares the overview panel, marks and status language. */
+body.minimal-macos #minimal-agents #warm-section-agents { padding-bottom: 0; }
+body.minimal-macos #minimal-agents .agent-readiness { padding: 0 14px; border: 1px solid var(--mac-line); border-radius: 11px; background: #1c2528; overflow: hidden; }
+body.minimal-macos #minimal-agents .agent-runtime-row { min-height: 66px; padding: 12px 0; gap: 10px; border-color: var(--mac-line); }
+body.minimal-macos #minimal-agents .agent-runtime-copy strong { font-size: 12px; font-weight: 500; line-height: 1.5; }
+body.minimal-macos #minimal-agents .agent-runtime-copy p { margin: 3px 0 0; font-size: 10px; line-height: 1.5; color: var(--mac-muted); }
+body.minimal-macos #minimal-agents .agent-runtime-icon.moonlight-agent-icon { width: 25px; height: 25px; border: 1px solid #414a4b; border-radius: 7px; background: #141a1d; color: #eeeee7; font-size: 16px; font-weight: 400; }
+body.minimal-macos #minimal-agents [data-agent-provider=claude] .agent-runtime-icon { color: #dd9470; border-color: transparent; background: transparent; font-size: 23px; }
+body.minimal-macos .moonlight-agent-status { display: flex; align-items: center; gap: 5px; flex-shrink: 0; max-width: 38%; font-size: 10px; line-height: 1.5; color: var(--moon-green); }
+body.minimal-macos .moonlight-agent-status::before { content: ''; flex: 0 0 5px; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+body.minimal-macos #minimal-agents .agent-runtime-action { min-height: 28px; max-width: 38%; padding: 5px 10px; color: var(--mac-blue); border: 1px solid #706649; border-radius: 7px; background: #32342a; font-size: 10px; line-height: 1.5; }
+body.minimal-macos #minimal-agents .agent-runtime-action:hover:not(:disabled) { background: #424332; border-color: #ac9966; }
+body.minimal-macos #minimal-agents [data-status=outdated] .agent-runtime-copy p,
+body.minimal-macos #minimal-agents [data-status=not_logged_in] .agent-runtime-copy p { color: #d8c69a; }
+body.minimal-macos #minimal-agents [data-status=broken] .agent-runtime-copy p { color: #dca69e; }
+body.minimal-macos #minimal-agents .agent-readiness-state { padding: 16px 0; }
+body.minimal-macos #minimal-agents .agent-readiness-retry { border-color: var(--mac-line); }
+body.minimal-macos .moonlight-agent-hint { margin: 14px 3px 0; color: #899797; font-size: 10px; line-height: 1.7; }
+body.minimal-macos #minimal-settings > :is(#open-feedback, #open-diagnostics) { min-height: 44px; font-size: 12px; }
+body.minimal-macos #minimal-settings .warm-about { margin-top: 22px; }
+body.minimal-macos #minimal-settings .warm-about .minimal-navigation-row { min-height: 44px; font-size: 12px; }
+
+/* A compact account popover anchored to the identity entry. */
+body.minimal-macos #moonlight-account-dialog { inset: auto auto 54px 12px; width: min(344px, calc(100vw - 24px)); padding: 16px; max-height: calc(100vh - 112px); border: 1px solid #425054; border-radius: 14px; background: #20292d; box-shadow: 0 16px 42px #0007, inset 0 1px #ffffff06; }
+body.minimal-macos #moonlight-account-dialog::backdrop { background: #070d101a; }
+body.minimal-macos .moonlight-account-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0 0 12px; padding: 0; background: transparent; }
+body.minimal-macos #moonlight-account-title { margin: 0; padding: 0; background: transparent; color: #afbbbc; font-size: 12px; line-height: 1.5; font-weight: 500; }
+body.minimal-macos .moonlight-account-close { float: none; display: grid; place-items: center; width: 24px; height: 24px; padding: 0; min-height: 24px; border: 0; border-radius: 6px; color: #9caeb0; background: transparent; }
+body.minimal-macos .moonlight-account-close svg { width: 18px; height: 18px; }
+body.minimal-macos .moonlight-account-close:hover,
+body.minimal-macos .moonlight-account-close:focus-visible { color: #edf0e9; background: #354247; }
+body.minimal-macos .moonlight-account-close:focus-visible { outline: none !important; box-shadow: none; }
+body.minimal-macos #minimal-account-page #warm-section-account { padding: 0; }
+body.minimal-macos #minimal-account-page .warm-account { display: flex; flex-wrap: nowrap; align-items: center; gap: 11px; margin: 0 0 17px; padding: 0; }
+body.minimal-macos .moonlight-profile-avatar { display: grid; place-items: center; flex: 0 0 36px; height: 36px; border: 1px solid #4a5b5d; border-radius: 50%; color: #d6e2dd; background: #314345; }
+body.minimal-macos .moonlight-profile-avatar svg { width: 23px; height: 23px; }
+body.minimal-macos .moonlight-profile-copy { min-width: 0; flex: 1; }
+body.minimal-macos #moonlight-account-identity { display: block; color: #edf0e9; font-size: 12px; line-height: 1.5; font-weight: 500; overflow-wrap: anywhere; }
+body.minimal-macos .moonlight-profile-status { display: flex; align-items: center; gap: 5px; margin-top: 4px; color: #a1b6ac; font-size: 10px; line-height: 1.4; }
+body.minimal-macos .moonlight-profile-status::before { content: ''; width: 4px; height: 4px; border-radius: 50%; background: var(--moon-green); }
+body.minimal-macos #warm-section-account .account-card { display: flex; align-items: center; justify-content: space-between; gap: 10px; min-height: 34px; padding: 8px 0; margin: 0; border: 0; border-radius: 6px; background: transparent; box-shadow: none; }
+body.minimal-macos #warm-section-account .account-card:hover:not(:disabled) { background: #ffffff06; box-shadow: none; }
+body.minimal-macos #moonlight-account-dialog [hidden] { display: none !important; }
+body.minimal-macos #warm-section-account .account-card > .row-action { flex: 0 0 auto; padding: 0 2px; color: #899797; font-size: 16px; font-weight: 400; line-height: 1; }
+body.minimal-macos .moonlight-account-exit { display: flex; justify-content: flex-end; margin: 16px -16px -16px; padding: 8px 12px; border-top: 1px solid #3a4649; }
+body.minimal-macos #warm-section-account .logout-button { display: inline-flex; align-items: center; gap: 7px; width: auto; min-height: 30px; margin: 0; padding: 6px 10px; text-align: start; border: 0; border-radius: 6px; color: #c6acab; background: transparent; font-size: 11px; font-weight: 400; }
+body.minimal-macos #warm-section-account .logout-button:hover:not(:disabled) { background: #51383255; color: #edb6ab; }
+body.minimal-macos .moonlight-footer .minimal-account-entry[aria-expanded=true] { background: #2c383d; }
+
+body.minimal-macos #moonlight-account-title:focus-visible { background: transparent; }
+body.minimal-macos #warm-section-account .logout-button::before { content: ""; width: 14px; height: 14px; background: currentColor; mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='none' stroke='black' stroke-width='1.4' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M8 3H4v14h4M8 10h9m-3-3 3 3-3 3'/%3E%3C/svg%3E") center / contain no-repeat; }

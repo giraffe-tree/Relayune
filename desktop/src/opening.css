@@ -1,0 +1,48 @@
+/* The image is local. No video decoding, remote requests or looping scene. */
+.opening-backdrop { display: none; pointer-events: none; position: fixed; inset: 0; overflow: hidden; background: #0b1220; }
+.opening-sea { position: absolute; inset: -2%; background: url("./assets/night-sea.webp") center 48% / cover no-repeat; }
+.opening-backdrop::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(11,18,32,.15), rgba(11,18,32,.04) 28%, rgba(11,18,32,.75) 63%, #0b1220 100%); }
+.opening-signal { position: absolute; z-index: 1; top: 42%; left: 50%; width: 90px; height: 1px; opacity: 0; background: linear-gradient(90deg, transparent, #69e1d2, #f6f8f5); box-shadow: 0 0 18px #69e1d2; }
+.opening-skip { position: fixed; z-index: 11; top: 83px; inset-inline-end: 28px; min-height: 44px; padding: 8px 12px; background: rgba(11,18,32,.65); color: #c2d0d6; font-size: 11px; border: 1px solid #40505f; border-radius: 30px; }
+.opening-skip[hidden], .opening-caption { display: none; }
+body[data-opening="loading"], body[data-opening="login"] { background: #0b1220; color: #f6f8f5; }
+body[data-opening="loading"] .opening-backdrop, body[data-opening="login"] .opening-backdrop { display: block; }
+body[data-opening="loading"] .shell, body[data-opening="login"] .shell { position: relative; }
+body[data-opening="loading"] .brand-version, body[data-opening="login"] .brand-version,
+body[data-opening="loading"] .brand-compatibility, body[data-opening="login"] .brand-compatibility { color: #9bafb9; }
+body[data-opening="loading"] .header-settings-button, body[data-opening="login"] .header-settings-button { color: #cfdbdf; background: #172532; border-color: #3b4b57; }
+body[data-opening="loading"] .brand-mark, body[data-opening="login"] .brand-mark,
+body[data-opening="login"] .relayune-mark-pulse { animation: none; }
+body[data-opening="loading"] .loading-view { min-height: calc(100vh - 145px); color: #c1ced6; text-align: center; gap: 12px; }
+body[data-opening="loading"] .spinner { width: 42px; height: 2px; margin: 0; border: 0; border-radius: 0; background: #69e1d2; box-shadow: 0 0 18px #69e1d2; animation: opening-breathe 1.8s ease-in-out infinite; }
+body[data-opening="loading"] .startup-diagnostics { color: #bed5dd; }
+body[data-opening="login"] .login-view { min-height: calc(100vh - 150px); }
+body[data-opening="login"] .login-hero { max-width: 420px; padding: 66px 24px 34px; border: 0; border-radius: 0; background: none; box-shadow: none; }
+body[data-opening="login"] .login-mark { width: 72px; height: 72px; margin-bottom: 25px; border-radius: 22px; box-shadow: 0 0 50px rgba(184,223,221,.12); }
+body[data-opening="login"] .login-hero > .eyebrow { color: #a9c5cd; font-size: 9px; letter-spacing: .24em; }
+body[data-opening="login"] .opening-caption { display: block; }
+body[data-opening="login"] .login-hero > .opening-caption { max-width: none; margin: 18px 0 12px; color: #f6f8f5; font-size: clamp(27px, 6.5vw, 36px); font-weight: 350; line-height: 1.4; letter-spacing: -.045em; text-wrap: balance; }
+body[data-opening="login"] .login-hero > .opening-subtitle { margin: 0 auto 34px; color: #b7c9d3; font-size: 13px; line-height: 1.7; text-wrap: balance; }
+body[data-opening="login"] #login-title { font-size: 17px; font-weight: 550; }
+body[data-opening="login"] #login-copy { color: #b7c9d3; font-size: 12px; }
+body[data-opening="login"] #login-note { color: #acbdc8; line-height: 1.65; }
+body[data-opening="login"] #login-note[data-tone="error"] { color: #ffbcb2 !important; }
+body[data-opening="login"] #login-button { min-height: 48px; margin: 22px 0 16px; color: #102926; background: #b4ebdc; box-shadow: 0 8px 35px rgba(105,225,210,.12); border-radius: 14px; }
+body[data-opening="login"] #login-button:hover:not(:disabled) { background: #cff5ea; }
+body[data-opening="login"] #login-cancel-pairing { color: #d6e4e9; background: #182c37; border-color: #405862; }
+body[data-opening="login"] button:focus-visible, body[data-opening="loading"] button:focus-visible { outline-color: #b4ebdc; }
+body.opening-playing .opening-sea { animation: opening-camera 2.8s cubic-bezier(.2,.65,.25,1) both; }
+body.opening-playing .opening-signal { animation: opening-signal 2.8s ease-in-out both; }
+body.opening-playing .login-mark { animation: opening-arrive 2.8s cubic-bezier(.2,.65,.25,1) both; }
+@keyframes opening-camera { from { transform: scale(1.045); opacity: .55; } to { transform: scale(1); opacity: 1; } }
+@keyframes opening-signal { 0%, 12% { opacity: 0; transform: translateX(-40vw); } 28% { opacity: .85; } 52% { opacity: .6; transform: translateX(-45px); } 65%, 100% { opacity: 0; transform: translateX(-45px) scaleX(.03); } }
+@keyframes opening-arrive { 0%, 18% { opacity: 0; transform: translateY(32px) scale(1.5); filter: blur(8px); } 50% { opacity: 1; } 100% { opacity: 1; transform: none; filter: blur(0); } }
+@keyframes opening-breathe { 50% { opacity: .35; transform: scaleX(.6); } }
+body.opening-home-enter .home-view { animation: opening-home-enter .28s ease-out both; }
+@keyframes opening-home-enter { from { opacity: .4; } to { opacity: 1; } }
+@media (max-height: 650px) { body[data-opening="login"] .login-hero { padding-top: 25px; } body[data-opening="login"] .opening-subtitle { margin-bottom: 24px; } }
+@media (prefers-reduced-motion: reduce) {
+  body.opening-playing .opening-sea, body.opening-playing .opening-signal, body.opening-playing .login-mark,
+  body[data-opening="loading"] .spinner, body.opening-home-enter .home-view { animation: none; }
+  .opening-signal, .opening-skip { display: none; }
+}

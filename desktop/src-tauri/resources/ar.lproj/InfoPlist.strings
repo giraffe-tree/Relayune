@@ -1,0 +1,7 @@
+"NSAppleEventsUsageDescription" = "يفتح Relayune تطبيق Terminal لتسجيل الدخول إلى Agents البرمجة المحليين.";
+"NSDesktopFolderUsageDescription" = "يصل Relayune إلى الملفات في مجلد العمل الافتراضي كي تتمكن Agents البرمجة المحلية من العمل عليها.";
+"NSDocumentsFolderUsageDescription" = "يصل Relayune إلى الملفات في مجلد العمل الافتراضي كي تتمكن Agents البرمجة المحلية من العمل عليها.";
+"NSDownloadsFolderUsageDescription" = "يصل Relayune إلى الملفات في مجلد العمل الافتراضي كي تتمكن Agents البرمجة المحلية من العمل عليها.";
+"NSNetworkVolumesUsageDescription" = "يصل Relayune إلى الملفات في مجلد العمل الافتراضي كي تتمكن Agents البرمجة المحلية من العمل عليها.";
+"NSRemovableVolumesUsageDescription" = "يصل Relayune إلى الملفات في مجلد العمل الافتراضي كي تتمكن Agents البرمجة المحلية من العمل عليها.";
+"NSFileProviderDomainUsageDescription" = "يصل Relayune إلى الملفات في مجلد العمل الافتراضي كي تتمكن Agents البرمجة المحلية من العمل عليها.";

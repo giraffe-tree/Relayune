@@ -1,0 +1,83 @@
+{
+  "version": "0.3.19",
+  "publishedAt": "2026-09-07T15:01:37.312Z",
+  "platforms": [
+    "web",
+    "server",
+    "android",
+    "macos",
+    "ios"
+  ],
+  "copy": {
+    "zh": {
+      "title": "手机会话导航更顺畅，支持离线图稿预览",
+      "items": [
+        "统一手机端会话切换与返回操作，并显示已连接电脑的版本。",
+        "优化图片加载队列和缩略图占位，支持安全预览 Codex HTML 图稿并修复离线中文显示。"
+      ]
+    },
+    "en": {
+      "title": "Smoother mobile navigation and offline visualization previews",
+      "items": [
+        "Align mobile session switching and back navigation, and show the connected desktop version.",
+        "Improve image loading queues and thumbnail placeholders; securely preview Codex HTML visualizations with corrected offline Chinese text."
+      ]
+    },
+    "hi": {
+      "title": "बेहतर मोबाइल नेविगेशन और ऑफ़लाइन विज़ुअलाइज़ेशन",
+      "items": [
+        "मोबाइल सत्र बदलने और वापस जाने का व्यवहार एकसमान है; जुड़े डेस्कटॉप का संस्करण दिखता है।",
+        "चित्र लोडिंग और थंबनेल बेहतर हैं; Codex HTML का सुरक्षित ऑफ़लाइन पूर्वावलोकन और चीनी पाठ प्रदर्शन ठीक किया गया है।"
+      ]
+    },
+    "es": {
+      "title": "Navegación móvil más fluida y vistas previas sin conexión",
+      "items": [
+        "Unifica el cambio de sesión y la navegación atrás; muestra la versión del escritorio conectado.",
+        "Mejora la carga de imágenes y miniaturas; permite previsualizar HTML de Codex de forma segura y corrige el texto chino sin conexión."
+      ]
+    },
+    "ar": {
+      "title": "تنقل أفضل على الهاتف ومعاينات دون اتصال",
+      "items": [
+        "توحيد تبديل الجلسات والرجوع مع عرض إصدار الكمبيوتر المتصل.",
+        "تحسين تحميل الصور والصور المصغرة ومعاينة رسومات Codex HTML بأمان وإصلاح النص الصيني دون اتصال."
+      ]
+    },
+    "fr": {
+      "title": "Navigation mobile plus fluide et aperçus hors ligne",
+      "items": [
+        "Harmonise le changement de session et le retour ; affiche la version du bureau connecté.",
+        "Améliore le chargement des images et les miniatures ; prévisualise les créations HTML Codex en sécurité et corrige le chinois hors ligne."
+      ]
+    },
+    "bn": {
+      "title": "উন্নত মোবাইল নেভিগেশন ও অফলাইন প্রিভিউ",
+      "items": [
+        "সেশন পরিবর্তন ও ফিরে যাওয়া একরকম হয়েছে; সংযুক্ত ডেস্কটপের সংস্করণ দেখা যায়।",
+        "ছবি লোড ও থাম্বনেইল উন্নত হয়েছে; নিরাপদ Codex HTML প্রিভিউ এবং অফলাইন চীনা লেখা ঠিক করা হয়েছে।"
+      ]
+    },
+    "pt": {
+      "title": "Navegação móvel mais fluida e prévias offline",
+      "items": [
+        "Uniformiza a troca de sessões e a navegação de retorno; mostra a versão do desktop conectado.",
+        "Melhora o carregamento de imagens e miniaturas; permite prévias seguras de HTML do Codex e corrige o texto chinês offline."
+      ]
+    },
+    "id": {
+      "title": "Navigasi mobile lebih lancar dan pratinjau offline",
+      "items": [
+        "Menyelaraskan perpindahan sesi dan navigasi kembali serta menampilkan versi desktop yang terhubung.",
+        "Memperbaiki antrean gambar dan thumbnail; menampilkan HTML Codex secara aman serta memperbaiki teks Mandarin offline."
+      ]
+    },
+    "ur": {
+      "title": "بہتر موبائل نیویگیشن اور آف لائن پیش منظر",
+      "items": [
+        "سیشن بدلنے اور واپس جانے کا طریقہ یکساں ہے، اور منسلک ڈیسک ٹاپ کا ورژن دکھائی دیتا ہے۔",
+        "تصاویر اور تھمب نیل کی لوڈنگ بہتر ہے؛ Codex HTML کا محفوظ پیش منظر اور آف لائن چینی متن درست کیا گیا ہے۔"
+      ]
+    }
+  }
+}

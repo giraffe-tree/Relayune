@@ -1,0 +1,77 @@
+{
+  "version": "0.3.30",
+  "publishedAt": "2026-10-02T08:33:46.000Z",
+  "platforms": ["macos", "android", "web", "server"],
+  "copy": {
+    "zh": {
+      "title": "修复中转连接下的会话加载",
+      "items": [
+        "打开会话时更快显示消息，审批与权限状态在后台补齐。",
+        "改善服务器中转下慢请求的恢复，减少长时间等待或会话打不开的情况。"
+      ]
+    },
+    "en": {
+      "title": "Fix conversation loading over server relay",
+      "items": [
+        "Show messages sooner when opening conversations, while approval and permission status updates in the background.",
+        "Recover slow reads over server relay more reliably, reducing long waits and conversations that fail to open."
+      ]
+    },
+    "hi": {
+      "title": "सर्वर रिले पर बातचीत लोड होने की समस्या ठीक की",
+      "items": [
+        "बातचीत खोलने पर संदेश जल्दी दिखते हैं; अनुमति और स्वीकृति की स्थिति पृष्ठभूमि में अपडेट होती है।",
+        "सर्वर रिले पर धीमे अनुरोध बेहतर ढंग से वापस आते हैं, जिससे लंबे इंतज़ार और न खुलने वाली बातचीत कम होती है।"
+      ]
+    },
+    "es": {
+      "title": "Corrección de carga de conversaciones mediante el servidor",
+      "items": [
+        "Los mensajes aparecen antes al abrir una conversación; los permisos y aprobaciones se actualizan en segundo plano.",
+        "Mejora la recuperación de lecturas lentas mediante el servidor y reduce esperas largas y conversaciones que no se abren."
+      ]
+    },
+    "ar": {
+      "title": "إصلاح تحميل المحادثات عبر الخادم",
+      "items": [
+        "تظهر الرسائل أسرع عند فتح المحادثة، بينما تتحدث حالة الأذونات والموافقات في الخلفية.",
+        "تحسين استعادة الطلبات البطيئة عبر الخادم وتقليل الانتظار الطويل والمحادثات التي لا تفتح."
+      ]
+    },
+    "fr": {
+      "title": "Correction du chargement des conversations via le serveur",
+      "items": [
+        "Les messages s’affichent plus tôt à l’ouverture, tandis que les autorisations et approbations se mettent à jour en arrière-plan.",
+        "Améliore la reprise des lectures lentes via le serveur et réduit les longues attentes et les conversations qui ne s’ouvrent pas."
+      ]
+    },
+    "bn": {
+      "title": "সার্ভার রিলেতে কথোপকথন লোডের সমস্যা ঠিক করা হয়েছে",
+      "items": [
+        "কথোপকথন খুললে বার্তা দ্রুত দেখা যায়; অনুমতি ও অনুমোদনের অবস্থা পটভূমিতে আপডেট হয়।",
+        "সার্ভার রিলেতে ধীর অনুরোধ আরও নির্ভরযোগ্যভাবে ফিরে আসে, দীর্ঘ অপেক্ষা ও না খোলা কথোপকথন কমে।"
+      ]
+    },
+    "pt": {
+      "title": "Correção no carregamento de conversas pelo servidor",
+      "items": [
+        "As mensagens aparecem mais cedo ao abrir conversas; permissões e aprovações são atualizadas em segundo plano.",
+        "Melhora a recuperação de leituras lentas pelo servidor e reduz longas esperas e conversas que não abrem."
+      ]
+    },
+    "id": {
+      "title": "Perbaikan pemuatan percakapan melalui server",
+      "items": [
+        "Pesan tampil lebih cepat saat percakapan dibuka; izin dan persetujuan diperbarui di latar belakang.",
+        "Pemulihan permintaan lambat melalui server lebih andal, mengurangi waktu tunggu panjang dan percakapan yang tidak terbuka."
+      ]
+    },
+    "ur": {
+      "title": "سرور ریلے پر گفتگو لوڈ ہونے کا مسئلہ درست کیا گیا",
+      "items": [
+        "گفتگو کھولنے پر پیغامات جلد دکھتے ہیں؛ اجازت اور منظوری کی حالت پس منظر میں اپ ڈیٹ ہوتی ہے۔",
+        "سرور ریلے پر سست درخواستوں کی بحالی بہتر ہوئی ہے، جس سے طویل انتظار اور نہ کھلنے والی گفتگو کم ہوتی ہے۔"
+      ]
+    }
+  }
+}

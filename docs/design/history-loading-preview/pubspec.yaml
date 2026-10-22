@@ -1,0 +1,12 @@
+name: relayune_history_loading_preview
+description: Local review of the production history loading widget.
+publish_to: none
+environment:
+  sdk: ^3.8.1
+dependencies:
+  flutter:
+    sdk: flutter
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/opening/

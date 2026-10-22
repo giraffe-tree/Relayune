@@ -1,0 +1,92 @@
+{
+  "version": "0.3.17",
+  "publishedAt": "2026-09-05T09:36:14.257Z",
+  "platforms": [
+    "web",
+    "server",
+    "android",
+    "macos"
+  ],
+  "copy": {
+    "zh": {
+      "title": "会话操作更集中，附件预览更清晰",
+      "items": [
+        "移动端将审批、问题和 Agent 状态集中到底部面板，浮动活动条可显示正在执行的命令，操作按钮保持可见。",
+        "支持在网页和手机中连接本机 Cowork 会话；Agent 导航显示名称，新会话打开和移动端启动更快。",
+        "图片缩略图保留原始比例并显示原图下载进度，修复 iOS 文本选择菜单与部分中文 Markdown 显示。"
+      ]
+    },
+    "en": {
+      "title": "Focused session controls and clearer attachment previews",
+      "items": [
+        "Mobile brings approvals, questions, and agent status into a bottom panel, with a floating activity tray for running commands and visible action buttons.",
+        "Connect local Cowork sessions from web and mobile; named agent navigation and faster session creation and mobile startup improve everyday use.",
+        "Image thumbnails preserve their aspect ratio and show original-image download progress; iOS text selection and emoji-led CJK Markdown rendering are fixed."
+      ]
+    },
+    "hi": {
+      "title": "बेहतर सत्र नियंत्रण और चित्र पूर्वावलोकन",
+      "items": [
+        "मोबाइल में अनुमोदन, प्रश्न और एजेंट स्थिति निचले पैनल में मिलते हैं; चल रहे कमांड गतिविधि पट्टी में दिखते हैं।",
+        "वेब और मोबाइल से स्थानीय Cowork सत्र जोड़ें; एजेंट के नाम दिखते हैं और नए सत्र व ऐप तेजी से खुलते हैं।",
+        "चित्रों का अनुपात बना रहता है और डाउनलोड प्रगति दिखती है; iOS पाठ चयन और चीनी Markdown प्रदर्शन सुधरा है।"
+      ]
+    },
+    "es": {
+      "title": "Controles de sesión y vistas de imagen más claras",
+      "items": [
+        "El móvil reúne aprobaciones, preguntas y estado de agentes en un panel inferior con comandos en curso y acciones visibles.",
+        "Conecta sesiones locales de Cowork desde web y móvil; los agentes muestran su nombre y el inicio es más rápido.",
+        "Las miniaturas conservan su proporción y muestran el progreso de descarga; se corrigen la selección de texto en iOS y el Markdown CJK."
+      ]
+    },
+    "ar": {
+      "title": "تحكم أوضح في الجلسات ومعاينات الصور",
+      "items": [
+        "يجمع الهاتف الموافقات والأسئلة وحالة الوكلاء في لوحة سفلية مع عرض الأوامر الجارية وأزرار الإجراءات.",
+        "يمكن ربط جلسات Cowork المحلية من الويب والهاتف مع أسماء الوكلاء وبدء أسرع.",
+        "تحافظ الصور المصغرة على أبعادها وتعرض تقدم التنزيل؛ أُصلح تحديد النص في iOS وعرض Markdown الصيني."
+      ]
+    },
+    "fr": {
+      "title": "Commandes de session et aperçus plus clairs",
+      "items": [
+        "Le mobile réunit validations, questions et état des agents dans un panneau inférieur avec commandes en cours et actions visibles.",
+        "Connectez les sessions Cowork locales depuis le Web et le mobile ; les agents affichent leur nom et le démarrage est plus rapide.",
+        "Les miniatures conservent leurs proportions et affichent la progression du téléchargement ; la sélection iOS et le Markdown CJK sont corrigés."
+      ]
+    },
+    "bn": {
+      "title": "সহজ সেশন নিয়ন্ত্রণ ও স্পষ্ট ছবির প্রিভিউ",
+      "items": [
+        "মোবাইলে অনুমোদন, প্রশ্ন ও এজেন্টের অবস্থা নিচের প্যানেলে একত্রিত হয়েছে; চলমান কমান্ড ও অ্যাকশন দৃশ্যমান থাকে।",
+        "ওয়েব ও মোবাইল থেকে স্থানীয় Cowork সেশন যুক্ত করুন; এজেন্টের নাম দেখা যায় এবং অ্যাপ ও সেশন দ্রুত খোলে।",
+        "ছবির অনুপাত বজায় থাকে ও ডাউনলোডের অগ্রগতি দেখা যায়; iOS টেক্সট নির্বাচন ও চীনা Markdown প্রদর্শন ঠিক করা হয়েছে।"
+      ]
+    },
+    "pt": {
+      "title": "Controles de sessão e prévias mais claras",
+      "items": [
+        "O mobile reúne aprovações, perguntas e estado dos agentes em um painel inferior com comandos em execução e ações visíveis.",
+        "Conecte sessões locais do Cowork pela web e pelo mobile; os agentes mostram seus nomes e a inicialização é mais rápida.",
+        "Miniaturas preservam suas proporções e mostram o progresso do download; seleção de texto no iOS e Markdown CJK foram corrigidos."
+      ]
+    },
+    "id": {
+      "title": "Kontrol sesi dan pratinjau gambar lebih jelas",
+      "items": [
+        "Mobile menyatukan persetujuan, pertanyaan, dan status agen di panel bawah dengan perintah aktif dan tombol tindakan yang terlihat.",
+        "Hubungkan sesi Cowork lokal dari web dan mobile; nama agen ditampilkan dan aplikasi serta sesi terbuka lebih cepat.",
+        "Thumbnail mempertahankan rasio gambar dan menampilkan progres unduhan; pemilihan teks iOS dan tampilan Markdown CJK diperbaiki."
+      ]
+    },
+    "ur": {
+      "title": "واضح سیشن کنٹرول اور تصویری پیش نظارے",
+      "items": [
+        "موبائل میں منظوری، سوالات اور ایجنٹ کی حالت نچلے پینل میں یکجا ہیں؛ جاری کمانڈز اور ایکشن بٹن نظر آتے ہیں۔",
+        "ویب اور موبائل سے مقامی Cowork سیشن جوڑیں؛ ایجنٹ کے نام دکھتے ہیں اور ایپ و سیشن جلد کھلتے ہیں۔",
+        "تصویروں کا تناسب برقرار رہتا ہے اور ڈاؤن لوڈ کی پیش رفت دکھتی ہے؛ iOS متن کے انتخاب اور چینی Markdown کی نمائش درست کی گئی ہے۔"
+      ]
+    }
+  }
+}

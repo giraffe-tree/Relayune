@@ -1,0 +1,102 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1800 1180"
+  role="img"
+  aria-labelledby="title description"
+>
+  <title id="title">Relayune icon directions</title>
+  <desc id="description">
+    A comparison board for Eclipse Relay, Phase Relay, and Moon Harbor.
+  </desc>
+
+  <defs>
+    <filter id="card-shadow" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="18" stdDeviation="28" flood-color="#111827" flood-opacity=".08"/>
+    </filter>
+    <mask id="board-eclipse-channel" maskUnits="userSpaceOnUse">
+      <rect x="0" y="0" width="360" height="360" fill="#fff"/>
+      <path
+        d="M53 220C105 97 152 98 180 180c28 82 75 83 127-40"
+        fill="none"
+        stroke="#000"
+        stroke-linecap="round"
+        stroke-width="44"
+      />
+    </mask>
+    <symbol id="eclipse-icon" viewBox="0 0 360 360">
+      <rect width="360" height="360" rx="79" fill="#0B1220"/>
+      <circle cx="180" cy="180" r="108" fill="#F6F8F5" mask="url(#board-eclipse-channel)"/>
+    </symbol>
+    <symbol id="phase-icon" viewBox="0 0 360 360">
+      <rect width="360" height="360" rx="79" fill="#0B0D12"/>
+      <path d="M158 84c-52 10-80 48-75 96 5 46 32 83 75 96" fill="none" stroke="#5EF0C3" stroke-linecap="round" stroke-width="39"/>
+      <path d="M202 84c52 10 80 48 75 96-5 46-32 83-75 96" fill="none" stroke="#7A63FF" stroke-linecap="round" stroke-width="39"/>
+      <path d="m148 201 64-42" fill="none" stroke="#F7F8F5" stroke-linecap="round" stroke-width="33"/>
+    </symbol>
+    <symbol id="harbor-icon" viewBox="0 0 360 360">
+      <rect width="360" height="360" rx="79" fill="#F8F7FC"/>
+      <path d="M152 56C93 56 51 110 51 180s42 124 101 124" fill="none" stroke="#5B4FD8" stroke-linecap="round" stroke-width="56"/>
+      <path d="M208 56c59 0 101 54 101 124s-42 124-101 124" fill="none" stroke="#00A88F" stroke-linecap="round" stroke-width="56"/>
+      <circle cx="180" cy="180" r="30" fill="#FFB455"/>
+      <circle cx="193" cy="170" r="27" fill="#F8F7FC"/>
+    </symbol>
+  </defs>
+
+  <rect width="1800" height="1180" fill="#F3F4F1"/>
+  <text x="120" y="118" fill="#11131A" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="54" font-weight="720" letter-spacing="-2">Relayune · Icon directions</text>
+  <text x="120" y="167" fill="#646873" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="22">Three original SVG systems built around lune, relay, and end-to-end trust.</text>
+
+  <g transform="translate(90 225)" filter="url(#card-shadow)">
+    <rect width="500" height="830" rx="36" fill="#fff"/>
+    <use href="#eclipse-icon" x="70" y="54" width="360" height="360"/>
+    <text x="64" y="476" fill="#11131A" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700" letter-spacing="2.4">01 / PROTOCOL-LED</text>
+    <text x="64" y="526" fill="#11131A" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="34" font-weight="720" letter-spacing="-1">Eclipse Relay</text>
+    <text x="64" y="563" fill="#646873" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="19">密道月相</text>
+    <text x="64" y="616" fill="#3F434C" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18">Negative space is the encrypted relay:</text>
+    <text x="64" y="645" fill="#3F434C" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18">the server carries it, but cannot see it.</text>
+    <g transform="translate(64 692)">
+      <rect width="122" height="72" rx="18" fill="#0B1220"/>
+      <circle cx="61" cy="36" r="24" fill="#F6F8F5"/>
+      <path d="M34 43c12-28 22-28 27-7 6 21 16 21 28-7" fill="none" stroke="#0B1220" stroke-linecap="round" stroke-width="10"/>
+      <rect x="142" width="122" height="72" rx="18" fill="#F3F4F1" stroke="#D9DCD7"/>
+      <circle cx="203" cy="36" r="24" fill="#0B1220"/>
+      <path d="M176 43c12-28 22-28 27-7 6 21 16 21 28-7" fill="none" stroke="#F3F4F1" stroke-linecap="round" stroke-width="10"/>
+    </g>
+  </g>
+
+  <g transform="translate(650 225)" filter="url(#card-shadow)">
+    <rect width="500" height="830" rx="36" fill="#fff"/>
+    <use href="#phase-icon" x="70" y="54" width="360" height="360"/>
+    <text x="64" y="476" fill="#11131A" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700" letter-spacing="2.4">02 / MOTION-LED</text>
+    <text x="64" y="526" fill="#11131A" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="34" font-weight="720" letter-spacing="-1">Phase Relay</text>
+    <text x="64" y="563" fill="#646873" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="19">相位中继</text>
+    <text x="64" y="616" fill="#3F434C" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18">Two lunar endpoints hand off one signal.</text>
+    <text x="64" y="645" fill="#3F434C" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18">Fast, tool-like, and naturally animatable.</text>
+    <g transform="translate(64 692)">
+      <rect width="122" height="72" rx="18" fill="#0B0D12"/>
+      <path d="M55 16c-18 3-28 17-27 34 2 16 11 29 27 34M67 16c18 3 28 17 27 34-2 16-11 29-27 34M50 56l22-14" transform="translate(0 -14)" fill="none" stroke="#fff" stroke-linecap="round" stroke-width="8"/>
+      <rect x="142" width="122" height="72" rx="18" fill="#F3F4F1" stroke="#D9DCD7"/>
+      <path d="M197 16c-18 3-28 17-27 34 2 16 11 29 27 34M209 16c18 3 28 17 27 34-2 16-11 29-27 34M192 56l22-14" transform="translate(0 -14)" fill="none" stroke="#0B0D12" stroke-linecap="round" stroke-width="8"/>
+    </g>
+  </g>
+
+  <g transform="translate(1210 225)" filter="url(#card-shadow)">
+    <rect width="500" height="830" rx="36" fill="#fff"/>
+    <use href="#harbor-icon" x="70" y="54" width="360" height="360"/>
+    <text x="64" y="476" fill="#11131A" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="17" font-weight="700" letter-spacing="2.4">03 / RELATIONSHIP-LED</text>
+    <text x="64" y="526" fill="#11131A" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="34" font-weight="720" letter-spacing="-1">Moon Harbor</text>
+    <text x="64" y="563" fill="#646873" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="19">月湾</text>
+    <text x="64" y="616" fill="#3F434C" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18">Two endpoints close into a safe harbor.</text>
+    <text x="64" y="645" fill="#3F434C" font-family="Inter, ui-sans-serif, system-ui, sans-serif" font-size="18">Friendly, calm, and consumer-oriented.</text>
+    <g transform="translate(64 692)">
+      <rect width="122" height="72" rx="18" fill="#171725"/>
+      <path d="M55 13C37 13 26 28 26 36s11 23 29 23M67 13c18 0 29 15 29 23S85 59 67 59" fill="none" stroke="#F2F0FF" stroke-linecap="round" stroke-width="10"/>
+      <circle cx="61" cy="36" r="7" fill="#F2F0FF"/>
+      <circle cx="64" cy="34" r="6" fill="#171725"/>
+      <rect x="142" width="122" height="72" rx="18" fill="#F3F4F1" stroke="#D9DCD7"/>
+      <path d="M197 13c-18 0-29 15-29 23s11 23 29 23M209 13c18 0 29 15 29 23s-11 23-29 23" fill="none" stroke="#342C85" stroke-linecap="round" stroke-width="10"/>
+      <circle cx="203" cy="36" r="7" fill="#342C85"/>
+      <circle cx="206" cy="34" r="6" fill="#F3F4F1"/>
+    </g>
+  </g>
+</svg>

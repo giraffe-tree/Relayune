@@ -1,0 +1,16 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 64 64"
+  role="img"
+  aria-labelledby="title description"
+>
+  <title id="title">Relayune Phase Relay mark</title>
+  <desc id="description">Two lunar endpoints handing off one relay signal.</desc>
+  <path
+    d="M28.1 14.9c-9.3 1.8-14.3 8.5-13.4 17.1.8 8.3 5.7 14.7 13.4 17.1M35.9 14.9c9.3 1.8 14.3 8.5 13.4 17.1-.8 8.3-5.7 14.7-13.4 17.1M26.3 35.8l11.5-7.5"
+    fill="none"
+    stroke="currentColor"
+    stroke-linecap="round"
+    stroke-width="7"
+  />
+</svg>

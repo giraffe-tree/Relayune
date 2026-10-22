@@ -1,0 +1,93 @@
+{
+  "version": "0.3.24",
+  "publishedAt": "2026-09-18T08:03:01.029Z",
+  "platforms": [
+    "web",
+    "server",
+    "macos",
+    "android",
+    "ios"
+  ],
+  "copy": {
+    "zh": {
+      "title": "更可靠的会话同步与问题回答",
+      "items": [
+        "优化会话目录增量同步与本地缓存，提升手机端会话加载体验。",
+        "完善任务运行状态、消息恢复及跨端同步。",
+        "修复多问题回答流程，保留待回答问题并改善紧凑布局操作。"
+      ]
+    },
+    "en": {
+      "title": "More reliable session sync and question answering",
+      "items": [
+        "Improve incremental session directory sync and local caching for faster mobile session loading.",
+        "Improve task state tracking, message recovery, and cross-device synchronization.",
+        "Keep pending questions available and improve multi-question answers in compact layouts."
+      ]
+    },
+    "hi": {
+      "title": "अधिक विश्वसनीय सत्र सिंक और प्रश्नों के उत्तर",
+      "items": [
+        "तेज़ मोबाइल लोडिंग के लिए सत्र सूची का क्रमिक सिंक और स्थानीय कैश सुधारें।",
+        "कार्य की स्थिति, संदेश पुनर्प्राप्ति और उपकरणों के बीच सिंक सुधारें।",
+        "लंबित प्रश्न उपलब्ध रखें और छोटे लेआउट में कई प्रश्नों के उत्तर देना आसान बनाएँ।"
+      ]
+    },
+    "es": {
+      "title": "Sincronización y respuestas más fiables",
+      "items": [
+        "Mejora la sincronización incremental y la caché local para cargar sesiones más rápido en el móvil.",
+        "Mejora el estado de las tareas, la recuperación de mensajes y la sincronización entre dispositivos.",
+        "Conserva las preguntas pendientes y facilita responder varias preguntas en diseños compactos."
+      ]
+    },
+    "ar": {
+      "title": "مزامنة جلسات وإجابات أكثر موثوقية",
+      "items": [
+        "تحسين المزامنة التدريجية لقائمة الجلسات والتخزين المحلي لتسريع التحميل على الهاتف.",
+        "تحسين تتبع حالة المهام واستعادة الرسائل والمزامنة بين الأجهزة.",
+        "الاحتفاظ بالأسئلة المعلقة وتحسين الإجابة عن عدة أسئلة في التخطيطات المدمجة."
+      ]
+    },
+    "fr": {
+      "title": "Synchronisation et réponses plus fiables",
+      "items": [
+        "Améliore la synchronisation incrémentale et le cache local pour charger les sessions plus vite sur mobile.",
+        "Améliore le suivi des tâches, la récupération des messages et la synchronisation entre appareils.",
+        "Conserve les questions en attente et facilite les réponses multiples dans les interfaces compactes."
+      ]
+    },
+    "bn": {
+      "title": "আরও নির্ভরযোগ্য সেশন সিঙ্ক ও প্রশ্নের উত্তর",
+      "items": [
+        "মোবাইলে দ্রুত সেশন লোড করতে ধাপে ধাপে তালিকা সিঙ্ক ও স্থানীয় ক্যাশ উন্নত করা হয়েছে।",
+        "কাজের অবস্থা, বার্তা পুনরুদ্ধার ও ডিভাইসের মধ্যে সিঙ্ক উন্নত করা হয়েছে।",
+        "অপেক্ষমাণ প্রশ্ন ধরে রাখা এবং ছোট বিন্যাসে একাধিক প্রশ্নের উত্তর দেওয়া উন্নত করা হয়েছে।"
+      ]
+    },
+    "pt": {
+      "title": "Sincronização e respostas mais confiáveis",
+      "items": [
+        "Melhora a sincronização incremental e o cache local para carregar sessões mais rápido no celular.",
+        "Melhora o acompanhamento das tarefas, a recuperação de mensagens e a sincronização entre dispositivos.",
+        "Mantém perguntas pendentes disponíveis e facilita responder várias perguntas em layouts compactos."
+      ]
+    },
+    "id": {
+      "title": "Sinkronisasi sesi dan jawaban yang lebih andal",
+      "items": [
+        "Meningkatkan sinkronisasi direktori bertahap dan cache lokal agar sesi lebih cepat dimuat di ponsel.",
+        "Meningkatkan pelacakan tugas, pemulihan pesan, dan sinkronisasi antarperangkat.",
+        "Mempertahankan pertanyaan tertunda dan mempermudah menjawab beberapa pertanyaan pada tata letak ringkas."
+      ]
+    },
+    "ur": {
+      "title": "زیادہ قابل اعتماد سیشن ہم آہنگی اور سوالات کے جواب",
+      "items": [
+        "موبائل پر سیشن جلد کھولنے کے لیے فہرست کی تدریجی ہم آہنگی اور مقامی کیش بہتر بنائیں۔",
+        "کام کی حالت، پیغامات کی بحالی اور آلات کے درمیان ہم آہنگی بہتر بنائیں۔",
+        "زیر التوا سوالات برقرار رکھیں اور مختصر ترتیب میں متعدد سوالات کے جواب آسان بنائیں۔"
+      ]
+    }
+  }
+}

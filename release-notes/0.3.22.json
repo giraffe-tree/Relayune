@@ -1,0 +1,92 @@
+{
+  "version": "0.3.22",
+  "publishedAt": "2026-09-10T09:21:13.628Z",
+  "platforms": [
+    "web",
+    "server",
+    "ios",
+    "android"
+  ],
+  "copy": {
+    "zh": {
+      "title": "更可靠的会话同步与手机操作",
+      "items": [
+        "修复网页用户消息同步及新增浏览器授权时的运行中任务保留。",
+        "手机首次加载最近 100 条消息，精简输入区，并修复子任务授权目标。",
+        "改进停止对话后的问题清理及 Codex 会话恢复权限，完善服务端日志采集。"
+      ]
+    },
+    "en": {
+      "title": "More reliable session sync and mobile controls",
+      "items": [
+        "Fix web user message reconciliation and preserve running tasks when pairing another browser.",
+        "Load the latest 100 messages on mobile, simplify the composer, and preserve child-task approval targets.",
+        "Improve question cleanup after stopping a turn, preserve Codex resume permissions, and refine server log collection."
+      ]
+    },
+    "hi": {
+      "title": "अधिक भरोसेमंद सत्र सिंक और मोबाइल नियंत्रण",
+      "items": [
+        "वेब संदेशों का समन्वय ठीक किया और नया ब्राउज़र जोड़ते समय चल रहे कार्य सुरक्षित रखे।",
+        "मोबाइल पर हाल के 100 संदेश लोड करें, सरल इनपुट क्षेत्र उपयोग करें और उपकार्य की अनुमति सही लक्ष्य तक पहुँचाएँ।",
+        "बातचीत रोकने के बाद प्रश्न साफ़ करें, Codex की अनुमतियाँ बनाए रखें और सर्वर लॉग संग्रह सुधारें।"
+      ]
+    },
+    "es": {
+      "title": "Sincronización y controles móviles más fiables",
+      "items": [
+        "Corrige la sincronización de mensajes web y conserva las tareas activas al vincular otro navegador.",
+        "Carga los últimos 100 mensajes en móvil, simplifica el editor y conserva el destino de las aprobaciones de subtareas.",
+        "Mejora la limpieza de preguntas al detener un turno, conserva los permisos de Codex y perfecciona los registros del servidor."
+      ]
+    },
+    "ar": {
+      "title": "مزامنة جلسات وعناصر تحكم أكثر موثوقية",
+      "items": [
+        "إصلاح مزامنة رسائل الويب والحفاظ على المهام الجارية عند ربط متصفح آخر.",
+        "تحميل أحدث 100 رسالة على الهاتف وتبسيط محرر الرسائل والحفاظ على وجهة الموافقة للمهام الفرعية.",
+        "تحسين إزالة الأسئلة بعد إيقاف المحادثة والحفاظ على أذونات Codex وتحسين جمع سجلات الخادم."
+      ]
+    },
+    "fr": {
+      "title": "Synchronisation et commandes mobiles plus fiables",
+      "items": [
+        "Corrige la synchronisation des messages web et préserve les tâches en cours lors de l’association d’un autre navigateur.",
+        "Charge les 100 derniers messages sur mobile, simplifie la saisie et préserve la cible des autorisations de sous-tâches.",
+        "Améliore le nettoyage des questions après un arrêt, conserve les permissions de Codex et affine la collecte des journaux serveur."
+      ]
+    },
+    "bn": {
+      "title": "আরও নির্ভরযোগ্য সেশন সিঙ্ক ও মোবাইল নিয়ন্ত্রণ",
+      "items": [
+        "ওয়েব বার্তার সমন্বয় ঠিক করা হয়েছে এবং অন্য ব্রাউজার যুক্ত করার সময় চলমান কাজ বজায় থাকে।",
+        "মোবাইলে সাম্প্রতিক 100টি বার্তা লোড করুন, সহজ ইনপুট ব্যবহার করুন এবং উপকাজের অনুমতির লক্ষ্য অক্ষুণ্ণ রাখুন।",
+        "কথোপকথন থামানোর পর প্রশ্ন সরানো, Codex-এর অনুমতি সংরক্ষণ এবং সার্ভার লগ সংগ্রহ উন্নত হয়েছে।"
+      ]
+    },
+    "pt": {
+      "title": "Sincronização e controles móveis mais confiáveis",
+      "items": [
+        "Corrige a sincronização de mensagens web e preserva tarefas em execução ao conectar outro navegador.",
+        "Carrega as últimas 100 mensagens no celular, simplifica o editor e preserva o destino das aprovações de subtarefas.",
+        "Melhora a limpeza de perguntas após interromper um turno, mantém as permissões do Codex e aprimora a coleta de logs do servidor."
+      ]
+    },
+    "id": {
+      "title": "Sinkronisasi sesi dan kontrol seluler lebih andal",
+      "items": [
+        "Memperbaiki sinkronisasi pesan web dan mempertahankan tugas aktif saat memasangkan browser lain.",
+        "Memuat 100 pesan terbaru di ponsel, menyederhanakan editor, dan mempertahankan tujuan persetujuan subtugas.",
+        "Memperbaiki penghapusan pertanyaan setelah menghentikan giliran, mempertahankan izin Codex, dan menyempurnakan pengumpulan log server."
+      ]
+    },
+    "ur": {
+      "title": "زیادہ قابل اعتماد سیشن ہم آہنگی اور موبائل کنٹرول",
+      "items": [
+        "ویب پیغامات کی ہم آہنگی درست کی گئی اور دوسرا براؤزر جوڑتے وقت جاری کام محفوظ رہتے ہیں۔",
+        "موبائل پر تازہ ترین 100 پیغامات لوڈ کریں، آسان ان پٹ استعمال کریں اور ذیلی کام کی منظوری کا ہدف محفوظ رکھیں۔",
+        "گفتگو روکنے کے بعد سوالات ہٹانے، Codex کی اجازتیں برقرار رکھنے اور سرور لاگز جمع کرنے میں بہتری۔"
+      ]
+    }
+  }
+}

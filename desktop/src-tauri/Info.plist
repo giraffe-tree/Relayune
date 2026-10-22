@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>LSUIElement</key>
+  <true/>
+  <key>NSAppleEventsUsageDescription</key>
+  <string>Relayune opens Terminal so you can sign in to local coding agents.</string>
+  <key>NSDesktopFolderUsageDescription</key>
+  <string>Relayune accesses files in your default working folder so local coding agents can work on them.</string>
+  <key>NSDocumentsFolderUsageDescription</key>
+  <string>Relayune accesses files in your default working folder so local coding agents can work on them.</string>
+  <key>NSDownloadsFolderUsageDescription</key>
+  <string>Relayune accesses files in your default working folder so local coding agents can work on them.</string>
+  <key>NSNetworkVolumesUsageDescription</key>
+  <string>Relayune accesses files in your default working folder so local coding agents can work on them.</string>
+  <key>NSRemovableVolumesUsageDescription</key>
+  <string>Relayune accesses files in your default working folder so local coding agents can work on them.</string>
+  <key>NSFileProviderDomainUsageDescription</key>
+  <string>Relayune accesses files in your default working folder so local coding agents can work on them.</string>
+  <key>CFBundleURLTypes</key>
+  <array>
+    <dict>
+      <key>CFBundleTypeRole</key>
+      <string>Viewer</string>
+      <key>CFBundleURLName</key>
+      <string>cn.giraffetree.relayune.auth</string>
+      <key>CFBundleURLSchemes</key>
+      <array>
+        <string>relayune</string>
+        <string>agent-relay</string>
+      </array>
+    </dict>
+  </array>
+</dict>
+</plist>

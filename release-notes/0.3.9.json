@@ -1,0 +1,23 @@
+{
+  "version": "0.3.9",
+  "publishedAt": "2026-08-29T02:29:01.000Z",
+  "platforms": ["macos"],
+  "copy": {
+    "zh": {
+      "title": "macOS 新客户端连接修复与开放注册",
+      "items": [
+        "修复 macOS 端“连接新客户端”因 SPAKE2 P-256 公共 share 长度校验错误而立即失败的问题。",
+        "增加分阶段、本机脱敏诊断日志，覆盖输入校验、加密 vault、sidecar、远程确认与 Relay 重连。",
+        "Relayune 现在支持未预先列入白名单的邮箱完成验证并注册。"
+      ]
+    },
+    "en": {
+      "title": "macOS new-client pairing fix and open registration",
+      "items": [
+        "Fixed an SPAKE2 P-256 public-share length validation error that caused Connect New Client to fail immediately on macOS.",
+        "Added staged, locally redacted diagnostics for input validation, the encrypted vault, sidecar startup, remote confirmation, and Relay reconnection.",
+        "Relayune now lets email addresses that were not pre-approved complete verification and register."
+      ]
+    }
+  }
+}

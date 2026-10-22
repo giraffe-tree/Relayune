@@ -1,0 +1,93 @@
+{
+  "version": "0.3.27",
+  "publishedAt": "2026-09-27T14:53:26.699Z",
+  "platforms": [
+    "macos",
+    "ios",
+    "android",
+    "web",
+    "server"
+  ],
+  "copy": {
+    "zh": {
+      "title": "多端版本统一与体验更新",
+      "items": [
+        "统一各端版本，提升连接、会话恢复与消息处理性能。",
+        "手机端支持独立保留多台电脑连接，优化图片浏览与聊天媒体布局。",
+        "新增 MiniMax Code 实验性接入、加密本地网页预览和 Mac 一键保持唤醒设置。"
+      ]
+    },
+    "en": {
+      "title": "Unified release and experience improvements",
+      "items": [
+        "Align platform versions and improve connections, session recovery and message processing.",
+        "Keep independent computer connections on mobile, with improved photo browsing and compact chat media.",
+        "Add experimental MiniMax Code support, encrypted local web previews and one-click Mac keep-awake controls."
+      ]
+    },
+    "hi": {
+      "title": "एकीकृत संस्करण और बेहतर अनुभव",
+      "items": [
+        "सभी प्लेटफ़ॉर्म के संस्करण एक किए गए; कनेक्शन, सत्र पुनर्प्राप्ति और संदेश प्रसंस्करण बेहतर हुए।",
+        "मोबाइल पर अलग-अलग कंप्यूटर कनेक्शन बनाए रखें और बेहतर फ़ोटो ब्राउज़िंग व संक्षिप्त चैट मीडिया का उपयोग करें।",
+        "प्रयोगात्मक MiniMax Code, एन्क्रिप्टेड स्थानीय वेब पूर्वावलोकन और Mac को जागृत रखने के एक-क्लिक नियंत्रण जोड़े गए।"
+      ]
+    },
+    "es": {
+      "title": "Versión unificada y mejoras de uso",
+      "items": [
+        "Unifica las versiones y mejora las conexiones, la recuperación de sesiones y el procesamiento de mensajes.",
+        "Conserva conexiones independientes a varios ordenadores en el móvil, con mejor navegación de fotos y contenido multimedia compacto.",
+        "Añade MiniMax Code experimental, vistas previas web locales cifradas y controles para mantener el Mac activo con un clic."
+      ]
+    },
+    "ar": {
+      "title": "إصدار موحّد وتحسينات للاستخدام",
+      "items": [
+        "توحيد إصدارات المنصات وتحسين الاتصال واستعادة الجلسات ومعالجة الرسائل.",
+        "الاحتفاظ باتصالات مستقلة بأجهزة الكمبيوتر على الهاتف، مع تحسين تصفح الصور وعرض وسائط المحادثة.",
+        "إضافة دعم تجريبي لـ MiniMax Code ومعاينات ويب محلية مشفّرة والتحكم بنقرة واحدة في إبقاء Mac مستيقظًا."
+      ]
+    },
+    "fr": {
+      "title": "Version unifiée et améliorations",
+      "items": [
+        "Aligne les versions et améliore les connexions, la restauration des sessions et le traitement des messages.",
+        "Conserve des connexions indépendantes aux ordinateurs sur mobile, avec une meilleure navigation photo et des médias compacts.",
+        "Ajoute MiniMax Code expérimental, des aperçus web locaux chiffrés et des commandes en un clic pour maintenir le Mac éveillé."
+      ]
+    },
+    "bn": {
+      "title": "একীভূত সংস্করণ ও উন্নত অভিজ্ঞতা",
+      "items": [
+        "সব প্ল্যাটফর্মের সংস্করণ এক করা হয়েছে; সংযোগ, সেশন পুনরুদ্ধার ও বার্তা প্রক্রিয়াকরণ উন্নত হয়েছে।",
+        "মোবাইলে একাধিক কম্পিউটারের সংযোগ আলাদাভাবে রাখুন; ছবি দেখা ও চ্যাটের মিডিয়া বিন্যাস উন্নত হয়েছে।",
+        "পরীক্ষামূলক MiniMax Code, এনক্রিপ্ট করা স্থানীয় ওয়েব প্রিভিউ এবং এক ক্লিকে Mac জাগিয়ে রাখার নিয়ন্ত্রণ যোগ করা হয়েছে।"
+      ]
+    },
+    "pt": {
+      "title": "Versão unificada e melhorias",
+      "items": [
+        "Alinha as versões e melhora as conexões, a recuperação de sessões e o processamento de mensagens.",
+        "Mantém conexões independentes com computadores no celular, com melhor navegação de fotos e mídia compacta nas conversas.",
+        "Adiciona MiniMax Code experimental, prévias locais de páginas criptografadas e controles para manter o Mac ativo com um clique."
+      ]
+    },
+    "id": {
+      "title": "Versi seragam dan peningkatan pengalaman",
+      "items": [
+        "Menyamakan versi platform serta meningkatkan koneksi, pemulihan sesi, dan pemrosesan pesan.",
+        "Mempertahankan koneksi komputer yang terpisah di ponsel, dengan penjelajahan foto dan tata letak media obrolan yang lebih ringkas.",
+        "Menambahkan MiniMax Code eksperimental, pratinjau web lokal terenkripsi, dan kontrol satu klik agar Mac tetap terjaga."
+      ]
+    },
+    "ur": {
+      "title": "یکساں ورژن اور بہتر تجربہ",
+      "items": [
+        "تمام پلیٹ فارمز کے ورژن یکساں کیے گئے اور کنکشن، سیشن کی بحالی اور پیغامات کی کارروائی بہتر بنائی گئی۔",
+        "موبائل پر مختلف کمپیوٹرز کے الگ کنکشن برقرار رکھیں، بہتر تصویر براؤزنگ اور مختصر چیٹ میڈیا لے آؤٹ کے ساتھ۔",
+        "تجرباتی MiniMax Code، مقامی ویب صفحات کے مرموز پیش نظارے اور Mac کو بیدار رکھنے کے یک کلک کنٹرول شامل کیے گئے۔"
+      ]
+    }
+  }
+}

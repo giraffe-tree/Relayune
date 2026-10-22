@@ -1,0 +1,776 @@
+{
+  "schema_version": 1,
+  "review_date": "2026-10-15",
+  "scope": {
+    "original_binary_candidate_count": 65,
+    "basis": "The 2026-10-15 candidate snapshot, plus repository SVG and vendored JS. This is a provenance inventory, not a representation that all historical author rights were independently established."
+  },
+  "rebuild": [
+    "node scripts/generate-night-sea.mjs",
+    "node scripts/create-public-preparation-assets.mjs",
+    "npm run brand:generate",
+    "node scripts/generate-startup-morph.mjs"
+  ],
+  "limitations": [
+    "Preserve original third-party notices; Relayune project licensing does not replace them.",
+    "No historical private repository, model-generation history or employment/IP assignments were consulted.",
+    "System fonts are not bundled; historical wordmark rasterization depends on local font resolution.",
+    "Generated placeholders are not product screenshots or acceptance evidence."
+  ],
+  "assets": [
+    {
+      "path": "desktop/src-tauri/icons/128x128.png",
+      "sha256": "1dd41ceba29917ce6092e3fc217e7110326be1cc3e73d7d80114b2f9e171755d",
+      "status": "repository-generated",
+      "evidence": "desktop/scripts/generate-icons.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "desktop/src-tauri/icons/128x128@2x.png",
+      "sha256": "3f36a93628cda532ae99af4bb497cc50e281d8afade7e87ab203a9751f325ee1",
+      "status": "repository-generated",
+      "evidence": "desktop/scripts/generate-icons.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "desktop/src-tauri/icons/32x32.png",
+      "sha256": "2db0a69fb123d49186a08d9a9f1a5b9ff2dafab12fb106cd792186ee34956b76",
+      "status": "repository-generated",
+      "evidence": "desktop/scripts/generate-icons.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "desktop/src-tauri/icons/icon.icns",
+      "sha256": "8b09548e120c4457576818aa9afebf9286ca2699c15a7572f3ce5ef47c467514",
+      "status": "repository-generated",
+      "evidence": "desktop/scripts/generate-icons.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "desktop/src-tauri/icons/icon.ico",
+      "sha256": "f19c4b08055a98a70b84017c0f33a230eb3c69008f11ac66b5607996bedc60f8",
+      "status": "repository-generated",
+      "evidence": "desktop/scripts/generate-icons.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "desktop/src-tauri/icons/power-dot-gray.png",
+      "sha256": "df6c28f7ef030cae79d4d6d2d8ca2e6c39304a372c30a1bd489dde7a5f37bc59",
+      "status": "trivial-status-bitmap",
+      "evidence": "desktop/src-tauri/src/macos_tray_menu.rs",
+      "notes": "Single RGB status color in a 56x56 alpha-masked geometric bitmap; RGB values checked uniform, center alpha 255 and corner alpha 0. No photographic or third-party logo content; no historical generator recorded."
+    },
+    {
+      "path": "desktop/src-tauri/icons/power-dot-green.png",
+      "sha256": "a0ed2d8943052b2a8e70442e27428c31a6eb97be370ebbe76574b5e2b512456c",
+      "status": "trivial-status-bitmap",
+      "evidence": "desktop/src-tauri/src/macos_tray_menu.rs",
+      "notes": "Single RGB status color in a 56x56 alpha-masked geometric bitmap; RGB values checked uniform, center alpha 255 and corner alpha 0. No photographic or third-party logo content; no historical generator recorded."
+    },
+    {
+      "path": "desktop/src-tauri/icons/power-dot-orange.png",
+      "sha256": "618121b4062a8cb3a955a2979bda3b2ced964f7db4fd5b30faa934da3055cc96",
+      "status": "trivial-status-bitmap",
+      "evidence": "desktop/src-tauri/src/macos_tray_menu.rs",
+      "notes": "Single RGB status color in a 56x56 alpha-masked geometric bitmap; RGB values checked uniform, center alpha 255 and corner alpha 0. No photographic or third-party logo content; no historical generator recorded."
+    },
+    {
+      "path": "desktop/src-tauri/icons/trayTemplate.png",
+      "sha256": "15a75b07cd3a1228c6ce6af446fabf4e5102de4bcb2f01b33892647c1d7f080c",
+      "status": "repository-generated",
+      "evidence": "desktop/scripts/generate-icons.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "desktop/src/assets/night-sea.webp",
+      "sha256": "d650bffe26c9a35f4afafe49e39748c313edb63e4df6d794a5d3cd274381f8d4",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-night-sea.mjs",
+      "notes": "Original procedural SVG geometry; replaced unverified prior artwork on 2026-10-15. No external image or font input."
+    },
+    {
+      "path": "docs/design/startup-effects-preview/assets/opening/morph-moon.png",
+      "sha256": "e48a241703a2d4a5328639146c269194d3f2504f8e0c79cd90dc653b8a9c0116",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-startup-morph.mjs",
+      "notes": "Brand glyph / wordmark raster or RYM1 coordinate data. Wordmark raster uses system Helvetica/Arial fallback; no font file bundled; historical raster output not independently reproduced."
+    },
+    {
+      "path": "docs/design/startup-effects-preview/assets/opening/morph-wordmark.png",
+      "sha256": "3226be2cee81044838962a9489b4acddde3811302f7140291c98738581c24364",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-startup-morph.mjs",
+      "notes": "Brand glyph / wordmark raster or RYM1 coordinate data. Wordmark raster uses system Helvetica/Arial fallback; no font file bundled; historical raster output not independently reproduced."
+    },
+    {
+      "path": "docs/design/startup-effects-preview/assets/opening/wordmark-morph.bin",
+      "sha256": "d1ca25fab83c7c221cba6865b4614d498429fbde206fd3795763cf6b7f810e40",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-startup-morph.mjs",
+      "notes": "Brand glyph / wordmark raster or RYM1 coordinate data. Wordmark raster uses system Helvetica/Arial fallback; no font file bundled; historical raster output not independently reproduced."
+    },
+    {
+      "path": "docs/marketing/community-assets/source/relayune-mobile-workbench.png",
+      "sha256": "0ad31d9134c82a89a0ae1c55b5678712fa9bf00f36cf5ad6cfe8278efb19767f",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "docs/marketing/community-assets/source/wechat-group-qr-2026-09-10.png",
+      "sha256": "0d048358c1b9ce0de88d8db084b8ee2aaca3703e38d7aa56a7c2e0a96fc4087a",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "docs/marketing/hackathon-card/assets/community-page-qr.png",
+      "sha256": "e71b139186ee101837798149cfdf846d96642d008b7b062eb4c63128e516df1d",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-hackathon-card.py",
+      "notes": "QR generated for public community page URL, not private group access; URL verified by local decode."
+    },
+    {
+      "path": "docs/marketing/hackathon-card/assets/relayune-signal-background.png",
+      "sha256": "cea70922eae0d3321411e804b9f7457443736e746c511b22abb98c0f15d443f0",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-night-sea.mjs",
+      "notes": "Original procedural SVG geometry; replaced unverified prior artwork on 2026-10-15. No external image or font input."
+    },
+    {
+      "path": "mobile/android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "sha256": "cd1aa554b560a085ff93f1cab4f159bd522fc259a5be2217bc5d9b6c2fe43cd7",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png",
+      "sha256": "ea4e6e0848a94ac80a6373efc8eaa27012921c5ec350332534b25b9766b96478",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "sha256": "a94c3061d5866a33becdebd8ee72c67f8ca6f04572a33d93d8bd7dd0d5460fd5",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png",
+      "sha256": "05961a134a7b39fe455361f5ae7ec2a18ba309012870c291a40a602d75500286",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "sha256": "f35141f695b5c70ffb8f10fbfd48aa73353998b28c2ff4aad0d8a3a69702509d",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png",
+      "sha256": "f2700db511006cfe34c433305a571ee7ab059760bcc57736cb6baea9f9a19571",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "sha256": "6edcc7f382fa9e053fd4047850051b069159b6f0b9eeaab3370085ac2a1e2afe",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png",
+      "sha256": "4baf301af226c587a00aa4ca71d598d6e83adf27e8d897aadc7ca7f461bba6a6",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "sha256": "60edc902717d791c802b500993cf374fd681791ea571da8a8fa7503a8d77e6fc",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png",
+      "sha256": "f984c48a8a3f832c6f1f42d861ea3b0161af463b4840c0672f800d3b4f662db5",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/assets/agents/claude.svg",
+      "sha256": "b8539c535a7804d0403bcecb6e6281fcbe4b56dd97b2e2d51a9ef53827f33c04",
+      "status": "third-party-MIT",
+      "evidence": "https://github.com/lobehub/lobe-icons/blob/4aaf4ee1fb2678a7f989ea570f0f6ce14a9abf75/packages/static-svg/icons/claude.svg",
+      "notes": "Upstream path data compared equal on 2026-10-15; public/mobile bytes match. Trademark identification only."
+    },
+    {
+      "path": "mobile/assets/agents/codex.svg",
+      "sha256": "656f91313a645926015cf6b3944a2e6b13339da5b89c5474e68b2791afe1fb70",
+      "status": "third-party-MIT",
+      "evidence": "https://github.com/lobehub/lobe-icons/blob/4aaf4ee1fb2678a7f989ea570f0f6ce14a9abf75/packages/static-svg/icons/codex.svg",
+      "notes": "Upstream path data compared equal on 2026-10-15; public/mobile bytes match. Trademark identification only."
+    },
+    {
+      "path": "mobile/assets/agents/kimi.svg",
+      "sha256": "adda73bc0201816bae3175003a6b925a227fccacec5ee07c10c7c354c73292ff",
+      "status": "third-party-MIT",
+      "evidence": "https://github.com/lobehub/lobe-icons/blob/4aaf4ee1fb2678a7f989ea570f0f6ce14a9abf75/packages/static-svg/icons/kimi.svg",
+      "notes": "Upstream path data compared equal on 2026-10-15; public/mobile bytes match. Trademark identification only."
+    },
+    {
+      "path": "mobile/assets/agents/terminal.svg",
+      "sha256": "e9d2017dcea738fb2638a07201be43ce60064db39e17c715370ee1db2229ae61",
+      "status": "repository-vector-design",
+      "evidence": "mobile/assets/agents/terminal.svg",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "mobile/assets/brand/relayune-app-icon.svg",
+      "sha256": "cb5e13a6713fcc8e0fb17d74635abeeb585066146480247723e7a8fff625be16",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "mobile/assets/mermaid/BUILD.json",
+      "sha256": "83bb6c4de424a29cc0c49268c9d154b50bde04cccf35cbc114e33a2860b86e0b",
+      "status": "build-metadata",
+      "evidence": "scripts/sync-mermaid-assets.mjs",
+      "notes": "Preserve with the generated runtime; no private environment paths."
+    },
+    {
+      "path": "mobile/assets/mermaid/THIRD_PARTY_LICENSES.txt",
+      "sha256": "194bab25440e6e4de120f17cf14f007f77b747f31a9acf8bc4c7331684537c52",
+      "status": "third-party-license-notices",
+      "evidence": "scripts/audit-licenses.py --write-vendored-notices",
+      "notes": "Preserve with the generated runtime; no private environment paths."
+    },
+    {
+      "path": "mobile/assets/mermaid/mermaid.min.js",
+      "sha256": "71c5dfdd047eaff6ccc22e2782f0aea0fdedff035bf56569dbe3d4cf7cc1fe91",
+      "status": "third-party-MIT-and-dependencies",
+      "evidence": "scripts/sync-mermaid-assets.mjs",
+      "notes": "Rebuilt from Mermaid 11.17.2 ESM with patched KaTeX 0.18.2 and DOMPurify 3.4.17; BUILD.json records 64 actual input packages, root lock hash and output hash. Preserve LICENSE and THIRD_PARTY_LICENSES.txt."
+    },
+    {
+      "path": "mobile/assets/notifications/task-completion-ios.png",
+      "sha256": "31cccf50b6b046cac21d56dca40981b6dce9ba3828863d38a0d746e4d4e18a49",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "mobile/assets/opening/morph-moon.png",
+      "sha256": "e48a241703a2d4a5328639146c269194d3f2504f8e0c79cd90dc653b8a9c0116",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-startup-morph.mjs",
+      "notes": "Brand glyph / wordmark raster or RYM1 coordinate data. Wordmark raster uses system Helvetica/Arial fallback; no font file bundled; historical raster output not independently reproduced."
+    },
+    {
+      "path": "mobile/assets/opening/morph-wordmark.png",
+      "sha256": "3226be2cee81044838962a9489b4acddde3811302f7140291c98738581c24364",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-startup-morph.mjs",
+      "notes": "Brand glyph / wordmark raster or RYM1 coordinate data. Wordmark raster uses system Helvetica/Arial fallback; no font file bundled; historical raster output not independently reproduced."
+    },
+    {
+      "path": "mobile/assets/opening/night-sea.webp",
+      "sha256": "d650bffe26c9a35f4afafe49e39748c313edb63e4df6d794a5d3cd274381f8d4",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-night-sea.mjs",
+      "notes": "Original procedural SVG geometry; replaced unverified prior artwork on 2026-10-15. No external image or font input."
+    },
+    {
+      "path": "mobile/assets/opening/wordmark-morph.bin",
+      "sha256": "d1ca25fab83c7c221cba6865b4614d498429fbde206fd3795763cf6b7f810e40",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-startup-morph.mjs",
+      "notes": "Brand glyph / wordmark raster or RYM1 coordinate data. Wordmark raster uses system Helvetica/Arial fallback; no font file bundled; historical raster output not independently reproduced."
+    },
+    {
+      "path": "mobile/assets/pairing/computer.svg",
+      "sha256": "9cb1727dad0e6feeaec80c31d9ac7a08220a853a60bdb35e1fcb365d04c0a69b",
+      "status": "repository-vector-design",
+      "evidence": "mobile/assets/pairing/computer.svg",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "mobile/assets/pairing/scan-desktop.svg",
+      "sha256": "14c25883316ce0beec1b1320d03397b0c2fd2d5ac919fd3f22eefe8f2685b46c",
+      "status": "repository-vector-design",
+      "evidence": "mobile/assets/pairing/scan-desktop.svg",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "mobile/assets/visualization/lucide.min.js",
+      "sha256": "3411692820cb8d47543f69496aa25fd603a358f4498046f41c508a5a3342210e",
+      "status": "third-party-ISC",
+      "evidence": "https://github.com/lucide-icons/lucide/tree/0.468.0",
+      "notes": "Version from embedded header and local README; preserve LICENSE-lucide. Byte-for-byte upstream artifact not separately checked."
+    },
+    {
+      "path": "mobile/assets/visualization/noto-cjk.woff2",
+      "sha256": "59a0a488c7acaf4a2d6b9d474c2f5ef28bc19d8a03b5a6d0a3586cb1304290e9",
+      "status": "third-party-modified",
+      "evidence": "mobile/assets/visualization/README.md",
+      "notes": "Noto Sans SC; renamed Relayune Preview CJK, subset and WOFF2; OFL-1.1 and Adobe 2014-2021 copyright in LICENSE-noto. Embedded names inspected with fontTools."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-1024x1024@1x.png",
+      "sha256": "6b8fccb7a9be3f8d51bf6a37a7d57a40d71685eaea7aa0d680d0c79e658b51d0",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@1x.png",
+      "sha256": "d09d448fd5f2c937c7e70fcb5fa10d4265203a50653d01fe5f7a9bb1900a7337",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@2x.png",
+      "sha256": "09776b22a50709ed0e7fac9a9535fd5a70700c83c27786dcf73f9ca91ce5fb91",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-20x20@3x.png",
+      "sha256": "1c5085755989b19db6ed0110f253299bab7d5e91b5da5093bf741fbea002fd4c",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@1x.png",
+      "sha256": "fc0eedb0c7bd3e6b9eb081c41bc6cada70c166e84a09bbb559006b01e1839851",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@2x.png",
+      "sha256": "5cd155506d206f5134268ba0b56f46957a0fb22c53ebaa79742cc914417b6934",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-29x29@3x.png",
+      "sha256": "2c2478fe44df015c0f7a405197f9a2d11f97826926098c2e0a2a0c52b411b85b",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@1x.png",
+      "sha256": "09776b22a50709ed0e7fac9a9535fd5a70700c83c27786dcf73f9ca91ce5fb91",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@2x.png",
+      "sha256": "8a094b1f850c030f6c5fd21fab28d116aeaf584cf472fddbdf9ee843365a58a6",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-40x40@3x.png",
+      "sha256": "7d31e9b408d429728961f8ec66cb6e56a88c8990f167dc49311f8d16ee9cfa60",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@2x.png",
+      "sha256": "7d31e9b408d429728961f8ec66cb6e56a88c8990f167dc49311f8d16ee9cfa60",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-60x60@3x.png",
+      "sha256": "e5e83a862a5657e22099c5973be0c30da96ef8231cd2bda6ae3deeee4d9268a6",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@1x.png",
+      "sha256": "61c09256fffde3f3333dc5d100f8338bc3c4c3537e89d0cb8430f3d6c858ec87",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-76x76@2x.png",
+      "sha256": "e171242f09d7b378c6aea138236187214d2b48aafa6ee1450fdc9f4b2c4c5b3d",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/AppIcon.appiconset/Icon-App-83.5x83.5@2x.png",
+      "sha256": "421cd7aebdf7319ca9bbfc51edc04b82fc7a403e1e0bec32b8b515cfb89f4530",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "mobile/ios/Runner/Assets.xcassets/LaunchWordmark.imageset/wordmark@2x.png",
+      "sha256": "3226be2cee81044838962a9489b4acddde3811302f7140291c98738581c24364",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-startup-morph.mjs",
+      "notes": "Brand glyph / wordmark raster or RYM1 coordinate data. Wordmark raster uses system Helvetica/Arial fallback; no font file bundled; historical raster output not independently reproduced."
+    },
+    {
+      "path": "mobile/test/fixtures/mermaid/flowchart.svg",
+      "sha256": "5a6ef42ebdf26920e5672f6779c4e45dd417e9c2433b926e7ada0521299f8438",
+      "status": "rendered-test-fixture",
+      "evidence": "scripts/verify-mobile-mermaid-browser.mjs --update-fixtures",
+      "notes": "Regenerated from the patched ESM runtime and native adapter; generic schema/local-web labels. Native export preserves colors, text baselines and arrowheads, and omits unsupported decorative filters."
+    },
+    {
+      "path": "mobile/test/fixtures/mermaid/wide-flowchart-dark.svg",
+      "sha256": "897c0914f930221853bdb6a527e6577b376d084ceca9f637f5ec5670ff9d1515",
+      "status": "rendered-test-fixture",
+      "evidence": "scripts/verify-mobile-mermaid-browser.mjs --update-fixtures",
+      "notes": "Regenerated from the patched ESM runtime and native adapter; generic schema/local-web labels. Native export preserves colors, text baselines and arrowheads, and omits unsupported decorative filters."
+    },
+    {
+      "path": "mobile/test/fixtures/mermaid/wide-flowchart-light.svg",
+      "sha256": "e2cbd89c7ccc8d916fa9c6750ce40614687b7e7884bfb5a05f3baa614ca56335",
+      "status": "rendered-test-fixture",
+      "evidence": "scripts/verify-mobile-mermaid-browser.mjs --update-fixtures",
+      "notes": "Regenerated from the patched ESM runtime and native adapter; generic schema/local-web labels. Native export preserves colors, text baselines and arrowheads, and omits unsupported decorative filters."
+    },
+    {
+      "path": "public/apple-touch-icon.png",
+      "sha256": "e5e83a862a5657e22099c5973be0c30da96ef8231cd2bda6ae3deeee4d9268a6",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    },
+    {
+      "path": "public/brand/agents/claude.svg",
+      "sha256": "b8539c535a7804d0403bcecb6e6281fcbe4b56dd97b2e2d51a9ef53827f33c04",
+      "status": "third-party-MIT",
+      "evidence": "https://github.com/lobehub/lobe-icons/blob/4aaf4ee1fb2678a7f989ea570f0f6ce14a9abf75/packages/static-svg/icons/claude.svg",
+      "notes": "Upstream path data compared equal on 2026-10-15; public/mobile bytes match. Trademark identification only."
+    },
+    {
+      "path": "public/brand/agents/codex.svg",
+      "sha256": "656f91313a645926015cf6b3944a2e6b13339da5b89c5474e68b2791afe1fb70",
+      "status": "third-party-MIT",
+      "evidence": "https://github.com/lobehub/lobe-icons/blob/4aaf4ee1fb2678a7f989ea570f0f6ce14a9abf75/packages/static-svg/icons/codex.svg",
+      "notes": "Upstream path data compared equal on 2026-10-15; public/mobile bytes match. Trademark identification only."
+    },
+    {
+      "path": "public/brand/agents/kimi.svg",
+      "sha256": "adda73bc0201816bae3175003a6b925a227fccacec5ee07c10c7c354c73292ff",
+      "status": "third-party-MIT",
+      "evidence": "https://github.com/lobehub/lobe-icons/blob/4aaf4ee1fb2678a7f989ea570f0f6ce14a9abf75/packages/static-svg/icons/kimi.svg",
+      "notes": "Upstream path data compared equal on 2026-10-15; public/mobile bytes match. Trademark identification only."
+    },
+    {
+      "path": "public/brand/agents/terminal.svg",
+      "sha256": "e9d2017dcea738fb2638a07201be43ce60064db39e17c715370ee1db2229ae61",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/concepts/01-eclipse-relay.svg",
+      "sha256": "d40031f313e966c01e322b1b6b3b73546e7ce2333c47967b23509026e3a26711",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/concepts/02-phase-relay.svg",
+      "sha256": "ded70fed4543960cc753e21b87e30a6833d9a9a09f0f1297789f2177134f267c",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/concepts/03-moon-harbor.svg",
+      "sha256": "c0787e1b7368c4cf5e92e89a8c32c9a43612a70f0ab079cc8347b0ef3e47ad7c",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/concepts/marks/eclipse-relay-mark.svg",
+      "sha256": "df4d156752b53bb03092e65c7299cce72e3b97f118943ef93143c399e2df4c58",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/concepts/marks/moon-harbor-mark.svg",
+      "sha256": "16e12e0925a74ec1e119447f968a12159624a1a7819ea55c994042eb2e690445",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/concepts/marks/phase-relay-mark.svg",
+      "sha256": "1dffaeeb82a787eb557ef6541d4ff5f58ddf4284554a0b51d4e75d3eadb1899e",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/concepts/relayune-icon-directions.svg",
+      "sha256": "5a2368c43a2461f35ccd559da7d9317e6f39c37472fe860d27ed95f9132292e0",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/relayune-eclipse-breathe.svg",
+      "sha256": "1a9fc5dcabd4f622bbee3287b9ba21855411d5fda84ac73e7948bb699ddc3752",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/relayune-eclipse-confirm.svg",
+      "sha256": "26ad8c9cc1dc6ff1fb982fd3b8b86bbb0596d1c9c18bd5b5010c23e11be064af",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/relayune-eclipse-flow.svg",
+      "sha256": "94a78e858647d41625c0e6b9ece97e60ffee8573fe2da9dbb0bc1846e3a01c5b",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/relayune-eclipse-mark.svg",
+      "sha256": "89e0930e39428a98a3d229cff91d90b6681a9536a12864e6b38d8a32cac69c2b",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/relayune-eclipse-static.svg",
+      "sha256": "f3908880e1f84cd4ec581e2aa5bb04b5c99f9102b1bcd9cb79827a4931104cfa",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/relayune-eclipse-template.svg",
+      "sha256": "346941ff6f4f4b239f3013f927e7b34eb3621ba4bf52164b523b1a3299f7a961",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/relayune-eclipse-wait.svg",
+      "sha256": "90bd7bf59273deaa41237c22deaf26896c1103484bd38cfee79e9b935ac443b1",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/relayune-og.svg",
+      "sha256": "c1283edfa98d59f0d2501db5a6a1dbabbb12a9d7e178233fd94b1755331f41f7",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/relayune-orbit.svg",
+      "sha256": "9b14afcd3db8e5e23beccce7d5e11945cda13f5ef299452eab9513b09d8e0ff8",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/relayune-path.svg",
+      "sha256": "37c9a948d9db9009e238468ab5ba9597e161b76a1339f898b81e44273746db3f",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/relayune-rune-static.svg",
+      "sha256": "ae3827149e4804ed0d286d69d90729284c7e53dfd0757ec3aa367c94486daf38",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/relayune-rune-template.svg",
+      "sha256": "52903dfad1bf89431e18930c45bb07c1224726b4dab6c358c117ac3df63c6418",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/brand/relayune/relayune-rune.svg",
+      "sha256": "88c5653239155dd7e05a1296f7fa5b9bdb11be47f649d86093f1bd3d150952f2",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/community/assets/relayune-mobile-workbench-v1.webp",
+      "sha256": "dbfb776e434bea6768d07a14691e49110c75fbcd13f272200c53365cd165f8ab",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "public/community/assets/wechat-group-45df35c52465d7f2.png",
+      "sha256": "a3ae9e09974064542080e54908465191fef017a6f4415f26f0ba950606bb5696",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "public/community/assets/wechat-group-d0e56e76985d54f2.png",
+      "sha256": "79588c1042ffba12c635a5a0af980d39cb898a0c1c502ffc51ae1d38a7fdd8a4",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "public/community/assets/wechat-group-qr-2026-09-10.png",
+      "sha256": "340df38a3081669c69640c493129c3c4f82e9b2795f45356df3b20b96a5afcd8",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "public/favicon.svg",
+      "sha256": "6502894af90d34e8c40a2e50223a00a6692e643d44931a3f138ea66733471463",
+      "status": "repository-vector-design",
+      "evidence": "docs/brand-system.md",
+      "notes": "Repository SVG geometric artwork. No embedded raster data or external image fetch found; creator rights remain a maintainer declaration."
+    },
+    {
+      "path": "public/marketing/product-screens/actual-desktop-done.png",
+      "sha256": "b83f5f11b4464ca8ca12cbe7b0f323da74b86d2d4cb8dbb5f18fde3028b3d910",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "public/marketing/product-screens/actual-phone-done.png",
+      "sha256": "7af2f822e6e3c623408c318e047914afae12934f3353050d704c69171f462f5c",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "public/marketing/task-replay/phone-done.webp",
+      "sha256": "a37f6cb22f9d1051b6531740e0ba11b5f44d223a88323ea82c92dffb56288c44",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "public/marketing/task-replay/phone-implement.webp",
+      "sha256": "a37f6cb22f9d1051b6531740e0ba11b5f44d223a88323ea82c92dffb56288c44",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "public/marketing/task-replay/phone-request.webp",
+      "sha256": "a37f6cb22f9d1051b6531740e0ba11b5f44d223a88323ea82c92dffb56288c44",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "public/marketing/task-replay/phone-verify.webp",
+      "sha256": "a37f6cb22f9d1051b6531740e0ba11b5f44d223a88323ea82c92dffb56288c44",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "public/marketing/task-replay/web-done.webp",
+      "sha256": "6a94d1e50dc6aac8aaf839fa76e5cea063ec2e38de7e75c7ec5d76ffb2af0098",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "public/marketing/task-replay/web-implement.webp",
+      "sha256": "6a94d1e50dc6aac8aaf839fa76e5cea063ec2e38de7e75c7ec5d76ffb2af0098",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "public/marketing/task-replay/web-request.webp",
+      "sha256": "6a94d1e50dc6aac8aaf839fa76e5cea063ec2e38de7e75c7ec5d76ffb2af0098",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "public/marketing/task-replay/web-verify.webp",
+      "sha256": "6a94d1e50dc6aac8aaf839fa76e5cea063ec2e38de7e75c7ec5d76ffb2af0098",
+      "status": "repository-generated",
+      "evidence": "scripts/create-public-preparation-assets.mjs",
+      "notes": "Labelled synthetic placeholder; no user session or group QR."
+    },
+    {
+      "path": "public/mermaid/BUILD.json",
+      "sha256": "83bb6c4de424a29cc0c49268c9d154b50bde04cccf35cbc114e33a2860b86e0b",
+      "status": "build-metadata",
+      "evidence": "scripts/sync-mermaid-assets.mjs",
+      "notes": "Preserve with the generated runtime; no private environment paths."
+    },
+    {
+      "path": "public/mermaid/THIRD_PARTY_LICENSES.txt",
+      "sha256": "194bab25440e6e4de120f17cf14f007f77b747f31a9acf8bc4c7331684537c52",
+      "status": "third-party-license-notices",
+      "evidence": "scripts/audit-licenses.py --write-vendored-notices",
+      "notes": "Preserve with the generated runtime; no private environment paths."
+    },
+    {
+      "path": "public/mermaid/mermaid.min.js",
+      "sha256": "71c5dfdd047eaff6ccc22e2782f0aea0fdedff035bf56569dbe3d4cf7cc1fe91",
+      "status": "third-party-MIT-and-dependencies",
+      "evidence": "scripts/sync-mermaid-assets.mjs",
+      "notes": "Rebuilt from Mermaid 11.17.2 ESM with patched KaTeX 0.18.2 and DOMPurify 3.4.17; BUILD.json records 64 actual input packages, root lock hash and output hash. Preserve LICENSE and THIRD_PARTY_LICENSES.txt."
+    },
+    {
+      "path": "public/og.png",
+      "sha256": "e8903e8fd5c5ccc7fe227e31b7d941775ab95e037bd9941835afa337ca88257c",
+      "status": "repository-generated",
+      "evidence": "scripts/generate-brand-assets.mjs",
+      "notes": "Derived from Relayune SVG brand master. Generator and role reviewed; byte-for-byte historical regeneration not established."
+    }
+  ],
+  "removed_unreferenced_template_assets": [
+    "public/file.svg",
+    "public/globe.svg",
+    "public/window.svg"
+  ]
+}

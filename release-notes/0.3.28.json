@@ -1,0 +1,93 @@
+{
+  "version": "0.3.28",
+  "publishedAt": "2026-10-01T16:59:51.478Z",
+  "platforms": [
+    "macos",
+    "ios",
+    "android",
+    "web",
+    "server"
+  ],
+  "copy": {
+    "zh": {
+      "title": "启动恢复与后台节电优化",
+      "items": [
+        "手机启动先恢复本地加密会话缓存，减少等待账户网络验证时停留在启动界面的时间。",
+        "优化大历史加载、图片缓存和实时回复恢复；应用进入后台时暂停工作，并保留短时间内返回所需的缓存。",
+        "新增手机端账户删除入口，并完善连接、发送失败及附件恢复的处理。"
+      ]
+    },
+    "en": {
+      "title": "Faster startup recovery and less background work",
+      "items": [
+        "Restore encrypted local conversations before account network checks to reduce waiting on the launch screen.",
+        "Improve large history loading, image caching and live reply recovery; pause background work and retain caches for quick returns.",
+        "Add mobile account deletion and improve connection, failed-send and attachment recovery handling."
+      ]
+    },
+    "hi": {
+      "title": "तेज़ स्टार्टअप और कम पृष्ठभूमि कार्य",
+      "items": [
+        "खाते की नेटवर्क जाँच से पहले स्थानीय एन्क्रिप्टेड बातचीत पुनर्स्थापित करें, जिससे शुरुआती स्क्रीन पर प्रतीक्षा कम हो।",
+        "बड़े इतिहास, चित्र कैश और लाइव उत्तर की पुनर्प्राप्ति बेहतर हुई; पृष्ठभूमि कार्य रुकते हैं और जल्दी लौटने के लिए कैश बने रहते हैं।",
+        "मोबाइल पर खाता हटाने का विकल्प जोड़ा गया और कनेक्शन, असफल संदेश व संलग्नक पुनर्प्राप्ति सुधारी गई।"
+      ]
+    },
+    "es": {
+      "title": "Inicio más rápido y menos trabajo en segundo plano",
+      "items": [
+        "Restaura conversaciones locales cifradas antes de las comprobaciones de red de la cuenta para reducir la espera al iniciar.",
+        "Mejora la carga de historiales grandes, la caché de imágenes y la recuperación de respuestas; pausa el trabajo en segundo plano y conserva cachés para regresar rápidamente.",
+        "Añade la eliminación de cuentas en el móvil y mejora las conexiones y la recuperación de envíos fallidos y adjuntos."
+      ]
+    },
+    "ar": {
+      "title": "استعادة أسرع عند البدء وعمل أقل في الخلفية",
+      "items": [
+        "استعادة المحادثات المحلية المشفّرة قبل فحوص شبكة الحساب لتقليل الانتظار على شاشة البدء.",
+        "تحسين تحميل السجلات الكبيرة وتخزين الصور واستعادة الردود المباشرة؛ إيقاف العمل في الخلفية مع الاحتفاظ بالتخزين المؤقت للعودة السريعة.",
+        "إضافة حذف الحساب على الهاتف وتحسين الاتصال ومعالجة الإرسال الفاشل واستعادة المرفقات."
+      ]
+    },
+    "fr": {
+      "title": "Démarrage plus rapide et moins de travail en arrière-plan",
+      "items": [
+        "Restaure les conversations locales chiffrées avant les vérifications réseau du compte pour réduire l’attente au démarrage.",
+        "Améliore les grands historiques, le cache des images et la reprise des réponses; suspend le travail en arrière-plan et conserve les caches pour un retour rapide.",
+        "Ajoute la suppression du compte sur mobile et améliore les connexions et la récupération des envois échoués et pièces jointes."
+      ]
+    },
+    "bn": {
+      "title": "দ্রুত শুরু ও কম পটভূমির কাজ",
+      "items": [
+        "অ্যাকাউন্টের নেটওয়ার্ক যাচাইয়ের আগে স্থানীয় এনক্রিপ্ট করা কথোপকথন ফিরিয়ে আনে, ফলে শুরুর পর্দায় অপেক্ষা কমে।",
+        "বড় ইতিহাস, ছবির ক্যাশ ও সরাসরি উত্তরের পুনরুদ্ধার উন্নত হয়েছে; পটভূমির কাজ থামে এবং দ্রুত ফেরার জন্য ক্যাশ থাকে।",
+        "মোবাইলে অ্যাকাউন্ট মুছে ফেলার সুবিধা যোগ হয়েছে এবং সংযোগ, ব্যর্থ বার্তা ও সংযুক্তি পুনরুদ্ধার উন্নত হয়েছে।"
+      ]
+    },
+    "pt": {
+      "title": "Inicialização mais rápida e menos trabalho em segundo plano",
+      "items": [
+        "Restaura conversas locais criptografadas antes das verificações de rede da conta para reduzir a espera na tela inicial.",
+        "Melhora históricos grandes, cache de imagens e recuperação de respostas; pausa tarefas em segundo plano e mantém caches para retornos rápidos.",
+        "Adiciona exclusão de conta no celular e melhora conexões e recuperação de envios com falha e anexos."
+      ]
+    },
+    "id": {
+      "title": "Pemulihan awal lebih cepat dan kerja latar lebih sedikit",
+      "items": [
+        "Memulihkan percakapan lokal terenkripsi sebelum pemeriksaan jaringan akun untuk mengurangi waktu tunggu pada layar awal.",
+        "Meningkatkan pemuatan riwayat besar, cache gambar dan pemulihan balasan; menjeda kerja latar dan mempertahankan cache agar cepat kembali.",
+        "Menambahkan penghapusan akun di ponsel serta meningkatkan koneksi dan pemulihan kiriman gagal dan lampiran."
+      ]
+    },
+    "ur": {
+      "title": "تیز آغاز اور پس منظر میں کم کام",
+      "items": [
+        "اکاؤنٹ کی نیٹ ورک جانچ سے پہلے مقامی مرموز گفتگو بحال ہوتی ہے، جس سے ابتدائی اسکرین پر انتظار کم ہوتا ہے۔",
+        "بڑی ہسٹری، تصویری کیش اور جاری جوابات کی بحالی بہتر ہوئی؛ پس منظر کا کام رک جاتا ہے اور جلد واپسی کے لیے کیش محفوظ رہتے ہیں۔",
+        "موبائل پر اکاؤنٹ حذف کرنے کا اختیار شامل کیا گیا اور کنکشن، ناکام ارسال اور منسلکات کی بحالی بہتر بنائی گئی۔"
+      ]
+    }
+  }
+}

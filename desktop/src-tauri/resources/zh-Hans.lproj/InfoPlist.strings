@@ -1,0 +1,7 @@
+"NSAppleEventsUsageDescription" = "Relayune 需要打开“终端”，以便你登录本机编程 Agent。";
+"NSDesktopFolderUsageDescription" = "Relayune 需要访问默认工作目录中的文件，以便本机编程 Agent 处理任务。";
+"NSDocumentsFolderUsageDescription" = "Relayune 需要访问默认工作目录中的文件，以便本机编程 Agent 处理任务。";
+"NSDownloadsFolderUsageDescription" = "Relayune 需要访问默认工作目录中的文件，以便本机编程 Agent 处理任务。";
+"NSNetworkVolumesUsageDescription" = "Relayune 需要访问默认工作目录中的文件，以便本机编程 Agent 处理任务。";
+"NSRemovableVolumesUsageDescription" = "Relayune 需要访问默认工作目录中的文件，以便本机编程 Agent 处理任务。";
+"NSFileProviderDomainUsageDescription" = "Relayune 需要访问默认工作目录中的文件，以便本机编程 Agent 处理任务。";

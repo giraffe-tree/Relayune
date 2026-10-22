@@ -1,0 +1,93 @@
+{
+  "version": "0.3.21",
+  "publishedAt": "2026-09-08T13:00:57.182Z",
+  "platforms": [
+    "web",
+    "server",
+    "android",
+    "macos",
+    "ios"
+  ],
+  "copy": {
+    "zh": {
+      "title": "更轻快的手机会话，更可靠的 Codex 队列",
+      "items": [
+        "手机首页优先展示 Agent，支持长按调整侧栏顺序，简化项目入口。",
+        "新增聊天字体大小设置，优化长会话渲染、停止按钮与回到最新消息操作。",
+        "修复 Codex 被动读取与队列归属跟踪，改进桌面首页、授权客户端版本展示和网页权限翻译。"
+      ]
+    },
+    "en": {
+      "title": "Faster mobile conversations and more reliable Codex queues",
+      "items": [
+        "Prioritize agents on mobile, reorder the sidebar with a long press, and simplify project navigation.",
+        "Add chat font size preferences and improve long conversation rendering, stop controls, and jumping to the latest message.",
+        "Fix passive Codex reads and queue ownership tracking; refine the desktop home, authorized client versions, and web permission translations."
+      ]
+    },
+    "hi": {
+      "title": "तेज़ मोबाइल बातचीत और अधिक भरोसेमंद Codex कतारें",
+      "items": [
+        "मोबाइल पर एजेंट पहले दिखते हैं; देर तक दबाकर साइडबार का क्रम बदलें।",
+        "चैट का फ़ॉन्ट आकार चुनें; लंबी बातचीत, रोकने और नवीनतम संदेश पर जाने का अनुभव बेहतर है।",
+        "Codex पढ़ने और कतार के स्वामित्व की निगरानी ठीक की गई; डेस्कटॉप होम और वेब अनुमति अनुवाद बेहतर हैं।"
+      ]
+    },
+    "es": {
+      "title": "Conversaciones móviles más ágiles y colas de Codex más fiables",
+      "items": [
+        "Prioriza los agentes y reordena la barra lateral con una pulsación larga.",
+        "Ajusta el tamaño de letra y mejora las conversaciones largas, los controles de parada y el salto al último mensaje.",
+        "Corrige las lecturas pasivas y el seguimiento de colas de Codex; mejora el inicio de escritorio, las versiones de clientes y las traducciones de permisos."
+      ]
+    },
+    "ar": {
+      "title": "محادثات أسرع على الهاتف وطوابير Codex أكثر موثوقية",
+      "items": [
+        "عرض الوكلاء أولاً وإعادة ترتيب الشريط الجانبي بالضغط المطول.",
+        "إعداد لحجم خط المحادثة وتحسين عرض المحادثات الطويلة وأزرار الإيقاف والانتقال إلى أحدث رسالة.",
+        "إصلاح القراءة غير النشطة وتتبع ملكية طوابير Codex وتحسين الصفحة الرئيسية لسطح المكتب وإصدارات العملاء وترجمات الأذونات."
+      ]
+    },
+    "fr": {
+      "title": "Des conversations mobiles plus fluides et des files Codex plus fiables",
+      "items": [
+        "Affiche les agents en priorité et réorganise la barre latérale par un appui long.",
+        "Ajoute le réglage de la taille du texte et améliore les longues conversations, l’arrêt et le retour au dernier message.",
+        "Corrige les lectures passives et le suivi des files Codex ; améliore l’accueil du bureau, les versions des clients et les traductions des autorisations."
+      ]
+    },
+    "bn": {
+      "title": "দ্রুত মোবাইল কথোপকথন ও আরও নির্ভরযোগ্য Codex সারি",
+      "items": [
+        "মোবাইলে এজেন্ট আগে দেখুন এবং দীর্ঘক্ষণ চেপে সাইডবারের ক্রম বদলান।",
+        "চ্যাটের অক্ষরের আকার বেছে নিন; দীর্ঘ কথোপকথন, থামানো ও সর্বশেষ বার্তায় যাওয়া উন্নত হয়েছে।",
+        "Codex পড়া ও সারির মালিকানা পর্যবেক্ষণ ঠিক করা হয়েছে; ডেস্কটপ হোম, ক্লায়েন্ট সংস্করণ ও অনুমতির অনুবাদ উন্নত হয়েছে।"
+      ]
+    },
+    "pt": {
+      "title": "Conversas móveis mais rápidas e filas do Codex mais confiáveis",
+      "items": [
+        "Prioriza agentes e permite reordenar a barra lateral com um toque longo.",
+        "Adiciona tamanho de fonte e melhora conversas longas, controles de parada e acesso à mensagem mais recente.",
+        "Corrige leituras passivas e o acompanhamento das filas do Codex; melhora a tela inicial, as versões de clientes autorizados e as traduções de permissões."
+      ]
+    },
+    "id": {
+      "title": "Percakapan seluler lebih lancar dan antrean Codex lebih andal",
+      "items": [
+        "Utamakan agen dan ubah urutan bilah samping dengan tekan lama.",
+        "Atur ukuran teks obrolan; tingkatkan tampilan percakapan panjang, tombol berhenti, dan akses ke pesan terbaru.",
+        "Perbaiki pembacaan pasif dan pelacakan kepemilikan antrean Codex; sempurnakan beranda desktop, versi klien, dan terjemahan izin web."
+      ]
+    },
+    "ur": {
+      "title": "تیز موبائل گفتگو اور زیادہ قابل اعتماد Codex قطاریں",
+      "items": [
+        "موبائل پر ایجنٹ پہلے دکھائیں اور دیر تک دبا کر سائیڈبار کی ترتیب بدلیں۔",
+        "چیٹ کے حروف کا سائز منتخب کریں؛ طویل گفتگو، روکنے اور تازہ ترین پیغام تک جانے میں بہتری۔",
+        "Codex کی غیر فعال پڑھائی اور قطار کی ملکیت کی نگرانی درست کی گئی؛ ڈیسک ٹاپ ہوم، کلائنٹ ورژن اور اجازتوں کے ترجمے بہتر ہوئے۔"
+      ]
+    }
+  }
+}

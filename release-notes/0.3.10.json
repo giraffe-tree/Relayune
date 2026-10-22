@@ -1,0 +1,29 @@
+{
+  "version": "0.3.10",
+  "publishedAt": "2026-08-29T18:48:14.000Z",
+  "platforms": ["web", "server", "android", "macos"],
+  "copy": {
+    "zh": {
+      "title": "连接稳定与 Android 工作台升级",
+      "items": [
+        "Relay 连接状态与数据投递状态现已分离，单条数据被拒绝不再触发整条连接反复重连。",
+        "上传队列会去重并自动缩小批次定位坏数据，健康数据可以继续同步。",
+        "Server 接受完全相同的加密事件重放；只有同一序号对应不同内容时才报告冲突。",
+        "Android 工作台采用新的原生抽屉和紧凑项目操作，项目会话分批展开，新任务可一次点击创建并立即显示。",
+        "Android 新增端到端解密后的本地通知和签名 APK 自动更新；通知不包含消息正文或项目路径。",
+        "改进 Android 的历史恢复、附件、审批和任务状态同步，减少重连后的重复状态与加载误判。"
+      ]
+    },
+    "en": {
+      "title": "Stable connections and an upgraded Android workspace",
+      "items": [
+        "Relay transport state is now separate from delivery state, so one rejected item no longer causes repeated full reconnects.",
+        "The upload queue deduplicates retries and narrows failed batches automatically, allowing healthy data to continue syncing.",
+        "The Server accepts exact encrypted-event replays and reports a conflict only when one sequence number identifies different content.",
+        "Android now has a native drawer and compact project actions, reveals project sessions progressively, and creates visible sessions in one tap.",
+        "Android adds local notifications after end-to-end decryption and signed APK updates; notifications contain neither message text nor project paths.",
+        "History recovery, attachments, approvals, and task-state synchronization are more reliable on Android, reducing duplicate state and misleading loading states after reconnects."
+      ]
+    }
+  }
+}

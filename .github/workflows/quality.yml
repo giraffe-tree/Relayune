@@ -1,0 +1,121 @@
+name: Source checks
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: source-checks-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  node:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GITLEAKS_BIN: ${{ github.workspace }}/.public-prep/tools/gitleaks
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.19.0
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            desktop/package-lock.json
+      - run: npm ci
+      - run: npm ci --prefix desktop
+      - name: Inspect publication candidates and scan for secrets
+        run: |
+          node scripts/install-gitleaks.mjs
+          npm run audit:publication -- --secrets
+      - name: Scan full fetched Git history for secrets
+        run: >-
+          "$GITLEAKS_BIN" git . --log-opts=--all --no-banner --redact=100
+          --ignore-gitleaks-allow --gitleaks-ignore-path /dev/null --config .gitleaks.toml
+      - run: npm run typecheck
+      - run: npm run lint
+      - name: Verify vendored browser runtime matches the patched lock
+        run: node scripts/sync-mermaid-assets.mjs --check
+      - name: Audit all dependencies and reject new findings
+        shell: bash
+        run: |
+          relay_audit_report=$(mktemp "$RUNNER_TEMP/relayune-root-audit.XXXXXX")
+          relay_audit_started=$(node -e 'process.stdout.write(String(Date.now()))')
+          relay_audit_hash=$(node -e 'process.stdout.write(require("node:crypto").createHash("sha256").update(require("node:fs").readFileSync("package-lock.json")).digest("hex"))')
+          if npm audit --json --registry=https://registry.npmjs.org > "$relay_audit_report"; then
+            relay_audit_exit=0
+          else
+            relay_audit_exit=$?
+          fi
+          node scripts/check-npm-audit.mjs --report "$relay_audit_report" --npm-exit-code "$relay_audit_exit" --lock package-lock.json --audit-started-at-ms "$relay_audit_started" --lock-sha256 "$relay_audit_hash" --known-root-development-chain
+
+          relay_audit_report=$(mktemp "$RUNNER_TEMP/relayune-desktop-audit.XXXXXX")
+          relay_audit_started=$(node -e 'process.stdout.write(String(Date.now()))')
+          relay_audit_hash=$(node -e 'process.stdout.write(require("node:crypto").createHash("sha256").update(require("node:fs").readFileSync("desktop/package-lock.json")).digest("hex"))')
+          if npm audit --prefix desktop --json --registry=https://registry.npmjs.org > "$relay_audit_report"; then
+            relay_audit_exit=0
+          else
+            relay_audit_exit=$?
+          fi
+          node scripts/check-npm-audit.mjs --report "$relay_audit_report" --npm-exit-code "$relay_audit_exit" --lock desktop/package-lock.json --audit-started-at-ms "$relay_audit_started" --lock-sha256 "$relay_audit_hash"
+      - name: Build static Web and run isolated Node fixtures
+        run: npm test
+      - name: Desktop TypeScript unit tests
+        run: npm --prefix desktop test
+      - name: Verify contributor development build plans without signing
+        run: npm --prefix desktop run check:development-build
+      - name: Build self-hosted API and static Web
+        run: npm run build:self-hosted
+
+  flutter:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: subosito/flutter-action@1a449444c387b1966244ae4d4f8c696479add0b2 # v2
+        with:
+          flutter-version: 3.32.8
+          channel: stable
+          cache: true
+      - name: Install locked Flutter dependencies
+        working-directory: mobile
+        run: flutter pub get --enforce-lockfile
+      - name: Analyze mobile source
+        working-directory: mobile
+        run: flutter analyze
+      - name: Run mobile fixtures without installing an app
+        working-directory: mobile
+        run: flutter test --reporter expanded
+
+  macos-source:
+    runs-on: macos-14
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22.19.0
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            desktop/package-lock.json
+      - uses: dtolnay/rust-toolchain@686976e191b89faba57d3206551f0f330d8cb249 # stable
+      - run: npm ci
+      - run: npm ci --prefix desktop
+      - name: Compile source without packaging or signing a sidecar
+        run: npm run desktop:check
+      - name: Rust library unit tests without launching an app
+        run: npm --prefix desktop run test:rust:lib

@@ -1,0 +1,7 @@
+"NSAppleEventsUsageDescription" = "स्थानीय कोडिंग Agents में साइन इन कराने के लिए Relayune Terminal खोलता है।";
+"NSDesktopFolderUsageDescription" = "Relayune आपके डिफ़ॉल्ट कार्य फ़ोल्डर की फ़ाइलों तक पहुँचता है, ताकि स्थानीय कोडिंग Agents उन पर काम कर सकें।";
+"NSDocumentsFolderUsageDescription" = "Relayune आपके डिफ़ॉल्ट कार्य फ़ोल्डर की फ़ाइलों तक पहुँचता है, ताकि स्थानीय कोडिंग Agents उन पर काम कर सकें।";
+"NSDownloadsFolderUsageDescription" = "Relayune आपके डिफ़ॉल्ट कार्य फ़ोल्डर की फ़ाइलों तक पहुँचता है, ताकि स्थानीय कोडिंग Agents उन पर काम कर सकें।";
+"NSNetworkVolumesUsageDescription" = "Relayune आपके डिफ़ॉल्ट कार्य फ़ोल्डर की फ़ाइलों तक पहुँचता है, ताकि स्थानीय कोडिंग Agents उन पर काम कर सकें।";
+"NSRemovableVolumesUsageDescription" = "Relayune आपके डिफ़ॉल्ट कार्य फ़ोल्डर की फ़ाइलों तक पहुँचता है, ताकि स्थानीय कोडिंग Agents उन पर काम कर सकें।";
+"NSFileProviderDomainUsageDescription" = "Relayune आपके डिफ़ॉल्ट कार्य फ़ोल्डर की फ़ाइलों तक पहुँचता है, ताकि स्थानीय कोडिंग Agents उन पर काम कर सकें।";

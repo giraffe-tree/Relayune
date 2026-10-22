@@ -1,0 +1,16 @@
+# Keep source, lockfile and provenance hashes identical across checkout platforms.
+* text=auto eol=lf
+
+# Never normalize or text-merge binary assets.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.icns binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.bin binary

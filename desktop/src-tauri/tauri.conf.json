@@ -1,0 +1,87 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Relayune",
+  "version": "0.3.33",
+  "identifier": "cn.giraffetree.agent-relay",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://127.0.0.1:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {
+        "label": "main",
+        "title": "Relayune",
+        "width": 440,
+        "height": 620,
+        "minWidth": 380,
+        "minHeight": 480,
+        "resizable": true,
+        "maximizable": false,
+        "visible": false,
+        "center": true,
+        "titleBarStyle": "Overlay",
+        "hiddenTitle": true,
+        "acceptFirstMouse": true
+      }
+    ],
+    "security": {
+      "csp": "default-src 'self'; connect-src ipc: http://ipc.localhost https: http://127.0.0.1:* http://localhost:*; img-src 'self' asset: data:; style-src 'self' 'unsafe-inline'; script-src 'self'"
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": [
+      "app"
+    ],
+    "createUpdaterArtifacts": true,
+    "publisher": "Giraffetree",
+    "category": "Utility",
+    "shortDescription": "Secure desktop bridge for Codex, Kimi, and Claude",
+    "longDescription": "Runs the end-to-end encrypted Relayune on this computer and connects trusted browsers to local Codex, Kimi, and Claude sessions.",
+    "resources": {
+      "resources/": ""
+    },
+    "externalBin": [
+      "binaries/relayune-core"
+    ],
+    "icon": [
+      "icons/32x32.png",
+      "icons/128x128.png",
+      "icons/128x128@2x.png",
+      "icons/icon.icns",
+      "icons/icon.ico"
+    ],
+    "macOS": {
+      "minimumSystemVersion": "13.0",
+      "signingIdentity": "Developer ID Application: Ernest Chen (8Y8ST9NH96)",
+      "entitlements": "Entitlements.plist"
+    },
+    "windows": {
+      "allowDowngrades": false,
+      "webviewInstallMode": {
+        "type": "downloadBootstrapper",
+        "silent": true
+      },
+      "nsis": {
+        "installMode": "currentUser",
+        "languages": [
+          "English",
+          "SimpChinese"
+        ],
+        "displayLanguageSelector": false,
+        "installerHooks": "windows/nsis-hooks.nsh"
+      }
+    }
+  },
+  "plugins": {
+    "updater": {
+      "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IEY5RjFDRTU3OEREMjYxNkEKUldScVlkS05WODd4K1lJNy96RG5UYnNKZlVkZHNyejBsMHhZNnp4NXRXR29hNnZVRlJmc1RsWkEK",
+      "endpoints": [
+        "https://relayune.giraffetree.cn/updates/latest.json"
+      ]
+    }
+  }
+}

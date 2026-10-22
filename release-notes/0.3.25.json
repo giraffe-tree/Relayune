@@ -1,0 +1,92 @@
+{
+  "version": "0.3.25",
+  "publishedAt": "2026-09-25T17:02:03.424Z",
+  "platforms": [
+    "web",
+    "server",
+    "macos",
+    "ios"
+  ],
+  "copy": {
+    "zh": {
+      "title": "手机端设置即时预选",
+      "items": [
+        "Codex 模型、推理强度和审批权限可在手机本地立即预选，随下一条消息生效。",
+        "支持运行中和离线预选，保留输入草稿及各会话的独立选择。",
+        "完善 Relay 和 Codex 电脑版会话的新消息发送与设置继承。"
+      ]
+    },
+    "en": {
+      "title": "Instant setting selection on mobile",
+      "items": [
+        "Preselect Codex models, reasoning effort and permissions instantly on your phone; apply them with your next message.",
+        "Choose settings while a task is running or offline, keeping drafts and separate choices for each conversation.",
+        "Improve new-message delivery and setting inheritance for Relay and Codex Desktop conversations."
+      ]
+    },
+    "hi": {
+      "title": "मोबाइल पर तुरंत सेटिंग चुनें",
+      "items": [
+        "अपने फ़ोन पर Codex मॉडल, तर्क स्तर और अनुमतियाँ तुरंत चुनें; वे अगले संदेश के साथ लागू होंगी।",
+        "कार्य चलते समय या ऑफ़लाइन भी सेटिंग चुनें और हर बातचीत के ड्राफ़्ट तथा चयन बनाए रखें।",
+        "Relay और Codex Desktop की बातचीत में नए संदेशों और सेटिंग के उपयोग को बेहतर बनाया गया है।"
+      ]
+    },
+    "es": {
+      "title": "Selección instantánea en el móvil",
+      "items": [
+        "Preselecciona el modelo de Codex, el esfuerzo de razonamiento y los permisos; se aplicarán con tu próximo mensaje.",
+        "Elige ajustes mientras una tarea está en curso o sin conexión, conservando los borradores y las elecciones de cada conversación.",
+        "Mejora el envío de nuevos mensajes y la conservación de ajustes en conversaciones de Relay y Codex Desktop."
+      ]
+    },
+    "ar": {
+      "title": "اختيار الإعدادات فورًا على الهاتف",
+      "items": [
+        "اختر نموذج Codex ومستوى الاستدلال والأذونات مسبقًا على هاتفك لتطبيقها مع رسالتك التالية.",
+        "اختر الإعدادات أثناء تشغيل المهمة أو دون اتصال، مع الاحتفاظ بالمسودات واختيارات كل محادثة.",
+        "تحسين إرسال الرسائل الجديدة واستمرار الإعدادات في محادثات Relay وCodex Desktop."
+      ]
+    },
+    "fr": {
+      "title": "Sélection instantanée sur mobile",
+      "items": [
+        "Présélectionnez le modèle Codex, l’effort de raisonnement et les autorisations ; ils seront appliqués au prochain message.",
+        "Choisissez les réglages pendant une tâche ou hors ligne, en conservant les brouillons et les choix propres à chaque conversation.",
+        "Améliore l’envoi des nouveaux messages et la conservation des réglages dans les conversations Relay et Codex Desktop."
+      ]
+    },
+    "bn": {
+      "title": "মোবাইলে তাৎক্ষণিক সেটিং নির্বাচন",
+      "items": [
+        "ফোনে Codex মডেল, যুক্তির স্তর ও অনুমতি আগে থেকে বেছে নিন; পরের বার্তার সঙ্গে সেগুলি কার্যকর হবে।",
+        "কাজ চলাকালীন বা অফলাইনে সেটিং বেছে নিন, প্রতিটি কথোপকথনের খসড়া ও আলাদা নির্বাচন অক্ষুণ্ণ রেখে।",
+        "Relay ও Codex Desktop কথোপকথনে নতুন বার্তা পাঠানো এবং সেটিং ধরে রাখার আচরণ উন্নত করা হয়েছে।"
+      ]
+    },
+    "pt": {
+      "title": "Seleção instantânea no celular",
+      "items": [
+        "Pré-selecione o modelo Codex, o esforço de raciocínio e as permissões; eles serão aplicados na próxima mensagem.",
+        "Escolha as configurações durante uma tarefa ou offline, preservando rascunhos e escolhas de cada conversa.",
+        "Melhora o envio de novas mensagens e a manutenção das configurações nas conversas do Relay e do Codex Desktop."
+      ]
+    },
+    "id": {
+      "title": "Pilih pengaturan seketika di ponsel",
+      "items": [
+        "Pilih model Codex, tingkat penalaran, dan izin terlebih dahulu; semuanya diterapkan pada pesan berikutnya.",
+        "Pilih pengaturan saat tugas berjalan atau saat offline, sambil mempertahankan draf dan pilihan setiap percakapan.",
+        "Meningkatkan pengiriman pesan baru dan pewarisan pengaturan pada percakapan Relay dan Codex Desktop."
+      ]
+    },
+    "ur": {
+      "title": "موبائل پر فوری ترتیبات کا انتخاب",
+      "items": [
+        "فون پر Codex ماڈل، استدلال کی سطح اور اجازتیں پہلے سے منتخب کریں؛ یہ اگلے پیغام کے ساتھ نافذ ہوں گی۔",
+        "کام جاری ہونے یا آف لائن ہونے پر بھی ترتیبات منتخب کریں اور ہر گفتگو کے مسودے اور انتخاب برقرار رکھیں۔",
+        "Relay اور Codex Desktop کی گفتگو میں نئے پیغامات اور ترتیبات کے تسلسل کو بہتر بنایا گیا ہے۔"
+      ]
+    }
+  }
+}

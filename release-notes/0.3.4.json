@@ -1,0 +1,23 @@
+{
+  "version": "0.3.4",
+  "publishedAt": "2026-08-26T16:29:04.000Z",
+  "platforms": ["android"],
+  "copy": {
+    "zh": {
+      "title": "更清晰的发送状态与项目操作",
+      "items": [
+        "手机端不再显示“新对话已写入 Codex”提示；每条用户消息右下角以勾表示发送成功、旋转进度表示发送进行中、感叹号表示发送失败。",
+        "手机端侧边栏在每个已展开项目下提供独立操作行，统一放置“配置”和“新增会话”，让常用项目操作更集中。",
+        "手机端子任务不再标注 Kimi 或 Codex，只保留任务内容与状态，减少不必要的视觉信息。"
+      ]
+    },
+    "en": {
+      "title": "Clearer send status and project actions",
+      "items": [
+        "Mobile no longer shows the ‘New conversation written to Codex’ notice; each user message now uses a check mark for success, a spinner while sending, and an exclamation mark on failure.",
+        "The mobile sidebar adds a dedicated action row beneath every expanded project, bringing Configuration and New Session together in one consistent place.",
+        "Mobile subtasks no longer carry Kimi or Codex labels, leaving only the task content and status to reduce unnecessary visual noise."
+      ]
+    }
+  }
+}

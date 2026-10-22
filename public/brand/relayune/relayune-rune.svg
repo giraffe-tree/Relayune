@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title description">
+  <title id="title">Relayune encrypted relay flow</title>
+  <desc id="description">Compatibility alias for the animated Eclipse Relay mark.</desc>
+  <style>
+    .relay-flow { animation: relay-flow 3.4s cubic-bezier(.45, 0, .55, 1) infinite; }
+    @keyframes relay-flow { from { stroke-dashoffset: 100; opacity: 0; } 12%, 82% { opacity: 1; } to { stroke-dashoffset: 0; opacity: 0; } }
+    @media (prefers-reduced-motion: reduce) { .relay-flow { display: none; animation: none; } }
+  </style>
+  <defs>
+    <mask id="rune-compat-channel" maskUnits="userSpaceOnUse">
+      <rect width="512" height="512" fill="#fff"/>
+      <path d="M75 313C149 138 216.5 139 256 256s107 118 181-57" fill="none" stroke="#000" stroke-linecap="round" stroke-width="62"/>
+    </mask>
+    <clipPath id="rune-compat-disc"><circle cx="256" cy="256" r="154"/></clipPath>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0B1220"/>
+  <circle cx="256" cy="256" r="154" fill="#F6F8F5" mask="url(#rune-compat-channel)"/>
+  <path class="relay-flow" d="M75 313C149 138 216.5 139 256 256s107 118 181-57" pathLength="100" fill="none" stroke="#69E1D2" stroke-dasharray="10 90" stroke-dashoffset="100" stroke-linecap="round" stroke-width="9" clip-path="url(#rune-compat-disc)"/>
+</svg>

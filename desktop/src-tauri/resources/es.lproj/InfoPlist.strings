@@ -1,0 +1,7 @@
+"NSAppleEventsUsageDescription" = "Relayune abre Terminal para que puedas iniciar sesión en los Agents de programación locales.";
+"NSDesktopFolderUsageDescription" = "Relayune accede a los archivos de tu carpeta de trabajo predeterminada para que los Agents de programación locales puedan trabajar con ellos.";
+"NSDocumentsFolderUsageDescription" = "Relayune accede a los archivos de tu carpeta de trabajo predeterminada para que los Agents de programación locales puedan trabajar con ellos.";
+"NSDownloadsFolderUsageDescription" = "Relayune accede a los archivos de tu carpeta de trabajo predeterminada para que los Agents de programación locales puedan trabajar con ellos.";
+"NSNetworkVolumesUsageDescription" = "Relayune accede a los archivos de tu carpeta de trabajo predeterminada para que los Agents de programación locales puedan trabajar con ellos.";
+"NSRemovableVolumesUsageDescription" = "Relayune accede a los archivos de tu carpeta de trabajo predeterminada para que los Agents de programación locales puedan trabajar con ellos.";
+"NSFileProviderDomainUsageDescription" = "Relayune accede a los archivos de tu carpeta de trabajo predeterminada para que los Agents de programación locales puedan trabajar con ellos.";

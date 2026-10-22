@@ -1,0 +1,29 @@
+{
+  "version": "0.3.33",
+  "publishedAt": "2026-10-22T00:00:00.000Z",
+  "platforms": [
+    "macos",
+    "android",
+    "ios",
+    "web",
+    "server"
+  ],
+  "copy": {
+    "zh": {
+      "title": "官方服务与自托管使用同一份源码",
+      "items": [
+        "支持配置自建服务地址，实例之间隔离登录、配对与本地凭据。",
+        "自托管支持首次设置用户名密码，无需 SMTP；官方服务继续提供邮箱注册与登录。",
+        "移除订阅和付费入口，修复实例切换、密码恢复与授权撤销后的状态清理。"
+      ]
+    },
+    "en": {
+      "title": "One codebase for official hosting and self-hosting",
+      "items": [
+        "Connect to a self-hosted server with separate login, pairing and local credentials for each instance.",
+        "Set the first self-hosted username and password without SMTP; the official service retains email registration and sign-in.",
+        "Remove subscription and payment flows, and improve state cleanup after switching servers, password recovery and revocation."
+      ]
+    }
+  }
+}

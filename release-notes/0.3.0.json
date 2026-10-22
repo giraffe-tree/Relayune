@@ -1,0 +1,29 @@
+{
+  "version": "0.3.0",
+  "publishedAt": "2026-08-11T15:57:56.000Z",
+  "platforms": ["web", "server", "android"],
+  "copy": {
+    "zh": {
+      "title": "统一的深色工作台与更安全的账户入口",
+      "items": [
+        "Android 手机端弃用原有浅色 Material 外观，统一采用 Web 工作台的深色配色、紧凑边框、消息气泡、导航和状态层级。",
+        "登录、配对、会话、审批、Agents、设备与版本记录页面共享同一套响应式视觉系统，并通过 320、360 和 390 像素窄屏测试。",
+        "手机端头像现在只打开账户菜单；版本记录和退出登录是菜单内独立操作，点击头像不会退出会话。",
+        "Web 工作台把客服、价格、服务条款和隐私政策移入侧边栏，不再占用主会话区域。",
+        "Web 头像点击只展开账户菜单，显式退出支持焦点管理、Escape、外部点击关闭和慢请求防重复。",
+        "新增树状 Markdown 回归用例，覆盖侧边栏信息、账户菜单、响应式、会话撤销和端到端加密清理边界。"
+      ]
+    },
+    "en": {
+      "title": "A unified dark workbench and safer account entry",
+      "items": [
+        "Android replaces the previous light Material appearance with the Web workbench's dark palette, compact borders, message surfaces, navigation, and status hierarchy.",
+        "Sign-in, pairing, conversations, approvals, Agents, Device, and release notes now share one responsive visual system validated at 320, 360, and 390 pixel widths.",
+        "The mobile avatar now opens the account menu only; release notes and sign-out are separate menu actions, so tapping the avatar never ends the session.",
+        "The Web workbench moves support, pricing, terms, and privacy links into the sidebar so they no longer consume the main conversation area.",
+        "The Web avatar now opens an account menu, with explicit sign-out, focus management, Escape and outside-click dismissal, and duplicate slow-request protection.",
+        "A tree-structured Markdown regression suite now covers sidebar information, account menus, responsive behavior, session revocation, and end-to-end encryption cleanup boundaries."
+      ]
+    }
+  }
+}

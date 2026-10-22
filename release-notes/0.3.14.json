@@ -1,0 +1,107 @@
+{
+  "version": "0.3.14",
+  "publishedAt": "2026-09-01T16:08:46.000Z",
+  "platforms": ["web", "server", "android", "ios", "macos"],
+  "copy": {
+    "zh": {
+      "title": "多 Agent 进度、移动预览与审批体验",
+      "items": [
+        "多 Agent 活动现在集中显示在输入区上方，可展开查看子 Agent 的实时进度，减少任务时间线噪音。",
+        "移动端增强图片、SVG、Markdown 与 Agent 引用文件预览，并改善加载、滚动和动效表现。",
+        "审批和任务完成通知更聚焦，远程 Codex 审批能更可靠地传回手机处理。",
+        "命令与文件活动默认收起，等待动效和消息排版更清晰，长任务更容易跟进。",
+        "移动端可正确创建并续接 Kimi Code 与 Claude Code 会话，跨 Agent 工作流更一致。"
+      ]
+    },
+    "en": {
+      "title": "Multi-agent progress, mobile previews, and approvals",
+      "items": [
+        "Multi-agent activity now stays above the composer with expandable live sub-agent progress, reducing noise in the task timeline.",
+        "Mobile previews now handle images, SVG, Markdown, and agent-referenced files more reliably, with improved loading, scrolling, and motion.",
+        "Approval and completion notifications are more focused, and remote Codex approvals return to mobile more reliably.",
+        "Command and file activity starts collapsed, while clearer waiting motion and message layout make long-running work easier to follow.",
+        "Mobile can create and continue Kimi Code and Claude Code sessions correctly for a more consistent cross-agent workflow."
+      ]
+    },
+    "hi": {
+      "title": "मल्टी-Agent प्रगति, मोबाइल प्रीव्यू और अनुमोदन",
+      "items": [
+        "मल्टी-Agent गतिविधि अब कंपोज़र के ऊपर रहती है और sub-Agent की लाइव प्रगति को फैलाकर देखा जा सकता है, जिससे कार्य टाइमलाइन में शोर कम होता है।",
+        "मोबाइल प्रीव्यू अब चित्र, SVG, Markdown और Agent द्वारा संदर्भित फ़ाइलों को अधिक भरोसेमंद ढंग से संभालते हैं; लोडिंग, स्क्रॉलिंग और मोशन भी बेहतर हुए हैं।",
+        "अनुमोदन और कार्य पूरा होने की सूचनाएँ अब अधिक केंद्रित हैं, और दूरस्थ Codex अनुमोदन मोबाइल तक अधिक भरोसेमंद ढंग से पहुँचते हैं।",
+        "Command और फ़ाइल गतिविधि डिफ़ॉल्ट रूप से सिमटी रहती है; अधिक स्पष्ट प्रतीक्षा मोशन और संदेश लेआउट से लंबे कार्यों पर नज़र रखना आसान है।",
+        "मोबाइल अब Kimi Code और Claude Code sessions को सही ढंग से बना और जारी रख सकता है, जिससे अलग-अलग Agent वाला workflow अधिक सुसंगत रहता है।"
+      ]
+    },
+    "es": {
+      "title": "Progreso multi-Agent, vistas previas móviles y aprobaciones",
+      "items": [
+        "La actividad multi-Agent ahora permanece sobre el compositor y permite ampliar el progreso en vivo de los sub-Agent, lo que reduce el ruido en la cronología de la tarea.",
+        "Las vistas previas móviles ahora procesan con mayor fiabilidad imágenes, SVG, Markdown y archivos referenciados por Agent, con mejoras en la carga, el desplazamiento y el movimiento.",
+        "Las notificaciones de aprobación y finalización son más claras, y las aprobaciones remotas de Codex llegan al móvil con mayor fiabilidad.",
+        "La actividad de comandos y archivos aparece contraída de forma predeterminada; una animación de espera y una disposición de mensajes más claras facilitan el seguimiento de tareas largas.",
+        "El móvil puede crear y continuar correctamente sesiones de Kimi Code y Claude Code para ofrecer un flujo de trabajo entre Agent más coherente."
+      ]
+    },
+    "ar": {
+      "title": "تقدّم عدة Agents ومعاينات الهاتف والموافقات",
+      "items": [
+        "يظهر نشاط عدة Agents الآن فوق مربع الكتابة مع إمكانية توسيع التقدّم المباشر للـ sub-Agent، مما يقلل التشويش في المخطط الزمني للمهمة.",
+        "تتعامل معاينات الهاتف الآن بموثوقية أكبر مع الصور وSVG وMarkdown والملفات التي يشير إليها Agent، مع تحسين التحميل والتمرير والحركة.",
+        "أصبحت إشعارات الموافقة وإكمال المهام أكثر تركيزًا، كما تصل موافقات Codex البعيدة إلى الهاتف بموثوقية أكبر.",
+        "يبدأ نشاط الأوامر والملفات مطويًا افتراضيًا، وتسهّل حركة الانتظار وتخطيط الرسائل الأكثر وضوحًا متابعة المهام الطويلة.",
+        "يمكن للهاتف الآن إنشاء جلسات Kimi Code وClaude Code ومتابعتها بصورة صحيحة، لتجربة عمل أكثر اتساقًا بين Agents."
+      ]
+    },
+    "fr": {
+      "title": "Progression multi-Agent, aperçus mobiles et approbations",
+      "items": [
+        "L’activité multi-Agent reste désormais au-dessus de la zone de saisie, avec la progression en direct des sub-Agents que l’on peut développer, ce qui allège la chronologie de la tâche.",
+        "Les aperçus mobiles prennent désormais en charge plus fiablement les images, SVG, Markdown et les fichiers référencés par un Agent, avec un chargement, un défilement et des animations améliorés.",
+        "Les notifications d’approbation et de fin de tâche sont plus ciblées, et les approbations Codex à distance reviennent plus fiablement sur mobile.",
+        "L’activité des commandes et fichiers est réduite par défaut ; une animation d’attente et une mise en page des messages plus claires facilitent le suivi des tâches longues.",
+        "Le mobile peut créer et poursuivre correctement les sessions Kimi Code et Claude Code, pour un flux de travail entre Agents plus cohérent."
+      ]
+    },
+    "bn": {
+      "title": "মাল্টি-Agent অগ্রগতি, মোবাইল প্রিভিউ ও অনুমোদন",
+      "items": [
+        "মাল্টি-Agent কার্যকলাপ এখন কম্পোজারের ওপরে থাকে এবং sub-Agent-এর লাইভ অগ্রগতি প্রসারিত করে দেখা যায়, ফলে কাজের টাইমলাইনে অপ্রয়োজনীয় ভিড় কমে।",
+        "মোবাইল প্রিভিউ এখন ছবি, SVG, Markdown ও Agent-উল্লেখিত ফাইল আরও নির্ভরযোগ্যভাবে দেখায়; লোডিং, স্ক্রলিং ও অ্যানিমেশনও উন্নত হয়েছে।",
+        "অনুমোদন ও কাজ শেষ হওয়ার নোটিফিকেশন এখন আরও নির্দিষ্ট, এবং দূরবর্তী Codex অনুমোদন আরও নির্ভরযোগ্যভাবে মোবাইলে ফিরে আসে।",
+        "Command ও ফাইল কার্যকলাপ ডিফল্টভাবে সংকুচিত থাকে; অপেক্ষার অ্যানিমেশন ও বার্তার স্পষ্ট বিন্যাসে দীর্ঘ কাজ অনুসরণ করা সহজ হয়।",
+        "মোবাইল এখন Kimi Code ও Claude Code session সঠিকভাবে তৈরি ও চালিয়ে যেতে পারে, ফলে বিভিন্ন Agent-এর workflow আরও সামঞ্জস্যপূর্ণ থাকে।"
+      ]
+    },
+    "pt": {
+      "title": "Progresso multi-Agent, prévias no celular e aprovações",
+      "items": [
+        "A atividade multi-Agent agora fica acima da área de composição, com o progresso ao vivo dos sub-Agents que pode ser expandido, reduzindo o ruído na linha do tempo da tarefa.",
+        "As prévias no celular agora processam imagens, SVG, Markdown e arquivos referenciados por Agent com mais confiabilidade, além de melhorias no carregamento, na rolagem e nas animações.",
+        "As notificações de aprovação e conclusão estão mais objetivas, e as aprovações remotas do Codex retornam ao celular com mais confiabilidade.",
+        "A atividade de comandos e arquivos começa recolhida; animações de espera e um layout de mensagens mais claros facilitam o acompanhamento de tarefas longas.",
+        "O celular agora pode criar e continuar corretamente sessões do Kimi Code e do Claude Code, oferecendo um fluxo de trabalho mais consistente entre Agents."
+      ]
+    },
+    "id": {
+      "title": "Progres multi-Agent, pratinjau seluler, dan persetujuan",
+      "items": [
+        "Aktivitas multi-Agent kini tetap berada di atas kolom penulisan, dengan progres langsung sub-Agent yang dapat diperluas sehingga linimasa tugas lebih ringkas.",
+        "Pratinjau seluler kini menangani gambar, SVG, Markdown, dan file yang dirujuk Agent dengan lebih andal, disertai peningkatan pemuatan, pengguliran, dan animasi.",
+        "Notifikasi persetujuan dan penyelesaian kini lebih terarah, dan persetujuan Codex jarak jauh kembali ke perangkat seluler dengan lebih andal.",
+        "Aktivitas perintah dan file diciutkan secara bawaan; animasi saat menunggu dan tata letak pesan yang lebih jelas memudahkan pemantauan tugas panjang.",
+        "Perangkat seluler kini dapat membuat dan melanjutkan session Kimi Code serta Claude Code dengan benar untuk workflow antar-Agent yang lebih konsisten."
+      ]
+    },
+    "ur": {
+      "title": "ملٹی-Agent پیش رفت، موبائل پیش منظر اور منظوری",
+      "items": [
+        "ملٹی-Agent سرگرمی اب تحریری خانے کے اوپر رہتی ہے، جہاں sub-Agent کی براہ راست پیش رفت کو پھیلا کر دیکھا جا سکتا ہے، اس طرح کام کی ٹائم لائن میں غیر ضروری ہجوم کم ہوتا ہے۔",
+        "موبائل پیش منظر اب تصاویر، SVG، Markdown اور Agent کے حوالہ کردہ فائلوں کو زیادہ قابلِ اعتماد انداز میں دکھاتے ہیں، جبکہ لوڈنگ، اسکرولنگ اور حرکت بھی بہتر ہو گئی ہے۔",
+        "منظوری اور کام مکمل ہونے کی اطلاعات اب زیادہ واضح ہیں، اور دور دراز Codex منظوری زیادہ قابلِ اعتماد طریقے سے موبائل تک پہنچتی ہے۔",
+        "Command اور فائل سرگرمی بطور ڈیفالٹ سمٹی رہتی ہے؛ انتظار کی واضح حرکت اور بہتر پیغام ترتیب سے طویل کاموں کی نگرانی آسان ہو جاتی ہے۔",
+        "موبائل اب Kimi Code اور Claude Code sessions درست طور پر بنا اور جاری رکھ سکتا ہے، جس سے مختلف Agents کے درمیان workflow زیادہ یکساں رہتا ہے۔"
+      ]
+    }
+  }
+}

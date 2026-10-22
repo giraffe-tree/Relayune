@@ -1,0 +1,29 @@
+{
+  "version": "0.2.7",
+  "publishedAt": "2026-08-11T09:37:21.000Z",
+  "platforms": ["web", "server", "android", "macos"],
+  "copy": {
+    "zh": {
+      "title": "手机端工作台、加密附件与通知",
+      "items": [
+        "手机端消息改为按任务轮次展示，当前处理过程展开，历史过程与系统提醒按需折叠。",
+        "Web 与手机端支持端到端加密图片附件，最多四张、合计 20 MiB；Server 只保存密文 envelope 或私有密文 Blob。",
+        "手机端新增审批、任务与 Agent 结果的本地通知，权限仅显式申请，锁屏不显示命令、路径或消息正文。",
+        "手机端工作台对齐 Web 的 Kimi 快捷命令、模型与 Thinking、权限模式、上下文用量、Swarm 和 Auto/YOLO 确认。",
+        "多 Agent 页面新增模型、推理强度、工具与 Token 指标、进度、活动时间线和结果查看。",
+        "同步升级 Web、MongoDB Server、Desktop Relay 与 Android 客户端，并完善跨会话附件隔离。"
+      ]
+    },
+    "en": {
+      "title": "Mobile workbench, encrypted attachments, and notifications",
+      "items": [
+        "Mobile messages are now grouped by turn, with current activity expanded and historical activity and system reminders disclosed on demand.",
+        "Web and mobile now support end-to-end encrypted image attachments, up to four images and 20 MiB total; the Server stores only encrypted envelopes or private encrypted blobs.",
+        "Mobile adds local notifications for approvals, tasks, and Agent results, with explicit permission and generic lock-screen copy that omits commands, paths, and message content.",
+        "The mobile workbench now matches Web controls for Kimi quick commands, model and Thinking, permission mode, context usage, Swarm, and Auto/YOLO confirmation.",
+        "The multi-Agent UI now shows model, reasoning, tool and token metrics, progress, activity timelines, and results.",
+        "Web, the MongoDB Server, Desktop Relay, and Android are updated together, including cross-session attachment isolation."
+      ]
+    }
+  }
+}

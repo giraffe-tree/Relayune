@@ -1,0 +1,28 @@
+/* Product screens show an offline synthetic task example. */
+.product-stage:has(.hero-demo) { height: auto; }
+.hero-demo { position: relative; inset: auto; }
+.demo-device-stage { position: relative; height: calc(570px * var(--hero-device-scale, 1)); }
+.hero-demo .hero-device-scene { transform-origin: 50% 50%; transform-style: flat; }
+.hero-demo .hero-phone-device { width: 202px; height: 434px; top: 122px; right: 2px; border-radius: 35px; }
+.hero-demo .hero-phone-display { inset: 7px 6px; border-radius: 29px; background: #101010; }
+.hero-demo .hero-phone-speaker { width: 59px; height: 17px; top: 14px; border-radius: 15px; }
+.hero-demo .hero-encryption-badge { top: 43px; right: 4px; }
+.hero-demo .hero-laptop-device, .hero-demo .hero-phone-device { animation: none; }
+.replay-screen { position: absolute; inset: 0; overflow: hidden; background: #101010; }
+.replay-screen img { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity 180ms ease; }
+.replay-screen img.is-current { opacity: 1; }
+.replay-home-indicator { position: absolute; bottom: 5px; left: 50%; transform: translateX(-50%); width: 62px; height: 3px; border-radius: 3px; background: #eee; }
+.hero-demo:not(.is-demo-playing) .hero-route-flow,
+.hero-demo:not(.is-demo-playing) .hero-encryption-badge { animation-play-state: paused !important; }
+@media (min-width: 761px) { .hero-demo .hero-device-scene { margin-top: -25px; } }
+@media (max-width: 520px) {
+  .demo-device-stage { height: 565px; }
+  .hero-demo .hero-device-scene { width: 760px; top: 0; transform: translate(-50%, 0); }
+  .hero-demo .hero-laptop-device, .hero-demo .hero-secure-route, .hero-demo .hero-device-floor { display: none; }
+  .hero-demo .hero-phone-device { width: 236px; height: 507px; right: 262px; top: 0; transform: none; }
+  .hero-demo .hero-phone-speaker { width: 66px; height: 19px; top: 16px; }
+  .hero-demo .hero-encryption-badge { top: 523px; right: 262px; min-width: 236px; min-height: 32px; padding: 6px 10px; gap: 7px; grid-template-columns: 25px 1fr; transform: none; animation: none; }
+  .hero-demo .hero-encryption-badge > span { width: 25px; height: 25px; }
+  .hero-demo .hero-encryption-badge small { display: none; }
+}
+@media (prefers-reduced-motion: reduce) { .hero-demo *, .hero-demo *::before, .hero-demo *::after { animation: none !important; transition: none !important; } }

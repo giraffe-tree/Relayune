@@ -1,0 +1,11 @@
+[Unit]
+Description=Probe Relayune once per minute for SLS monitoring
+
+[Timer]
+OnBootSec=60
+OnUnitActiveSec=60
+AccuracySec=5
+Unit=relayune-sls-health.service
+
+[Install]
+WantedBy=timers.target

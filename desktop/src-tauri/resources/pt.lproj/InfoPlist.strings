@@ -1,0 +1,7 @@
+"NSAppleEventsUsageDescription" = "O Relayune abre o Terminal para iniciar sessão nos Agents de programação locais.";
+"NSDesktopFolderUsageDescription" = "O Relayune acede aos ficheiros da pasta de trabalho predefinida para que os Agents de programação locais possam trabalhar neles.";
+"NSDocumentsFolderUsageDescription" = "O Relayune acede aos ficheiros da pasta de trabalho predefinida para que os Agents de programação locais possam trabalhar neles.";
+"NSDownloadsFolderUsageDescription" = "O Relayune acede aos ficheiros da pasta de trabalho predefinida para que os Agents de programação locais possam trabalhar neles.";
+"NSNetworkVolumesUsageDescription" = "O Relayune acede aos ficheiros da pasta de trabalho predefinida para que os Agents de programação locais possam trabalhar neles.";
+"NSRemovableVolumesUsageDescription" = "O Relayune acede aos ficheiros da pasta de trabalho predefinida para que os Agents de programação locais possam trabalhar neles.";
+"NSFileProviderDomainUsageDescription" = "O Relayune acede aos ficheiros da pasta de trabalho predefinida para que os Agents de programação locais possam trabalhar neles.";

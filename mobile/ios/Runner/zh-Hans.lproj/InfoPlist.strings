@@ -1,0 +1,4 @@
+"CFBundleDisplayName" = "Relayune";
+"NSCameraUsageDescription" = "Relayune 使用相机扫描电脑端的一次性连接二维码。";
+"NSPhotoLibraryUsageDescription" = "Relayune 使用你选择的图片作为发送给本机 Agent 的加密附件。";
+"NSLocalNetworkUsageDescription" = "Relayune 可直接连接同一网络中的电脑，加密传输历史与附件。";

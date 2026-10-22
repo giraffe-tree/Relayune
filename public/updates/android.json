@@ -1,0 +1,20 @@
+{
+  "version_name": "0.3.32",
+  "version_code": 42,
+  "url": "https://open-chen.oss-cn-hangzhou.aliyuncs.com/apps/relayune/0.3.32/Relayune-0.3.32-Android.apk",
+  "sha256": "29128aff485f0c96cd9d4b670be9d68f99cbc419b98d7c95e65ddfca31066311",
+  "size": 88935223,
+  "published_at": "2026-10-09T18:50:53.038Z",
+  "notes": {
+    "en": "More reliable agents and conversation history\n\n- Fix multi-agent identity, task states and model settings; keep child history in the conversation view.\n- Improve live thinking and reply recovery, with conversation branches from replies.\n- Save original images and show only current attachments in galleries; improve macOS wake and automatic lock controls.",
+    "zh-CN": "更可靠的多 Agent 和会话历史\n\n- 修复多 Agent 身份、任务状态和模型配置展示，子会话历史留在当前会话页。\n- 改善实时思考与回复恢复，支持从回复创建分支会话。\n- 支持保存原图，相册只展示当前附件；优化 macOS 保持唤醒与自动锁屏控制。",
+    "hi": "अधिक विश्वसनीय एजेंट और बातचीत का इतिहास\n\n- एजेंट की पहचान, कार्य स्थिति और मॉडल सेटिंग ठीक कीं; उप-वार्ता का इतिहास बातचीत में ही रहता है।\n- लाइव सोच और उत्तर पुनर्प्राप्ति बेहतर हुई; उत्तरों से नई शाखाएँ बनाएं।\n- मूल चित्र सहेजें और वर्तमान संलग्नक देखें; macOS जागरण और लॉक नियंत्रण बेहतर किए।",
+    "es": "Agentes e historial más fiables\n\n- Corrige identidad, estados y modelos de agentes; mantiene el historial secundario en la conversación.\n- Mejora el pensamiento en vivo y la recuperación de respuestas, con ramas desde respuestas.\n- Guarda imágenes originales y limita la galería a los adjuntos actuales; mejora los controles de activación y bloqueo de macOS.",
+    "ar": "وكلاء وسجل محادثات أكثر موثوقية\n\n- إصلاح هوية الوكلاء وحالات المهام وإعدادات النماذج، مع إبقاء سجل المحادثات الفرعية داخل المحادثة.\n- تحسين التفكير المباشر واستعادة الردود وإنشاء محادثات متفرعة من الردود.\n- حفظ الصور الأصلية وعرض المرفقات الحالية فقط، وتحسين التحكم في إبقاء macOS نشطاً والقفل التلقائي.",
+    "fr": "Agents et historique plus fiables\n\n- Corrige les identités, états et modèles des agents ; garde les historiques secondaires dans la conversation.\n- Améliore la réflexion en direct et la récupération des réponses, avec des branches depuis les réponses.\n- Enregistre les images originales et limite la galerie aux pièces jointes actuelles ; améliore la veille et le verrouillage macOS.",
+    "bn": "আরও নির্ভরযোগ্য এজেন্ট ও কথোপকথনের ইতিহাস\n\n- এজেন্ট পরিচয়, কাজের অবস্থা ও মডেল সেটিং ঠিক করা হয়েছে; উপ-কথোপকথনের ইতিহাস কথোপকথনেই থাকে।\n- সরাসরি চিন্তা ও উত্তর পুনরুদ্ধার উন্নত হয়েছে; উত্তর থেকে শাখা তৈরি করুন।\n- মূল ছবি সংরক্ষণ করুন ও বর্তমান সংযুক্তি দেখুন; macOS জাগরণ ও লক নিয়ন্ত্রণ উন্নত হয়েছে।",
+    "pt": "Agentes e histórico mais confiáveis\n\n- Corrige identidades, estados e modelos dos agentes; mantém o histórico secundário na conversa.\n- Melhora o pensamento ao vivo e a recuperação de respostas, com ramificações a partir das respostas.\n- Salva imagens originais e limita a galeria aos anexos atuais; melhora os controles de ativação e bloqueio do macOS.",
+    "id": "Agen dan riwayat percakapan lebih andal\n\n- Memperbaiki identitas, status tugas, dan model agen; riwayat anak tetap dalam percakapan.\n- Meningkatkan pemikiran langsung dan pemulihan balasan, dengan cabang dari balasan.\n- Simpan gambar asli dan tampilkan lampiran saat ini; tingkatkan kontrol tetap aktif dan kunci otomatis macOS.",
+    "ur": "زیادہ قابل اعتماد ایجنٹ اور گفتگو کی تاریخ\n\n- ایجنٹ کی شناخت، کام کی حالت اور ماڈل ترتیبات درست کیں؛ ذیلی گفتگو کی تاریخ گفتگو میں رہتی ہے۔\n- براہ راست سوچ اور جوابات کی بازیابی بہتر؛ جوابات سے نئی شاخیں بنائیں۔\n- اصل تصاویر محفوظ کریں اور موجودہ منسلکات دکھائیں؛ macOS بیداری اور لاک کنٹرول بہتر کیے۔"
+  }
+}

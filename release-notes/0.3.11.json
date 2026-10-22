@@ -1,0 +1,29 @@
+{
+  "version": "0.3.11",
+  "publishedAt": "2026-08-30T11:34:56.000Z",
+  "platforms": ["web", "server", "android"],
+  "copy": {
+    "zh": {
+      "title": "Android 实时工作台与图像预览升级",
+      "items": [
+        "Android 现在直接呈现 Codex 的真实流式回复，并用稳定消息身份合并增量与最终答案，不再使用模拟打字效果。",
+        "命令、文件、联网搜索和图像查看会按真实生命周期分组展示，活动状态、目标与命令摘要更清晰。",
+        "工具查看的本机图片通过端到端加密按需读取；会话先显示不超过 100KB 的缩略图，点按后才加载原图。",
+        "Markdown 引用改用适配深色界面的原生样式，长会话中的系统提醒和工具过程继续保持紧凑折叠。",
+        "新建会话、用户输入和最终回复的同步更可靠，并在 Web 与 Android 显示当前版本及最低兼容桌面版本。",
+        "邮箱验证邮件会跟随 Web 登录语言发送中文或英文内容。"
+      ]
+    },
+    "en": {
+      "title": "Real-time Android workspace and image previews",
+      "items": [
+        "Android now renders genuine Codex response deltas and merges them with the final answer through stable message identity, without simulated typing.",
+        "Commands, files, web searches, and image views are grouped by their real lifecycle with clearer status, subject, and command summaries.",
+        "Images viewed by tools are fetched on demand through end-to-end encryption; conversations show thumbnails capped at 100KB and load the original only when opened.",
+        "Markdown quotes now use a native dark-interface treatment while system reminders and tool activity remain compact in long conversations.",
+        "New sessions, user input, and final replies synchronize more reliably, and Web and Android now show the current version and minimum compatible desktop version.",
+        "Verification emails now follow the language selected on the Web sign-in screen."
+      ]
+    }
+  }
+}

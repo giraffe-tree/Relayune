@@ -1,0 +1,83 @@
+{
+  "version": "0.3.18",
+  "publishedAt": "2026-09-07T06:37:54.308Z",
+  "platforms": [
+    "web",
+    "server",
+    "android",
+    "macos",
+    "ios"
+  ],
+  "copy": {
+    "zh": {
+      "title": "文件访问提示更清晰，消息同步更可靠",
+      "items": [
+        "电脑端明确显示文件访问失败，便于定位权限与路径问题。",
+        "手机端改进消息同步恢复和历史加载提示，修复新会话的历史读取。"
+      ]
+    },
+    "en": {
+      "title": "Clearer file access errors and more reliable message sync",
+      "items": [
+        "Desktop clearly reports file access failures to help identify permission and path issues.",
+        "Mobile improves message sync recovery and history loading feedback, with a fix for history in new sessions."
+      ]
+    },
+    "hi": {
+      "title": "स्पष्ट फ़ाइल त्रुटियाँ और बेहतर संदेश सिंक",
+      "items": [
+        "डेस्कटॉप फ़ाइल पहुँच की त्रुटियाँ स्पष्ट दिखाता है, ताकि अनुमति और पथ की समस्याएँ पहचानी जा सकें।",
+        "मोबाइल में संदेश सिंक की पुनर्प्राप्ति और इतिहास लोडिंग संकेत बेहतर हुए हैं; नए सत्रों का इतिहास पढ़ना ठीक किया गया है।"
+      ]
+    },
+    "es": {
+      "title": "Errores de archivos más claros y sincronización más fiable",
+      "items": [
+        "El escritorio informa claramente de fallos de acceso a archivos para identificar problemas de permisos y rutas.",
+        "El móvil mejora la recuperación de la sincronización y los avisos de carga del historial; se corrige el historial de sesiones nuevas."
+      ]
+    },
+    "ar": {
+      "title": "أخطاء ملفات أوضح ومزامنة رسائل أكثر موثوقية",
+      "items": [
+        "يوضح تطبيق الكمبيوتر أخطاء الوصول إلى الملفات لتحديد مشكلات الأذونات والمسارات.",
+        "يحسن الهاتف استعادة مزامنة الرسائل ومؤشرات تحميل السجل، مع إصلاح قراءة سجل الجلسات الجديدة."
+      ]
+    },
+    "fr": {
+      "title": "Erreurs de fichiers plus claires et synchronisation plus fiable",
+      "items": [
+        "Le bureau signale clairement les échecs d’accès aux fichiers pour identifier les problèmes de droits et de chemins.",
+        "Le mobile améliore la reprise de synchronisation et les indications de chargement de l’historique ; la lecture des nouvelles sessions est corrigée."
+      ]
+    },
+    "bn": {
+      "title": "স্পষ্ট ফাইল ত্রুটি ও নির্ভরযোগ্য বার্তা সিঙ্ক",
+      "items": [
+        "ডেস্কটপে ফাইল অ্যাক্সেস ব্যর্থতা স্পষ্ট দেখায়, যাতে অনুমতি ও পাথের সমস্যা চিহ্নিত করা যায়।",
+        "মোবাইলে বার্তা সিঙ্ক পুনরুদ্ধার ও ইতিহাস লোডের সংকেত উন্নত হয়েছে; নতুন সেশনের ইতিহাস পড়ার সমস্যা ঠিক হয়েছে।"
+      ]
+    },
+    "pt": {
+      "title": "Erros de arquivos mais claros e sincronização mais confiável",
+      "items": [
+        "O desktop informa claramente falhas de acesso a arquivos para identificar problemas de permissões e caminhos.",
+        "O mobile melhora a recuperação da sincronização e os avisos de carregamento do histórico; a leitura de sessões novas foi corrigida."
+      ]
+    },
+    "id": {
+      "title": "Kesalahan akses file lebih jelas dan sinkronisasi lebih andal",
+      "items": [
+        "Desktop menampilkan kegagalan akses file dengan jelas untuk membantu menemukan masalah izin dan jalur.",
+        "Mobile meningkatkan pemulihan sinkronisasi pesan dan indikator pemuatan riwayat, serta memperbaiki pembacaan riwayat sesi baru."
+      ]
+    },
+    "ur": {
+      "title": "فائل کی واضح خرابیوں کے پیغامات اور بہتر پیغام ہم آہنگی",
+      "items": [
+        "ڈیسک ٹاپ فائل تک رسائی کی ناکامی واضح دکھاتا ہے تاکہ اجازت اور راستے کے مسائل معلوم ہو سکیں۔",
+        "موبائل پر پیغامات کی ہم آہنگی کی بحالی اور تاریخ لوڈ ہونے کے اشارے بہتر ہوئے؛ نئے سیشن کی تاریخ پڑھنے کا مسئلہ درست ہوا۔"
+      ]
+    }
+  }
+}

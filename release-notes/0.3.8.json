@@ -1,0 +1,23 @@
+{
+  "version": "0.3.8",
+  "publishedAt": "2026-08-28T15:19:43.000Z",
+  "platforms": ["android", "ios", "macos"],
+  "copy": {
+    "zh": {
+      "title": "新客户端连接与本机密钥存储修复",
+      "items": [
+        "修复 macOS 端点击“连接新客户端”后立即失败的问题。",
+        "设备令牌、每客户端内容密钥和飞书密钥统一保存在应用数据目录的认证加密 vault 中。",
+        "Relayune 不再使用 macOS Keychain 保存应用秘密，并清理旧 Keychain 项。"
+      ]
+    },
+    "en": {
+      "title": "New-client pairing and local secret storage fixes",
+      "items": [
+        "Fixed the macOS flow that failed immediately after selecting Connect New Client.",
+        "Device tokens, per-client content keys, and Feishu keys now stay in an authenticated encrypted vault in the app data directory.",
+        "Relayune no longer stores application secrets in macOS Keychain and removes legacy Keychain entries."
+      ]
+    }
+  }
+}

@@ -1,0 +1,12 @@
+[Unit]
+Description=Relayune local health probe for SLS ingestion monitoring
+After=agent-relay.service
+
+[Service]
+Type=oneshot
+User=agent-relay
+Group=agent-relay
+ExecStart=/usr/bin/curl --fail --silent --output /dev/null --connect-timeout 3 --max-time 10 http://127.0.0.1:3192/health
+NoNewPrivileges=true
+PrivateTmp=true
+TimeoutStartSec=15

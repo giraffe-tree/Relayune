@@ -1,0 +1,184 @@
+name: Windows Desktop
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/windows-desktop.yml"
+      - "desktop/**"
+      - "relay/**"
+      - "shared/**"
+      - "package.json"
+      - "package-lock.json"
+      - "tests/windows-desktop.test.mjs"
+      - "tests/windows-command-launchers.test.mjs"
+      - "mobile/tool/flutter.mjs"
+      - "mobile/tool/flutter_process.mjs"
+      - "scripts/mermaid-package-paths.mjs"
+      - "tests/mermaid-sync-paths.test.mjs"
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/windows-desktop.yml"
+      - "desktop/**"
+      - "relay/**"
+      - "shared/**"
+      - "package.json"
+      - "package-lock.json"
+      - "tests/windows-desktop.test.mjs"
+      - "tests/windows-command-launchers.test.mjs"
+      - "mobile/tool/flutter.mjs"
+      - "mobile/tool/flutter_process.mjs"
+      - "scripts/mermaid-package-paths.mjs"
+      - "tests/mermaid-sync-paths.test.mjs"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-windows-x64:
+    runs-on: windows-2022
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            desktop/package-lock.json
+      - uses: dtolnay/rust-toolchain@686976e191b89faba57d3206551f0f330d8cb249 # stable
+        with:
+          targets: x86_64-pc-windows-msvc
+      - name: Install desktop dependencies
+        run: |
+          npm ci
+          npm ci --prefix desktop
+      - name: Prepare Windows sidecar for native tests
+        run: >-
+          npm --prefix desktop run prepare:sidecar --
+          --target x86_64-pc-windows-msvc
+      - name: Run desktop, Windows Credential Manager, and contract tests
+        run: |
+          npm --prefix desktop test
+          cargo test --manifest-path desktop/src-tauri/Cargo.toml --target x86_64-pc-windows-msvc
+          node --test tests/windows-desktop.test.mjs tests/windows-command-launchers.test.mjs tests/mermaid-sync-paths.test.mjs
+      - name: Build synthetic previous-version Windows installer
+        shell: pwsh
+        run: |
+          $target = "x86_64-pc-windows-msvc"
+          $baselineConfig = Get-Content -LiteralPath desktop/src-tauri/tauri.windows-upgrade-baseline.conf.json -Raw | ConvertFrom-Json
+          npm --prefix desktop run prepare:sidecar -- --target $target
+          if ($LASTEXITCODE -ne 0) { throw "Preparing the baseline sidecar failed." }
+
+          # Give the synthetic baseline a distinct, harmless PE overlay so the
+          # lifecycle can prove that an upgrade replaces externalBin payloads.
+          $sidecar = "desktop/src-tauri/binaries/relayune-core-$target.exe"
+          $marker = [Text.Encoding]::ASCII.GetBytes("RELAYUNE_WINDOWS_CI_BASELINE")
+          $stream = [IO.File]::Open($sidecar, [IO.FileMode]::Append, [IO.FileAccess]::Write, [IO.FileShare]::Read)
+          try { $stream.Write($marker, 0, $marker.Length) } finally { $stream.Dispose() }
+
+          Push-Location desktop
+          try {
+            npx --no-install tauri build `
+              --target $target `
+              --bundles nsis `
+              --config src-tauri/tauri.windows-ci.conf.json `
+              --config src-tauri/tauri.windows-upgrade-baseline.conf.json
+            if ($LASTEXITCODE -ne 0) { throw "Building the baseline NSIS installer failed." }
+          } finally {
+            Pop-Location
+          }
+
+          $nsis = "desktop/src-tauri/target/$target/release/bundle/nsis"
+          ./desktop/scripts/verify-windows-installer.ps1 `
+            -InstallerDirectory $nsis `
+            -ExpectedVersion $baselineConfig.version `
+            -ExpectUnsigned
+          $baseline = "desktop/src-tauri/target/windows-ci-upgrade-baseline"
+          New-Item -ItemType Directory -Path $baseline | Out-Null
+          Get-ChildItem -LiteralPath $nsis -File | Move-Item -Destination $baseline
+      - name: Build unsigned Windows test installer
+        shell: pwsh
+        run: |
+          $buildMarker = "desktop/src-tauri/target/windows-ci-current-build-start"
+          [IO.Directory]::CreateDirectory((Split-Path -Parent $buildMarker)) | Out-Null
+          [IO.File]::WriteAllText($buildMarker, [DateTime]::UtcNow.ToString("O"))
+          npm --prefix desktop run desktop:ci:windows
+          if ($LASTEXITCODE -ne 0) { throw "Building the current Windows installer failed." }
+      - name: Verify Windows PE runtime contracts
+        run: >-
+          node desktop/scripts/verify-windows-pe.mjs
+          --gui desktop/src-tauri/target/x86_64-pc-windows-msvc/release/relayune-desktop.exe
+          --sidecar desktop/src-tauri/binaries/relayune-core-x86_64-pc-windows-msvc.exe
+          --expected-machine x64
+          --minimum-mtime-file desktop/src-tauri/target/windows-ci-current-build-start
+      - name: Verify unsigned NSIS artifact
+        shell: pwsh
+        run: >-
+          ./desktop/scripts/verify-windows-installer.ps1
+          -InstallerDirectory desktop/src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis
+          -ExpectUnsigned
+      - name: Smoke native upgrade, startup, single instance, and uninstall
+        shell: pwsh
+        run: |
+          $config = Get-Content -LiteralPath desktop/src-tauri/tauri.conf.json -Raw | ConvertFrom-Json
+          $baseline = Get-Content -LiteralPath desktop/src-tauri/tauri.windows-upgrade-baseline.conf.json -Raw | ConvertFrom-Json
+          $fixedRuntimePoison = Join-Path $env:RUNNER_TEMP "relayune-ci-missing-webview2-runtime"
+          $previousFixedRuntimeOverride = [Environment]::GetEnvironmentVariable("WEBVIEW2_BROWSER_EXECUTABLE_FOLDER", "Process")
+          $env:WEBVIEW2_BROWSER_EXECUTABLE_FOLDER = $fixedRuntimePoison
+          try {
+            ./desktop/scripts/smoke-windows-install-lifecycle.ps1 `
+              -InstallerDirectory desktop/src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis `
+              -ExpectedVersion $config.version `
+              -ProductName $config.productName `
+              -Publisher $config.bundle.publisher `
+              -BundleIdentifier $config.identifier `
+              -BaselineInstallerDirectory desktop/src-tauri/target/windows-ci-upgrade-baseline `
+              -ExpectedBaselineVersion $baseline.version `
+              -CurrentGuiSource desktop/src-tauri/target/x86_64-pc-windows-msvc/release/relayune-desktop.exe `
+              -CurrentSidecarSource desktop/src-tauri/binaries/relayune-core-x86_64-pc-windows-msvc.exe `
+              -ExpectedUiLanguage zh-CN
+            if ($env:WEBVIEW2_BROWSER_EXECUTABLE_FOLDER -ne $fixedRuntimePoison) {
+              throw "The lifecycle did not restore the inherited WebView2 override."
+            }
+          } finally {
+            [Environment]::SetEnvironmentVariable(
+              "WEBVIEW2_BROWSER_EXECUTABLE_FOLDER",
+              $previousFixedRuntimeOverride,
+              "Process"
+            )
+          }
+      - name: Smoke clean current install and first-launch recovery
+        shell: pwsh
+        run: |
+          $config = Get-Content -LiteralPath desktop/src-tauri/tauri.conf.json -Raw | ConvertFrom-Json
+          $fixedRuntimePoison = Join-Path $env:RUNNER_TEMP "relayune-ci-missing-webview2-runtime"
+          $previousFixedRuntimeOverride = [Environment]::GetEnvironmentVariable("WEBVIEW2_BROWSER_EXECUTABLE_FOLDER", "Process")
+          $env:WEBVIEW2_BROWSER_EXECUTABLE_FOLDER = $fixedRuntimePoison
+          try {
+            ./desktop/scripts/smoke-windows-install-lifecycle.ps1 `
+              -InstallerDirectory desktop/src-tauri/target/x86_64-pc-windows-msvc/release/bundle/nsis `
+              -ExpectedVersion $config.version `
+              -ProductName $config.productName `
+              -Publisher $config.bundle.publisher `
+              -BundleIdentifier $config.identifier `
+              -CurrentGuiSource desktop/src-tauri/target/x86_64-pc-windows-msvc/release/relayune-desktop.exe `
+              -CurrentSidecarSource desktop/src-tauri/binaries/relayune-core-x86_64-pc-windows-msvc.exe `
+              -ExpectedUiLanguage system
+            if ($env:WEBVIEW2_BROWSER_EXECUTABLE_FOLDER -ne $fixedRuntimePoison) {
+              throw "The lifecycle did not restore the inherited WebView2 override."
+            }
+          } finally {
+            [Environment]::SetEnvironmentVariable(
+              "WEBVIEW2_BROWSER_EXECUTABLE_FOLDER",
+              $previousFixedRuntimeOverride,
+              "Process"
+            )
+          }
+      # Installers exist only on this disposable runner for the smoke tests.
+      # Uploading/distributing binaries needs separate authorization and a
+      # completed packaged third-party notice/license review.

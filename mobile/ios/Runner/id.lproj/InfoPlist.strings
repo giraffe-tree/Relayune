@@ -1,0 +1,4 @@
+"CFBundleDisplayName" = "Relayune";
+"NSCameraUsageDescription" = "Relayune menggunakan kamera untuk memindai kode QR pemasangan sekali pakai yang ditampilkan di komputer Anda.";
+"NSPhotoLibraryUsageDescription" = "Relayune menggunakan foto yang Anda pilih sebagai lampiran terenkripsi yang dikirim ke Agent di komputer Anda.";
+"NSLocalNetworkUsageDescription" = "Relayune dapat terhubung langsung ke komputer Anda di jaringan yang sama untuk mentransfer riwayat dan lampiran terenkripsi.";

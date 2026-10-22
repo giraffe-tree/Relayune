@@ -1,0 +1,17 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Relayune Development",
+  "identifier": "cn.giraffetree.agent-relay.development",
+  "bundle": {
+    "createUpdaterArtifacts": false,
+    "macOS": {
+      "signingIdentity": "-",
+      "infoPlist": "Info.development.plist"
+    }
+  },
+  "plugins": {
+    "updater": {
+      "endpoints": []
+    }
+  }
+}

@@ -1,0 +1,27 @@
+[Unit]
+Description=Relayune self-hosted instance API
+After=network-online.target mongod.service
+Wants=network-online.target
+Requires=mongod.service
+
+[Service]
+Type=simple
+User=relayune
+Group=relayune
+WorkingDirectory=/opt/relayune
+EnvironmentFile=/etc/relayune/instance.env
+# Adjust this path to your Node.js >=22.13 installation.
+ExecStart=/usr/bin/node /opt/relayune/dist/self-hosted-server/server.cjs
+Restart=on-failure
+RestartSec=3
+TimeoutStopSec=15
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectHome=true
+ProtectSystem=strict
+ReadWritePaths=/var/lib/relayune
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target

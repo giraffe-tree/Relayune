@@ -1,0 +1,93 @@
+{
+  "version": "0.3.23",
+  "publishedAt": "2026-09-10T16:27:00.119Z",
+  "platforms": [
+    "web",
+    "server",
+    "macos",
+    "android",
+    "ios"
+  ],
+  "copy": {
+    "zh": {
+      "title": "更流畅的会话与内测社群入口",
+      "items": [
+        "新增内测社群入口，手机端可直接查看并保存最新社群二维码。",
+        "优化手机流式消息渲染，完善 Claude 权限控制与 Codex 任务状态同步。",
+        "完善管理员监控、接口耗时与各端版本统计。"
+      ]
+    },
+    "en": {
+      "title": "Smoother sessions and beta community access",
+      "items": [
+        "Add beta community entries and let mobile users view and save the latest community QR code.",
+        "Improve mobile streaming rendering, Claude permission controls, and Codex task state reconciliation.",
+        "Improve administrator monitoring, API timing, and client version reporting."
+      ]
+    },
+    "hi": {
+      "title": "बेहतर सत्र और बीटा समुदाय तक पहुँच",
+      "items": [
+        "बीटा समुदाय के प्रवेश जोड़ें और मोबाइल पर नवीनतम समुदाय QR कोड देखें व सहेजें।",
+        "मोबाइल संदेश रेंडरिंग, Claude अनुमति नियंत्रण और Codex कार्य स्थिति का समन्वय सुधारें।",
+        "प्रशासक निगरानी, API समय और क्लाइंट संस्करण रिपोर्टिंग सुधारें।"
+      ]
+    },
+    "es": {
+      "title": "Sesiones más fluidas y acceso a la comunidad beta",
+      "items": [
+        "Añade acceso a la comunidad beta y permite ver y guardar su código QR actualizado en el móvil.",
+        "Mejora los mensajes en streaming, los permisos de Claude y la sincronización de tareas de Codex.",
+        "Mejora la supervisión administrativa, los tiempos de API y los informes de versiones."
+      ]
+    },
+    "ar": {
+      "title": "جلسات أكثر سلاسة والوصول إلى مجتمع بيتا",
+      "items": [
+        "إضافة مداخل لمجتمع بيتا وإتاحة عرض أحدث رمز QR للمجتمع وحفظه على الهاتف.",
+        "تحسين عرض الرسائل المتدفقة وأذونات Claude ومزامنة حالة مهام Codex.",
+        "تحسين مراقبة المسؤول وتوقيت واجهات API وتقارير إصدارات العملاء."
+      ]
+    },
+    "fr": {
+      "title": "Conversations plus fluides et accès à la communauté bêta",
+      "items": [
+        "Ajoute un accès à la communauté bêta et permet de consulter et enregistrer son QR code actualisé sur mobile.",
+        "Améliore les messages en streaming, les permissions de Claude et la synchronisation des tâches Codex.",
+        "Améliore la supervision, les temps des API et les rapports de versions des clients."
+      ]
+    },
+    "bn": {
+      "title": "আরও মসৃণ সেশন ও বিটা কমিউনিটিতে প্রবেশ",
+      "items": [
+        "বিটা কমিউনিটির প্রবেশপথ যোগ করুন এবং মোবাইলে সর্বশেষ কমিউনিটি QR কোড দেখুন ও সংরক্ষণ করুন।",
+        "মোবাইল বার্তা রেন্ডারিং, Claude অনুমতি এবং Codex কাজের অবস্থার সমন্বয় উন্নত করুন।",
+        "প্রশাসক পর্যবেক্ষণ, API সময় এবং ক্লায়েন্ট সংস্করণ প্রতিবেদন উন্নত করুন।"
+      ]
+    },
+    "pt": {
+      "title": "Sessões mais fluidas e acesso à comunidade beta",
+      "items": [
+        "Adiciona acesso à comunidade beta e permite visualizar e salvar seu código QR atualizado no celular.",
+        "Melhora mensagens em streaming, permissões do Claude e sincronização das tarefas do Codex.",
+        "Melhora o monitoramento administrativo, os tempos de API e os relatórios de versões."
+      ]
+    },
+    "id": {
+      "title": "Sesi lebih lancar dan akses komunitas beta",
+      "items": [
+        "Menambahkan akses komunitas beta serta melihat dan menyimpan kode QR komunitas terbaru di ponsel.",
+        "Meningkatkan tampilan pesan streaming, kontrol izin Claude, dan sinkronisasi status tugas Codex.",
+        "Meningkatkan pemantauan administrator, waktu API, dan pelaporan versi klien."
+      ]
+    },
+    "ur": {
+      "title": "زیادہ ہموار سیشن اور بیٹا کمیونٹی تک رسائی",
+      "items": [
+        "بیٹا کمیونٹی کے راستے شامل کریں اور موبائل پر تازہ ترین کمیونٹی QR کوڈ دیکھیں اور محفوظ کریں۔",
+        "موبائل پیغامات کی نمائش، Claude کی اجازتوں اور Codex کاموں کی حالت کی ہم آہنگی بہتر بنائیں۔",
+        "منتظم کی نگرانی، API کے وقت اور کلائنٹ ورژن کی رپورٹنگ بہتر بنائیں۔"
+      ]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "version": "0.3.2",
+  "publishedAt": "2026-08-18T10:07:33.000Z",
+  "platforms": ["web", "server", "android"],
+  "copy": {
+    "zh": {
+      "title": "消息反馈与长期登录体验升级",
+      "items": [
+        "手机端发送后立即显示用户消息：发送中显示进度，失败显示可重试标记，成功后自动恢复正常消息样式。",
+        "Kimi 和 Codex 会话在命令被接受后立即显示“等待 Agent 接收”、“思考中”等真实活动状态。",
+        "修复电脑在线时仍持续提示“离线队列”的问题；只有真正离线时才显示等待上线状态。",
+        "登录会话改为 60 天滑动有效期，剩余不足 30 天时自动续期；登录和配对凭据保存在系统安全存储中，正常 App 更新不需要重新输入 8 位码。"
+      ]
+    },
+    "en": {
+      "title": "Faster message feedback and durable sign-in",
+      "items": [
+        "Mobile now shows each user message immediately, with progress while sending, a retry indicator on failure, and the normal message style after success.",
+        "Kimi and Codex conversations show truthful activity such as waiting for the Agent and thinking as soon as a command is accepted.",
+        "Fixed persistent offline-queue notices while the computer is online; waiting-for-computer status now appears only during a real offline period.",
+        "Sign-in now uses a sliding 60-day session that renews when fewer than 30 days remain; login and pairing credentials stay in OS secure storage so normal app updates do not require another 8-digit code."
+      ]
+    }
+  }
+}

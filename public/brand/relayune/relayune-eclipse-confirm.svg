@@ -1,0 +1,80 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 512 512"
+  role="img"
+  aria-labelledby="title description"
+>
+  <title id="title">Relayune pairing confirmed</title>
+  <desc id="description">A signal crosses the encrypted channel and a ring closes around the trusted endpoints.</desc>
+  <style>
+    .confirm-signal {
+      animation: confirm-signal 4.6s cubic-bezier(.45, 0, .55, 1) infinite;
+    }
+
+    .confirm-ring {
+      transform: rotate(-90deg);
+      transform-origin: 256px 256px;
+      animation: confirm-ring 4.6s ease-in-out infinite;
+    }
+
+    @keyframes confirm-signal {
+      0% { stroke-dashoffset: 100; opacity: 0; }
+      10%, 48% { opacity: 1; }
+      58%, 100% { stroke-dashoffset: 0; opacity: 0; }
+    }
+
+    @keyframes confirm-ring {
+      0%, 48% { stroke-dashoffset: 100; opacity: 0; }
+      52% { opacity: 1; }
+      78% { stroke-dashoffset: 0; opacity: .9; }
+      100% { stroke-dashoffset: 0; opacity: 0; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .confirm-signal { display: none; animation: none; }
+      .confirm-ring { animation: none; opacity: .28; stroke-dashoffset: 0; }
+    }
+  </style>
+  <defs>
+    <mask id="eclipse-confirm-channel" maskUnits="userSpaceOnUse">
+      <rect width="512" height="512" fill="#fff"/>
+      <path
+        d="M75 313C149 138 216.5 139 256 256s107 118 181-57"
+        fill="none"
+        stroke="#000"
+        stroke-linecap="round"
+        stroke-width="62"
+      />
+    </mask>
+    <clipPath id="eclipse-confirm-disc">
+      <circle cx="256" cy="256" r="154"/>
+    </clipPath>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="#0B1220"/>
+  <circle cx="256" cy="256" r="154" fill="#F6F8F5" mask="url(#eclipse-confirm-channel)"/>
+  <path
+    class="confirm-signal"
+    d="M75 313C149 138 216.5 139 256 256s107 118 181-57"
+    pathLength="100"
+    fill="none"
+    stroke="#69E1D2"
+    stroke-dasharray="12 88"
+    stroke-dashoffset="100"
+    stroke-linecap="round"
+    stroke-width="9"
+    clip-path="url(#eclipse-confirm-disc)"
+  />
+  <circle
+    class="confirm-ring"
+    cx="256"
+    cy="256"
+    r="174"
+    pathLength="100"
+    fill="none"
+    stroke="#69E1D2"
+    stroke-dasharray="100"
+    stroke-dashoffset="100"
+    stroke-linecap="round"
+    stroke-width="5"
+  />
+</svg>

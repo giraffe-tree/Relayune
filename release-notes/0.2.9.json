@@ -1,0 +1,29 @@
+{
+  "version": "0.2.9",
+  "publishedAt": "2026-08-11T11:49:27.000Z",
+  "platforms": ["web", "server", "android", "macos"],
+  "copy": {
+    "zh": {
+      "title": "手机端可靠性、Android 品牌图标与 Kimi 稳定性",
+      "items": [
+        "Android 图标升级为完整的 adaptive、round 与 Android 13 主题图标，并加入统一的 Deep Night 品牌启动页。",
+        "手机端长会话首次打开、切换会话和通知进入时直接定位最新消息；用户上翻阅读时不会被新消息强制拉回底部。",
+        "文字和图片附件按会话保存草稿，发送失败或拒绝后原样保留；不支持的图片、读取失败和大小超限会给出明确提示。",
+        "手动输入配对链接可即时识别，不可打开的 Agent 不再显示误导入口，设备页显示真实安装版本和通知后台边界。",
+        "Kimi Code 新增 12 类固定 ACP 契约场景，修复历史分片合并、事件顺序、旧工具状态、断线审批和分页边界。",
+        "新增每两小时安全构建心跳：门禁通过后生成不可覆盖的签名 Android 候选包，但不自动覆盖 OSS 或生产版本。"
+      ]
+    },
+    "en": {
+      "title": "Mobile reliability, Android brand icons, and Kimi stability",
+      "items": [
+        "Android now ships complete adaptive, round, and Android 13 themed icons, plus a consistent Deep Night branded launch screen.",
+        "Long mobile conversations open at the latest message after entry, session switches, and notifications; new messages no longer steal position while the user reads older history.",
+        "Text and image drafts are preserved per session and survive rejected or failed sends; unsupported files, read failures, and size limits now produce visible feedback.",
+        "Manually entered pairing links are recognized immediately, non-openable Agents no longer expose misleading navigation, and Device shows the installed version and honest notification background limits.",
+        "Kimi Code adds 12 deterministic ACP contract scenarios and fixes history coalescing, event ordering, stale tool state, disconnected approvals, and pagination boundaries.",
+        "A safe two-hour build heartbeat now archives non-overwriting signed Android candidates after all gates pass, without automatically replacing OSS or production releases."
+      ]
+    }
+  }
+}

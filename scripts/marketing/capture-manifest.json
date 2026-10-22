@@ -1,0 +1,14 @@
+{
+  "fixtureKind": "synthetic",
+  "capture": "Synthetic task illustrations; not a recording or evidence of real task execution",
+  "screens": [
+    "web-request.webp",
+    "phone-request.webp",
+    "web-implement.webp",
+    "phone-implement.webp",
+    "web-verify.webp",
+    "phone-verify.webp",
+    "web-done.webp",
+    "phone-done.webp"
+  ]
+}

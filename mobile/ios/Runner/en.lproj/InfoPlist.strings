@@ -1,0 +1,4 @@
+"CFBundleDisplayName" = "Relayune";
+"NSCameraUsageDescription" = "Relayune uses the camera to scan the one-time pairing QR code shown on your computer.";
+"NSPhotoLibraryUsageDescription" = "Relayune uses photos you select as encrypted attachments sent to the Agent on your computer.";
+"NSLocalNetworkUsageDescription" = "Relayune can connect directly to your computer on the same network to transfer encrypted history and attachments.";

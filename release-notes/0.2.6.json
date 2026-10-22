@@ -1,0 +1,27 @@
+{
+  "version": "0.2.6",
+  "publishedAt": "2026-08-10T00:00:00.000Z",
+  "platforms": ["web", "server", "android", "ios", "macos"],
+  "copy": {
+    "zh": {
+      "title": "移动端发布与实时体验更新",
+      "items": [
+        "Android 正式签名包与 iOS TestFlight 构建更新到 0.2.6。",
+        "新增网页与手机端版本记录，后续正式更新均可在应用内查看。",
+        "设备状态改用 WebSocket 实时同步，并完善断线重连与离线队列提示。",
+        "优化手机端多 Agent、项目与会话导航以及窄屏布局。",
+        "系统提醒默认收为一行小字，按需展开查看详情。"
+      ]
+    },
+    "en": {
+      "title": "Mobile release and realtime experience update",
+      "items": [
+        "Updated the release-signed Android package and iOS TestFlight build to 0.2.6.",
+        "Added web and mobile changelogs so future production updates are visible in the app.",
+        "Moved device status to realtime WebSocket sync with clearer reconnect and offline queue states.",
+        "Improved multi-agent, project and session navigation, and narrow-screen layouts on mobile.",
+        "System reminders now stay as a quiet one-line item until expanded."
+      ]
+    }
+  }
+}

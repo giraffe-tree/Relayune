@@ -1,0 +1,23 @@
+{
+  "version": "0.3.3",
+  "publishedAt": "2026-08-19T14:57:35.000Z",
+  "platforms": ["web", "android"],
+  "copy": {
+    "zh": {
+      "title": "子 Agent 实时活动滚动展示",
+      "items": [
+        "Web 会话中的子 Agent 状态卡片会持续显示本机 Relay 同步的最新活动；长内容无缝滚动，短内容保持静止。",
+        "Android 会话状态条同步滚动展示最多三个子 Agent 的最新活动，切换任务后从头展示。",
+        "Web 在鼠标悬停或键盘聚焦时暂停滚动；Web 与 Android 都遵循系统的减少动态效果设置。"
+      ]
+    },
+    "en": {
+      "title": "Scrolling live activity for subagents",
+      "items": [
+        "Subagent status cards in Web conversations continuously show the latest activity synced by the local Relay; long updates scroll seamlessly while short updates remain still.",
+        "The Android conversation status bar now scrolls the latest activity from up to three subagents and restarts from the beginning when the task changes.",
+        "Web pauses scrolling on pointer hover or keyboard focus, and both Web and Android honor the system reduced-motion preference."
+      ]
+    }
+  }
+}

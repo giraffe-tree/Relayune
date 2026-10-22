@@ -1,0 +1,92 @@
+{
+  "version": "0.3.29",
+  "publishedAt": "2026-10-02T05:07:22.381Z",
+  "platforms": [
+    "macos",
+    "android",
+    "web",
+    "server"
+  ],
+  "copy": {
+    "zh": {
+      "title": "启动与会话首屏提速",
+      "items": [
+        "主页准备好即可使用，减少重新打开 App 时的等待。",
+        "已缓存会话优先显示最近消息，大段文本和代码更快可读，随后继续补齐历史。",
+        "改善快速退出后的最近会话恢复，并保持多电脑会话列表稳定。"
+      ]
+    },
+    "en": {
+      "title": "Faster startup and conversation loading",
+      "items": [
+        "Use the home screen as soon as it is ready, with less waiting when reopening the app.",
+        "Show recent cached messages first so long text and code become readable sooner, then finish restoring history.",
+        "Improve recent conversation recovery after quick exits and keep the selected computer’s list stable."
+      ]
+    },
+    "hi": {
+      "title": "तेज़ शुरुआत और बातचीत लोड होना",
+      "items": [
+        "होम स्क्रीन तैयार होते ही इस्तेमाल करें; ऐप दोबारा खोलने पर कम प्रतीक्षा होती है।",
+        "पहले हाल के कैश किए गए संदेश दिखते हैं, ताकि लंबे पाठ और कोड जल्दी पढ़े जा सकें; फिर बाकी इतिहास लौटता है।",
+        "जल्दी ऐप बंद करने के बाद हाल की बातचीत की पुनर्प्राप्ति बेहतर हुई और चुने हुए कंप्यूटर की सूची स्थिर रहती है।"
+      ]
+    },
+    "es": {
+      "title": "Inicio y conversaciones más rápidos",
+      "items": [
+        "Usa la pantalla de inicio en cuanto esté lista, con menos espera al volver a abrir la app.",
+        "Muestra primero los mensajes recientes en caché para leer antes textos largos y código; después completa el historial.",
+        "Mejora la recuperación de conversaciones tras cierres rápidos y mantiene estable la lista del ordenador seleccionado."
+      ]
+    },
+    "ar": {
+      "title": "بدء أسرع وتحميل أسرع للمحادثات",
+      "items": [
+        "استخدم الصفحة الرئيسية فور جاهزيتها مع انتظار أقل عند إعادة فتح التطبيق.",
+        "اعرض الرسائل الحديثة المخزنة مؤقتًا أولًا لقراءة النصوص الطويلة والكود أسرع، ثم أكمل استعادة السجل.",
+        "تحسين استعادة المحادثات بعد الإغلاق السريع وإبقاء قائمة الكمبيوتر المحدد مستقرة."
+      ]
+    },
+    "fr": {
+      "title": "Démarrage et conversations plus rapides",
+      "items": [
+        "Utilisez l’accueil dès qu’il est prêt, avec moins d’attente à la réouverture de l’app.",
+        "Affiche les messages récents en cache en premier pour lire plus tôt les longs textes et le code, puis termine la restauration de l’historique.",
+        "Améliore la reprise des conversations après une fermeture rapide et stabilise la liste de l’ordinateur sélectionné."
+      ]
+    },
+    "bn": {
+      "title": "দ্রুত শুরু ও কথোপকথন লোড",
+      "items": [
+        "হোম স্ক্রিন প্রস্তুত হলেই ব্যবহার করুন; অ্যাপ আবার খুললে অপেক্ষা কমে।",
+        "সাম্প্রতিক ক্যাশ করা বার্তা আগে দেখায়, যাতে দীর্ঘ লেখা ও কোড দ্রুত পড়া যায়; এরপর বাকি ইতিহাস ফিরিয়ে আনে।",
+        "দ্রুত বন্ধ করার পর সাম্প্রতিক কথোপকথন পুনরুদ্ধার উন্নত হয়েছে এবং নির্বাচিত কম্পিউটারের তালিকা স্থির থাকে।"
+      ]
+    },
+    "pt": {
+      "title": "Inicialização e conversas mais rápidas",
+      "items": [
+        "Use a tela inicial assim que estiver pronta, com menos espera ao reabrir o app.",
+        "Mostra primeiro as mensagens recentes em cache para ler textos longos e código mais cedo; depois completa o histórico.",
+        "Melhora a recuperação de conversas após saídas rápidas e mantém estável a lista do computador selecionado."
+      ]
+    },
+    "id": {
+      "title": "Mulai dan muat percakapan lebih cepat",
+      "items": [
+        "Gunakan beranda segera setelah siap, dengan waktu tunggu lebih singkat saat membuka ulang aplikasi.",
+        "Tampilkan pesan terbaru dari cache terlebih dahulu agar teks panjang dan kode lebih cepat dibaca, lalu lengkapi riwayat.",
+        "Meningkatkan pemulihan percakapan setelah cepat keluar dan menjaga daftar komputer yang dipilih tetap stabil."
+      ]
+    },
+    "ur": {
+      "title": "تیز آغاز اور گفتگو کی لوڈنگ",
+      "items": [
+        "ہوم اسکرین تیار ہوتے ہی استعمال کریں؛ ایپ دوبارہ کھولنے پر انتظار کم ہوتا ہے۔",
+        "پہلے حالیہ کیش شدہ پیغامات دکھائے جاتے ہیں تاکہ طویل متن اور کوڈ جلد پڑھ سکیں، پھر باقی ہسٹری بحال ہوتی ہے۔",
+        "جلدی بند کرنے کے بعد حالیہ گفتگو کی بحالی بہتر ہوئی اور منتخب کمپیوٹر کی فہرست مستحکم رہتی ہے۔"
+      ]
+    }
+  }
+}

@@ -1,0 +1,2131 @@
+{
+  "schema_version": 1,
+  "cases": [
+    {
+      "id": "MOB-PRJ-017",
+      "area": "PRJ",
+      "title": "Codex 与 Claude 模型切换和状态反馈",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter",
+        "server"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/session_model_settings_test.dart"
+        },
+        {
+          "platform": "server",
+          "file": "tests/claude-adapter.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-STA-001",
+      "area": "STA",
+      "title": "单一状态投影",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/workbench-realtime-client.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_realtime_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-STA-002",
+      "area": "STA",
+      "title": "状态版本单调",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/workbench-realtime-client.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_realtime_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-STA-003",
+      "area": "STA",
+      "title": "传输状态不冒充电脑状态",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/workbench-realtime-client.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_realtime_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-STA-004",
+      "area": "STA",
+      "title": "各页面状态文案一致",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/workbench_status_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-STA-005",
+      "area": "STA",
+      "title": "授权撤销收敛",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/workbench-realtime-client.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_realtime_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-STA-006",
+      "area": "STA",
+      "title": "目录空闲态清理运行状态",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_catalog_status_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-STA-007",
+      "area": "STA",
+      "title": "登录与配对授权跨更新持久化",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/storage/secure_store_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-RT-001",
+      "area": "RT",
+      "title": "安全握手",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "server"
+      ],
+      "automated_by": [
+        {
+          "platform": "server",
+          "file": "tests/realtime-websocket.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-RT-002",
+      "area": "RT",
+      "title": "浏览器与设备隔离",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "server"
+      ],
+      "automated_by": [
+        {
+          "platform": "server",
+          "file": "tests/realtime-websocket.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-RT-003",
+      "area": "RT",
+      "title": "精确唤醒订阅者",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "server"
+      ],
+      "automated_by": [
+        {
+          "platform": "server",
+          "file": "tests/realtime-websocket.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-RT-004",
+      "area": "RT",
+      "title": "断线追赶与去重",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "server",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "server",
+          "file": "tests/realtime-websocket.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_realtime_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-RT-005",
+      "area": "RT",
+      "title": "验证后推进游标",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/workbench-realtime-client.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_realtime_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-RT-006",
+      "area": "RT",
+      "title": "有界重连与追赶",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/workbench-realtime-client.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_realtime_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-RT-007",
+      "area": "RT",
+      "title": "单调离线转换",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "server"
+      ],
+      "automated_by": [
+        {
+          "platform": "server",
+          "file": "tests/realtime-websocket.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-RT-008",
+      "area": "RT",
+      "title": "慢消费者有界",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "server"
+      ],
+      "automated_by": [
+        {
+          "platform": "server",
+          "file": "tests/realtime-websocket.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-RT-009",
+      "area": "RT",
+      "title": "无稳态 HTTP 轮询",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/workbench-realtime-client.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_realtime_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-RT-010",
+      "area": "RT",
+      "title": "生产代理升级",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "deploy"
+      ],
+      "automated_by": [
+        {
+          "platform": "deploy",
+          "file": "tests/realtime-production-contract.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-RT-011",
+      "area": "RT",
+      "title": "心跳时间与往返延迟",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "server",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "server",
+          "file": "tests/realtime-websocket.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_realtime_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-RT-012",
+      "area": "RT",
+      "title": "在线只读原响应恢复与迟到响应隔离",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": ["flutter", "web"],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/online_read_hedge_test.dart"
+        },
+        {
+          "platform": "web",
+          "file": "tests/web-stream-pressure.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-AGT-001",
+      "area": "AGT",
+      "title": "生命周期去重",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_agent_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-AGT-002",
+      "area": "AGT",
+      "title": "子 Agent 执行态",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_agent_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-AGT-003",
+      "area": "AGT",
+      "title": "会话内提示与导航徽标",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/agent-status-ui.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/agent_activity_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-AGT-004",
+      "area": "AGT",
+      "title": "Kimi 汇总态",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/kimi-adapter.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_agent_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-AGT-005",
+      "area": "AGT",
+      "title": "根会话作用域",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_agent_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-AGT-006",
+      "area": "AGT",
+      "title": "完成摘要保留",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_agent_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-AGT-007",
+      "area": "AGT",
+      "title": "长内容窄屏边界",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/mobile_layout_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-AGT-008",
+      "area": "AGT",
+      "title": "Agent 指标、时间线与结果",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/workbench_parity_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-AGT-009",
+      "area": "AGT",
+      "title": "不可打开 Agent 的导航门禁",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/workbench_parity_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-MSG-001",
+      "area": "MSG",
+      "title": "按 Turn 展示消息与折叠过程",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/workbench_parity_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-MSG-002",
+      "area": "MSG",
+      "title": "长会话尾部定位与阅读位置保护",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/conversation_resilience_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-MSG-003",
+      "area": "MSG",
+      "title": "同消息多系统提醒唯一渲染",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/conversation_resilience_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-MSG-004",
+      "area": "MSG",
+      "title": "进入会话始终合并权威历史",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_history_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-MSG-005",
+      "area": "MSG",
+      "title": "持久化确认与中断失败提示",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_history_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-MSG-006",
+      "area": "MSG",
+      "title": "乐观消息投递与真实 Agent 活动",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/conversation_resilience_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-MSG-007",
+      "area": "MSG",
+      "title": "Markdown 引用使用原生深色样式",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/workbench_parity_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-MSG-008",
+      "area": "MSG",
+      "title": "Markdown 多列表格独立横向滚动与可读列宽",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/workbench_parity_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-MSG-009",
+      "area": "MSG",
+      "title": "首屏小页可读与有限补页",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/conversation_initial_history_fill_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-KIM-001",
+      "area": "KIM",
+      "title": "Kimi 快捷命令与会话状态",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/workbench_parity_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-ATT-001",
+      "area": "ATT",
+      "title": "附件只进入端到端加密命令",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_attachment_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-ATT-002",
+      "area": "ATT",
+      "title": "客户端拒绝超限附件",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_attachment_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-ATT-003",
+      "area": "ATT",
+      "title": "Relay 转换图片输入",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "relay"
+      ],
+      "automated_by": [
+        {
+          "platform": "relay",
+          "file": "tests/attachment-upload.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-ATT-004",
+      "area": "ATT",
+      "title": "大型密文私有 Blob 生命周期",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "server"
+      ],
+      "automated_by": [
+        {
+          "platform": "server",
+          "file": "tests/attachment-upload.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-ATT-005",
+      "area": "ATT",
+      "title": "会话间编辑器状态隔离",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/workbench_parity_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-ATT-006",
+      "area": "ATT",
+      "title": "会话草稿与附件恢复",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/conversation_resilience_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-ATT-007",
+      "area": "ATT",
+      "title": "失败发送保留草稿与附件",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/conversation_resilience_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-ATT-008",
+      "area": "ATT",
+      "title": "不支持附件拒绝可见",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/conversation_resilience_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-ATT-009",
+      "area": "ATT",
+      "title": "消息图片缩略图与文件名只读展示",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/workbench_parity_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-ATT-011",
+      "area": "ATT",
+      "title": "Codex 可视化图稿加密读取与隔离预览",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter",
+        "server"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/secure_html_preview_test.dart"
+        },
+        {
+          "platform": "server",
+          "file": "tests/visualization-references.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-ATT-010",
+      "area": "ATT",
+      "title": "工具查看图片可展开缩略图与原图",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "relay",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "relay",
+          "file": "tests/tool-activity-image.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/tool_activity_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-APR-001",
+      "area": "APR",
+      "title": "审批卡片位于所属会话且侧边栏不再提供独立审批页",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/conversation_approval_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-APR-002",
+      "area": "APR",
+      "title": "子 Agent 审批归入根会话并可从会话徽标发现",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/conversation_approval_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-001",
+      "area": "NOT",
+      "title": "审批事件生成泛化通知",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/notification_coordinator_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-002",
+      "area": "NOT",
+      "title": "前台同会话静默",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/notification_coordinator_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-003",
+      "area": "NOT",
+      "title": "根任务完成通知去重与过期抑制",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/notification_coordinator_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-004",
+      "area": "NOT",
+      "title": "通知点击只携带路由",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/notification_coordinator_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-005",
+      "area": "NOT",
+      "title": "解密并应用后才触发通知",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/notification_coordinator_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-006",
+      "area": "NOT",
+      "title": "通知权限仅显式申请",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/notification_coordinator_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-007",
+      "area": "NOT",
+      "title": "通知打开目标会话与页面",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/notification_ui_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-008",
+      "area": "NOT",
+      "title": "图形化通知价值引导后再显式申请权限",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/notification_ui_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-009",
+      "area": "NOT",
+      "title": "提问使用独立泛化通知并归入根会话",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/notification_coordinator_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-010",
+      "area": "NOT",
+      "title": "子 Agent 与用户结束的任务不发送完成通知",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/notification_coordinator_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-011",
+      "area": "NOT",
+      "title": "不可操作审批静默且处理后撤销通知",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/notification_coordinator_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-012",
+      "area": "NOT",
+      "title": "会话目录识别子 Agent 完成事件",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/notification_coordinator_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-013",
+      "area": "NOT",
+      "title": "通知动作只传递不透明路由标识",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/notification_coordinator_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-014",
+      "area": "NOT",
+      "title": "高风险与策略审批禁止锁屏盲批",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/notification_coordinator_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-015",
+      "area": "NOT",
+      "title": "低风险允许一次且高风险审批二次防护",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/conversation_approval_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-016",
+      "area": "NOT",
+      "title": "通知权限拒绝后可直达系统通知设置",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/notification_ui_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-UPD-001",
+      "area": "UPD",
+      "title": "生产清单严格解析",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/update/android_auto_update_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-UPD-002",
+      "area": "UPD",
+      "title": "持久化十分钟节流",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/update/android_auto_update_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-UPD-003",
+      "area": "UPD",
+      "title": "流式下载与完整性校验",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/update/android_auto_update_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-UPD-004",
+      "area": "UPD",
+      "title": "失败保留已验证版本",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/update/android_auto_update_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-UPD-005",
+      "area": "UPD",
+      "title": "下次打开再提示安装",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/update/android_auto_update_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-UPD-006",
+      "area": "UPD",
+      "title": "原子切换后清理旧包",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/update/android_auto_update_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-UPD-007",
+      "area": "UPD",
+      "title": "释放网络客户端",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/update/android_auto_update_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-UPD-008",
+      "area": "UPD",
+      "title": "原生 APK 身份门禁",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/update/android_auto_update_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-001",
+      "area": "PRJ",
+      "title": "规范路径分组",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/workbench-project-groups.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/project_list_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-002",
+      "area": "PRJ",
+      "title": "Provider 与子线程隔离",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/workbench-project-groups.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/project_list_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-003",
+      "area": "PRJ",
+      "title": "确定性排序",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/workbench-project-groups.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/project_list_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-004",
+      "area": "PRJ",
+      "title": "保留有效选择",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/workbench-project-groups.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/project_list_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-005",
+      "area": "PRJ",
+      "title": "重名与长路径可用",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/workbench-project-groups.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/project_list_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-006",
+      "area": "PRJ",
+      "title": "当前会话清晰标记",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/project_list_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-007",
+      "area": "PRJ",
+      "title": "当前项目内命名创建会话",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/project_list_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-008",
+      "area": "PRJ",
+      "title": "会话名称与目录加密持久化及多端同步",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter",
+        "relay",
+        "server"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_session_test.dart"
+        },
+        {
+          "platform": "relay",
+          "file": "tests/multi-browser-authorization.test.mjs"
+        },
+        {
+          "platform": "server",
+          "file": "tests/remote-e2ee-relay.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-009",
+      "area": "PRJ",
+      "title": "项目路径按需查看与本地显示名称",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/project_list_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-010",
+      "area": "PRJ",
+      "title": "项目显示名称按设备授权隔离持久化",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/project_list_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-011",
+      "area": "PRJ",
+      "title": "创建会话弹窗关闭时无生命周期断言",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/project_list_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-012",
+      "area": "PRJ",
+      "title": "侧边栏会话时间紧凑格式化",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/project_list_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-013",
+      "area": "PRJ",
+      "title": "Agent 切换独立会话列表",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/project_list_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-014",
+      "area": "PRJ",
+      "title": "默认六条按需展开与统一卡片",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/project_list_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-DEV-001",
+      "area": "DEV",
+      "title": "无手动刷新",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/agent-status-ui.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/device_page_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-DEV-002",
+      "area": "DEV",
+      "title": "状态自动更新",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_realtime_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-DEV-003",
+      "area": "DEV",
+      "title": "同一快照指标",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/state/app_controller_realtime_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-DEV-004",
+      "area": "DEV",
+      "title": "实时链路真实文案",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/device_page_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-DEV-005",
+      "area": "DEV",
+      "title": "手机与电脑端应用版本可核验",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/device_page_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-DEV-006",
+      "area": "DEV",
+      "title": "首页设备状态入口",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/workbench_home_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-DEV-007",
+      "area": "DEV",
+      "title": "动态 SVG 状态语义",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/workbench_home_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-DEV-008",
+      "area": "DEV",
+      "title": "双心跳分层展示",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/device_page_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-LAY-001",
+      "area": "LAY",
+      "title": "多视口无溢出",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "web",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "web",
+          "file": "tests/journey-responsive-ux.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/mobile_layout_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-LAY-002",
+      "area": "LAY",
+      "title": "放大字体可用",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/mobile_layout_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-LAY-003",
+      "area": "LAY",
+      "title": "键盘与安全区",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/mobile_layout_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-LAY-004",
+      "area": "LAY",
+      "title": "Agent 卡层级与触控",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/mobile_layout_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-LAY-005",
+      "area": "LAY",
+      "title": "首页概览与无底部导航",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/workbench_home_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-LAY-007",
+      "area": "LAY",
+      "title": "首页会话即时打开并展示加载反馈",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/workbench_home_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-LAY-008",
+      "area": "LAY",
+      "title": "首页会话运行与未读完成图形区分",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/workbench_home_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-LAY-009",
+      "area": "LAY",
+      "title": "首页情境关怀、前台计时与轻量彩蛋",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/home_greeting_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-REL-003",
+      "area": "REL",
+      "title": "生产 WSS 冒烟",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "deploy"
+      ],
+      "automated_by": [
+        {
+          "platform": "deploy",
+          "file": "tests/realtime-production-smoke.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-REL-004",
+      "area": "REL",
+      "title": "低干扰版本入口",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/release_notes_page_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-REL-005",
+      "area": "REL",
+      "title": "版本记录窄屏适配",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/release_notes_page_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-REL-006",
+      "area": "REL",
+      "title": "加载与空态",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/release_notes_page_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-REL-007",
+      "area": "REL",
+      "title": "失败重试",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/release_notes_page_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-REL-008",
+      "area": "REL",
+      "title": "本地化版本内容",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/release_notes_page_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-PRJ-015",
+      "area": "PRJ",
+      "title": "选择已有项目父目录新增项目与权限幂等恢复",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter",
+        "server"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/ui/add_project_test.dart"
+        },
+        {
+          "platform": "server",
+          "file": "tests/project-manager.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-017",
+      "area": "NOT",
+      "title": "持续任务卡片生命周期、同步新鲜度与账户清理",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/live_task_coordinator_test.dart"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-018",
+      "area": "NOT",
+      "title": "Android 推送注册、账户切换与退出清理",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter",
+        "server"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/android_push_coordinator_test.dart"
+        },
+        {
+          "platform": "server",
+          "file": "tests/android-push.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-NOT-019",
+      "area": "NOT",
+      "title": "iOS 加密推送密钥派生、注册生命周期与撤销保护",
+      "priority": "P1",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "flutter",
+        "server"
+      ],
+      "automated_by": [
+        {
+          "platform": "flutter",
+          "file": "mobile/test/notifications/ios_push_coordinator_test.dart"
+        },
+        {
+          "platform": "server",
+          "file": "tests/ios-push.test.mjs"
+        }
+      ]
+    },
+    {
+      "id": "MOB-ATT-012",
+      "area": "ATT",
+      "title": "电脑网页加密转发、API 表单与访问隔离",
+      "priority": "P0",
+      "status": "active",
+      "implementation": "automated",
+      "platforms": [
+        "relay",
+        "flutter"
+      ],
+      "automated_by": [
+        {
+          "platform": "relay",
+          "file": "tests/local-web-proxy.test.mjs"
+        },
+        {
+          "platform": "flutter",
+          "file": "mobile/test/network/local_web_gateway_test.dart"
+        }
+      ]
+    }
+  ]
+}

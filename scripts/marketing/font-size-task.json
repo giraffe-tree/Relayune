@@ -1,0 +1,71 @@
+{
+  "title": "字号设置演示",
+  "project": "Relayune",
+  "messages": [
+    {
+      "id": "request",
+      "role": "user",
+      "created_at": "2000-01-01T00:00:00.000Z",
+      "content": "请为手机阅读界面设计小、中、大三档字号，默认使用小号。返回最新消息的入口用向下箭头表示，保留足够的点击区域。"
+    },
+    {
+      "id": "inspect",
+      "role": "codex",
+      "message_phase": "commentary",
+      "created_at": "2000-01-01T00:01:00.000Z",
+      "content": "这个示例先展示需求确认：字号选择放在设置页，箭头放在会话页，切换字号时保持布局可读。"
+    },
+    {
+      "id": "implement",
+      "role": "codex",
+      "message_phase": "commentary",
+      "created_at": "2000-01-01T00:02:00.000Z",
+      "content": "示例进入实现阶段：字号选择作用于主要阅读界面，设置应在重新打开应用后保留；箭头按钮应提供无障碍名称。"
+    },
+    {
+      "id": "verify",
+      "role": "codex",
+      "message_phase": "commentary",
+      "created_at": "2000-01-01T00:03:00.000Z",
+      "content": "示例进入检查阶段：需要检查三档字号、默认值、设置恢复和不同屏幕上的排版。"
+    },
+    {
+      "id": "checks",
+      "role": "codex",
+      "message_phase": "commentary",
+      "created_at": "2000-01-01T00:04:00.000Z",
+      "content": "示例检查清单还包括箭头的点击区域与无障碍标签。这些内容展示工作流程，不代表已经执行了测试。"
+    },
+    {
+      "id": "done",
+      "role": "codex",
+      "message_phase": "final_answer",
+      "created_at": "2000-01-01T00:05:00.000Z",
+      "content": "示例结果：\n\n- 提供小、中、大三档字号，默认选择小号。\n- 返回最新消息使用紧凑的向下箭头按钮。\n\n这是合成演示，不对应真实任务、测试结果或 Git 提交。"
+    }
+  ],
+  "stages": [
+    {
+      "id": "request",
+      "messageCount": 1,
+      "duration": 5500
+    },
+    {
+      "id": "implement",
+      "messageCount": 3,
+      "duration": 6500
+    },
+    {
+      "id": "verify",
+      "messageCount": 5,
+      "duration": 6500
+    },
+    {
+      "id": "done",
+      "messageCount": 6,
+      "duration": 8500
+    }
+  ],
+  "fixtureKind": "synthetic",
+  "description": "合成的字号设置示例；消息、时间与结果仅用于离线展示，不来自用户会话或真实执行记录。"
+}

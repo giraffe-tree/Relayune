@@ -1,0 +1,93 @@
+{
+  "version": "0.3.20",
+  "publishedAt": "2026-09-07T20:01:37.755Z",
+  "platforms": [
+    "web",
+    "server",
+    "android",
+    "macos",
+    "ios"
+  ],
+  "copy": {
+    "zh": {
+      "title": "会话阅读更连贯，Agent 任务状态更准确",
+      "items": [
+        "优化跨端阅读位置、历史加载和图片打开体验，手机端支持置顶当前任务活动。",
+        "改进多会话切换、移动端触感反馈及多语言问候，简化 Agent 工作窗口。",
+        "修复 Kimi 审批详情与任务生命周期，提升并发会话和任务状态的一致性。"
+      ]
+    },
+    "en": {
+      "title": "Smoother conversation reading and clearer agent task states",
+      "items": [
+        "Improve reading position, history loading and image opening across clients, with pinned turn activity on mobile.",
+        "Refine concurrent session navigation, mobile haptics and localized greetings, and simplify agent work windows.",
+        "Fix Kimi approval details and turn lifecycle to improve consistency across concurrent conversations and task states."
+      ]
+    },
+    "hi": {
+      "title": "बातचीत पढ़ना आसान और एजेंट कार्य की स्थिति अधिक स्पष्ट",
+      "items": [
+        "सभी क्लाइंट में पढ़ने की स्थिति, पुराना इतिहास और चित्र खोलने का अनुभव बेहतर है; मोबाइल पर मौजूदा कार्य की गतिविधि ऊपर स्थिर रहती है।",
+        "समवर्ती सत्रों, मोबाइल हैप्टिक्स और स्थानीयकृत अभिवादन में सुधार; एजेंट कार्य विंडो सरल हुई है।",
+        "Kimi की स्वीकृति जानकारी और कार्य जीवनचक्र ठीक किए गए हैं।"
+      ]
+    },
+    "es": {
+      "title": "Lectura más fluida y estados de tareas más claros",
+      "items": [
+        "Mejora la posición de lectura, la carga del historial y la apertura de imágenes; fija la actividad del turno en móvil.",
+        "Mejora la navegación entre sesiones, la respuesta háptica y los saludos traducidos; simplifica las ventanas de trabajo.",
+        "Corrige los detalles de aprobación y el ciclo de tareas de Kimi para mantener estados coherentes."
+      ]
+    },
+    "ar": {
+      "title": "قراءة أكثر سلاسة وحالات مهام أوضح",
+      "items": [
+        "تحسين موضع القراءة وتحميل السجل وفتح الصور، مع تثبيت نشاط المهمة على الهاتف.",
+        "تحسين التنقل بين الجلسات والاستجابة اللمسية والتحيات المترجمة وتبسيط نوافذ عمل الوكيل.",
+        "إصلاح تفاصيل موافقة Kimi ودورة حياة المهام لتحسين اتساق الحالات."
+      ]
+    },
+    "fr": {
+      "title": "Lecture plus fluide et états des tâches plus précis",
+      "items": [
+        "Améliore la position de lecture, le chargement de l’historique et les images ; épingle l’activité du tour sur mobile.",
+        "Améliore la navigation entre sessions, les vibrations et les salutations traduites ; simplifie les fenêtres de travail.",
+        "Corrige les détails d’approbation et le cycle des tâches Kimi pour des états plus cohérents."
+      ]
+    },
+    "bn": {
+      "title": "আরও সহজ কথোপকথন পাঠ ও স্পষ্ট এজেন্ট কাজের অবস্থা",
+      "items": [
+        "পড়ার অবস্থান, পুরোনো ইতিহাস ও ছবি খোলার অভিজ্ঞতা উন্নত হয়েছে; মোবাইলে বর্তমান কাজের কার্যক্রম স্থির থাকে।",
+        "একাধিক সেশনে চলাচল, হ্যাপটিক প্রতিক্রিয়া ও অনূদিত অভিবাদন উন্নত হয়েছে; কাজের উইন্ডো সরল হয়েছে।",
+        "Kimi অনুমোদনের বিবরণ ও কাজের জীবনচক্র ঠিক করে অবস্থার সামঞ্জস্য উন্নত করা হয়েছে।"
+      ]
+    },
+    "pt": {
+      "title": "Leitura mais fluida e estados de tarefas mais claros",
+      "items": [
+        "Melhora a posição de leitura, o histórico e a abertura de imagens; fixa a atividade do turno no celular.",
+        "Aprimora a navegação entre sessões, o retorno tátil e as saudações traduzidas; simplifica as janelas de trabalho.",
+        "Corrige detalhes de aprovação e o ciclo das tarefas Kimi para manter estados consistentes."
+      ]
+    },
+    "id": {
+      "title": "Percakapan lebih nyaman dibaca dan status tugas lebih jelas",
+      "items": [
+        "Memperbaiki posisi baca, pemuatan riwayat dan pembukaan gambar; menyematkan aktivitas giliran di ponsel.",
+        "Memperbaiki perpindahan sesi, umpan balik haptik dan sapaan terjemahan; menyederhanakan jendela kerja agen.",
+        "Memperbaiki detail persetujuan dan siklus tugas Kimi agar status lebih konsisten."
+      ]
+    },
+    "ur": {
+      "title": "گفتگو پڑھنا آسان اور ایجنٹ کے کام کی حالت واضح",
+      "items": [
+        "پڑھنے کی جگہ، پرانی گفتگو اور تصاویر کھولنے کا تجربہ بہتر ہے؛ موبائل پر موجودہ کام کی سرگرمی اوپر قائم رہتی ہے۔",
+        "متعدد سیشن، لمس کی رائے اور ترجمہ شدہ سلام بہتر ہیں؛ ایجنٹ کی ورک ونڈو آسان ہوئی ہے۔",
+        "Kimi کی منظوری کی تفصیل اور کام کا دورانیہ درست کر کے حالتوں میں یکسانیت بہتر کی گئی ہے۔"
+      ]
+    }
+  }
+}

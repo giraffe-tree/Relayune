@@ -1,0 +1,178 @@
+[
+  {
+    "pattern": "^/api/browser/authorizations/revoke$",
+    "template": "/api/browser/authorizations/revoke"
+  },
+  {
+    "pattern": "^/api/auth/session$",
+    "template": "/api/auth/session"
+  },
+  {
+    "pattern": "^/api/auth/setup$",
+    "template": "/api/auth/setup"
+  },
+  {
+    "pattern": "^/api/instance$",
+    "template": "/api/instance"
+  },
+  {
+    "pattern": "^/api/browser/pairings/activate$",
+    "template": "/api/browser/pairings/activate"
+  },
+  {
+    "pattern": "^/api/relay/push-registration$",
+    "template": "/api/relay/push-registration"
+  },
+  {
+    "pattern": "^/api/auth/email-status$",
+    "template": "/api/auth/email-status"
+  },
+  {
+    "pattern": "^/api/auth/password$",
+    "template": "/api/auth/password"
+  },
+  {
+    "pattern": "^/api/auth/set-password$",
+    "template": "/api/auth/set-password"
+  },
+  {
+    "pattern": "^/api/auth/verify$",
+    "template": "/api/auth/verify"
+  },
+  {
+    "pattern": "^/api/account/delete$",
+    "template": "/api/account/delete"
+  },
+  {
+    "pattern": "^/api/account/agent-order$",
+    "template": "/api/account/agent-order"
+  },
+  {
+    "pattern": "^/api/desktop-login/start$",
+    "template": "/api/desktop-login/start"
+  },
+  {
+    "pattern": "^/api/desktop-login/dlogin_[A-Za-z0-9_-]+/approval$",
+    "template": "/api/desktop-login/:request_id/approval"
+  },
+  {
+    "pattern": "^/api/desktop-login/dlogin_[A-Za-z0-9_-]+/approve$",
+    "template": "/api/desktop-login/:request_id/approve"
+  },
+  {
+    "pattern": "^/api/desktop-login/dlogin_[A-Za-z0-9_-]+/cancel$",
+    "template": "/api/desktop-login/:request_id/cancel"
+  },
+  {
+    "pattern": "^/api/desktop-login/dlogin_[A-Za-z0-9_-]+$",
+    "template": "/api/desktop-login/:request_id"
+  },
+  {
+    "pattern": "^/api/realtime$",
+    "template": "/api/realtime"
+  },
+  {
+    "pattern": "^/api/release-notes$",
+    "template": "/api/release-notes"
+  },
+  {
+    "pattern": "^/api/browser/pairings/pending$",
+    "template": "/api/browser/pairings/pending"
+  },
+  {
+    "pattern": "^/api/browser/pairings/pair_[A-Za-z0-9_-]+/respond$",
+    "template": "/api/browser/pairings/:pairing_id/respond"
+  },
+  {
+    "pattern": "^/api/relay/browser-authorizations/web_[a-f0-9]+/revoke$",
+    "template": "/api/relay/browser-authorizations/:browser_id/revoke"
+  },
+  {
+    "pattern": "^/api/relay/browser-authorizations$",
+    "template": "/api/relay/browser-authorizations"
+  },
+  {
+    "pattern": "^/api/relay/pairings/start$",
+    "template": "/api/relay/pairings/start"
+  },
+  {
+    "pattern": "^/api/pairings/pair_[A-Za-z0-9_-]+/complete$",
+    "template": "/api/pairings/:pairing_id/complete"
+  },
+  {
+    "pattern": "^/api/pairings/pair_[A-Za-z0-9_-]+$",
+    "template": "/api/pairings/:pairing_id"
+  },
+  {
+    "pattern": "^/api/responses/[^/]+$",
+    "template": "/api/responses/:request_id"
+  },
+  {
+    "pattern": "^/api/relay/devices/[^/]+/commands$",
+    "template": "/api/relay/devices/:device_id/commands"
+  },
+  {
+    "pattern": "^/api/relay/devices/[^/]+/events$",
+    "template": "/api/relay/devices/:device_id/events"
+  },
+  {
+    "pattern": "^/health$",
+    "template": "/health"
+  },
+  {
+    "pattern": "^/api/bootstrap$",
+    "template": "/api/bootstrap"
+  },
+  {
+    "pattern": "^/api/commands$",
+    "template": "/api/commands"
+  },
+  {
+    "pattern": "^/api/events$",
+    "template": "/api/events"
+  },
+  {
+    "pattern": "^/api/feedback$",
+    "template": "/api/feedback"
+  },
+  {
+    "pattern": "^/api/pairings/start$",
+    "template": "/api/pairings/start"
+  },
+  {
+    "pattern": "^/api/auth/magic-link$",
+    "template": "/api/auth/magic-link"
+  },
+  {
+    "pattern": "^/api/auth/logout$",
+    "template": "/api/auth/logout"
+  },
+  {
+    "pattern": "^/api/relay/hello$",
+    "template": "/api/relay/hello"
+  },
+  {
+    "pattern": "^/api/relay/logout$",
+    "template": "/api/relay/logout"
+  },
+  {
+    "pattern": "^/api/relay/poll$",
+    "template": "/api/relay/poll"
+  },
+  {
+    "pattern": "^/api/relay/commands$",
+    "template": "/api/relay/commands"
+  },
+  {
+    "pattern": "^/api/relay/push$",
+    "template": "/api/relay/push"
+  },
+  {
+    "pattern": "^/api/relay/devices/[^/]+/ios-push$",
+    "template": "/api/relay/devices/:device_id/ios-push"
+  },
+  {
+    "pattern": "^/api/relay/pairings/pair_[A-Za-z0-9_-]+/cancel$",
+    "template": "/api/relay/pairings/:pairing_id/cancel"
+  }
+]

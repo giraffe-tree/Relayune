@@ -1,0 +1,27 @@
+{
+  "version": "0.3.1",
+  "publishedAt": "2026-08-13T02:54:12.000Z",
+  "platforms": ["android"],
+  "copy": {
+    "zh": {
+      "title": "连接与会话体验修复",
+      "items": [
+        "手动连接默认只需输入电脑显示的 8 位连接码；扫码仍作为快捷入口，多台电脑同时等待时才会要求选择目标电脑。",
+        "授权界面统一使用“客户端”称呼，准确覆盖浏览器、Android 和 iPhone / iPad App。",
+        "项目列表不再默认暴露电脑完整路径；可在“配置信息”中按需查看路径，并仅修改本 App 内的项目显示名称。",
+        "修复创建会话与项目配置弹窗关闭时可能出现的 Flutter 红屏，并加固抽屉切换和项目列表重排时的组件生命周期。",
+        "新增任务通知、图片附件、会话草稿隔离与移动端 Kimi / Codex 工作台一致性改进。"
+      ]
+    },
+    "en": {
+      "title": "Connection and session reliability fixes",
+      "items": [
+        "Manual connection now asks only for the 8-digit code shown on the computer; scanning remains the shortcut, and a computer chooser appears only when several computers are waiting.",
+        "Authorization screens now use the broader client terminology to accurately cover browsers, Android, and the iPhone / iPad app.",
+        "Project lists no longer expose full computer paths by default; Configuration reveals the path on demand and can rename only the project's local display name in this app.",
+        "Fixed Flutter error screens that could appear when closing the create-session or project-configuration dialog, and hardened drawer transitions and project-list reordering.",
+        "Added task notifications, image attachments, per-session draft isolation, and mobile Kimi / Codex workbench parity improvements."
+      ]
+    }
+  }
+}
