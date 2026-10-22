@@ -6,8 +6,8 @@ import {
 
 export const RELAYUNE_IOS_TESTFLIGHT_URL = "https://testflight.apple.com/join/1smeJNXD";
 
-export const RELAYUNE_RELEASE_VERSION = "0.3.32";
-export const RELAYUNE_MACOS_RELEASE_VERSION = "0.3.32";
+export const RELAYUNE_RELEASE_VERSION = "0.3.33";
+export const RELAYUNE_MACOS_RELEASE_VERSION = "0.3.33";
 export const RELAYUNE_WEB_RELEASE_VERSION = "0.3.33";
 
 function parseAndroidReleaseNotes(source: string) {
@@ -61,9 +61,9 @@ export const RELAYUNE_RELEASE_ASSETS = {
 // Metadata belongs to the downloadable artifacts, never to the website build.
 // Detailed release acceptance evidence is retained outside the public source tree.
 export const RELAYUNE_PLATFORM_BUILDS = {
-  macos: { version: "0.3.32", builtAt: "2026-10-09T18:57:13.778Z" },
-  android: { version: "0.3.32", build: 42, builtAt: "2026-10-09T18:58:55.769Z" },
-  ios: { version: "0.3.32", build: 42, builtAt: "2026-10-09T18:58:20.725Z" },
+  macos: { version: "0.3.33", builtAt: "2026-10-22T13:11:39.395Z" },
+  android: { version: "0.3.33", build: 43, builtAt: "2026-10-22T12:34:04.906Z" },
+  ios: { version: "0.3.33", build: 43, builtAt: "2026-10-22T12:53:35.812Z" },
 } as const;
 
 export const RELEASE_BUILD_LABELS: Record<SupportedLocale, string> = {

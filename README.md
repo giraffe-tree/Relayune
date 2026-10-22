@@ -8,12 +8,16 @@ Relayune 让你从浏览器、iPhone、iPad 或 Android 手机继续操作 macOS
 
 项目采用自托管 **Node.js + MongoDB** 服务端，并提供 **Tauri Desktop** 和 **Flutter Mobile** 客户端。
 
-首轮发行面向中国 Codex 用户，重点验收 macOS、Android、iOS，以及 Codex、Claude Code、
-Kimi Code 的使用流程；Windows 源码保留，但不在首轮安装包发行范围内。
-官方服务与自托管并行提供。自托管初始化与客户端实例设置已在源码中实现，首轮三端联合发行仍在准备中；
-具体已实现能力、待办和验收条件见[开源与首轮发行计划](docs/open-source-roadmap.md)。
+首轮发行面向中国 Codex 用户，计划提供 macOS、Android 和 iOS 客户端，重点支持 Codex、Claude Code、
+Kimi Code；Windows 源码保留，但不在首轮安装包发行范围内。
+官方服务与自托管并行提供，自托管初始化与客户端实例设置已实现。
+0.3.33 的 macOS、Android 安装包已完成签名、许可核验和公开文件上传，iOS 已上传 Apple 并取得
+`VALID_BINARY`；正式 Mac 应用已替换安装并通过候选连接核验，官网 Web/API 联合切换仍待完成。
+iOS 的 TestFlight 可安装状态未核对；Android 本轮仅完成有限登录/重启检查，配对和任务路径尚未验收，
+其余 Android 验收已取消，不作为本轮发行门槛。已验证范围和当前交付状态见
+[官方联合升级清单](docs/official-deployment.md)，整体计划见[开源与首轮发行计划](docs/open-source-roadmap.md)。
 
-> 自有源码和项目素材采用 [MIT License](LICENSE)，允许依许可使用、修改和商业分发，
+> Copyright (c) 2026 Ernest Chen。自有源码和项目素材采用 [MIT License](LICENSE)，允许依许可使用、修改和商业分发，
 > 使用或分发时须保留版权和许可声明；软件按原样提供，不作担保。
 > 第三方组件继续适用各自许可，见 [第三方声明](THIRD_PARTY_NOTICES.md)和[许可说明](docs/licensing.md)。
 
@@ -24,7 +28,8 @@ Kimi Code 的使用流程；Windows 源码保留，但不在首轮安装包发�
 
 ### 1. 下载安装
 
-打开 [Relayune 官网](https://relayune.giraffetree.cn)，从下载区选择对应平台：
+打开 [Relayune 官网](https://relayune.giraffetree.cn)，从下载区选择对应平台。
+官网默认入口仍对应当前生产版本，新候选安装包已上传不代表官网和服务端已完成联合升级：
 
 | 设备 | 使用方式 |
 | --- | --- |

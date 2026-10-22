@@ -1,6 +1,6 @@
 {
   "version": "0.3.33",
-  "publishedAt": "2026-10-22T00:00:00.000Z",
+  "publishedAt": "2026-10-22T13:27:31.736Z",
   "platforms": [
     "macos",
     "android",
@@ -23,6 +23,70 @@
         "Connect to a self-hosted server with separate login, pairing and local credentials for each instance.",
         "Set the first self-hosted username and password without SMTP; the official service retains email registration and sign-in.",
         "Remove subscription and payment flows, and improve state cleanup after switching servers, password recovery and revocation."
+      ]
+    },
+    "hi": {
+      "title": "आधिकारिक होस्टिंग और स्व-होस्टिंग के लिए एक ही कोडबेस",
+      "items": [
+        "अपने सर्वर का पता चुनें; हर इंस्टेंस में लॉगिन, पेयरिंग और स्थानीय क्रेडेंशियल अलग रहते हैं।",
+        "स्व-होस्टिंग का पहला उपयोगकर्ता नाम और पासवर्ड बिना SMTP के सेट करें; आधिकारिक सेवा में ईमेल पंजीकरण और लॉगिन जारी हैं।",
+        "सदस्यता और भुगतान विकल्प हटाए गए हैं; सर्वर बदलने, पासवर्ड रीसेट और अनुमति रद्द होने के बाद स्थिति साफ़ करने में सुधार।"
+      ]
+    },
+    "es": {
+      "title": "Una misma base de código para el servicio oficial y el alojamiento propio",
+      "items": [
+        "Conecta tu propio servidor con inicio de sesión, emparejamiento y credenciales locales separados por instancia.",
+        "Configura el primer usuario y contraseña sin SMTP; el servicio oficial mantiene el registro y acceso por correo.",
+        "Se eliminan las suscripciones y pagos, y se mejora la limpieza del estado al cambiar de servidor, restablecer contraseñas o revocar permisos."
+      ]
+    },
+    "ar": {
+      "title": "قاعدة شيفرة واحدة للاستضافة الرسمية والاستضافة الذاتية",
+      "items": [
+        "اتصل بخادمك مع فصل تسجيل الدخول والاقتران وبيانات الاعتماد المحلية لكل نسخة.",
+        "اضبط اسم المستخدم وكلمة المرور لأول مرة دون SMTP؛ وتحتفظ الخدمة الرسمية بالتسجيل والدخول عبر البريد الإلكتروني.",
+        "إزالة الاشتراكات والدفع وتحسين تنظيف الحالة بعد تبديل الخادم وإعادة تعيين كلمة المرور وإلغاء التفويض."
+      ]
+    },
+    "fr": {
+      "title": "Un même code pour le service officiel et l’auto-hébergement",
+      "items": [
+        "Connectez votre serveur avec une connexion, un appairage et des identifiants locaux séparés pour chaque instance.",
+        "Définissez le premier utilisateur et son mot de passe sans SMTP ; le service officiel conserve l’inscription et la connexion par e-mail.",
+        "Suppression des abonnements et paiements, et amélioration du nettoyage après un changement de serveur, une réinitialisation du mot de passe ou une révocation."
+      ]
+    },
+    "bn": {
+      "title": "অফিশিয়াল হোস্টিং ও স্ব-হোস্টিংয়ের জন্য একই কোডবেস",
+      "items": [
+        "নিজের সার্ভারে সংযোগ করুন; প্রতিটি ইনস্ট্যান্সের লগইন, পেয়ারিং ও স্থানীয় পরিচয়পত্র আলাদা থাকে।",
+        "SMTP ছাড়াই প্রথম ব্যবহারকারীর নাম ও পাসওয়ার্ড সেট করুন; অফিশিয়াল সেবায় ইমেইল নিবন্ধন ও লগইন চালু থাকে।",
+        "সাবস্ক্রিপশন ও অর্থপ্রদানের বিকল্প সরানো হয়েছে; সার্ভার বদল, পাসওয়ার্ড রিসেট ও অনুমতি প্রত্যাহারের পর অবস্থা পরিষ্কার করা উন্নত হয়েছে।"
+      ]
+    },
+    "pt": {
+      "title": "Uma base de código para o serviço oficial e a hospedagem própria",
+      "items": [
+        "Conecte seu servidor com login, pareamento e credenciais locais separados por instância.",
+        "Configure o primeiro usuário e senha sem SMTP; o serviço oficial mantém cadastro e login por e-mail.",
+        "Remoção de assinaturas e pagamentos, com melhorias na limpeza após trocar de servidor, redefinir a senha ou revogar autorizações."
+      ]
+    },
+    "id": {
+      "title": "Satu basis kode untuk layanan resmi dan hosting mandiri",
+      "items": [
+        "Hubungkan server sendiri dengan login, pemasangan perangkat, dan kredensial lokal yang terpisah untuk setiap instans.",
+        "Atur nama pengguna dan kata sandi pertama tanpa SMTP; layanan resmi tetap menyediakan pendaftaran dan login melalui email.",
+        "Menghapus langganan dan pembayaran serta memperbaiki pembersihan status setelah mengganti server, mereset kata sandi, atau mencabut izin."
+      ]
+    },
+    "ur": {
+      "title": "سرکاری سروس اور ذاتی ہوسٹنگ کے لیے ایک ہی کوڈ بیس",
+      "items": [
+        "اپنے سرور سے جڑیں؛ ہر انسٹینس کے لیے لاگ ان، پیئرنگ اور مقامی اسناد الگ رہتی ہیں۔",
+        "SMTP کے بغیر پہلا صارف نام اور پاس ورڈ مقرر کریں؛ سرکاری سروس میں ای میل رجسٹریشن اور لاگ ان برقرار ہیں۔",
+        "سبسکرپشن اور ادائیگی کے اختیارات ہٹا دیے گئے ہیں؛ سرور بدلنے، پاس ورڈ ری سیٹ اور اجازت منسوخ کرنے کے بعد حالت کی صفائی بہتر کی گئی ہے۔"
       ]
     }
   }

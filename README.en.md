@@ -17,11 +17,16 @@ Copyright (c) 2026 Ernest Chen. Third-party components retain their original
 licenses; see [third-party notices](THIRD_PARTY_NOTICES.md) and
 [licensing notes](docs/licensing.md).
 
-The coordinated native release is still in preparation. Username authentication, local first-run
-setup and runtime instance switching are implemented in source; device acceptance remains pending.
-The [release plan](docs/open-source-roadmap.md) distinguishes current capabilities,
-planned changes and device acceptance requirements. Most detailed documentation
-is currently in Chinese.
+Username authentication, local first-run setup and runtime instance switching are implemented.
+The 0.3.33 macOS and Android packages have passed signing and license checks and their
+public files are uploaded. iOS is uploaded to Apple with `VALID_BINARY`; TestFlight
+installability has not been checked. The final official Mac application is installed and
+connected to the isolated candidate; the production Web/API switch remains pending.
+Android has only limited sign-in/relaunch validation; pairing and task workflows remain
+unverified. Remaining Android acceptance was cancelled and is not a release gate for this run.
+See the [official release checklist](docs/official-deployment.md) for current delivery status
+and the [release plan](docs/open-source-roadmap.md) for the overall scope. Most detailed
+documentation is currently in Chinese.
 
 ## Using Relayune
 
@@ -31,8 +36,8 @@ Agent → connect your phone or browser → continue a task**.
 ### 1. Install the clients
 
 Visit the [official website](https://relayune.giraffetree.cn) for current download
-links. Availability of existing official builds does not establish acceptance
-of the upcoming coordinated release.
+links. The default website still serves the existing production version; uploaded
+candidate packages do not mean the website and API have completed their coordinated upgrade.
 
 | Device | Current installation path |
 | --- | --- |
@@ -158,7 +163,8 @@ Desktop and mobile clients now select the instance at runtime. A confirmed switc
 clears the previous credentials and pairing state and requires fresh sign-in and pairing.
 Self-hosted core operation does not require Relayune official services; automatic
 official push and update access is disabled for custom instances. Native package
-acceptance and system trust onboarding still require device validation. See the
+checks and iOS simulator acceptance are recorded separately from unverified real-phone
+behavior and private-CA trust onboarding on other platforms. See the
 [plan and acceptance criteria](docs/open-source-roadmap.md).
 
 ## Checks and publication boundaries
