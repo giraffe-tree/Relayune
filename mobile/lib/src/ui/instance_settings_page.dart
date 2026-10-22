@@ -6,8 +6,15 @@ import '../network/relay_api.dart';
 import '../state/app_controller.dart';
 
 class InstanceSettingsPage extends StatefulWidget {
-  const InstanceSettingsPage({super.key, required this.controller});
+  const InstanceSettingsPage({
+    super.key,
+    required this.controller,
+    this.probeFactory,
+  });
   final AppController controller;
+
+  /// Allows an isolated anonymous transport in widget tests.
+  final RelayApi Function(String origin, String? certificatePem)? probeFactory;
   @override
   State<InstanceSettingsPage> createState() => _InstanceSettingsPageState();
 }
@@ -82,7 +89,9 @@ class _InstanceSettingsPageState extends State<InstanceSettingsPage> {
         return;
       }
       // A new, anonymous client has no session, browser token or old cookies.
-      probe = RelayApi(origin: origin, certificatePem: pem);
+      probe =
+          widget.probeFactory?.call(origin, pem) ??
+          RelayApi(origin: origin, certificatePem: pem);
       final capabilities = await probe.discoverInstance();
       if (!mounted) return;
       final confirmed = await _confirm(
@@ -93,8 +102,14 @@ class _InstanceSettingsPageState extends State<InstanceSettingsPage> {
       if (widget.controller.changeInstance == null) {
         throw StateError('Instance switching unavailable');
       }
+      final route = ModalRoute.of(context);
+      final navigator = Navigator.of(context);
       await widget.controller.changeInstance!(origin, pem.isEmpty ? null : pem);
-      if (mounted) Navigator.pop(context);
+      // Instance teardown can already remove this page. Its exit animation may
+      // leave it mounted briefly; never pop the login route underneath it.
+      if (mounted && route?.isCurrent == true && navigator.canPop()) {
+        navigator.pop();
+      }
     } on Object {
       if (mounted) {
         setState(
