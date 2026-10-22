@@ -50,6 +50,87 @@ void main() {
       expect(() => normalizeInstanceOrigin(value), throwsFormatException);
     }
   });
+  test('WSS default 443 and explicit 443 match the confirmed HTTPS origin', () {
+    for (final origin in [
+      'https://server.example',
+      'https://server.example:443',
+    ]) {
+      for (final url in [
+        'wss://server.example/api/stream',
+        'wss://server.example:443/api/stream',
+      ]) {
+        expect(normalizeInstanceSocketUri(origin, url).scheme, 'wss');
+      }
+    }
+    expect(
+      normalizeInstanceSocketUri(
+        'https://server.example:8443',
+        'wss://server.example:8443/api/stream',
+      ).port,
+      8443,
+    );
+  });
+  test('socket default-port normalization preserves all origin boundaries', () {
+    for (final url in [
+      'wss://server.example:8443/api/stream',
+      'wss://server.example:80/api/stream',
+      'wss://server.example:0/api/stream',
+      'wss://other.example/api/stream',
+      'wss://user:password@server.example/api/stream',
+      'ws://server.example:443/api/stream',
+      'https://server.example/api/stream',
+    ]) {
+      expect(
+        () => normalizeInstanceSocketUri('https://server.example', url),
+        throwsFormatException,
+      );
+    }
+    expect(
+      () => normalizeInstanceSocketUri(
+        'https://server.example:8443',
+        'wss://server.example/api/stream',
+      ),
+      throwsFormatException,
+    );
+  });
+  test(
+    'WS default 80 remains limited to explicitly enabled loopback fixtures',
+    () {
+      for (final url in [
+        'ws://localhost/api/stream',
+        'ws://localhost:80/api/stream',
+      ]) {
+        expect(
+          normalizeInstanceSocketUri(
+            'http://localhost',
+            url,
+            allowInsecureLoopbackForTesting: true,
+          ).scheme,
+          'ws',
+        );
+        expect(
+          () => normalizeInstanceSocketUri('http://localhost', url),
+          throwsFormatException,
+        );
+      }
+      expect(
+        () => normalizeInstanceSocketUri(
+          'http://server.example',
+          'ws://server.example/api/stream',
+          allowInsecureLoopbackForTesting: true,
+        ),
+        throwsFormatException,
+      );
+      expect(
+        () => normalizeInstanceSocketUri(
+          'http://localhost',
+          'ws://localhost:81/api/stream',
+          allowInsecureLoopbackForTesting: true,
+        ),
+        throwsFormatException,
+      );
+    },
+  );
   test(
     'capability probe never sends existing credentials or follows redirects',
     () async {

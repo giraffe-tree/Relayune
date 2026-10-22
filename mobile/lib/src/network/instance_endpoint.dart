@@ -62,7 +62,11 @@ String? certificateFingerprint(String? pem) {
   return sha256.convert(der).toString().toUpperCase();
 }
 
-void _trustPublicCertificate(SecurityContext context, String pem, List<int> der) {
+void _trustPublicCertificate(
+  SecurityContext context,
+  String pem,
+  List<int> der,
+) {
   try {
     // Current Flutter iOS engines use the PEM parser too. Some iOS runtimes
     // documented by dart:io accept only a single DER certificate; retain that
@@ -91,6 +95,41 @@ HttpClient instanceIoClient(String? certificatePem) {
 http.Client instanceHttpClient(String? certificatePem) =>
     IOClient(instanceIoClient(certificatePem));
 
+/// Dart Uri only supplies default ports for HTTP(S), not WS(S). Compare the
+/// effective protocol port so an omitted WSS port still means HTTPS port 443.
+Uri normalizeInstanceSocketUri(
+  String origin,
+  String url, {
+  bool allowInsecureLoopbackForTesting = false,
+}) {
+  final uri = Uri.parse(url);
+  final expected = Uri.parse(
+    normalizeApiOrigin(
+      origin,
+      allowInsecureLoopbackForTesting: allowInsecureLoopbackForTesting,
+    ),
+  );
+  final loopbackFixture =
+      allowInsecureLoopbackForTesting &&
+      expected.scheme == 'http' &&
+      {'127.0.0.1', '::1', 'localhost'}.contains(expected.host);
+  const mismatch = FormatException(
+    'Socket origin does not match the confirmed instance',
+  );
+  if (uri.scheme != (loopbackFixture ? 'ws' : 'wss') ||
+      uri.host != expected.host ||
+      uri.userInfo.isNotEmpty) {
+    throw mismatch;
+  }
+  // Parse the original authority under its HTTP transport scheme. Using
+  // uri.replace here would lose an explicit :0, which WS(S) Uri normalizes away.
+  final transportUri = Uri.parse(
+    '${expected.scheme}${url.substring(url.indexOf(':'))}',
+  );
+  if (transportUri.port != expected.port) throw mismatch;
+  return uri;
+}
+
 Future<WebSocket> connectInstanceSocket(
   String origin,
   String? certificatePem,
@@ -100,20 +139,11 @@ Future<WebSocket> connectInstanceSocket(
   void Function(HttpClient)? onClientCreated,
   void Function(HttpClient)? onClientClosed,
 }) async {
-  final uri = Uri.parse(url);
-  final expected = Uri.parse(origin);
-  final loopbackFixture =
-      allowInsecureLoopbackForTesting &&
-      expected.scheme == 'http' &&
-      {'127.0.0.1', '::1', 'localhost'}.contains(expected.host);
-  if (uri.scheme != (loopbackFixture ? 'ws' : 'wss') ||
-      uri.host != expected.host ||
-      uri.port != expected.port ||
-      uri.userInfo.isNotEmpty) {
-    throw const FormatException(
-      'Socket origin does not match the confirmed instance',
-    );
-  }
+  final uri = normalizeInstanceSocketUri(
+    origin,
+    url,
+    allowInsecureLoopbackForTesting: allowInsecureLoopbackForTesting,
+  );
   final client = instanceIoClient(certificatePem);
   onClientCreated?.call(client);
   void closeClient() {
@@ -123,7 +153,7 @@ Future<WebSocket> connectInstanceSocket(
 
   try {
     final socket = await WebSocket.connect(
-      url,
+      uri.toString(),
       headers: headers,
       customClient: _SocketHandshakeClient(client, Uri.parse(origin)),
     );

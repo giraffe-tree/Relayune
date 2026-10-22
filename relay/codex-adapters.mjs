@@ -1032,6 +1032,7 @@ export class CodexAppServerAdapter {
     }
     if (projection?.sessionId && projection.sessionId !== sessionId)
       throw new Error('Codex history source does not match this conversation.');
+    if (projection?.sessionId === sessionId) this.reconcilePersistedRuntime(sessionId, projection.lifecycle);
     // The rollout is the owning provider's durable source. Once its identity
     // matches the thread (or a provider read seeded it), pagination and appends
     // use compact local projections without materializing thread/read turns.
@@ -1306,6 +1307,7 @@ export class CodexAppServerAdapter {
     // selected durable range instead of scanning the full external lifecycle,
     // and do not clear an already observed active turn while that read awaits.
     let latestSourceKnown = false;
+    let latestPersistedLifecycle;
     const nativeCursor = boundary && Object.hasOwn(boundary, 'native_turn_cursor');
     let cursor = nativeCursor ? boundary.native_turn_cursor : null;
     let current = cursor == null ? newest : await readTurn(cursor);
@@ -1341,6 +1343,8 @@ export class CodexAppServerAdapter {
       sourceScanBytes += supplement?.scanBytes ?? 0;
       sourceFoldBytes += supplement?.foldBytes ?? 0;
       if (supplement) {
+        if (turn.id === latestTurnId && supplement.state.lifecycle.terminalTurnStatuses?.has(turn.id))
+          latestPersistedLifecycle = supplement.state.lifecycle;
         const externalTerminal = externalTerminalFor(turn.id) ??
           supplement.state.lifecycle.terminalTurnStatuses?.get(turn.id);
         if (externalTerminal) {
@@ -1439,6 +1443,10 @@ export class CodexAppServerAdapter {
           message.tool_activity_status = latestExternalTerminal === 'failed' ? 'failed' : 'completed';
       }
     }
+    // Only after source identity/range validation may a persisted terminal
+    // retire the matching live writer, including a durable turn_aborted.
+    if (latestPersistedLifecycle) this.reconcilePersistedRuntime(sessionId, latestPersistedLifecycle,
+      { complete: finalFingerprint === fingerprint });
     this.rememberNativeHistoryThread({ ...thread, ...(newest.turn ? { turns: [newest.turn] } : {}) }, {
       turnsAuthoritative: Boolean(newest.turn) && (!reconcileExternal || latestSourceKnown), runtimeRevision,
     });
@@ -1742,9 +1750,7 @@ export class CodexAppServerAdapter {
     if (turnId) {
       this.activeTurns.set(sessionId, turnId);
       this.liveTurns.set(sessionId, turnId);
-      if (!this.activeTurnStartedAt.has(sessionId)) {
-        this.activeTurnStartedAt.set(sessionId, new Date().toISOString());
-      }
+      this.activeTurnStartedAt.set(sessionId, normalizeTimestamp(result.turn?.startedAt ?? Date.now()));
     }
     if (turnId) {
       this.rememberPersistenceCheck(turnId, {
@@ -2466,6 +2472,19 @@ export class CodexAppServerAdapter {
       if (current.status) next.status = threadDirectoryMetadata(current).status;
       else delete next.status;
     }
+    if (!staleRuntime && turnsAuthoritative && Array.isArray(thread.turns)) {
+      // A non-owner can report a live turn as interrupted; that snapshot cannot
+      // retire a live writer. Completed/failed identify a real terminal turn.
+      for (const turn of thread.turns) {
+        if (['completed', 'failed'].includes(turn?.status)) this.clearTerminalTurn(thread.id, turn.id);
+      }
+      const latest = thread.turns.at(-1);
+      if (['completed', 'failed', 'interrupted'].includes(latest?.status) &&
+          !thread.turns.some(turn => turn?.status === 'inProgress') &&
+          !this.liveTurns.has(thread.id) && !this.activeTurns.has(thread.id) &&
+          !this.externalRolloutTails.get(thread.id)?.activeTurnId) next.status = { type: 'idle' };
+    }
+    if (!staleRuntime && this.liveTurns.has(thread.id)) next.status = { type: 'active' };
     if (current.relayAgentActivity) next.relayAgentActivity = current.relayAgentActivity;
     next.relayCollabItems = Array.isArray(thread.turns)
       ? threadCollabMetadata(thread.turns)
@@ -2485,6 +2504,36 @@ export class CodexAppServerAdapter {
     }
   }
 
+  clearTerminalTurn(sessionId, turnId) {
+    if (!turnId) return false;
+    let cleared = false;
+    if (this.liveTurns.get(sessionId) === turnId) {
+      this.liveTurns.delete(sessionId);
+      cleared = true;
+    }
+    if (this.activeTurns.get(sessionId) === turnId) {
+      this.activeTurns.delete(sessionId);
+      this.activeTurnStartedAt.delete(sessionId);
+      cleared = true;
+    }
+    return cleared;
+  }
+
+  reconcilePersistedRuntime(sessionId, lifecycle, { complete = true } = {}) {
+    if (!lifecycle?.lifecycleKnown) return;
+    let changed = false;
+    for (const turnId of [this.liveTurns.get(sessionId), this.activeTurns.get(sessionId)]) {
+      if (turnId && lifecycle.terminalTurnStatuses?.has(turnId))
+        changed = this.clearTerminalTurn(sessionId, turnId) || changed;
+    }
+    const terminal = lifecycle.currentTurnId && lifecycle.terminalTurnStatuses?.has(lifecycle.currentTurnId);
+    if (complete && terminal && !lifecycle.activeTurnId && !this.liveTurns.has(sessionId) && !this.activeTurns.has(sessionId)) {
+      if (this.threadMetadata.get(sessionId)?.status?.type === 'active') changed = true;
+      this.rememberThread({ id: sessionId, status: { type: 'idle' } });
+    }
+    if (changed) this.advanceThreadRuntimeRevision(sessionId);
+  }
+
   advanceThreadRuntimeRevision(sessionId) {
     if (!sessionId) return;
     this.threadRuntimeRevisions.set(sessionId, (this.threadRuntimeRevisions.get(sessionId) ?? 0) + 1);
@@ -2499,7 +2548,7 @@ export class CodexAppServerAdapter {
     if (!thread?.id) return;
     // History/list responses can lag behind the writer (including an idle or
     // interrupted snapshot while a tool is still running). Once a turn has
-    // been observed live, only its matching terminal notification can end it.
+    // been observed live, only matching terminal evidence can end it.
     if (this.liveTurns.has(thread.id)) {
       this.activeTurns.set(thread.id, detachedMetadataText(this.liveTurns.get(thread.id), Infinity));
       return;
@@ -2601,7 +2650,7 @@ export class CodexAppServerAdapter {
     const candidates = threads
       .filter(
         (thread) =>
-          thread?.status?.type === "notLoaded" &&
+          (['notLoaded', 'active'].includes(thread?.status?.type) || this.liveTurns.has(thread?.id) || this.activeTurns.has(thread?.id)) &&
           typeof thread.path === "string" &&
           thread.path.endsWith(".jsonl"),
       )
@@ -2627,15 +2676,18 @@ export class CodexAppServerAdapter {
     for (const thread of candidates) {
       const state = this.externalRolloutTails.get(thread.id);
       if (!state?.lifecycleKnown) continue;
+      // A bounded prefix is not the latest runtime: later records may contain
+      // another turn/start. Keep catalog state until the cursor reaches EOF.
+      if (state.caughtUp === false) continue;
       if (typeof state.model === "string" && state.model) {
         this.threadModelOverrides.set(thread.id, state.model);
       }
-      const active = Boolean(state.activeTurnId);
+      const active = Boolean(state.activeTurnId || this.liveTurns.get(thread.id) || this.activeTurns.get(thread.id));
       this.rememberThread({
         id: thread.id,
         status: { type: active ? "active" : "idle" },
       });
-      if (active && state.activeStartedAt) {
+      if (active && state.activeStartedAt && !this.liveTurns.has(thread.id)) {
         this.activeTurnStartedAt.set(thread.id, state.activeStartedAt);
       } else if (!active) {
         this.activeTurnStartedAt.delete(thread.id);
@@ -2654,6 +2706,8 @@ export class CodexAppServerAdapter {
     }
     const source = await poll;
     if (!source || this.closed) return;
+    source.state.caughtUp = source.state.offset === source.info.size;
+    this.reconcilePersistedRuntime(thread.id, source.state, { complete: source.state.caughtUp });
     // Rollout lifecycle is sufficient to repair a non-owner's interrupted
     // history snapshot. Optional native owner IPC must not delay that body,
     // including when a catalog poll is already waiting on the same owner.
@@ -3322,12 +3376,11 @@ export class CodexAppServerAdapter {
         break;
       case "turn/completed":
         this.advanceThreadRuntimeRevision(sessionId);
+        // Local terminal state must commit even when question reconciliation
+        // fails during a disconnected client/transport notification.
+        if (this.clearTerminalTurn(sessionId, turnId) && !this.liveTurns.has(sessionId) && !this.activeTurns.has(sessionId))
+          this.rememberThread({ id: sessionId, status: { type: 'idle' } });
         await this.asyncQuestions.endTurn(sessionId, turnId, params.turn?.status ?? 'completed');
-        if (this.liveTurns.get(sessionId) === turnId) this.liveTurns.delete(sessionId);
-        if (this.activeTurns.get(sessionId) === turnId) {
-          this.activeTurns.delete(sessionId);
-          this.activeTurnStartedAt.delete(sessionId);
-        }
         await this.handlers.emitEvent(sessionId, {
           kind:
             params.turn?.status === "failed" ? "turn.failed" : "turn.completed",
@@ -4126,7 +4179,7 @@ function runningTurnStartedAt(turns) {
     .find(
       (turn) =>
         turn?.startedAt != null &&
-        (turn.status === "inProgress" || turn.completedAt == null),
+        turn.status === "inProgress",
     );
   return runningTurn ? normalizeTimestamp(runningTurn.startedAt) : null;
 }

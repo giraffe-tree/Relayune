@@ -61,8 +61,8 @@ connection flow; see the Desktop documentation.
 
 ### 3. Connect a phone or browser
 
-1. On the computer, choose **Connect new client** and keep the QR code and
-   eight-digit code visible.
+1. On the computer, choose **Connect device**, select the phone/tablet or browser
+   option, and keep the eight-digit code visible.
 2. Sign in to the same Relayune account on the phone or browser.
 3. In the mobile app, scan the QR code or enter the code manually. In the Web
    client, follow the pairing instructions and enter the code.
@@ -87,7 +87,7 @@ Devices do not need to share Wi-Fi when both can reach the same Relayune service
 
 ### 5. Manage access and troubleshoot
 
-Revoke an individual phone or browser from the computer's authorized-client list.
+Revoke an individual phone or browser from the computer's **Manage devices** list.
 Other clients keep their own authorizations. Sign out from the Desktop client to
 end its account session.
 
