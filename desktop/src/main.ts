@@ -3421,18 +3421,25 @@ async function beginPairing(surface: PairingSurface) {
   } catch (error) {
     const cancelled =
       runId !== pairingRunId || error instanceof PairingCancelledError;
+    let finalBrowserCancellation: Promise<boolean> | null = null;
     if (browserPairingIdToCancel) {
       // The first cancellation can race ahead of the native sidecar's remote
       // insert. This second idempotent cleanup runs after that invocation has
       // settled, so a late successful start cannot remain discoverable.
-      await cancelRemoteBrowserPairing(
+      finalBrowserCancellation = cancelRemoteBrowserPairing(
         browserPairingIdToCancel,
         cancelled,
         true,
       );
     }
+    // Enter the cancellation gate synchronously before reset can admit any
+    // native action, then stop expiry before yielding to the sidecar. Otherwise
+    // an expiry tick can append a non-final attempt behind this final cleanup
+    // and leave the cancellation queue permanently active.
+    // A cancelled older run must not reset a newer run's timer or pairing state.
+    if (!cancelled) resetPairingState();
+    if (finalBrowserCancellation) await finalBrowserCancellation;
     if (cancelled) return;
-    resetPairingState();
     if (surface === "initial") {
       initialPairingErrorPresentation = pairingErrorPresentation(error);
     }

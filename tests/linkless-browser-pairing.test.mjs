@@ -109,7 +109,7 @@ test("桌面取消新增浏览器后立即与晚到创建完成后都清理远�
   );
   assert.match(
     desktop,
-    /const cancelled =[\s\S]*?if \(browserPairingIdToCancel\) \{[\s\S]*?await cancelRemoteBrowserPairing\([\s\S]*?browserPairingIdToCancel,[\s\S]*?cancelled,[\s\S]*?true,[\s\S]*?\)/,
+    /const cancelled =[\s\S]*?if \(browserPairingIdToCancel\) \{[\s\S]*?finalBrowserCancellation = cancelRemoteBrowserPairing\([\s\S]*?browserPairingIdToCancel,[\s\S]*?cancelled,[\s\S]*?true,[\s\S]*?\)[\s\S]*?if \(!cancelled\) resetPairingState\(\);[\s\S]*?if \(finalBrowserCancellation\) await finalBrowserCancellation/,
     "a start that settles after local cancellation must receive a second idempotent cleanup",
   );
   assert.match(
