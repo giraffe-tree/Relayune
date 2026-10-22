@@ -1,0 +1,4 @@
+Publisher source copyright lines retained from the exact Maven sources artifact.
+Source archive SHA-256: c4b87ee2911c139c3daf498a781967f1eb2e75bc1a8529a2e7b328a15d0e433e
+
+Copyright (C) 2009 The JSR-330 Expert Group

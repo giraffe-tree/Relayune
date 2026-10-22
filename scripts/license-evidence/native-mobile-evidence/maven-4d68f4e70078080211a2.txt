@@ -1,0 +1,4 @@
+Publisher source copyright lines retained from the exact Maven sources artifact.
+Source archive SHA-256: 9bbe5ee1a7a2a715964fa77208905cecb7c74aa409e38c103657be1c5234fb44
+
+Copyright 2019 Google LLC

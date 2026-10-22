@@ -58,10 +58,20 @@ String? certificateFingerprint(String? pem) {
   final der = base64.decode(match.group(1)!.replaceAll(RegExp(r'\s'), ''));
   // Parsing by the TLS engine rejects malformed certificates; private keys and
   // unrelated PEM blocks never reach the trust context.
-  SecurityContext(
-    withTrustedRoots: true,
-  ).setTrustedCertificatesBytes(Platform.isIOS ? der : utf8.encode(pem));
+  _trustPublicCertificate(SecurityContext(withTrustedRoots: true), pem, der);
   return sha256.convert(der).toString().toUpperCase();
+}
+
+void _trustPublicCertificate(SecurityContext context, String pem, List<int> der) {
+  try {
+    // Current Flutter iOS engines use the PEM parser too. Some iOS runtimes
+    // documented by dart:io accept only a single DER certificate; retain that
+    // format fallback without changing any TLS verification or global trust.
+    context.setTrustedCertificatesBytes(utf8.encode(pem));
+  } on TlsException {
+    if (!Platform.isIOS) rethrow;
+    context.setTrustedCertificatesBytes(der);
+  }
 }
 
 HttpClient instanceIoClient(String? certificatePem) {
@@ -73,9 +83,7 @@ HttpClient instanceIoClient(String? certificatePem) {
           .replaceAll('-----END CERTIFICATE-----', '')
           .replaceAll(RegExp(r'\s'), ''),
     );
-    context.setTrustedCertificatesBytes(
-      Platform.isIOS ? der : utf8.encode(certificatePem),
-    );
+    _trustPublicCertificate(context, certificatePem, der);
   }
   return HttpClient(context: context);
 }

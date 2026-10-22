@@ -1,0 +1,9 @@
+Publisher source copyright lines retained from the exact Maven sources artifact.
+Source archive SHA-256: 7e117e0931cb2cb4226372af336189b49edb79969d120ec958a6df0beacb0612
+
+Copyright 2014 The Error Prone Authors.
+Copyright 2015 The Error Prone Authors.
+Copyright 2016 The Error Prone Authors.
+Copyright 2017 The Error Prone Authors.
+Copyright 2021 The Error Prone Authors.
+Copyright 2023 The Error Prone Authors.

@@ -1,0 +1,484 @@
+{
+  "schema_version": 1,
+  "cargo_supplements": {
+    "alloc-stdlib@0.2.4": {
+      "declared_license": "BSD-3-Clause",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-c0c56f26d9c051cac4d200c34c84e7ae9aaa853e01a982a1df08b09931e518ae.txt",
+          "sha256": "c0c56f26d9c051cac4d200c34c84e7ae9aaa853e01a982a1df08b09931e518ae",
+          "source_url": "https://raw.githubusercontent.com/dropbox/rust-alloc-no-stdlib/ae42d22078b98549e987d2f03d12df7b984fde47/LICENSE",
+          "evidence_kind": "upstream-publisher-license"
+        }
+      ],
+      "archive_sha256": "0e76a019e91224d279006ff972f1e984179a6e9feb050adba6ce8274aef23195"
+    },
+    "block2@0.6.2": {
+      "declared_license": "MIT",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54.txt",
+          "sha256": "7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54",
+          "source_url": "https://raw.githubusercontent.com/madsmtm/objc2/b4167b582b2f75f9a1be75495c41b765344fd03c/LICENSE.md",
+          "evidence_kind": "upstream-linked-license-declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5.txt",
+          "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Exact per-revision original LICENSE.md declarations above explicitly identify MIT (or MIT at user option). Original license document including Apple SDK caveat is retained; standard MIT template is unfilled, no author/year is invented.",
+      "archive_sha256": "cdeb9d870516001442e364c5220d3574d2da8dc765554b4a617230d33fa58ef5"
+    },
+    "dispatch2@0.3.1": {
+      "declared_license": "Zlib OR Apache-2.0 OR MIT",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54.txt",
+          "sha256": "7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54",
+          "source_url": "https://raw.githubusercontent.com/madsmtm/objc2/8852b424193ca41602281b3d7540d7c8ed51e49a/LICENSE.md",
+          "evidence_kind": "upstream-linked-license-declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5.txt",
+          "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Exact per-revision original LICENSE.md declarations above explicitly identify MIT (or MIT at user option). Original license document including Apple SDK caveat is retained; standard MIT template is unfilled, no author/year is invented.",
+      "archive_sha256": "1e0e367e4e7da84520dedcac1901e4da967309406d1e51017ae1abfb97adbd38"
+    },
+    "objc2@0.6.4": {
+      "declared_license": "MIT",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54.txt",
+          "sha256": "7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54",
+          "source_url": "https://raw.githubusercontent.com/madsmtm/objc2/8852b424193ca41602281b3d7540d7c8ed51e49a/LICENSE.md",
+          "evidence_kind": "upstream-linked-license-declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5.txt",
+          "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Exact per-revision original LICENSE.md declarations above explicitly identify MIT (or MIT at user option). Original license document including Apple SDK caveat is retained; standard MIT template is unfilled, no author/year is invented.",
+      "archive_sha256": "3a12a8ed07aefc768292f076dc3ac8c48f3781c8f2d5851dd3d98950e8c5a89f"
+    },
+    "objc2-app-kit@0.3.2": {
+      "declared_license": "Zlib OR Apache-2.0 OR MIT",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54.txt",
+          "sha256": "7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54",
+          "source_url": "https://raw.githubusercontent.com/madsmtm/objc2/7b1abfd750a2cacaea71d6a56ecfb83cb7de560b/LICENSE.md",
+          "evidence_kind": "upstream-linked-license-declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5.txt",
+          "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Exact per-revision original LICENSE.md declarations above explicitly identify MIT (or MIT at user option). Original license document including Apple SDK caveat is retained; standard MIT template is unfilled, no author/year is invented.",
+      "archive_sha256": "d49e936b501e5c5bf01fda3a9452ff86dc3ea98ad5f283e1455153142d97518c"
+    },
+    "objc2-core-foundation@0.3.2": {
+      "declared_license": "Zlib OR Apache-2.0 OR MIT",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54.txt",
+          "sha256": "7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54",
+          "source_url": "https://raw.githubusercontent.com/madsmtm/objc2/7b1abfd750a2cacaea71d6a56ecfb83cb7de560b/LICENSE.md",
+          "evidence_kind": "upstream-linked-license-declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5.txt",
+          "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Exact per-revision original LICENSE.md declarations above explicitly identify MIT (or MIT at user option). Original license document including Apple SDK caveat is retained; standard MIT template is unfilled, no author/year is invented.",
+      "archive_sha256": "2a180dd8642fa45cdb7dd721cd4c11b1cadd4929ce112ebd8b9f5803cc79d536"
+    },
+    "objc2-core-graphics@0.3.2": {
+      "declared_license": "Zlib OR Apache-2.0 OR MIT",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54.txt",
+          "sha256": "7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54",
+          "source_url": "https://raw.githubusercontent.com/madsmtm/objc2/7b1abfd750a2cacaea71d6a56ecfb83cb7de560b/LICENSE.md",
+          "evidence_kind": "upstream-linked-license-declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5.txt",
+          "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Exact per-revision original LICENSE.md declarations above explicitly identify MIT (or MIT at user option). Original license document including Apple SDK caveat is retained; standard MIT template is unfilled, no author/year is invented.",
+      "archive_sha256": "e022c9d066895efa1345f8e33e584b9f958da2fd4cd116792e15e07e4720a807"
+    },
+    "objc2-foundation@0.3.2": {
+      "declared_license": "MIT",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54.txt",
+          "sha256": "7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54",
+          "source_url": "https://raw.githubusercontent.com/madsmtm/objc2/7b1abfd750a2cacaea71d6a56ecfb83cb7de560b/LICENSE.md",
+          "evidence_kind": "upstream-linked-license-declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5.txt",
+          "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Exact per-revision original LICENSE.md declarations above explicitly identify MIT (or MIT at user option). Original license document including Apple SDK caveat is retained; standard MIT template is unfilled, no author/year is invented.",
+      "archive_sha256": "e3e0adef53c21f888deb4fa59fc59f7eb17404926ee8a6f59f5df0fd7f9f3272"
+    },
+    "objc2-io-surface@0.3.2": {
+      "declared_license": "Zlib OR Apache-2.0 OR MIT",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54.txt",
+          "sha256": "7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54",
+          "source_url": "https://raw.githubusercontent.com/madsmtm/objc2/7b1abfd750a2cacaea71d6a56ecfb83cb7de560b/LICENSE.md",
+          "evidence_kind": "upstream-linked-license-declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5.txt",
+          "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Exact per-revision original LICENSE.md declarations above explicitly identify MIT (or MIT at user option). Original license document including Apple SDK caveat is retained; standard MIT template is unfilled, no author/year is invented.",
+      "archive_sha256": "180788110936d59bab6bd83b6060ffdfffb3b922ba1396b312ae795e1de9d81d"
+    },
+    "objc2-osa-kit@0.3.2": {
+      "declared_license": "Zlib OR Apache-2.0 OR MIT",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54.txt",
+          "sha256": "7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54",
+          "source_url": "https://raw.githubusercontent.com/madsmtm/objc2/7b1abfd750a2cacaea71d6a56ecfb83cb7de560b/LICENSE.md",
+          "evidence_kind": "upstream-linked-license-declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5.txt",
+          "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Exact per-revision original LICENSE.md declarations above explicitly identify MIT (or MIT at user option). Original license document including Apple SDK caveat is retained; standard MIT template is unfilled, no author/year is invented.",
+      "archive_sha256": "f112d1746737b0da274ef79a23aac283376f335f4095a083a267a082f21db0c0"
+    },
+    "objc2-web-kit@0.3.2": {
+      "declared_license": "Zlib OR Apache-2.0 OR MIT",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54.txt",
+          "sha256": "7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54",
+          "source_url": "https://raw.githubusercontent.com/madsmtm/objc2/7b1abfd750a2cacaea71d6a56ecfb83cb7de560b/LICENSE.md",
+          "evidence_kind": "upstream-linked-license-declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5.txt",
+          "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Exact per-revision original LICENSE.md declarations above explicitly identify MIT (or MIT at user option). Original license document including Apple SDK caveat is retained; standard MIT template is unfilled, no author/year is invented.",
+      "archive_sha256": "b2e5aaab980c433cf470df9d7af96a7b46a9d892d521a2cbbb2f8a4c16751e7f"
+    },
+    "objc2-encode@4.1.0": {
+      "declared_license": "MIT",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54.txt",
+          "sha256": "7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54",
+          "source_url": "https://raw.githubusercontent.com/madsmtm/objc2/8d214f5477365ffcbcbb7de058c86ed9a518efb7/LICENSE.md",
+          "evidence_kind": "upstream-linked-license-declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5.txt",
+          "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Exact per-revision original LICENSE.md declarations above explicitly identify MIT (or MIT at user option). Original license document including Apple SDK caveat is retained; standard MIT template is unfilled, no author/year is invented.",
+      "archive_sha256": "ef25abbcd74fb2609453eb695bd2f860d389e457f67dc17cafc8b8cbc89d0c33"
+    },
+    "objc2-exception-helper@0.1.1": {
+      "declared_license": "Zlib OR Apache-2.0 OR MIT",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54.txt",
+          "sha256": "7f976f7e9cb2d87df7230606feb932c3f21ac0e664045a775b600046ff850c54",
+          "source_url": "https://raw.githubusercontent.com/madsmtm/objc2/8d214f5477365ffcbcbb7de058c86ed9a518efb7/LICENSE.md",
+          "evidence_kind": "upstream-linked-license-declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5.txt",
+          "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Exact per-revision original LICENSE.md declarations above explicitly identify MIT (or MIT at user option). Original license document including Apple SDK caveat is retained; standard MIT template is unfilled, no author/year is invented.",
+      "archive_sha256": "c7a1c5fbb72d7735b076bb47b578523aedc40f3c439bea6dfd595c089d79d98a"
+    },
+    "tauri-plugin@2.6.3": {
+      "declared_license": "Apache-2.0 OR MIT",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-5e834fe9788c524210deda859c46a550ffa5aa0cba9ea0572f0d81120e97c008.txt",
+          "sha256": "5e834fe9788c524210deda859c46a550ffa5aa0cba9ea0572f0d81120e97c008",
+          "source_url": "https://raw.githubusercontent.com/tauri-apps/tauri/6f6ab1207bb3923c2721fbc67d2fdb1c8deb0c7a/LICENSE.spdx",
+          "evidence_kind": "upstream-publisher-license"
+        },
+        {
+          "path": "scripts/license-evidence/native-9dd42ea92cff2ede5cd477cbfcce051b2d0115c0ac7f368ee88cb545055dff1d.txt",
+          "sha256": "9dd42ea92cff2ede5cd477cbfcce051b2d0115c0ac7f368ee88cb545055dff1d",
+          "source_url": "https://raw.githubusercontent.com/tauri-apps/tauri/6f6ab1207bb3923c2721fbc67d2fdb1c8deb0c7a/LICENSE_MIT",
+          "evidence_kind": "upstream-publisher-license"
+        }
+      ],
+      "archive_sha256": "74be5dd4bed9afbd145e5716b5fa2ec28cbc29c34ffa61c258c9273d896c8020"
+    },
+    "unic-char-property@0.9.0": {
+      "declared_license": "MIT/Apache-2.0",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-f5c342c49f3ac804f3e8e7bb62a8040a44c50d47bb36902b1abd13f66a1adf8b.txt",
+          "sha256": "f5c342c49f3ac804f3e8e7bb62a8040a44c50d47bb36902b1abd13f66a1adf8b",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/5878605364af97a3358368a6eaef02104af2e016/COPYRIGHT.md",
+          "evidence_kind": "upstream-publisher-license"
+        },
+        {
+          "path": "scripts/license-evidence/native-a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/5878605364af97a3358368a6eaef02104af2e016/LICENSE-APACHE",
+          "evidence_kind": "upstream-publisher-license"
+        },
+        {
+          "path": "scripts/license-evidence/native-23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3.txt",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/5878605364af97a3358368a6eaef02104af2e016/LICENSE-MIT",
+          "evidence_kind": "upstream-publisher-license"
+        }
+      ],
+      "archive_sha256": "a8c57a407d9b6fa02b4795eb81c5b6652060a15a7903ea981f3d723e6c0be221"
+    },
+    "unic-char-range@0.9.0": {
+      "declared_license": "MIT/Apache-2.0",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-f5c342c49f3ac804f3e8e7bb62a8040a44c50d47bb36902b1abd13f66a1adf8b.txt",
+          "sha256": "f5c342c49f3ac804f3e8e7bb62a8040a44c50d47bb36902b1abd13f66a1adf8b",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/5878605364af97a3358368a6eaef02104af2e016/COPYRIGHT.md",
+          "evidence_kind": "upstream-publisher-license"
+        },
+        {
+          "path": "scripts/license-evidence/native-a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/5878605364af97a3358368a6eaef02104af2e016/LICENSE-APACHE",
+          "evidence_kind": "upstream-publisher-license"
+        },
+        {
+          "path": "scripts/license-evidence/native-23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3.txt",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/5878605364af97a3358368a6eaef02104af2e016/LICENSE-MIT",
+          "evidence_kind": "upstream-publisher-license"
+        }
+      ],
+      "archive_sha256": "0398022d5f700414f6b899e10b8348231abf9173fa93144cbc1a43b9793c1fbc"
+    },
+    "unic-common@0.9.0": {
+      "declared_license": "MIT/Apache-2.0",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-f5c342c49f3ac804f3e8e7bb62a8040a44c50d47bb36902b1abd13f66a1adf8b.txt",
+          "sha256": "f5c342c49f3ac804f3e8e7bb62a8040a44c50d47bb36902b1abd13f66a1adf8b",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/5878605364af97a3358368a6eaef02104af2e016/COPYRIGHT.md",
+          "evidence_kind": "upstream-publisher-license"
+        },
+        {
+          "path": "scripts/license-evidence/native-a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/5878605364af97a3358368a6eaef02104af2e016/LICENSE-APACHE",
+          "evidence_kind": "upstream-publisher-license"
+        },
+        {
+          "path": "scripts/license-evidence/native-23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3.txt",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/5878605364af97a3358368a6eaef02104af2e016/LICENSE-MIT",
+          "evidence_kind": "upstream-publisher-license"
+        }
+      ],
+      "archive_sha256": "80d7ff825a6a654ee85a63e80f92f054f904f21e7d12da4e22f9834a4aaa35bc"
+    },
+    "unic-ucd-version@0.9.0": {
+      "declared_license": "MIT/Apache-2.0",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-f5c342c49f3ac804f3e8e7bb62a8040a44c50d47bb36902b1abd13f66a1adf8b.txt",
+          "sha256": "f5c342c49f3ac804f3e8e7bb62a8040a44c50d47bb36902b1abd13f66a1adf8b",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/5878605364af97a3358368a6eaef02104af2e016/COPYRIGHT.md",
+          "evidence_kind": "upstream-publisher-license"
+        },
+        {
+          "path": "scripts/license-evidence/native-a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/5878605364af97a3358368a6eaef02104af2e016/LICENSE-APACHE",
+          "evidence_kind": "upstream-publisher-license"
+        },
+        {
+          "path": "scripts/license-evidence/native-23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3.txt",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/5878605364af97a3358368a6eaef02104af2e016/LICENSE-MIT",
+          "evidence_kind": "upstream-publisher-license"
+        }
+      ],
+      "archive_sha256": "96bd2f2237fe450fcd0a1d2f5f4e91711124f7857ba2e964247776ebeeb7b0c4"
+    },
+    "unic-ucd-ident@0.9.0": {
+      "declared_license": "MIT/Apache-2.0",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-f5c342c49f3ac804f3e8e7bb62a8040a44c50d47bb36902b1abd13f66a1adf8b.txt",
+          "sha256": "f5c342c49f3ac804f3e8e7bb62a8040a44c50d47bb36902b1abd13f66a1adf8b",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/8a6ce83063d90b91ae2ce59eddb803edd393fca9/COPYRIGHT.md",
+          "evidence_kind": "upstream-publisher-license"
+        },
+        {
+          "path": "scripts/license-evidence/native-a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2.txt",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/8a6ce83063d90b91ae2ce59eddb803edd393fca9/LICENSE-APACHE",
+          "evidence_kind": "upstream-publisher-license"
+        },
+        {
+          "path": "scripts/license-evidence/native-23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3.txt",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3",
+          "source_url": "https://raw.githubusercontent.com/open-i18n/rust-unic/8a6ce83063d90b91ae2ce59eddb803edd393fca9/LICENSE-MIT",
+          "evidence_kind": "upstream-publisher-license"
+        }
+      ],
+      "archive_sha256": "e230a37c0381caa9219d67cf063aa3a375ffed5bf541a452db16e744bdab6987"
+    },
+    "sigchld@0.2.4": {
+      "declared_license": "MIT",
+      "upstream_license_file_missing": true,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-79bbbf7c7e7c9dfad8d8592223ae4d7fe90f769ab4e65b9d2081b5e5335c8901.txt",
+          "sha256": "79bbbf7c7e7c9dfad8d8592223ae4d7fe90f769ab4e65b9d2081b5e5335c8901",
+          "source_url": "https://raw.githubusercontent.com/oconnor663/sigchld.rs/07b95e2fe38b18b376b0f635f2766bf2e641b80b/Cargo.toml",
+          "evidence_kind": "publisher_declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5.txt",
+          "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Fixed-revision original Cargo.toml equals published Cargo.toml.orig byte-for-byte and declares MIT with original named author. Preserve the declaration/authors; standard terms remain unfilled. No upstream LICENSE file/copyright year/holder is invented.",
+      "archive_sha256": "47106eded3c154e70176fc83df9737335c94ce22f821c32d17ed1db1f83badb1"
+    },
+    "selectors@0.36.1": {
+      "declared_license": "MPL-2.0",
+      "upstream_license_file_missing": true,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-766674381e88a468d55e07de3596987391cf0e8beebe51baf4fddf11078785b3.txt",
+          "sha256": "766674381e88a468d55e07de3596987391cf0e8beebe51baf4fddf11078785b3",
+          "source_url": "https://raw.githubusercontent.com/servo/stylo/635e1a19d02960588a00e189bd4bd5bdb150ec3d/selectors/lib.rs",
+          "evidence_kind": "publisher_declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172.txt",
+          "sha256": "66a3107d5ad6a058aab753eaac2047ccb2ed0e39465dd0fe5844da3e300d5172",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MPL-2.0.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Original source header explicitly invokes MPL2.0 and Mozilla URL. Matching original crate source archive is included separately; preserve original notices without inventing an attribution.",
+      "archive_sha256": "c5d9c0c92a92d33f08817311cf3f2c29a3538a8240e94a6a3c622ce652d7e00c"
+    },
+    "siphasher@1.0.3": {
+      "declared_license": "MIT/Apache-2.0",
+      "upstream_license_file_missing": false,
+      "documents": [
+        {
+          "path": "scripts/license-evidence/native-c962ee4d1d05ddc138b202b2540219ebc57893fcf97b364852094a9a94ce1365.txt",
+          "sha256": "c962ee4d1d05ddc138b202b2540219ebc57893fcf97b364852094a9a94ce1365",
+          "source_url": "https://raw.githubusercontent.com/jedisct1/rust-siphash/451f67d73a772cba325728109bbfa247750ed076/COPYING",
+          "evidence_kind": "publisher_declaration"
+        },
+        {
+          "path": "scripts/license-evidence/native-b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5.txt",
+          "sha256": "b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5",
+          "source_url": "https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt",
+          "evidence_kind": "standard_terms"
+        }
+      ],
+      "evidence_note": "Published COPYING preserves original Rust Project Developers2012-2016 and Frank Denis2016-2026 notices and explicitly links MIT/Apache at user option. Retain original notices; append MIT standard terms unchanged.",
+      "archive_sha256": "8ee5873ec9cce0195efcb7a4e9507a04cd49aec9c83d0389df45b1ef7ba2e649"
+    }
+  },
+  "node": {
+    "version": "v22.23.1",
+    "pkg_version": "6.21.0",
+    "pkg_fetch_version": "3.6.4",
+    "license_document": {
+      "path": "scripts/license-evidence/native-c738ae413cf561f174e34f6961f8ca458aae2369a73640dda6234c629b98bcc4.txt",
+      "sha256": "c738ae413cf561f174e34f6961f8ca458aae2369a73640dda6234c629b98bcc4",
+      "source_url": "https://raw.githubusercontent.com/nodejs/node/v22.23.1/LICENSE",
+      "evidence_kind": "upstream-node-license-with-third-party-terms"
+    }
+  },
+  "rust_std": {
+    "version": "1.93.1",
+    "license_document": {
+      "path": "scripts/license-evidence/native-d93d65853736bde4e8649691233a98848ba709673873aeb39487bc1ca6ee292a.html",
+      "sha256": "d93d65853736bde4e8649691233a98848ba709673873aeb39487bc1ca6ee292a",
+      "source_url": "https://static.rust-lang.org/dist/rustc-1.93.1-aarch64-apple-darwin.tar.xz",
+      "evidence_kind": "installed-standard-library-complete-notices",
+      "archive_member": "rustc-1.93.1-aarch64-apple-darwin/rustc/share/doc/rust/COPYRIGHT-library.html",
+      "archive_sha256": "d103a0ee04c121b30cf061c7ad1456daaebd7ff0a7ea5fdb64acf92d86cb25fd"
+    }
+  }
+}

@@ -1,0 +1,4 @@
+Publisher source copyright lines retained from the exact Maven sources artifact.
+Source archive SHA-256: 917d8eb9d7f7f8758afdf9878942c221636adba31cdab657093f3f671a2eb944
+
+Copyright 2015 - 2016 KeepSafe Software, Inc.

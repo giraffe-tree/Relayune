@@ -411,3 +411,12 @@ function smokeTestWindowsSidecar(sidecarPath) {
     );
   }
 }
+
+// Native legal materials are generated only after the existing sidecar layout,
+// signing and smoke checks have completed. This does not alter their offsets.
+if (requestedTuple.endsWith('apple-darwin')) {
+  execFileSync(process.execPath, [
+    join(repositoryDirectory, 'scripts', 'native-desktop-notices.mjs'),
+    '--target', requestedTuple,
+  ], { cwd: repositoryDirectory, stdio: 'inherit' });
+}

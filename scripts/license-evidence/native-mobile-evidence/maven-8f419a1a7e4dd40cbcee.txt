@@ -1,0 +1,6 @@
+Publisher source copyright lines retained from the exact Maven sources artifact.
+Source archive SHA-256: c3c3c296d0a64b48b0f89d9b9305499fc78db99e97b7a5ace2a21f76d36f8a44
+
+Copyright 2018 The Android Open Source Project
+Copyright 2019 The Android Open Source Project
+Copyright 2020 The Android Open Source Project

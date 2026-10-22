@@ -83,6 +83,9 @@ flutter:
 
   generate: true
 
+  licenses:
+    - assets/native-notices/THIRD_PARTY_LICENSES.txt
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -96,6 +99,7 @@ flutter:
     - assets/visualization/
     - assets/local_web/
     - assets/mermaid/
+    - assets/native-notices/
     - assets/notifications/task-completion-ios.png
 
   # To add assets to your application, add an assets section, like this:

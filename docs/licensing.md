@@ -62,7 +62,8 @@ python3 scripts/audit-licenses.py --write-vendored-notices
 字符串匹配，例如 MPL 正文含 GPL 字样，并不表示该包采用 GPL；最终判断以其完整原许可为准。
 自动许可清单不是法律意见，也不证明所有许可义务已满足。
 
-本次仅准备源码公开：`node_modules`、Cargo 构建目录、Flutter 构建缓存和应用安装包不在候选集。
+源码公开候选不包含 `node_modules`、Cargo 构建目录、Flutter 构建缓存和应用安装包。
+原生安装包的分发材料与实际产物核验另行记录，不以源码清单代替。
 构建脚本现将 JavaScript 依赖的完整许可文本随生成物写出，项目 `LICENSE` 单独保留：
 
 - Web 的 `npm run build` 在 `out/` 生成 `THIRD_PARTY_LICENSES.txt` 和 JSON 证据；自托管构建
@@ -79,20 +80,30 @@ python3 scripts/audit-licenses.py --write-vendored-notices
 使用同版本 Next 仓库核验过的正文；`dijkstrajs` 保留其原 MIT 声明与归属，并附固定 SPDX
 标准条文，保留标准模板占位符，不替换成其他包的作者。
 
-Web 超集中还有一个明确未闭环项：`client-only@0.0.1` 声明 MIT，但包内缺完整正文，未找到
-可核验的该版本版权来源。仅这个精确版本/安装路径允许输出带缺口的报告，以便构建源码和
-检查产物；报告保留 `notices_complete: false`、`risk_accepted: false` 并发出警告，不宣称
-已通过分发许可验收。其他未知缺口及任何路径、包身份或证据校验错误继续使构建失败。
-公开部署生成站点前，需进一步核对该包是否实际进入产物及适用许可，不能把“超集已列出”
-视作该问题已解决。
+`client-only@0.0.1` 的包内许可正文仍缺失；普通构建现在通过实际静态产物的来源证据，仅将
+这个未进入发布 JS 的精确包版本从 Web 超集中排除。构建逐个检查实际 JS 链接的 source map
+全部来源及原文、无 map 文件的精确来源和 HTML 内联脚本形态，并绑定最终字节及构建输入。
+映射只留在忽略目录 `.public-prep/`，发布目录删除映射及末尾映射指令。缺映射、未知脚本、
+来源中出现该包或输入变更均使检查失败。覆盖报告明确记录 `artifact_excluded_packages`，
+不为该包猜测版权，也不清除其他分发场景中的缺证据问题。详见补证说明。
 
-这些证据只覆盖 JavaScript 输入。sidecar 的 pkg 工具声明与 Node 版本候选不是最终 Node
-二进制的许可证明；Node 本体及其内置库、Rust/native 组件和平台 SDK 仍需单独核对实际构建物。
-Windows CI 已禁用安装器上传，只在临时 runner 内验证。源码清单与上述 JS 声明都不能直接
-作为整个原生安装包的发行合规证明。
-如果以后分发 Desktop / Android / iOS 二进制，需单独检查实际打包物的归属与完整 notices，尤其是
-Node sidecar、Flutter SDK、WebRTC、PDFium、SQLite、原生插件及其下载的预编译库。现有包元数据不能
-替代该检查；也不能把源码许可扫描通过表述为二进制发行许可已验收。
+macOS 的 `prepare-sidecar` 在既有签名、布局修复和 smoke 检查完成后，自动生成独立的
+`generated-notices/native-desktop/` 资源：固定版本 Node 的完整许可及内置库条文、pkg 注入代码
+和补丁的原 MIT 声明、目标筛选后的 Cargo 非开发/构建依赖超集全文，以及 Rust 标准库声明。
+缺独立 LICENSE 的特定 crate 保留原发布者声明，标准条文另行标注；不会填造版权年份或主体。
+MPL 依赖同时携带与 Cargo 锁校验和一致的原始源码包，并逐文件确认本地源码未被修改。
+macOS 当前两目标集合各含 335 个 registry crate；它是超集，不是精确链接清单。
+
+生成器通过 `PKG_INVOKE_NODEJS` 只读核对新 sidecar 的 Node 版本/架构，并检查所选 pkg 缓存
+原始 runtime 哈希。该探针绕过应用业务入口，不能替代启动和连接验收。最终 App 还需执行
+`node scripts/native-desktop-notices.mjs --verify-app <Relayune.app>`，核对实际 App 中的全部
+选定声明、MPL 源包和 JS 声明字节，记录 App 可执行文件与 sidecar 哈希。材料生成成功与
+最终签名安装包的核验状态分开报告。来源及补证方式见
+[`native-README.md`](../scripts/license-evidence/native-README.md)。
+
+Windows CI 已禁用安装器上传；当前 macOS 原生生成器不为 Windows 二进制作验收。
+Flutter、Pods、Gradle/Maven 及其 WebRTC、PDFium 等预编译库仍需移动端各自的实际打包物证据；
+源码扫描、JS 声明或 macOS 材料都不能代替该检查。
 
 ## 可核验来源
 

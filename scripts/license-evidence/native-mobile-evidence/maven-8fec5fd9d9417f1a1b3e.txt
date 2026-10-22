@@ -1,0 +1,20 @@
+Publisher source copyright lines retained from the exact Maven sources artifact.
+Source archive SHA-256: 967ad9599254e3a60d96d6c789547cc35c22d770d9c8fb1e3f15fac3b4c3b65d
+
+Copyright (c) 2007-present, Stephen Colebourne & Michael Nascimento Santos
+Copyright 2007 Google Inc.
+Copyright 2010-2015 JetBrains s.r.o.
+Copyright 2010-2016 JetBrains s.r.o.
+Copyright 2010-2017 JetBrains s.r.o.
+Copyright 2010-2018 JetBrains s.r.o. Use of this source code is governed by the Apache 2.0 license
+Copyright 2010-2018 JetBrains s.r.o. and Kotlin Programming Language contributors.
+Copyright 2010-2019 JetBrains s.r.o. and Kotlin Programming Language contributors.
+Copyright 2010-2020 JetBrains s.r.o. and Kotlin Programming Language contributors.
+Copyright 2010-2021 JetBrains s.r.o. and Kotlin Programming Language contributors.
+Copyright 2010-2022 JetBrains s.r.o. and Kotlin Programming Language contributors.
+Copyright 2010-2023 JetBrains s.r.o. and Kotlin Programming Language contributors.
+Copyright 2010-2024 JetBrains s.r.o. and Kotlin Programming Language contributors.
+Copyright 2010-2025 JetBrains s.r.o. and Kotlin Programming Language contributors.
+Copyright 2011 The Guava Authors
+Copyright Eric Ford & Hubert Holin 2001.
+public const val copyright: Char = '\u00A9'

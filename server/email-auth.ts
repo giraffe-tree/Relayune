@@ -284,7 +284,8 @@ export class EmailAuth {
       else await this.enforcePasswordRateLimit(identifier, requestIpHash);
       const user = await this.collection("auth_users").findOne(this.authMode === "username"
         ? { username: identifier, auth_mode: "username" } : { _id: identifier });
-      const valid = !user?.account_deletion_started_at && await verifyPassword(password, user);
+      const passwordValid = await verifyPassword(password, user);
+      const valid = !user?.account_deletion_started_at && authGeneration(user?.auth_epoch) !== null && passwordValid;
       if (!valid) {
         if (this.authMode === "email") await this.recordFailedPasswordAttempt(identifier, requestIpHash);
         sendJson(response, 401, {
@@ -466,7 +467,7 @@ export class EmailAuth {
         sendJson(response, 409, { error: { code: "account_deletion_in_progress" } });
         return true;
       }
-      await this.collection("auth_users").updateOne(
+      const updatedUser = await this.db.collection<{ _id: string; auth_epoch: number }>("auth_users").findOneAndUpdate(
         { _id: email },
         {
           $set: {
@@ -480,13 +481,27 @@ export class EmailAuth {
           $setOnInsert: {
             created_at: now,
           },
+          $inc: { auth_epoch: 1 },
         },
-        { upsert: true },
+        { upsert: true, returnDocument: "after" },
       );
+      if (!updatedUser || authGeneration(updatedUser.auth_epoch) === null) {
+        throw new Error("account_generation_update_failed");
+      }
+      // Cleanup is bounded to older generations: concurrent recovery/login may
+      // already have created a newer session. The generation check below, not
+      // deletion, also rejects stale sessions inserted after this cleanup.
+      await this.collection("auth_sessions").deleteMany({
+        email,
+        $or: [
+          { auth_epoch: { $lt: updatedUser.auth_epoch } },
+          { auth_epoch: { $exists: false } },
+        ],
+      });
       await this.collection("auth_login_attempts").deleteMany({
         email_hash: sha256(email),
       });
-      const sessionToken = await this.createWebSession(request, email);
+      const sessionToken = await this.createWebSession(request, email, updatedUser);
       sendJson(
         response,
         200,
@@ -634,7 +649,10 @@ export class EmailAuth {
     if (this.authMode === "username" ? !LOCAL_ACCOUNT_ID.test(email) : !isValidEmail(email)) return null;
     const user = await this.collection("auth_users").findOne({ _id: email });
     if (!user || (!allowDeleting && user.account_deletion_started_at)) return null;
-    if (this.authMode === "username" && (user.auth_mode !== "username" || session?.auth_epoch !== user.auth_epoch)) return null;
+    if (this.authMode === "username" && user.auth_mode !== "username") return null;
+    const userGeneration = authGeneration(user.auth_epoch);
+    const sessionGeneration = authGeneration(session?.auth_epoch);
+    if (userGeneration === null || sessionGeneration === null || sessionGeneration !== userGeneration) return null;
     await this.renewSession(session);
     markAuthenticated(email, "email_session");
     return email;
@@ -665,16 +683,22 @@ export class EmailAuth {
   private async createWebSession(
     request: IncomingMessage,
     email: string,
-    authenticatedUser?: AuthDocument,
+    authenticatedUser: AuthDocument,
   ): Promise<string> {
+    // Bind to the snapshot whose password was verified (or atomically changed).
+    // Re-reading the current generation here would reauthorize an old-password
+    // login that raced a password recovery.
+    const generation = authGeneration(authenticatedUser.auth_epoch);
+    if (generation === null) throw new Error("invalid_account_generation");
     const sessionToken = randomBytes(32).toString("base64url");
     const now = new Date();
     await this.collection("auth_sessions").insertOne({
       _id: sha256(sessionToken),
       token_hash: sha256(sessionToken),
       ...(this.authMode === "username"
-        ? { account_id: email, auth_epoch: authenticatedUser?.auth_epoch }
+        ? { account_id: email }
         : { email }),
+      auth_epoch: generation,
       created_at: now,
       expires_at: new Date(now.getTime() + WEB_SESSION_TTL_MS),
       revoked_at: null,
@@ -1449,6 +1473,13 @@ function badAuthRequest(message: string) {
   error.status = 400;
   error.publicMessage = message;
   return error;
+}
+
+function authGeneration(value: unknown): number | null {
+  // Only an absent field is legacy generation zero. Explicit null, strings,
+  // fractions, negatives and unsafe integers must never regain authority.
+  if (value === undefined) return 0;
+  return typeof value === "number" && Number.isSafeInteger(value) && value >= 0 ? value : null;
 }
 
 function normalizeOrigin(value: string) {

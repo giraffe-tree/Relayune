@@ -1,0 +1,15 @@
+Publisher source copyright lines retained from the exact Maven sources artifact.
+Source archive SHA-256: daac0a27317f35701236822b0c16974d1926a0d2b46ac3d2db8b116e18c83f49
+
+Copyright (C) 2018 The Android Open Source Project
+Copyright 2018 The Android Open Source Project
+Copyright 2018 The Chromium Authors
+Copyright 2019 The Android Open Source Project
+Copyright 2019 The Chromium Authors
+Copyright 2020 The Android Open Source Project
+Copyright 2020 The Chromium Authors
+Copyright 2021 The Chromium Authors
+Copyright 2022 The Android Open Source Project
+Copyright 2022 The Chromium Authors
+Copyright 2023 The Android Open Source Project
+Copyright 2023 The Chromium Authors

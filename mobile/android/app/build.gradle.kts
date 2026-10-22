@@ -43,7 +43,8 @@ if (releaseBuildRequested && !releaseSigningReady) {
 
 android {
     namespace = "cn.giraffetree.relayune"
-    compileSdk = flutter.compileSdkVersion
+    // flutter_webrtc requires API 36; targetSdk remains the reviewed app target.
+    compileSdk = 36
     // Native plugin floor (app_links, secure storage and path provider).
     ndkVersion = "27.0.12077973"
 

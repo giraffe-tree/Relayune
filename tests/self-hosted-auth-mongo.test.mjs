@@ -47,6 +47,7 @@ test('standalone self-hosted username auth, ownership and local recovery', { ski
     try { await client.connect(); break; }
     catch (error) { if (attempt > 50 || mongo.exitCode !== null) throw error; await delay(100); }
   }
+  assert.equal(Number((await client.db('admin').command({ serverStatus: 1 })).pid), mongo.pid);
   const bundle = join(root, 'api.cjs');
   await build({ stdin: { contents: `export {EmailAuth} from './server/email-auth.ts'; export * from './server/local-accounts.ts'; export {PairingApi} from './server/pairing-api.ts'; export {MongoStore,initializeRelayMongo} from './server/mongo-store.ts'; export {handleRelayApi} from './server/relay-api.ts'; export {FeedbackApi} from './server/feedback-api.ts'; export {createMonitoring} from './server/monitoring.ts';`, resolveDir: process.cwd() }, outfile: bundle, bundle: true, platform: 'node', format: 'cjs', logLevel: 'silent' });
   const { EmailAuth, resetLocalOwnerPassword, initializeLocalOwner, initializeLocalAccounts, PairingApi, MongoStore, initializeRelayMongo, handleRelayApi, FeedbackApi, createMonitoring } = createRequire(import.meta.url)(bundle);
@@ -181,6 +182,54 @@ test('standalone self-hosted username auth, ownership and local recovery', { ski
     unblock(); await login;
     assert.equal(old.status, 200);
     assert.equal(await auth.authenticate(request('GET', '/', undefined, { cookie: old.cookie() })), null);
+  });
+  await t.test('delayed local recovery cleanup preserves a newer login but rejects older and late sessions', async () => {
+    const isolated = client.db('isolated_local_cleanup_race');
+    const recoveryAuth = new EmailAuth(isolated, { publicOrigin: ORIGIN, authMode: 'username' });
+    await recoveryAuth.initialize();
+    const owner = await initializeLocalOwner(isolated, 'admin', password);
+    const login = async value => {
+      const result = response();
+      await recoveryAuth.handle(request('POST', '/api/auth/password', { username: 'admin', password: value }), result);
+      return result;
+    };
+    const authenticate = cookie => recoveryAuth.authenticate(request('GET', '/', undefined, { cookie }));
+    const old = await login(password); assert.equal(old.status, 200);
+    const legacyToken = randomBytes(32).toString('base64url');
+    await isolated.collection('auth_sessions').insertOne({ token_hash: hash(legacyToken), account_id: owner._id, expires_at: new Date(Date.now() + 60000), revoked_at: null });
+    let release, entered;
+    const blocked = new Promise(resolve => { release = resolve; });
+    const cleanupEntered = new Promise(resolve => { entered = resolve; });
+    const delayed = new Proxy(isolated, { get(target, property) {
+      if (property !== 'collection') { const value = target[property]; return typeof value === 'function' ? value.bind(target) : value; }
+      return name => {
+        const collection = target.collection(name);
+        if (name !== 'auth_sessions') return collection;
+        return new Proxy(collection, { get(source, key) {
+          if (key === 'deleteMany') return async (...args) => { entered(); await blocked; return source.deleteMany(...args); };
+          const value = source[key]; return typeof value === 'function' ? value.bind(source) : value;
+        } });
+      };
+    } });
+    const older = resetLocalOwnerPassword(delayed, 'older-concurrent-recovery-password');
+    try {
+      await cleanupEntered;
+      await resetLocalOwnerPassword(isolated, 'newest-concurrent-recovery-password');
+      const fresh = await login('newest-concurrent-recovery-password'); assert.equal(fresh.status, 200);
+      assert.equal(await authenticate(fresh.cookie()), owner._id);
+      release(); await older;
+      assert.equal((await isolated.collection('auth_users').findOne({ _id: owner._id })).auth_epoch, 3);
+      assert.equal(await authenticate(fresh.cookie()), owner._id);
+      assert.equal(await authenticate(old.cookie()), null);
+      assert.equal(await isolated.collection('auth_sessions').countDocuments({ account_id: owner._id, auth_epoch: 3 }), 1);
+      assert.equal(await isolated.collection('auth_sessions').countDocuments({ token_hash: hash(legacyToken) }), 0);
+      assert.equal((await login(password)).status, 401);
+      assert.equal((await login('older-concurrent-recovery-password')).status, 401);
+      const lateToken = randomBytes(32).toString('base64url');
+      await isolated.collection('auth_sessions').insertOne({ token_hash: hash(lateToken), account_id: owner._id, auth_epoch: 2, expires_at: new Date(Date.now() + 60000), revoked_at: null });
+      assert.equal(await authenticate(`relay_session=${lateToken}`), null);
+      assert.equal(await isolated.collection('auth_sessions').countDocuments({ token_hash: hash(lateToken) }), 1);
+    } finally { release(); await older; }
   });
   await t.test('real HTTP dispatcher starts without SMTP/setup token and strips forged account headers', async sub => {
     await db.collection('auth_password_limits').deleteMany({});

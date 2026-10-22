@@ -1,0 +1,5 @@
+Publisher source copyright lines retained from the exact Maven sources artifact.
+Source archive SHA-256: ff2309b42f7584520497bb48bc609aca04c9886cf48708f14be83f00423ec144
+
+Copyright 2000-2020 JetBrains s.r.o.
+Copyright 2000-2021 JetBrains s.r.o.

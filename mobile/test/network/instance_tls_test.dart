@@ -10,6 +10,7 @@ void main() {
   late Directory tmp;
   late HttpServer server;
   late String pem, origin;
+  late String ecPem;
   var arrivals = 0;
   Completer<void>? stalledHandshake;
   setUpAll(() async {
@@ -73,6 +74,28 @@ void main() {
       '${tmp.path}/extensions',
     ]);
     pem = await File('${tmp.path}/ca.pem').readAsString();
+    await openssl([
+      'req',
+      '-x509',
+      '-newkey',
+      'ec',
+      '-pkeyopt',
+      'ec_paramgen_curve:prime256v1',
+      '-nodes',
+      '-keyout',
+      '${tmp.path}/ec-ca-key.pem',
+      '-out',
+      '${tmp.path}/ec-ca.pem',
+      '-days',
+      '1',
+      '-subj',
+      '/CN=Relayune synthetic EC CA',
+      '-addext',
+      'basicConstraints=critical,CA:TRUE',
+      '-addext',
+      'keyUsage=critical,keyCertSign,cRLSign',
+    ]);
+    ecPem = await File('${tmp.path}/ec-ca.pem').readAsString();
     final context = SecurityContext()
       ..useCertificateChain('${tmp.path}/leaf.pem')
       ..usePrivateKey('${tmp.path}/key.pem');
@@ -141,6 +164,14 @@ void main() {
       );
     },
   );
+  test('installer EC CA imports while malformed public certificates fail', () {
+    expect(certificateFingerprint(ecPem), matches(RegExp(r'^[A-F0-9]{64}$')));
+    instanceIoClient(ecPem).close(force: true);
+    const malformed =
+        '-----BEGIN CERTIFICATE-----\nAA==\n-----END CERTIFICATE-----';
+    expect(() => certificateFingerprint(malformed), throwsA(isA<TlsException>()));
+    expect(() => instanceIoClient(malformed), throwsA(isA<TlsException>()));
+  });
   test('HTTP and WSS never follow credential-bearing redirects', () async {
     arrivals = 0;
     final api = RelayApi(origin: origin, certificatePem: pem)

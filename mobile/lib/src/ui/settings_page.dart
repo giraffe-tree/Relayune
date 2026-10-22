@@ -333,6 +333,15 @@ class _SettingsPageState extends State<SettingsPage> {
                       copy,
                     ),
                   ),
+                  _SettingsTile(
+                    key: const ValueKey('settings-licenses-entry'),
+                    icon: Icons.copyright_outlined,
+                    title: MaterialLocalizations.of(context).licensesPageTitle,
+                    onTap: () => showLicensePage(
+                      context: context,
+                      applicationName: 'Relayune',
+                    ),
+                  ),
                 ],
               ),
               const SizedBox(height: 24),

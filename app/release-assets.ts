@@ -8,7 +8,7 @@ export const RELAYUNE_IOS_TESTFLIGHT_URL = "https://testflight.apple.com/join/1s
 
 export const RELAYUNE_RELEASE_VERSION = "0.3.32";
 export const RELAYUNE_MACOS_RELEASE_VERSION = "0.3.32";
-export const RELAYUNE_WEB_RELEASE_VERSION = "0.3.32";
+export const RELAYUNE_WEB_RELEASE_VERSION = "0.3.33";
 
 function parseAndroidReleaseNotes(source: string) {
   const [title = "", ...items] = source

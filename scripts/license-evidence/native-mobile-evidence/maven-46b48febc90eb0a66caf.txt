@@ -1,0 +1,13 @@
+Publisher source copyright lines retained from the exact Maven sources artifact.
+Source archive SHA-256: 254d55ea959608a833fa07056710488c1f4978875f86f6a106b8d937b29b1170
+
+Copyright (C) 2012 Google, Inc.
+Copyright (C) 2013 Google, Inc.
+Copyright (C) 2014 Google Inc.
+Copyright (C) 2014 Google, Inc.
+Copyright (C) 2015 Google Inc.
+Copyright (C) 2015 Google, Inc.
+Copyright (C) 2016 Google Inc.
+Copyright (C) 2016 Google, Inc.
+Copyright (C) 2017 Google, Inc.
+Copyright (C) 2018 Google, Inc.

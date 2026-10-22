@@ -79,7 +79,15 @@ export async function resetLocalOwnerPassword(db: Db, password: unknown): Promis
     { returnDocument: "after" },
   );
   if (!owner) throw localAccountError(409, "instance_not_initialized");
-  await db.collection("auth_sessions").deleteMany({ account_id: owner._id, auth_epoch: { $ne: owner.auth_epoch } });
+  // A slower recovery must not delete sessions created by a newer recovery.
+  // Generation checks also reject old sessions inserted after this cleanup.
+  await db.collection("auth_sessions").deleteMany({
+    account_id: owner._id,
+    $or: [
+      { auth_epoch: { $lt: owner.auth_epoch } },
+      { auth_epoch: { $exists: false } },
+    ],
+  });
 }
 
 export function publicAccount(user: Account) {

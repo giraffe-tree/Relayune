@@ -1,0 +1,11 @@
+Publisher source copyright lines retained from the exact Maven sources artifact.
+Source archive SHA-256: 0b0ee42feb6b3d1e4c9b501bb4c2e5e5a5c40880e48a8028457e8d15092b05c8
+
+"This tag contains the text copyright information for the profile.",
+"copyrightTag", "multiLocalizedUnicodeType", 0x63707274
+116, "Copyright Notice"),
+COPYRIGHT_NOTICE(
+COPYRIGHT_TAG(
+new ImageResourceType(1034, "Copyright flag"),
+public static final int IMAGE_RESOURCE_BLOCK_COPYRIGHT_FLAG = 0x040a;
+this work for additional information regarding copyright ownership.

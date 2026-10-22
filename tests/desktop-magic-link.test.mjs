@@ -683,17 +683,33 @@ class AuthDatabase {
           };
           documents.push(document);
         }
-        if (document) Object.assign(document, update.$set || {});
+        if (document) {
+          Object.assign(document, update.$set || {});
+          for (const [key, value] of Object.entries(update.$inc || {})) {
+            const current = Object.hasOwn(document, key) ? document[key] : 0;
+            if (typeof current !== "number" || typeof value !== "number") throw new Error("fixture_mongo_inc_requires_numbers");
+            document[key] = current + value;
+          }
+        }
         return { acknowledged: true };
       },
-      findOneAndUpdate: async (filter, update) => {
-        const document = documents.find((candidate) =>
+      findOneAndUpdate: async (filter, update, options = {}) => {
+        let document = documents.find((candidate) =>
           matches(candidate, filter),
         );
+        const before = document ? structuredClone(document) : null;
+        if (!document && options.upsert) {
+          document = { ...plainFilter(filter), ...(update.$setOnInsert || {}) };
+          documents.push(document);
+        }
         if (!document) return null;
-        const before = structuredClone(document);
         Object.assign(document, update.$set || {});
-        return before;
+        for (const [key, value] of Object.entries(update.$inc || {})) {
+          const current = Object.hasOwn(document, key) ? document[key] : 0;
+          if (typeof current !== "number" || typeof value !== "number") throw new Error("fixture_mongo_inc_requires_numbers");
+          document[key] = current + value;
+        }
+        return options.returnDocument === "after" ? structuredClone(document) : before;
       },
     };
   }
@@ -733,6 +749,7 @@ function requestFor(url, body = "", headers = {}) {
 
 function matches(document, filter) {
   return Object.entries(filter).every(([key, expected]) => {
+    if (key === "$or") return expected.some((alternative) => matches(document, alternative));
     const actual = document[key];
     if (
       expected &&
@@ -741,6 +758,8 @@ function matches(document, filter) {
     ) {
       if ("$gt" in expected && !(actual > expected.$gt)) return false;
       if ("$gte" in expected && !(actual >= expected.$gte)) return false;
+      if ("$lt" in expected && !(actual < expected.$lt)) return false;
+      if ("$exists" in expected && Object.hasOwn(document, key) !== expected.$exists) return false;
       return true;
     }
     return actual === expected;

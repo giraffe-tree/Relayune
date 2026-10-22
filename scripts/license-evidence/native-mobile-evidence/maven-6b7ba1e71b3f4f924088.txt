@@ -1,0 +1,4 @@
+Publisher source copyright lines retained from the exact Maven sources artifact.
+Source archive SHA-256: 3d1bd8d4a39b293612a40e547ec51d9ce34fa638d7adeae83871cdbe2923b161
+
+Copyright (C) 2007 The Guava Authors
