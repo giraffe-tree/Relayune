@@ -2,9 +2,9 @@
   "schema_version": 1,
   "scope": "All entries in the six listed lockfiles; includes development, optional and cross-platform dependencies, not a linked-binary bill of materials.",
   "inputs_sha256": {
-    "package-lock.json": "ee17b9eca6c1e7c1f75ca998e9d9dd046cf106abc070f0a42722cb3bf4c3edd7",
-    "desktop/package-lock.json": "03727eb46d8d24230159d78b583d7fabe5cba9a35f268c681306ae882c949821",
-    "desktop/src-tauri/Cargo.lock": "9b60bd2232dafdbdfa5c91b56155102dc82a2b3172db0c32d5b61e32a94dfdca",
+    "package-lock.json": "92c5771d728c421efa4d3364fedfc169860e84ccafc896837bd9f0d6ca7a6352",
+    "desktop/package-lock.json": "42e0916d9873f184168afdf069fd275855f84dd2a32ded2f8c1b7f39f96a5925",
+    "desktop/src-tauri/Cargo.lock": "a344b97b9b874865e1e1bd69a148308eec3cddd15e537018fc463aec8403ba35",
     "mobile/pubspec.lock": "3cc0ec5f762316e290cc105cce067372f9f90e99400c9121f5941ad63e29cd9b",
     "docs/design/startup-effects-preview/pubspec.lock": "1f8843d933c7c6e7b8c97b4a179169dd9dcb19d3811c1bdf49990f5b7c4057df",
     "docs/design/history-loading-preview/pubspec.lock": "fccfc4f436ab1a3b02c6640260fecf27e98e6babbaa4d27f7a66215fb390b21b"
@@ -1654,25 +1654,6 @@
     {
       "ecosystem": "npm",
       "lockfile": "package-lock.json",
-      "package_path": "node_modules/@larksuiteoapi/node-sdk",
-      "name": "@larksuiteoapi/node-sdk",
-      "version": "1.72.0",
-      "declared_license": "MIT",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "f9bfd5e309b1523a2dd3937b44f516e6018605eb05b35336485b0a34cbd9f373"
-        }
-      ],
-      "locked_integrity": "sha512-8oKnaTxRFRNPQfeeG69yafdLzWvvrvXlIqX3QRvozR1/6kvZyi9iMhp6lwC+hMgJA/GCFwMZRadkJzlUE+kyvQ==",
-      "metadata_url": "https://registry.npmmirror.com/@larksuiteoapi/node-sdk/-/node-sdk-1.72.0.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
       "package_path": "node_modules/@leichtgewicht/ip-codec",
       "name": "@leichtgewicht/ip-codec",
       "version": "2.0.5",
@@ -2222,177 +2203,6 @@
       ],
       "locked_integrity": "sha512-C2Xj8FZ0uHWeCXXqX5B4/gVFQmtSkiuOolzAgutjTfseNOHT3pUjljDZsTSxXFGgio54bCzVFqmEOUrIVk8RDA==",
       "metadata_url": "https://registry.npmmirror.com/@peculiar/x509/-/x509-1.14.3.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/@protobufjs/aspromise",
-      "name": "@protobufjs/aspromise",
-      "version": "1.1.2",
-      "declared_license": "BSD-3-Clause",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "a67b34a24a5daddcce46aea68c5004e4442bbfb63690329fa607bf4de4269794"
-        }
-      ],
-      "locked_integrity": "sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==",
-      "metadata_url": "https://registry.npmmirror.com/@protobufjs/aspromise/-/aspromise-1.1.2.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/@protobufjs/base64",
-      "name": "@protobufjs/base64",
-      "version": "1.1.2",
-      "declared_license": "BSD-3-Clause",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "a67b34a24a5daddcce46aea68c5004e4442bbfb63690329fa607bf4de4269794"
-        }
-      ],
-      "locked_integrity": "sha512-AZkcAA5vnN/v4PDqKyMR5lx7hZttPDgClv83E//FMNhR2TMcLUhfRUBHCmSl0oi9zMgDDqRUJkSxO3wm85+XLg==",
-      "metadata_url": "https://registry.npmmirror.com/@protobufjs/base64/-/base64-1.1.2.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/@protobufjs/codegen",
-      "name": "@protobufjs/codegen",
-      "version": "2.0.5",
-      "declared_license": "BSD-3-Clause",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "a67b34a24a5daddcce46aea68c5004e4442bbfb63690329fa607bf4de4269794"
-        }
-      ],
-      "locked_integrity": "sha512-zgXFLzW3Ap33e6d0Wlj4MGIm6Ce8O89n/apUaGNB/jx+hw+ruWEp7EwGUshdLKVRCxZW12fp9r40E1mQrf/34g==",
-      "metadata_url": "https://registry.npmmirror.com/@protobufjs/codegen/-/codegen-2.0.5.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/@protobufjs/eventemitter",
-      "name": "@protobufjs/eventemitter",
-      "version": "1.1.1",
-      "declared_license": "BSD-3-Clause",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "a67b34a24a5daddcce46aea68c5004e4442bbfb63690329fa607bf4de4269794"
-        }
-      ],
-      "locked_integrity": "sha512-vW1GmwMZNnL+gMRaovlh9yZX74kc+TTU3FObkkurpMaRtBfLP3ldjS9KQWlwZgraRE0+dheEEoAxdzcJQ8eXZg==",
-      "metadata_url": "https://registry.npmmirror.com/@protobufjs/eventemitter/-/eventemitter-1.1.1.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/@protobufjs/fetch",
-      "name": "@protobufjs/fetch",
-      "version": "1.1.1",
-      "declared_license": "BSD-3-Clause",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "a67b34a24a5daddcce46aea68c5004e4442bbfb63690329fa607bf4de4269794"
-        }
-      ],
-      "locked_integrity": "sha512-GpptLrs57adMSuHi3VNj0mAF8dwh36LMaYF6XyJ6JMWlVsc+t42tm1HSEDmOs3A8fC9yyeisgLhsTVQokOZ0zw==",
-      "metadata_url": "https://registry.npmmirror.com/@protobufjs/fetch/-/fetch-1.1.1.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/@protobufjs/float",
-      "name": "@protobufjs/float",
-      "version": "1.0.2",
-      "declared_license": "BSD-3-Clause",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "a67b34a24a5daddcce46aea68c5004e4442bbfb63690329fa607bf4de4269794"
-        }
-      ],
-      "locked_integrity": "sha512-Ddb+kVXlXst9d+R9PfTIxh1EdNkgoRe5tOX6t01f1lYWOvJnSPDBlG241QLzcyPdoNTsblLUdujGSE4RzrTZGQ==",
-      "metadata_url": "https://registry.npmmirror.com/@protobufjs/float/-/float-1.0.2.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/@protobufjs/path",
-      "name": "@protobufjs/path",
-      "version": "1.1.2",
-      "declared_license": "BSD-3-Clause",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "a67b34a24a5daddcce46aea68c5004e4442bbfb63690329fa607bf4de4269794"
-        }
-      ],
-      "locked_integrity": "sha512-6JOcJ5Tm08dOHAbdR3GrvP+yUUfkjG5ePsHYczMFLq3ZmMkAD98cDgcT2iA1lJ9NVwFd4tH/iSSoe44YWkltEA==",
-      "metadata_url": "https://registry.npmmirror.com/@protobufjs/path/-/path-1.1.2.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/@protobufjs/pool",
-      "name": "@protobufjs/pool",
-      "version": "1.1.0",
-      "declared_license": "BSD-3-Clause",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "a67b34a24a5daddcce46aea68c5004e4442bbfb63690329fa607bf4de4269794"
-        }
-      ],
-      "locked_integrity": "sha512-0kELaGSIDBKvcgS4zkjz1PeddatrjYcmMWOlAuAPwAeccUrPHdUqo/J6LiymHHEiJT5NrF1UVwxY14f+fy4WQw==",
-      "metadata_url": "https://registry.npmmirror.com/@protobufjs/pool/-/pool-1.1.0.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/@protobufjs/utf8",
-      "name": "@protobufjs/utf8",
-      "version": "1.1.2",
-      "declared_license": "BSD-3-Clause",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "a67b34a24a5daddcce46aea68c5004e4442bbfb63690329fa607bf4de4269794"
-        }
-      ],
-      "locked_integrity": "sha512-b1UQwcEZ4yCnMCD8DAL1VlbvBJE9/IX4FTIp7BG1xYpf29SLazLSrqUkj4w7Y5y7cCVP6E5tcqqcI0xemPkHug==",
-      "metadata_url": "https://registry.npmmirror.com/@protobufjs/utf8/-/utf8-1.1.2.tgz"
     },
     {
       "ecosystem": "npm",
@@ -3580,7 +3390,7 @@
       "version": "22.19.19",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -4392,20 +4202,6 @@
     {
       "ecosystem": "npm",
       "lockfile": "package-lock.json",
-      "package_path": "node_modules/agent-base",
-      "name": "agent-base",
-      "version": "6.0.2",
-      "declared_license": "MIT",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [],
-      "locked_integrity": "sha512-RZNwNclF7+MS/8bDg70amg32dyeZGZxiDuQmZxKLAlQjr3jGyLx+4Kkk58UO7D2QdgFIQCovuSuZESne6RG6XQ==",
-      "metadata_url": "https://registry.npmmirror.com/agent-base/-/agent-base-6.0.2.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
       "package_path": "node_modules/ajv",
       "name": "ajv",
       "version": "6.15.0",
@@ -4691,25 +4487,6 @@
     {
       "ecosystem": "npm",
       "lockfile": "package-lock.json",
-      "package_path": "node_modules/asynckit",
-      "name": "asynckit",
-      "version": "0.4.0",
-      "declared_license": "MIT",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "1953150d5d4b10c7542cee6f6e0c613b2682545233f069d75cfff1936386ce10"
-        }
-      ],
-      "locked_integrity": "sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==",
-      "metadata_url": "https://registry.npmmirror.com/asynckit/-/asynckit-0.4.0.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
       "package_path": "node_modules/available-typed-arrays",
       "name": "available-typed-arrays",
       "version": "1.0.7",
@@ -4748,25 +4525,6 @@
       ],
       "locked_integrity": "sha512-KunSNx+TVpkAw/6ULfhnx+HWRecjqZGTOyquAoWHYLRSdK1tB5Ihce1ZW+UY3fj33bYAFWPu7W/GRSmmrCGuxA==",
       "metadata_url": "https://registry.npmjs.org/axe-core/-/axe-core-4.11.4.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/axios",
-      "name": "axios",
-      "version": "1.20.0",
-      "declared_license": "MIT",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "82761059eaedacb3356803aea8a170d8298609f91b14fc32ee1bfb40d690183c"
-        }
-      ],
-      "locked_integrity": "sha512-r8aOh8j9cGKpgQAqpzrUHnSIc6a59Y3Xf/cv8sy1DrHCkZHzQGEuoq1tARk6qSyDdtQGSDgpb9kFlruzPvrgwg==",
-      "metadata_url": "https://registry.npmmirror.com/axios/-/axios-1.20.0.tgz"
     },
     {
       "ecosystem": "npm",
@@ -4985,7 +4743,7 @@
       "version": "1.0.2",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -5004,7 +4762,7 @@
       "version": "1.0.4",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -5218,25 +4976,6 @@
       ],
       "locked_integrity": "sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==",
       "metadata_url": "https://registry.npmjs.org/color-name/-/color-name-1.1.4.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/combined-stream",
-      "name": "combined-stream",
-      "version": "1.0.8",
-      "declared_license": "MIT",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "License",
-          "sha256": "47eb8ca82c798246774946d1be0f9aa08f025fa8325ced0947aeeb4c05fe5547"
-        }
-      ],
-      "locked_integrity": "sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==",
-      "metadata_url": "https://registry.npmmirror.com/combined-stream/-/combined-stream-1.0.8.tgz"
     },
     {
       "ecosystem": "npm",
@@ -6385,25 +6124,6 @@
     {
       "ecosystem": "npm",
       "lockfile": "package-lock.json",
-      "package_path": "node_modules/delayed-stream",
-      "name": "delayed-stream",
-      "version": "1.0.0",
-      "declared_license": "MIT",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "License",
-          "sha256": "47eb8ca82c798246774946d1be0f9aa08f025fa8325ced0947aeeb4c05fe5547"
-        }
-      ],
-      "locked_integrity": "sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==",
-      "metadata_url": "https://registry.npmmirror.com/delayed-stream/-/delayed-stream-1.0.0.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
       "package_path": "node_modules/dequal",
       "name": "dequal",
       "version": "2.0.3",
@@ -6535,7 +6255,7 @@
       "version": "1.0.1",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -6630,7 +6350,7 @@
       "version": "1.0.1",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -6649,7 +6369,7 @@
       "version": "1.3.0",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -6687,7 +6407,7 @@
       "version": "1.1.1",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -6706,7 +6426,7 @@
       "version": "2.1.0",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -7476,25 +7196,6 @@
     {
       "ecosystem": "npm",
       "lockfile": "package-lock.json",
-      "package_path": "node_modules/follow-redirects",
-      "name": "follow-redirects",
-      "version": "1.16.0",
-      "declared_license": "MIT",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "bfa8a54bb952ccda79f0f1889721d108f5b605babbb2b8a3705ffb52f4132eb7"
-        }
-      ],
-      "locked_integrity": "sha512-y5rN/uOsadFT/JfYwhxRS5R7Qce+g3zG97+JrtFZlC9klX/W5hD7iiLzScI4nZqUS7DNUdhPgw4xI8W2LuXlUw==",
-      "metadata_url": "https://registry.npmmirror.com/follow-redirects/-/follow-redirects-1.16.0.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
       "package_path": "node_modules/for-each",
       "name": "for-each",
       "version": "0.3.5",
@@ -7514,31 +7215,12 @@
     {
       "ecosystem": "npm",
       "lockfile": "package-lock.json",
-      "package_path": "node_modules/form-data",
-      "name": "form-data",
-      "version": "4.0.6",
-      "declared_license": "MIT",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "License",
-          "sha256": "e5b780d4f38d1d3328e3e53186c4e62d3fa149ea6f2bacd5de5ad0c30ac85343"
-        }
-      ],
-      "locked_integrity": "sha512-vKatAh4SlVfgbv+YtmhiRjhEMJsYpsG1Y2rMQtR+SVSbytsSD1YGzDIcrAJmdFec88u/+VoGmxnl+80gL1tRCQ==",
-      "metadata_url": "https://registry.npmmirror.com/form-data/-/form-data-4.0.6.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
       "package_path": "node_modules/function-bind",
       "name": "function-bind",
       "version": "1.1.2",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -7652,7 +7334,7 @@
       "version": "1.3.0",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -7671,7 +7353,7 @@
       "version": "1.0.1",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -7785,7 +7467,7 @@
       "version": "1.2.0",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -7918,7 +7600,7 @@
       "version": "1.1.0",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -7937,7 +7619,7 @@
       "version": "1.0.2",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -7956,7 +7638,7 @@
       "version": "2.0.4",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -8061,20 +7743,6 @@
       ],
       "locked_integrity": "sha512-ol6UPyBWqsrO6EJySPz2O7ZSr856WDrEzM5zMqp+FJJLGMW35cLYmmZnl0vztAZxRUoNZJFTCohfjuIJ8I4QBQ==",
       "metadata_url": "https://registry.npmmirror.com/html-url-attributes/-/html-url-attributes-3.0.1.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/https-proxy-agent",
-      "name": "https-proxy-agent",
-      "version": "5.0.1",
-      "declared_license": "MIT",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [],
-      "locked_integrity": "sha512-dFcAjpTQFgoLMzC2VwU+C/CbS7uRL0lWmxDITmqm7C+7F0Odmj6s9l6alZc6AELXhrnggM2CeWSXHGOdX2YtwA==",
-      "metadata_url": "https://registry.npmmirror.com/https-proxy-agent/-/https-proxy-agent-5.0.1.tgz"
     },
     {
       "ecosystem": "npm",
@@ -9510,31 +9178,12 @@
     {
       "ecosystem": "npm",
       "lockfile": "package-lock.json",
-      "package_path": "node_modules/lodash.identity",
-      "name": "lodash.identity",
-      "version": "3.0.0",
-      "declared_license": "MIT",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE.txt",
-          "sha256": "2b61a34ef17beffb1e555efa8b46110d25398d47f2e88b2cacc46f8bd382c639"
-        }
-      ],
-      "locked_integrity": "sha512-AupTIzdLQxJS5wIYUQlgGyk2XRTfGXA+MCghDHqZk0pzUNYvd3EESS6dkChNauNYVIutcb0dfHw1ri9Q1yPV8Q==",
-      "metadata_url": "https://registry.npmmirror.com/lodash.identity/-/lodash.identity-3.0.0.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
       "package_path": "node_modules/lodash.merge",
       "name": "lodash.merge",
       "version": "4.6.2",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -9544,44 +9193,6 @@
       ],
       "locked_integrity": "sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==",
       "metadata_url": "https://registry.npmjs.org/lodash.merge/-/lodash.merge-4.6.2.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/lodash.pickby",
-      "name": "lodash.pickby",
-      "version": "4.6.0",
-      "declared_license": "MIT",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "ffd8b33b354585f4ce119f19c53728281e48a97b074491eb6bf6d5c5ff305272"
-        }
-      ],
-      "locked_integrity": "sha512-AZV+GsS/6ckvPOVQPXSiFFacKvKB4kOQu6ynt9wz0F3LO4R9Ij4K1ddYsIytDpSgLz88JHd9P+oaLeej5/Sl7Q==",
-      "metadata_url": "https://registry.npmmirror.com/lodash.pickby/-/lodash.pickby-4.6.0.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/long",
-      "name": "long",
-      "version": "5.3.2",
-      "declared_license": "Apache-2.0",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
-        }
-      ],
-      "locked_integrity": "sha512-mNAgZ1GmyNhD7AuqnTG3/VQ26o760+ZYBPKjPvugO8+nLbYfX6TVpJPseBvopbdY+qpZ/lKUnmEc1LeZYS3QAA==",
-      "metadata_url": "https://registry.npmmirror.com/long/-/long-5.3.2.tgz"
     },
     {
       "ecosystem": "npm",
@@ -9705,7 +9316,7 @@
       "version": "1.1.0",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -10650,44 +10261,6 @@
     {
       "ecosystem": "npm",
       "lockfile": "package-lock.json",
-      "package_path": "node_modules/mime-db",
-      "name": "mime-db",
-      "version": "1.52.0",
-      "declared_license": "MIT",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "cc1dfd4dafa27271e8212cd3b274eeb3f262e40a6fdab36ddc3f9696f706f58b"
-        }
-      ],
-      "locked_integrity": "sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==",
-      "metadata_url": "https://registry.npmmirror.com/mime-db/-/mime-db-1.52.0.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/mime-types",
-      "name": "mime-types",
-      "version": "2.1.35",
-      "declared_license": "MIT",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "71f83c4c0621102a56d9853812777b85751bce7e9726f686f5b056c1f8a4b0e6"
-        }
-      ],
-      "locked_integrity": "sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==",
-      "metadata_url": "https://registry.npmmirror.com/mime-types/-/mime-types-2.1.35.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
       "package_path": "node_modules/minimatch",
       "name": "minimatch",
       "version": "3.1.5",
@@ -10973,7 +10546,7 @@
       "version": "1.13.4",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -11500,44 +11073,6 @@
     {
       "ecosystem": "npm",
       "lockfile": "package-lock.json",
-      "package_path": "node_modules/protobufjs",
-      "name": "protobufjs",
-      "version": "7.6.6",
-      "declared_license": "BSD-3-Clause",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "49d6a1c9a623784c61c6cb70f773f3457faceb1914a13c8560a9823b7631950c"
-        }
-      ],
-      "locked_integrity": "sha512-dYDWdjSl5RNb7SgPxGQcRU+GtvP7s2fpkrY0r432PcOIaZ0/rBcxEZnQN67iJhFuQiVw754JDoPruPCNdGsbjg==",
-      "metadata_url": "https://registry.npmmirror.com/protobufjs/-/protobufjs-7.6.6.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/proxy-from-env",
-      "name": "proxy-from-env",
-      "version": "2.1.0",
-      "declared_license": "MIT",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE",
-          "sha256": "f55828df4b8752c48e765a806465b76a103e3cb363379c569b15a1df2ba2d79e"
-        }
-      ],
-      "locked_integrity": "sha512-cJ+oHTW1VAEa8cJslgmUZrc+sjRKgAKl3Zyse6+PV38hZe/V6Z14TbCuXcan9F9ghlz4QrFr2c92TNF82UkYHA==",
-      "metadata_url": "https://registry.npmmirror.com/proxy-from-env/-/proxy-from-env-2.1.0.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
       "package_path": "node_modules/punycode",
       "name": "punycode",
       "version": "2.3.1",
@@ -11610,25 +11145,6 @@
       ],
       "locked_integrity": "sha512-kV1yQUe2FENvn59tMZW6mOVfpq9mGxGf8l6+EGaXUOd4RBOLg7tRC83OrirM5AtDvZRpdjdlXURsHreAOSPOUw==",
       "metadata_url": "https://registry.npmmirror.com/qr-scanner/-/qr-scanner-1.4.2.tgz"
-    },
-    {
-      "ecosystem": "npm",
-      "lockfile": "package-lock.json",
-      "package_path": "node_modules/qs",
-      "name": "qs",
-      "version": "6.16.1",
-      "declared_license": "BSD-3-Clause",
-      "basis": "lockfile",
-      "development_only": false,
-      "optional": false,
-      "license_texts": [
-        {
-          "file": "LICENSE.md",
-          "sha256": "e7dc37bf662d7f786efcb46c545615e70c1daf458a38385521c63cf6607cdfe1"
-        }
-      ],
-      "locked_integrity": "sha512-5Px6J7rfHBAGUhNQ3es4YzcOdBBw0SDcVtThJml4RdnKw4tKs2epA0kPZ+K8X+WiHktT93RHVcQ/3ym5aTCgtg==",
-      "metadata_url": "https://registry.npmjs.org/qs/-/qs-6.16.1.tgz"
     },
     {
       "ecosystem": "npm",
@@ -12265,7 +11781,7 @@
       "version": "1.1.1",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -12284,7 +11800,7 @@
       "version": "1.0.1",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -12303,7 +11819,7 @@
       "version": "1.0.1",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -12322,7 +11838,7 @@
       "version": "1.0.2",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -13250,7 +12766,7 @@
       "version": "6.21.0",
       "declared_license": "MIT",
       "basis": "lockfile",
-      "development_only": false,
+      "development_only": true,
       "optional": false,
       "license_texts": [
         {
@@ -15215,7 +14731,7 @@
       "lockfile": "desktop/package-lock.json",
       "package_path": "node_modules/@vitest/expect",
       "name": "@vitest/expect",
-      "version": "4.1.11",
+      "version": "4.1.12",
       "declared_license": "MIT",
       "basis": "lockfile",
       "development_only": true,
@@ -15226,15 +14742,15 @@
           "sha256": "04575fc5bfae19a9b63100f8691f901a2e15a399011ac02db435a9ef27295551"
         }
       ],
-      "locked_integrity": "sha512-VX2x5vNJXET47KAFzwERI+KRMtTTCSWTfSMKsW7JsUsXV4psq++e3DvZpuTDOpHcxytiDs6p2nhVb2tVDiiUYw==",
-      "metadata_url": "https://registry.npmjs.org/@vitest/expect/-/expect-4.1.11.tgz"
+      "locked_integrity": "sha512-vFlTt+YEu9WBpNjdGayNmlMVzrWPi1+sv853/7t2FU7hpO5gAFBKHzQmkCq5Xjpr+evegF2994LQT3hF3mRlqQ==",
+      "metadata_url": "https://registry.npmjs.org/@vitest/expect/-/expect-4.1.12.tgz"
     },
     {
       "ecosystem": "npm",
       "lockfile": "desktop/package-lock.json",
       "package_path": "node_modules/@vitest/mocker",
       "name": "@vitest/mocker",
-      "version": "4.1.11",
+      "version": "4.1.12",
       "declared_license": "MIT",
       "basis": "lockfile",
       "development_only": true,
@@ -15245,15 +14761,15 @@
           "sha256": "04575fc5bfae19a9b63100f8691f901a2e15a399011ac02db435a9ef27295551"
         }
       ],
-      "locked_integrity": "sha512-2XJVD55d1o5AZous5CCGKS74g/riOj9odEt2bQpCVZeblHyHdnMeFl4jl0XjU21stf4mbjUkew2eXQZt65g5CQ==",
-      "metadata_url": "https://registry.npmjs.org/@vitest/mocker/-/mocker-4.1.11.tgz"
+      "locked_integrity": "sha512-fKShNpKZzupWZuY0z7egydvL0sqW4INEZBEExMBMAa6izlENEVHwoXgdaTCaBZ5fwlr4xf2o1wXC83n9RpO+NA==",
+      "metadata_url": "https://registry.npmjs.org/@vitest/mocker/-/mocker-4.1.12.tgz"
     },
     {
       "ecosystem": "npm",
       "lockfile": "desktop/package-lock.json",
       "package_path": "node_modules/@vitest/pretty-format",
       "name": "@vitest/pretty-format",
-      "version": "4.1.11",
+      "version": "4.1.12",
       "declared_license": "MIT",
       "basis": "lockfile",
       "development_only": true,
@@ -15264,15 +14780,15 @@
           "sha256": "04575fc5bfae19a9b63100f8691f901a2e15a399011ac02db435a9ef27295551"
         }
       ],
-      "locked_integrity": "sha512-yiZzPbGTS9Sr/JpFl8zHrcIkAofNbFV6k21vIgQN/cY/oxZeXhJv5sc/MBJ5jFKWmWs+oJHw0UXLZjmf931+Vw==",
-      "metadata_url": "https://registry.npmjs.org/@vitest/pretty-format/-/pretty-format-4.1.11.tgz"
+      "locked_integrity": "sha512-XW9O8+Mxx4VpCtkYdMJLZQQwsVryP9wk7cPKDxtXFfwSak6yRh5+2fep/Y0XF/ElBvJHq8bcYdi6aeuai0opZA==",
+      "metadata_url": "https://registry.npmjs.org/@vitest/pretty-format/-/pretty-format-4.1.12.tgz"
     },
     {
       "ecosystem": "npm",
       "lockfile": "desktop/package-lock.json",
       "package_path": "node_modules/@vitest/runner",
       "name": "@vitest/runner",
-      "version": "4.1.11",
+      "version": "4.1.12",
       "declared_license": "MIT",
       "basis": "lockfile",
       "development_only": true,
@@ -15283,15 +14799,15 @@
           "sha256": "04575fc5bfae19a9b63100f8691f901a2e15a399011ac02db435a9ef27295551"
         }
       ],
-      "locked_integrity": "sha512-LztvUgdwMNJMIkj3hQnnxiC2Xy1zNxq928W/xhjCLaNCzqTZOudjwbQf6v9IntZGPw132i2Lq2rgTRZHD3JHNw==",
-      "metadata_url": "https://registry.npmjs.org/@vitest/runner/-/runner-4.1.11.tgz"
+      "locked_integrity": "sha512-NKlVKCr5QnCe8jijdMnmkpHHU+WTqiLFR6G0pHji9uRjXK9xJl1k1nTw6F3pOOj2PDcsDt2GKQMI7wIsaT491w==",
+      "metadata_url": "https://registry.npmjs.org/@vitest/runner/-/runner-4.1.12.tgz"
     },
     {
       "ecosystem": "npm",
       "lockfile": "desktop/package-lock.json",
       "package_path": "node_modules/@vitest/snapshot",
       "name": "@vitest/snapshot",
-      "version": "4.1.11",
+      "version": "4.1.12",
       "declared_license": "MIT",
       "basis": "lockfile",
       "development_only": true,
@@ -15302,15 +14818,15 @@
           "sha256": "04575fc5bfae19a9b63100f8691f901a2e15a399011ac02db435a9ef27295551"
         }
       ],
-      "locked_integrity": "sha512-pN7ikn1ON7h8ee4gIAp4AzyK+zBtJPzVbqOgu5LCEh4VaJVbPQcgYQYJIMGQPXVeJJq1fnfazis7a5pFNPahog==",
-      "metadata_url": "https://registry.npmjs.org/@vitest/snapshot/-/snapshot-4.1.11.tgz"
+      "locked_integrity": "sha512-ko1y1Qgb/slzQ9mr+b89Cuqud8WG1TKtsPD8r7ZUBdvVOGt85Af2HwCqHujrhwJq95hs/9RM7fcAPg57o1vlzw==",
+      "metadata_url": "https://registry.npmjs.org/@vitest/snapshot/-/snapshot-4.1.12.tgz"
     },
     {
       "ecosystem": "npm",
       "lockfile": "desktop/package-lock.json",
       "package_path": "node_modules/@vitest/spy",
       "name": "@vitest/spy",
-      "version": "4.1.11",
+      "version": "4.1.12",
       "declared_license": "MIT",
       "basis": "lockfile",
       "development_only": true,
@@ -15321,15 +14837,15 @@
           "sha256": "04575fc5bfae19a9b63100f8691f901a2e15a399011ac02db435a9ef27295551"
         }
       ],
-      "locked_integrity": "sha512-apNa/prQy2qCeywhnixOHPRCgGNhvg7T4Dapfl1GahLp/R+uhBm5cPyFoNVyqsNd2h1nJxL6BqqdIjiABL60YA==",
-      "metadata_url": "https://registry.npmjs.org/@vitest/spy/-/spy-4.1.11.tgz"
+      "locked_integrity": "sha512-RGq9x4JNGNTZHEJxvN0oSiJjeSCExm0n2gZKKJZHY9cX5AVA6M7VJILBT3ZJ/tJ/0J9uWT7fETV9/btoi//vSg==",
+      "metadata_url": "https://registry.npmjs.org/@vitest/spy/-/spy-4.1.12.tgz"
     },
     {
       "ecosystem": "npm",
       "lockfile": "desktop/package-lock.json",
       "package_path": "node_modules/@vitest/utils",
       "name": "@vitest/utils",
-      "version": "4.1.11",
+      "version": "4.1.12",
       "declared_license": "MIT",
       "basis": "lockfile",
       "development_only": true,
@@ -15340,8 +14856,8 @@
           "sha256": "04575fc5bfae19a9b63100f8691f901a2e15a399011ac02db435a9ef27295551"
         }
       ],
-      "locked_integrity": "sha512-zTCVGpyFsGWBhllOyKlTw/vnr6D9qxsfSDyfbyZmTyjHw5N/VuvzHpHoQjm2ZJzn4RJgx5w4r7V0er69CmLgPQ==",
-      "metadata_url": "https://registry.npmjs.org/@vitest/utils/-/utils-4.1.11.tgz"
+      "locked_integrity": "sha512-Q3awXrwOfEV+qc3WmO5ONyE0yO7Q1gQ9/oyHxGLZ/pl7N3NO/ZztqQwKLuwMkV+CA1JYSIeO3gkHnRDIo4AVaA==",
+      "metadata_url": "https://registry.npmjs.org/@vitest/utils/-/utils-4.1.12.tgz"
     },
     {
       "ecosystem": "npm",
@@ -18916,7 +18432,7 @@
       "lockfile": "desktop/package-lock.json",
       "package_path": "node_modules/vitest",
       "name": "vitest",
-      "version": "4.1.11",
+      "version": "4.1.12",
       "declared_license": "MIT",
       "basis": "lockfile",
       "development_only": true,
@@ -18927,8 +18443,8 @@
           "sha256": "881d660c26831481b697e39724d4a35c9f86e07b67156d4aeb693a0b39910435"
         }
       ],
-      "locked_integrity": "sha512-fhACrNXUidIbGSBr5FlbuBkO7VWC1ZyLl0DO4CU2DrQoAPxX84Ysxs+HeGQpii5lZWV1Q4gBZTTu49mF+A6Edw==",
-      "metadata_url": "https://registry.npmjs.org/vitest/-/vitest-4.1.11.tgz"
+      "locked_integrity": "sha512-5eWdz2yb3ajxWF3C8C4TjkXl7FGm3n2E/VlazALrQHzK7nYMSGFnCZto0bbPNl77AwkOZVLk0YnBAejUu0NiWA==",
+      "metadata_url": "https://registry.npmjs.org/vitest/-/vitest-4.1.12.tgz"
     },
     {
       "ecosystem": "npm",
@@ -19221,8 +18737,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/android_system_properties/0.1.5",
       "locked_checksum": "819e7219dbd41043ac279b19830f2efc897156490d7fd6ea916720117ee66311",
       "declared_license": "MIT/Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "216486f29671a4262efe32af6d84a75bef398127f8c5f369b5c8305983887a06"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "80f275e90d799911ed3830a7f242a2ef5a4ade2092fe0aa07bfb2d2cf2f2b95e"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -19252,8 +18777,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/arbitrary/1.4.2",
       "locked_checksum": "c3d036a3c4ab069c7b410a2ce876bd74808d2d0888a82667669f8e783a898bf1",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "15656cc11a8331f28c0986b8ab97220d3e76f98e60ed388b5ffad37dfac4710c"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -19786,8 +19320,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/bumpalo/3.20.3",
       "locked_checksum": "72f5acc6cb2ba439de613abc23857ec3d78374d8ed5ac84e9d11336e87da8649",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "65f94e99ddaf4f5d1782a6dae23f35d4293a9a01444a13135a6887017d353cee"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -20001,8 +19544,13 @@
       "metadata_url": "https://crates.io/api/v1/crates/cesu8/1.1.0",
       "locked_checksum": "6d43a04d8753f35258c91f8ec639f792891f748a1edbd759cf1dcea3382ad83c",
       "declared_license": "Apache-2.0/MIT",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "COPYRIGHT-RUST.txt",
+          "sha256": "5ca77347e58205d3b543c04a9c5bdd11d20a9f3108a7b246640edffa999b5f35"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -20104,8 +19652,13 @@
       "metadata_url": "https://crates.io/api/v1/crates/combine/4.6.7",
       "locked_checksum": "ba5a308b75df32fe02788e748662718f03fde005016435c444eea572398219fd",
       "declared_license": "MIT",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE",
+          "sha256": "9bbc1b3dc4674a9ebb12c2a62f54fe3c08672539717f8d05828f684b6cc419a3"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -20523,8 +20076,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/derive_arbitrary/1.4.2",
       "locked_checksum": "1e567bd82dcff979e4b03460c307b3cdc9e96fde3d73bed1496d2bc75d9dd62a",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "15656cc11a8331f28c0986b8ab97220d3e76f98e60ed388b5ffad37dfac4710c"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -21991,8 +21553,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/hermit-abi/0.5.2",
       "locked_checksum": "fc0fef456e4baa96da950455cd02c081ca953b141298e41db3fc7e36b1da849c",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -22190,8 +21761,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/iana-time-zone-haiku/0.1.2",
       "locked_checksum": "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "696759d65dfe558ff7d9f031c76db19ec5c0767470fb67c4e8d990820d1e99c9"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "da28ccc6b158fc2d8cccc74e99794b1cff1d29bd7bbeb019442fcf0c04c6cad9"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -22585,8 +22165,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/jni/0.21.1",
       "locked_checksum": "1a87aa2bb7d2af34197c04845522473242e1aa17c12f4935d5856491a7fb8c97",
       "declared_license": "MIT/Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "fea1d5bf3dd71605ce5d7d2ff695c1837e914c77195e523a86b5391716477960"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -22597,7 +22186,7 @@
       "locked_checksum": "5efd9a482cf3a427f00d6b35f14332adc7902ce91efb778580e180ff90fa3498",
       "declared_license": "MIT OR Apache-2.0",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -22608,7 +22197,7 @@
       "locked_checksum": "a00109accc170f0bdb141fed3e393c565b6f5e072365c3bd58f5b062591560a3",
       "declared_license": "MIT OR Apache-2.0",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -22618,8 +22207,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/jni-sys/0.3.1",
       "locked_checksum": "41a652e1f9b6e0275df1f15b32661cf0d4b78d4d87ddec5e0c3c20f097433258",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "1d85bd754b04ceec93e98e890edd1fa3c6a22e81bcb32135806beeccefa51cd1"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -22629,8 +22227,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/jni-sys/0.4.1",
       "locked_checksum": "c6377a88cb3910bee9b0fa88d4f42e1d2da8e79915598f65fb0c7ee14c878af2",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "c6596eb7be8581c18be736c846fb9173b69eccf6ef94c5135893ec56bd92ba08"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "1d85bd754b04ceec93e98e890edd1fa3c6a22e81bcb32135806beeccefa51cd1"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -22641,7 +22248,7 @@
       "locked_checksum": "38c0b942f458fe50cdac086d2f946512305e5631e720728f2a61aabcd47a6264",
       "declared_license": "MIT OR Apache-2.0",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -22651,8 +22258,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/js-sys/0.3.103",
       "locked_checksum": "53b44bfcdb3f8d5837a46dae1ca9660a837176eee74a28b229bc626816589102",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -22809,8 +22425,13 @@
       "metadata_url": "https://crates.io/api/v1/crates/libredox/0.1.18",
       "locked_checksum": "c943259e342f1e06ff2da7a83eabdfe7f92ce10262688dbf1895ff0b3e6e4652",
       "declared_license": "MIT",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE",
+          "sha256": "8d073a6a80d1ef2d2fc2bc6c809aa221161bf1906c76d4aeef55fd2b999d9413"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -23085,7 +22706,7 @@
       "locked_checksum": "c3f42e7bbe13d351b6bead8286a43aac9534b82bd3cc43e47037f012ebfd62d4",
       "declared_license": "MIT OR Apache-2.0",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -23096,7 +22717,7 @@
       "locked_checksum": "ee6cda3051665f1fb8d9e08fc35c96d5a244fb1be711a03b71118828afc9a873",
       "declared_license": "MIT OR Apache-2.0",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -23162,8 +22783,21 @@
       "metadata_url": "https://crates.io/api/v1/crates/num_enum/0.7.6",
       "locked_checksum": "5d0bca838442ec211fa11de3a8b0e0e8f3a4522575b5c4c06ed722e005036f26",
       "declared_license": "BSD-3-Clause OR MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+        },
+        {
+          "file": "LICENSE-BSD",
+          "sha256": "0be96d891d00e0ae0df75d7f3289b12871c000a1f5ac744f3b570768d4bb277c"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -23173,8 +22807,21 @@
       "metadata_url": "https://crates.io/api/v1/crates/num_enum_derive/0.7.6",
       "locked_checksum": "680998035259dcfcafe653688bf2aa6d3e2dc05e98be6ab46afb089dc84f1df8",
       "declared_license": "BSD-3-Clause OR MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+        },
+        {
+          "file": "LICENSE-BSD",
+          "sha256": "0be96d891d00e0ae0df75d7f3289b12871c000a1f5ac744f3b570768d4bb277c"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -23207,7 +22854,7 @@
       "locked_checksum": "73ad74d880bb43877038da939b7427bba67e9dd42004a18b809ba7d87cee241c",
       "declared_license": "Zlib OR Apache-2.0 OR MIT",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -23218,7 +22865,7 @@
       "locked_checksum": "0b402a653efbb5e82ce4df10683b6b28027616a2715e90009947d50b8dd298fa",
       "declared_license": "Zlib OR Apache-2.0 OR MIT",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -23251,7 +22898,7 @@
       "locked_checksum": "e5d563b38d2b97209f8e861173de434bd0214cf020e3423a52624cd1d989f006",
       "declared_license": "Zlib OR Apache-2.0 OR MIT",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -23262,7 +22909,7 @@
       "locked_checksum": "ca347214e24bc973fc025fd0d36ebb179ff30536ed1f80252706db19ee452009",
       "declared_license": "Zlib OR Apache-2.0 OR MIT",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -23273,7 +22920,7 @@
       "locked_checksum": "0cde0dfb48d25d2b4862161a4d5fcc0e3c24367869ad306b0c9ec0073bfed92d",
       "declared_license": "Zlib OR Apache-2.0 OR MIT",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -23350,7 +22997,7 @@
       "locked_checksum": "d87d638e33c06f577498cbcc50491496a3ed4246998a7fbba7ccb98b1e7eab22",
       "declared_license": "Zlib OR Apache-2.0 OR MIT",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -23361,7 +23008,7 @@
       "locked_checksum": "9df9128cbbfef73cda168416ccf7f837b62737d748333bfe9ab71c245d76613e",
       "declared_license": "Zlib OR Apache-2.0 OR MIT",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -24135,7 +23782,7 @@
       "locked_checksum": "69cdb34c158ceb288df11e18b4bd39de994f6657d83847bdffdbd7f346754b0f",
       "declared_license": "MIT OR Apache-2.0 OR LGPL-2.1-or-later",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -24146,7 +23793,7 @@
       "locked_checksum": "f8dcc9c7d52a811697d2151c701e0d08956f92b0e24136cf4cf27b57a6a0d9bf",
       "declared_license": "MIT OR Apache-2.0 OR LGPL-2.1-or-later",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -24276,8 +23923,13 @@
       "metadata_url": "https://crates.io/api/v1/crates/redox_syscall/0.5.18",
       "locked_checksum": "ed2bf2547551a7053d6fdfafda3f938979645c44812fbfcda098faae3f1a362d",
       "declared_license": "MIT",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE",
+          "sha256": "efcfee7981ff72431fffb06925cad00a23dce079ed4354f61030ad5abdb78829"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -24287,8 +23939,13 @@
       "metadata_url": "https://crates.io/api/v1/crates/redox_users/0.4.6",
       "locked_checksum": "ba009ff324d1fc1b900bd1fdb31564febe58a8ccc8a6fdbb93b543d33b13ca43",
       "declared_license": "MIT",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE",
+          "sha256": "e6a8ae2d796083783efc94b1e66271aa2929dc4dfb231d34239aa9c7db8396db"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -24298,8 +23955,13 @@
       "metadata_url": "https://crates.io/api/v1/crates/redox_users/0.5.2",
       "locked_checksum": "a4e608c6638b9c18977b00b475ac1f28d14e84b27d8d42f70e0bf1e3dec127ac",
       "declared_license": "MIT",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE",
+          "sha256": "e6a8ae2d796083783efc94b1e66271aa2929dc4dfb231d34239aa9c7db8396db"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -24630,15 +24292,15 @@
       "locked_checksum": "f87165f0995f63a9fbeea62b64d10b4d9d8e78ec6d7d51fb2125fda7bb36788f",
       "declared_license": "MIT OR Apache-2.0",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
       "lockfile": "desktop/src-tauri/Cargo.lock",
       "name": "rustls-webpki",
-      "version": "0.103.15",
-      "metadata_url": "https://crates.io/api/v1/crates/rustls-webpki/0.103.15",
-      "locked_checksum": "f3c3cf1d8b1e7d4927e2d154c3fcb02979afb9939629c62cd9048d4f07b60ac2",
+      "version": "0.103.16",
+      "metadata_url": "https://crates.io/api/v1/crates/rustls-webpki/0.103.16",
+      "locked_checksum": "4443b1b6d39d7c663139942cc4558262562d2c84123bb6282ef177009ca8b281",
       "declared_license": "ISC",
       "license_texts": [
         {
@@ -24656,8 +24318,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/rustversion/1.0.23",
       "locked_checksum": "cf54715a573b99ac80df0bc206da022bcd442c974952c7b9720069370852e21f",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -24687,8 +24358,13 @@
       "metadata_url": "https://crates.io/api/v1/crates/schannel/0.1.29",
       "locked_checksum": "91c1b7e4904c873ef0710c1f407dde2e6287de2bebc1bbbf7d430bb7cbffd939",
       "declared_license": "MIT",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE.md",
+          "sha256": "aa72991ac35b4de0034da0afe943e62b48c4092fc2ba13ae47806d8e9a4ad551"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -25256,8 +24932,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/simd_cesu8/1.2.0",
       "locked_checksum": "11031e251abf8611c80f460e19dbdeb54a66db918e49c65a7065b46ac7aec520",
       "declared_license": "Apache-2.0 OR MIT",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -25267,8 +24952,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/simdutf8/0.1.5",
       "locked_checksum": "e3a9fe34e3e7a50316060351f37187a3f546bce95496156754b601a5fa71b76e",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-Apache",
+          "sha256": "0cec06e0e55fbc3dc5cee4fca9b607f66cb8f4e4dbcf3b3c013594dd156732e9"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "1847e0e0698142ed4347c1441a9fa81c8fbddd44b1d8bbcd5e3647f991759d7f"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -25666,8 +25360,21 @@
       "metadata_url": "https://crates.io/api/v1/crates/tao-macros/0.1.4",
       "locked_checksum": "5f7eeb6d99155545da6150a1795945f16ac9c178deb2a5f2e74d776107bd5849",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "ca52f53b2ee0b6a96d77d8ae0cb1b4624080dd0274c97f1cece24efaf4e145f2"
+        },
+        {
+          "file": "LICENSE.spdx",
+          "sha256": "8f96817f33d08e1248cec9eb99fa8407c246d0c5a27f971aa4feada07634a3b4"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -26760,8 +26467,13 @@
       "metadata_url": "https://crates.io/api/v1/crates/uds_windows/1.2.1",
       "locked_checksum": "f2f6fb2847f6742cd76af783a2a2c49e9375d0a111c7bef6f71cd9e738c72d6e",
       "declared_license": "MIT",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE",
+          "sha256": "27ebda9d51f0a56b7e281ccd8230a27236dcb51c05f64b07869ecf6e965d68b0"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27094,8 +26806,21 @@
       "metadata_url": "https://crates.io/api/v1/crates/wasi/0.11.1+wasi-snapshot-preview1",
       "locked_checksum": "ccf3ec651a847eb01de73ccad15eb7d99f80485de043efb2f370cd654f4ea44b",
       "declared_license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-Apache-2.0_WITH_LLVM-exception",
+          "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27105,8 +26830,21 @@
       "metadata_url": "https://crates.io/api/v1/crates/wasip2/1.0.4+wasi-0.2.12",
       "locked_checksum": "b67efb37e106e55ce722a510d6b5f9c17f083e5fc79afc2badeb12cc313d9487",
       "declared_license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-Apache-2.0_WITH_LLVM-exception",
+          "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27116,8 +26854,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/wasm-bindgen/0.2.126",
       "locked_checksum": "4b067c0c11094aef6b7a801c1e34a26affafdf3d051dba08456b868789aaf9a4",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27127,8 +26874,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/wasm-bindgen-futures/0.4.76",
       "locked_checksum": "c62df1340f32221cb9c54d6a27b030e3dba64361d4a95bed55f9aacb44da291d",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27138,8 +26894,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/wasm-bindgen-macro/0.2.126",
       "locked_checksum": "167ce5e579f6bcf889c4f7175a8a5a585de84e8ff93976ce393efa5f2837aab1",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27149,8 +26914,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/wasm-bindgen-macro-support/0.2.126",
       "locked_checksum": "f3997c7839262f4ef12cf90b818d6340c18e80f263f1a94bf157d0ec4420380e",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27160,8 +26934,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/wasm-bindgen-shared/0.2.126",
       "locked_checksum": "dc1b4cb0cc549fcf58d7dfc081778139b3d283a081644e833e84682ad71cea24",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27171,8 +26954,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/wasm-streams/0.5.0",
       "locked_checksum": "9d1ec4f6517c9e11ae630e200b2b65d193279042e28edd4a2cda233e46670bbb",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "62c7a1e35f56406896d7aa7ca52d0cc0d272ac022b5d2796e7d6905db8a3636a"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27182,8 +26974,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/web-sys/0.3.103",
       "locked_checksum": "8622dcb61c0bcc9fffa6938bed81210af2da9a7e4a1a834b2e37a59b6dfb6141",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27241,12 +27042,17 @@
       "ecosystem": "cargo",
       "lockfile": "desktop/src-tauri/Cargo.lock",
       "name": "webpki-root-certs",
-      "version": "1.0.9",
-      "metadata_url": "https://crates.io/api/v1/crates/webpki-root-certs/1.0.9",
-      "locked_checksum": "b96554aa2acc8ccdb7e1c9a58a7a68dd5d13bccc69cd124cb09406db612a1c9b",
+      "version": "1.0.10",
+      "metadata_url": "https://crates.io/api/v1/crates/webpki-root-certs/1.0.10",
+      "locked_checksum": "58ec80e73fd8baf57bf0d9615554c75348bda990d6d5bbeab964dd068319fecb",
       "declared_license": "CDLA-Permissive-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE",
+          "sha256": "e271993808fec50ab29350b39539cdec611a9103f827e0aa26d61da70e2d33f8"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27310,7 +27116,7 @@
       "locked_checksum": "ac3b87c63620426dd9b991e5ce0329eff545bccbbb34f3be09ff6fb6ab51b7b6",
       "declared_license": "MIT/Apache-2.0",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27341,7 +27147,7 @@
       "locked_checksum": "712e227841d057c1ee1cd2fb22fa7e5a5461ae8e48fa2ca79ec42cfc1931183f",
       "declared_license": "MIT/Apache-2.0",
       "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27655,8 +27461,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows-sys/0.45.0",
       "locked_checksum": "75283be5efb2831d37ea142365f009c02ec203cd29a3ebecbc093d52315b66d0",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27666,8 +27481,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows-sys/0.52.0",
       "locked_checksum": "282be5f36a8ce781fad8c8ae18fa3f9beff57ec1b52cb3de0789201425d9a33d",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27737,8 +27561,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows-targets/0.42.2",
       "locked_checksum": "8e5180c00cd44c9b1c88adb3693291f1cd93605ded80c250a75d472756b4d071",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27828,8 +27661,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_aarch64_gnullvm/0.42.2",
       "locked_checksum": "597a5118570b68bc08d8d59125332c54f1ba9d9adeedeef5b99b02ba2b0698f8",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27839,8 +27681,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_aarch64_gnullvm/0.52.6",
       "locked_checksum": "32a4622180e7a0ec044bb555404c800bc9fd9ec262ec147edd5989ccd0c02cd3",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27850,8 +27701,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_aarch64_gnullvm/0.53.1",
       "locked_checksum": "a9d8416fa8b42f5c947f8482c43e7d89e73a173cead56d044f6a56104a6d1b53",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27861,8 +27721,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_aarch64_msvc/0.42.2",
       "locked_checksum": "e08e8864a60f06ef0d0ff4ba04124db8b0fb3be5776a5cd47641e942e58c4d43",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27872,8 +27741,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_aarch64_msvc/0.52.6",
       "locked_checksum": "09ec2a7bb152e2252b53fa7803150007879548bc709c039df7627cabbd05d469",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27883,8 +27761,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_aarch64_msvc/0.53.1",
       "locked_checksum": "b9d782e804c2f632e395708e99a94275910eb9100b2114651e04744e9b125006",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27894,8 +27781,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_i686_gnu/0.42.2",
       "locked_checksum": "c61d927d8da41da96a81f029489353e68739737d3beca43145c8afec9a31a84f",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27905,8 +27801,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_i686_gnu/0.52.6",
       "locked_checksum": "8e9b5ad5ab802e97eb8e295ac6720e509ee4c243f69d781394014ebfe8bbfa0b",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27916,8 +27821,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_i686_gnu/0.53.1",
       "locked_checksum": "960e6da069d81e09becb0ca57a65220ddff016ff2d6af6a223cf372a506593a3",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27927,8 +27841,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_i686_gnullvm/0.52.6",
       "locked_checksum": "0eee52d38c090b3caa76c563b86c3a4bd71ef1a819287c19d586d7334ae8ed66",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27938,8 +27861,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_i686_gnullvm/0.53.1",
       "locked_checksum": "fa7359d10048f68ab8b09fa71c3daccfb0e9b559aed648a8f95469c27057180c",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27949,8 +27881,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_i686_msvc/0.42.2",
       "locked_checksum": "44d840b6ec649f480a41c8d80f9c65108b92d89345dd94027bfe06ac444d1060",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27960,8 +27901,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_i686_msvc/0.52.6",
       "locked_checksum": "240948bc05c5e7c6dabba28bf89d89ffce3e303022809e73deaefe4f6ec56c66",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27971,8 +27921,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_i686_msvc/0.53.1",
       "locked_checksum": "1e7ac75179f18232fe9c285163565a57ef8d3c89254a30685b57d83a38d326c2",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27982,8 +27941,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_x86_64_gnu/0.42.2",
       "locked_checksum": "8de912b8b8feb55c064867cf047dda097f92d51efad5b491dfb98f6bbb70cb36",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -27993,8 +27961,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_x86_64_gnu/0.52.6",
       "locked_checksum": "147a5c80aabfbf0c7d901cb5895d1de30ef2907eb21fbbab29ca94c5b08b1a78",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -28004,8 +27981,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_x86_64_gnu/0.53.1",
       "locked_checksum": "9c3842cdd74a865a8066ab39c8a7a473c0778a3f29370b5fd6b4b9aa7df4a499",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -28015,8 +28001,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_x86_64_gnullvm/0.42.2",
       "locked_checksum": "26d41b46a36d453748aedef1486d5c7a85db22e56aff34643984ea85514e94a3",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -28026,8 +28021,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_x86_64_gnullvm/0.52.6",
       "locked_checksum": "24d5b23dc417412679681396f2b49f3de8c1473deb516bd34410872eff51ed0d",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -28037,8 +28041,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_x86_64_gnullvm/0.53.1",
       "locked_checksum": "0ffa179e2d07eee8ad8f57493436566c7cc30ac536a3379fdf008f47f6bb7ae1",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -28048,8 +28061,17 @@
       "metadata_url": "https://crates.io/api/v1/crates/windows_x86_64_msvc/0.42.2",
       "locked_checksum": "9aec5da331524158c6d1a4ac0ab1541149c0b9505fde06423b02f5ef0106b9f0",
       "declared_license": "MIT OR Apache-2.0",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "license-apache-2.0",
+          "sha256": "c16f8dcf1a368b83be78d826ea23de4079fe1b4469a0ab9ee20563f37ff3d44b"
+        },
+        {
+          "file": "license-mit",
+          "sha256": "c2cfccb812fe482101a8f04597dfc5a9991a6b2748266c47ac91b6a5aae15383"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -28179,8 +28201,21 @@
       "metadata_url": "https://crates.io/api/v1/crates/wit-bindgen/0.57.1",
       "locked_checksum": "1ebf944e87a7c253233ad6766e082e3cd714b5d03812acc24c318f549614536e",
       "declared_license": "Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+        },
+        {
+          "file": "LICENSE-Apache-2.0_WITH_LLVM-exception",
+          "sha256": "268872b9816f90fd8e85db5a28d33f8150ebb8dd016653fb39ef1f94f2686bc5"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "23f18e03dc49df91622fe2a76176497404e46ced8a715d9d2b67a7446571cca3"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",
@@ -28386,8 +28421,21 @@
       "metadata_url": "https://crates.io/api/v1/crates/zerocopy-derive/0.8.55",
       "locked_checksum": "0fe976fb70c78cd64cccfe3a6fc142244e8a77b70959b30faf9d0ac37ee228eb",
       "declared_license": "BSD-2-Clause OR Apache-2.0 OR MIT",
-      "license_texts": [],
-      "basis": "crates.io published version metadata (checksum matches lock)"
+      "license_texts": [
+        {
+          "file": "LICENSE-APACHE",
+          "sha256": "9d185ac6703c4b0453974c0d85e9eee43e6941009296bb1f5eb0b54e2329e9f3"
+        },
+        {
+          "file": "LICENSE-BSD",
+          "sha256": "83c1763356e822adde0a2cae748d938a73fdc263849ccff6b27776dff213bd32"
+        },
+        {
+          "file": "LICENSE-MIT",
+          "sha256": "1a2f5c12ddc934d58956aa5dbdd3255fe55fd957633ab7d0d39e4f0daa73f7df"
+        }
+      ],
+      "basis": "cached published Cargo.toml"
     },
     {
       "ecosystem": "cargo",

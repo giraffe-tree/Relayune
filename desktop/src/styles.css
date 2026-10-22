@@ -107,7 +107,7 @@ button:focus-visible, input:focus-visible { outline: 3px solid rgba(22,124,104,.
 .update-progress { height: 3px; margin-top: 9px; overflow: hidden; border-radius: 99px; background: #d7e8e1; }
 .update-progress i { display: block; width: 0; height: 100%; border-radius: inherit; background: #19826d; transition: width 180ms ease; }
 
-.account-card, .status-card, .quick-settings, .browser-devices, .integration-card { border: 1px solid rgba(219,225,221,.94); background: rgba(255,255,255,.78); box-shadow: 0 17px 42px rgba(33,57,47,.06); }
+.account-card, .status-card, .quick-settings, .browser-devices { border: 1px solid rgba(219,225,221,.94); background: rgba(255,255,255,.78); box-shadow: 0 17px 42px rgba(33,57,47,.06); }
 .account-card { display: flex; width: 100%; min-width: 0; padding: 15px 17px; align-items: center; justify-content: space-between; gap: 16px; border-color: rgba(23,140,112,.2); border-radius: 17px; background: linear-gradient(135deg, rgba(244,251,248,.96), rgba(255,255,255,.82)); text-align: start; }
 .account-card:hover:not(:disabled) { border-color: rgba(23,140,112,.36); background: linear-gradient(135deg, rgba(237,249,244,.98), rgba(255,255,255,.9)); box-shadow: 0 19px 45px rgba(33,80,61,.1); }
 .account-card-copy { min-width: 0; }
@@ -151,7 +151,6 @@ button:focus-visible, input:focus-visible { outline: 3px solid rgba(22,124,104,.
 
 .quick-settings { margin-top: 14px; overflow: hidden; border-radius: 19px; }
 .browser-devices { margin-top: 14px; overflow: hidden; border-radius: 19px; }
-.integration-card { margin-top: 14px; overflow: hidden; border-radius: 19px; }
 .browser-devices .section-title { align-items: center; padding-bottom: 16px; }
 .browser-title-actions { display: flex; flex: 0 0 auto; align-items: center; gap: 10px; }
 .browser-add { min-height: 34px; padding: 0 13px; color: #176f5e; border-color: #c9dcd5; font-size: 12px; }
@@ -173,15 +172,6 @@ button:focus-visible, input:focus-visible { outline: 3px solid rgba(22,124,104,.
 .browser-state-spinner::after { width: 12px; height: 12px; border: 2px solid #b7d9cd; border-top-color: #167c68; border-radius: 50%; content: ""; animation: spin .8s linear infinite; }
 .browser-list-state-error .browser-state-icon { color: #a4524c; background: #f9eae8; }
 .browser-state-action { min-height: 34px; margin-inline-start: 7px; padding: 0 13px; flex: 0 0 auto; font-size: 12px; }
-.integration-row { display: flex; min-height: 70px; padding: 12px 18px; align-items: center; gap: 12px; border-top: 1px solid #e8ece9; }
-.feishu-app-icon { display: grid; width: 36px; height: 36px; flex: 0 0 auto; place-items: center; border-radius: 11px; color: #fff; background: linear-gradient(145deg, #3370ff, #14c9c9); box-shadow: 0 7px 16px rgba(51,112,255,.2); font-size: 15px; font-weight: 780; }
-.integration-copy { min-width: 0; flex: 1; }
-.integration-copy strong { display: block; color: #26382f; font-size: 14px; }
-.integration-copy p { margin: 3px 0 0; overflow: hidden; color: #78847e; font-size: 12px; text-overflow: ellipsis; white-space: nowrap; }
-.integration-badge { padding: 4px 7px; flex: 0 0 auto; border-radius: 999px; color: #777f7b; background: #edf0ee; font-size: 11px; font-weight: 680; }
-.integration-badge[data-tone="success"] { color: #18715e; background: #e0f2eb; }
-.integration-badge[data-tone="loading"] { color: #8a681f; background: #f8efd9; }
-.integration-action { min-height: 33px; padding: 0 12px; color: #176f5e; border-color: #c9dcd5; font-size: 12px; }
 .section-title { display: flex; align-items: flex-start; justify-content: space-between; padding: 18px 20px 12px; }
 .section-help { max-width: 310px; margin: 5px 0 0; color: #7a8580; font-size: 12px; line-height: 1.45; }
 .saved-state { min-width: 48px; color: #168069; text-align: end; font-size: 12px; }
@@ -256,65 +246,6 @@ dialog::backdrop { background: rgba(35,48,43,.25); backdrop-filter: blur(4px); }
 .switch input:checked + span { background: #17816b; }.switch input:checked + span::after { transform: translateX(16px); }
 [dir="rtl"] .switch input:checked + span::after { transform: translateX(-16px); }
 .dialog-card footer { display: flex; justify-content: flex-end; flex-wrap: wrap; gap: 8px; margin-top: 21px; }
-.feishu-dialog { width: min(720px, calc(100vw - 32px)); }
-.feishu-dialog-card { display: flex; height: min(780px, calc(100vh - 24px)); min-height: min(650px, calc(100vh - 24px)); padding: 0; flex-direction: column; background: #fbfcfb; }
-.feishu-dialog-card > header { min-height: 76px; margin: 0; padding: 18px 24px; flex: 0 0 auto; border-bottom: 1px solid #e6eae7; background: rgba(255,255,255,.84); }
-.feishu-dialog-heading { display: flex; align-items: center; gap: 12px; }
-.feishu-dialog-heading .eyebrow { margin-bottom: 2px; }
-.feishu-dialog-heading h2 { font-size: 17px; }
-.feishu-progress { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; padding: 17px 24px 0; flex: 0 0 auto; }
-.feishu-progress span { height: 4px; border-radius: 99px; background: #e5e9e6; transition: background 180ms; }
-.feishu-dialog[data-step="1"] .feishu-progress span:nth-child(1),
-.feishu-dialog[data-step="2"] .feishu-progress span:nth-child(-n+2),
-.feishu-dialog[data-step="3"] .feishu-progress span { background: #3370ff; }
-.feishu-step-label { margin: 9px 24px 0; flex: 0 0 auto; color: #7d8983; font-size: 12px; font-weight: 680; }
-.feishu-step { min-height: 0; padding: 14px 24px 22px; overflow-y: auto; overscroll-behavior: contain; }
-.feishu-step h3 { margin: 0 0 7px; color: #26362f; font-size: 18px; }
-.feishu-step > p { margin: 0 0 17px; color: #718079; font-size: 13px; line-height: 1.55; }
-.feishu-platforms { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 16px; }
-.feishu-platforms button { min-height: 72px; padding: 12px 15px; border: 1px solid #dce1de; background: #fff; color: #314139; cursor: pointer; text-align: start; }
-.feishu-platforms button[aria-pressed="true"] { border-color: #3370ff; background: #eef4ff; box-shadow: inset 0 0 0 1px #3370ff; }
-.feishu-platforms strong, .feishu-platforms small { display: block; }
-.feishu-platforms strong { font-size: 14px; }
-.feishu-platforms small { margin-top: 5px; color: #8a9590; font: 10px ui-monospace, SFMono-Regular, Menlo, monospace; }
-.feishu-guide-row { display: flex; margin-bottom: 12px; padding: 13px 14px; align-items: center; justify-content: space-between; gap: 14px; border: 1px solid #e0e5e2; border-radius: 11px; background: #fff; }
-.feishu-guide-row strong { display: block; color: #33453d; font-size: 13px; }
-.feishu-guide-row p { margin: 4px 0 0; color: #79857f; font-size: 12px; line-height: 1.45; }
-.feishu-external { min-height: 33px; padding: 0 11px; color: #245cc5; border-color: #cfdaf2; white-space: nowrap; font-size: 12px; }
-.feishu-suggestion { display: flex; min-height: 45px; margin-bottom: 15px; padding: 8px 12px; align-items: center; justify-content: space-between; border: 1px solid #e3e7e4; border-radius: 9px; background: #f7f8f7; }
-.feishu-suggestion small { color: #84908a; font-size: 11px; }
-.feishu-suggestion strong { color: #3b4842; font-size: 13px; }
-.feishu-step .field small { display: block; margin-top: 6px; color: #87918c; font-size: 11px; line-height: 1.4; }
-.feishu-inline-status { margin: 12px 0 0 !important; padding: 10px 12px; border: 1px solid #c9ded6; border-radius: 9px; color: #256a58 !important; background: #edf8f4; font-size: 12px !important; }
-.feishu-inline-status[data-tone="error"] { border-color: #eed0cc; color: #9a4740 !important; background: #fff0ee; }
-.feishu-inline-status:focus-visible { outline: 3px solid rgba(51,112,255,.2); outline-offset: 2px; }
-.feishu-config-block { margin-bottom: 11px; padding: 13px; border: 1px solid #e0e5e2; border-radius: 11px; background: #fff; }
-.feishu-config-block > div:first-child { display: flex; align-items: flex-start; gap: 10px; }
-.feishu-config-block > div:first-child > span, .feishu-publish-list > li > span { display: grid; width: 24px; height: 24px; flex: 0 0 auto; place-items: center; border-radius: 50%; color: #2263dc; background: #eaf1ff; font-size: 12px; font-weight: 760; }
-.feishu-config-block strong { display: block; color: #31433a; font-size: 13px; }
-.feishu-config-block p { margin: 4px 0 0; color: #7a8680; font-size: 12px; line-height: 1.5; }
-.feishu-copy { min-height: 32px; margin-block: 11px 0; margin-inline-start: 34px; color: #245cc5; border-color: #d4dded; font-size: 11px; }
-.feishu-config-block details { margin-block: 10px 0; margin-inline-start: 34px; }
-.feishu-config-block summary { color: #7e8a84; cursor: pointer; font-size: 11px; }
-.feishu-config-block pre { max-height: 150px; margin: 8px 0 0; padding: 10px; overflow: auto; border-radius: 7px; color: #45534c; background: #f4f6f4; font: 9px/1.55 ui-monospace, SFMono-Regular, Menlo, monospace; white-space: pre; }
-.feishu-event-row { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; min-height: 41px; margin-block: 11px 0; margin-inline-start: 34px; padding-block: 0; padding-inline: 10px 8px; align-items: center; gap: 8px; border: 1px solid #e3e7e4; border-radius: 8px; background: #f8f9f8; }
-.feishu-event-row code { overflow: hidden; color: #37443e; font-size: 11px; text-overflow: ellipsis; white-space: nowrap; }
-.feishu-event-row span { color: #8a948f; font-size: 11px; }
-.feishu-event-row button { padding: 5px 7px; color: #245cc5; background: transparent; font-size: 11px; }
-.feishu-long-connection { margin-block: 10px 0 !important; margin-inline-start: 34px !important; padding: 9px 10px; border-radius: 8px; background: #eff6ff; }
-.feishu-long-connection strong, .feishu-long-connection span { display: block; }
-.feishu-long-connection strong { color: #315fba; }
-.feishu-long-connection span { margin-top: 3px; color: #6f829f; }
-.feishu-external.wide-row { width: 100%; }
-.feishu-publish-list { display: grid; gap: 9px; margin: 0; padding: 0; list-style: none; }
-.feishu-publish-list li { display: flex; min-height: 63px; padding: 12px 13px; align-items: flex-start; gap: 10px; border: 1px solid #e1e6e3; border-radius: 10px; background: #fff; }
-.feishu-publish-list strong { display: block; color: #31433a; font-size: 13px; }
-.feishu-publish-list p { margin: 4px 0 0; color: #7a8680; font-size: 12px; line-height: 1.5; }
-.feishu-security-note { margin-top: 13px; padding: 12px 13px; border: 1px solid #cce1d9; border-radius: 10px; background: #eff8f4; }
-.feishu-security-note strong { color: #226654; font-size: 12px; }
-.feishu-security-note p { margin: 4px 0 0; color: #668078; font-size: 11px; line-height: 1.5; }
-.feishu-dialog-footer { min-height: 70px; margin: auto 0 0 !important; padding: 14px 24px; flex: 0 0 auto; align-items: center; border-top: 1px solid #e4e9e6; background: rgba(255,255,255,.9); }
-.feishu-footer-spacer { flex: 1; }
 .danger-link { min-height: 36px; padding: 0 8px; color: #a4524c; background: transparent; font-size: 12px; }
 .danger-link:hover:not(:disabled) { background: #f9ece9; }
 .logout-dialog-card > p { margin-bottom: 0; color: #5f6c66; font-size: 13px; line-height: 1.6; overflow-wrap: anywhere; }
@@ -348,16 +279,6 @@ dialog::backdrop { background: rgba(35,48,43,.25); backdrop-filter: blur(4px); }
   .workspace-row { align-items: center; flex-direction: row; }
   .dialog-card footer { align-items: stretch; flex-direction: column; }
   .dialog-card footer button { width: 100%; }
-  .integration-row { align-items: flex-start; flex-wrap: wrap; }
-  .integration-copy { min-width: calc(100% - 52px); }
-  .integration-badge { margin-inline-start: 48px; }
-  .feishu-dialog-card { min-height: calc(100vh - 24px); }
-  .feishu-dialog-card > header, .feishu-progress, .feishu-step, .feishu-dialog-footer { padding-inline: 16px; }
-  .feishu-step-label { margin-inline: 16px; }
-  .feishu-guide-row { align-items: stretch; flex-direction: column; }
-  .feishu-platforms { grid-template-columns: 1fr; }
-  .feishu-dialog-footer { flex-direction: row !important; }
-  .feishu-dialog-footer button { width: auto !important; }
 }
 
 /* A decorated Windows window loses part of its outer height to the native
@@ -474,9 +395,6 @@ dialog::backdrop { background: rgba(35,48,43,.25); backdrop-filter: blur(4px); }
 .setting-row .segments { max-width: 100%; flex-wrap: wrap; }
 .segments button { flex: 1; min-height: 34px; padding-inline: 9px; }
 .agent-runtime-action { min-height: 34px; max-width: 42%; white-space: normal; }
-.integration-row { flex-wrap: wrap; }
-.integration-copy { flex-basis: 150px; }
-.integration-copy p { white-space: normal; }
 .workspace-access-entry { cursor: pointer; }
 .workspace-access-entry:hover { background: rgba(245,248,246,.8); }
 .workspace-access-entry .setting-label p { max-width: 310px; }
@@ -498,22 +416,22 @@ dialog::backdrop { background: rgba(35,48,43,.25); backdrop-filter: blur(4px); }
 /* macOS follows its system appearance; Windows retains the established light UI. */
 @media (prefers-color-scheme: dark) {
   body[data-platform="macos"] { color-scheme: dark; color: #edf4f0; background: radial-gradient(circle at 12% 0%, #1d3939, transparent 42%), #0e1923; }
-  body[data-platform="macos"] :is(.status-card, .quick-settings, .browser-devices, .integration-card, .account-card, .dialog-card, .feishu-dialog-card) { color: #edf4f0; background: #172733; border-color: #344750; box-shadow: none; }
-  body[data-platform="macos"] :is(.brand-version, .eyebrow, .status-copy p, .status-line time, .setting-label p, .toggle-row p, .section-help, .browser-copy p, .integration-copy p, .agent-runtime-copy p, .footer-copy, .diagnostics-link, .language-settings-heading p, .feishu-step > p, .feishu-step-label, .field span, .feishu-guide-row p, .feishu-config-block p, .feishu-publish-list p, .logout-dialog-card > p, .diagnostic-summary, .pairing-panel-copy p, .pairing-security-note, .pairing-expiry, .pairing-qr-card span, .pairing-code-column > span) { color: #b6c8ce; }
-  body[data-platform="macos"] :is(.browser-copy strong, .integration-copy strong, .agent-runtime-copy strong, .browser-list-state strong, .language-settings-heading strong, .field span, .feishu-step h3, .feishu-guide-row strong, .feishu-config-block strong, .feishu-publish-list strong) { color: #edf4f0; }
-  body[data-platform="macos"] :is(.browser-list, .browser-row, .integration-row, .setting-row, .agent-readiness, .agent-runtime-row, .pairing-security-note) { border-color: #344750; }
-  body[data-platform="macos"] :is(.browser-list-state, .agent-readiness, .segments, .language-settings, .language-picker, .feishu-config-block, .feishu-guide-row, .feishu-publish-list li) { background: #12212b; }
-  body[data-platform="macos"] :is(.browser-list-state p, .agent-readiness-state, .feishu-step .field small) { color: #b6c8ce; }
+  body[data-platform="macos"] :is(.status-card, .quick-settings, .browser-devices, .account-card, .dialog-card) { color: #edf4f0; background: #172733; border-color: #344750; box-shadow: none; }
+  body[data-platform="macos"] :is(.brand-version, .eyebrow, .status-copy p, .status-line time, .setting-label p, .toggle-row p, .section-help, .browser-copy p, .agent-runtime-copy p, .footer-copy, .diagnostics-link, .language-settings-heading p, .field span, .logout-dialog-card > p, .diagnostic-summary, .pairing-panel-copy p, .pairing-security-note, .pairing-expiry, .pairing-qr-card span, .pairing-code-column > span) { color: #b6c8ce; }
+  body[data-platform="macos"] :is(.browser-copy strong, .agent-runtime-copy strong, .browser-list-state strong, .language-settings-heading strong, .field span) { color: #edf4f0; }
+  body[data-platform="macos"] :is(.browser-list, .browser-row, .setting-row, .agent-readiness, .agent-runtime-row, .pairing-security-note) { border-color: #344750; }
+  body[data-platform="macos"] :is(.browser-list-state, .agent-readiness, .segments, .language-settings, .language-picker) { background: #12212b; }
+  body[data-platform="macos"] :is(.browser-list-state p, .agent-readiness-state) { color: #b6c8ce; }
   body[data-platform="macos"] .primary { color: #102926; background: #b4ebdc; box-shadow: none; }
   body[data-platform="macos"] .primary:hover:not(:disabled) { background: #cff5ea; }
   body[data-platform="macos"] :is(.secondary, .icon-button, .field input, .language-option, .segments button.is-active) { color: #d5e8e5; background: #213946; border-color: #49636c; box-shadow: none; }
   body[data-platform="macos"] :is(.secondary:hover:not(:disabled), .icon-button:hover, .workspace-row:hover, .workspace-access-entry:hover, .account-card:hover) { background: #294650; }
   body[data-platform="macos"] :is(.segments button, .row-action, .saved-state, .pairing-open, .pairing-copy, .pairing-cancel, .agent-readiness-retry) { color: #b4ebdc; }
-  body[data-platform="macos"] :is(.pairing-panel, .feishu-inline-status, .feishu-security-note) { color: #d5e8e5; background: #193c38; border-color: #3f6a5f; }
+  body[data-platform="macos"] :is(.pairing-panel) { color: #d5e8e5; background: #193c38; border-color: #3f6a5f; }
   body[data-platform="macos"] .pairing-code { color: #edf4f0; background: #12212b; border-color: #49636c; }
   body[data-platform="macos"] :is(.error-copy, .browser-list-state-error .browser-state-icon, .agent-runtime-row[data-tone="danger"] .agent-runtime-icon, .agent-readiness-state-error .agent-runtime-icon) { color: #ffc1b7; background: #4a2b31; }
   body[data-platform="macos"] :is(.logout-button, .browser-revoke, .danger-link, .agent-runtime-row[data-tone="danger"] .agent-runtime-copy p) { color: #ffc1b7; }
-  body[data-platform="macos"] :is(.integration-badge, .integration-badge[data-tone="loading"], .agent-runtime-row[data-tone="warning"] .agent-runtime-icon) { color: #f2d49d; background: #473d2b; }
+  body[data-platform="macos"] :is(.agent-runtime-row[data-tone="warning"] .agent-runtime-icon) { color: #f2d49d; background: #473d2b; }
   body[data-platform="macos"] .agent-runtime-row[data-tone="warning"] .agent-runtime-copy p { color: #f2d49d; }
   body[data-platform="macos"] .language-option[aria-checked="true"] { color: #b4ebdc; background: #24463f; border-color: #79b6a4; }
   body[data-platform="macos"] :is(button, input):focus-visible { outline-color: #b4ebdc; }
@@ -526,10 +444,8 @@ dialog::backdrop { background: rgba(35,48,43,.25); backdrop-filter: blur(4px); }
   body[data-platform="macos"] :is(.feedback-subtitle, .feedback-card small, .feedback-info p, .feedback-types button, .feedback-info dd, .feedback-info dt) { color: #b6c8ce; }
   body[data-platform="macos"] .feedback-types { background: #12212b; }
   body[data-platform="macos"] .feedback-types button[aria-pressed="true"] { color: #b4ebdc; background: #24463f; }
-  body[data-platform="macos"] :is(.update-card, .feishu-suggestion, .feishu-event-row) { color: #edf4f0; background: #213946; border-color: #49636c; }
-  body[data-platform="macos"] :is(.update-copy strong, .update-copy > p:last-of-type, .update-later, .feishu-suggestion strong, .feishu-suggestion small, .feishu-event-row code, .feishu-event-row span, .feishu-security-note p, .feishu-security-note strong) { color: #c7dadc; }
-  body[data-platform="macos"] .feishu-inline-status { color: #b4ebdc !important; }
-  body[data-platform="macos"] .feishu-platforms button[aria-pressed="true"] { color: #d5e8e5; background: #244655; border-color: #8db9e4; }
+  body[data-platform="macos"] :is(.update-card) { color: #edf4f0; background: #213946; border-color: #49636c; }
+  body[data-platform="macos"] :is(.update-copy strong, .update-copy > p:last-of-type, .update-later) { color: #c7dadc; }
   body[data-platform="macos"] .file-access-warning { color: #f2d49d; background: #382f24; }
 }
 
@@ -572,8 +488,6 @@ dialog::backdrop { background: rgba(35,48,43,.25); backdrop-filter: blur(4px); }
 .desktop-sidebar .setting-label p { font-size: 11px; }
 .desktop-sidebar .segments { width: 100%; }
 .desktop-sidebar .agent-runtime-row { padding-inline: 16px; }
-.desktop-sidebar .integration-row { padding: 12px 16px; gap: 8px; }
-.desktop-sidebar .integration-copy { flex-basis: 140px; }
 .home-view .account-actions { margin-top: 16px; margin-bottom: 4px; }
 @media (max-width: 799px) {
   .desktop-workspace { grid-template-columns: minmax(0, 1fr); gap: 14px; }

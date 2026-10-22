@@ -34,6 +34,7 @@ export type DesktopErrorCode =
   | "agent_login_failed"
   | "settings_save_failed"
   | "relay_credentials_missing"
+  | "browser_pairing_required"
   | "relay_unauthorized"
   | "relay_reconnecting"
   | "relay_legacy_process"
@@ -73,6 +74,7 @@ const desktopErrorCodes = new Set<DesktopErrorCode>([
   "agent_login_failed",
   "settings_save_failed",
   "relay_credentials_missing",
+  "browser_pairing_required",
   "relay_unauthorized",
   "relay_reconnecting",
   "relay_legacy_process",

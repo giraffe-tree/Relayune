@@ -9,7 +9,7 @@
 
 - Tauri/Rust 代码支持 `x86_64-pc-windows-msvc`，并预留
   `aarch64-pc-windows-msvc` sidecar 映射。
-- 设备令牌、每浏览器独立内容密钥和飞书密钥写入 `%APPDATA%` 应用目录内的
+- 设备令牌与每浏览器独立内容密钥写入 `%APPDATA%` 应用目录内的
   AES-256-GCM 认证加密 vault；不使用 Windows Credential Manager，配置与 outbox
   不保存这些秘密。vault 缺失表示未配对；密文损坏、wrapping key 丢失或访问被拒会传播为
   本地化的 `credential_access_failed`，不再误导用户重新配对。正常 Relay publication
@@ -343,7 +343,7 @@ desktop\src-tauri\target\release\bundle\nsis\
 2. 首次连接只要求点击、邮箱登录和 8 位码；错误码被拒绝，短码和密钥不出现在 URL、
    配置、日志、MongoDB 或截图中。
 3. `%APPDATA%` 应用目录中只能看到认证加密 vault、随机 nonce 和 wrapping key，不能
-   搜索到设备 token、浏览器内容密钥或飞书密钥原文；取消一个浏览器只删除对应 vault
+   搜索到设备 token 或浏览器内容密钥原文；取消一个浏览器只删除对应 vault
    条目，退出登录撤销设备并清理本机秘密。
 4. 重启 Windows 后登录启动生效；Relay 只主动发起 HTTPS polling，系统防火墙无需
    开放入站端口。

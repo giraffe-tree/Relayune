@@ -18,6 +18,9 @@ iOS 的 TestFlight 可安装状态未核对；Android 本轮仅完成有限登�
 其余 Android 验收已取消，不作为本轮发行门槛。已验证范围和当前交付状态见
 [官方联合升级清单](docs/official-deployment.md)，整体计划见[开源与首轮发行计划](docs/open-source-roadmap.md)。
 
+本次公开前源码整改已删除飞书相关能力，并修补依赖与旧共享密钥入口；
+这些源码补丁尚未构建新正式客户端或部署生产，不代表当前在线 0.3.33 已包含它们。
+
 > Copyright (c) 2026 Ernest Chen。自有源码和项目素材采用 [MIT License](LICENSE)，允许依许可使用、修改和商业分发，
 > 使用或分发时须保留版权和许可声明；软件按原样提供，不作担保。
 > 第三方组件继续适用各自许可，见 [第三方声明](THIRD_PARTY_NOTICES.md)和[许可说明](docs/licensing.md)。
@@ -115,6 +118,11 @@ Agent；之后用 Desktop 显示的短码独立授权客户端。
 Windows 首次连接仍通过短码 PAKE 同时创建设备与首个客户端授权，详见 Desktop 文档。
 协议、存储和元数据边界见[架构与安全约束](docs/security-and-architecture.md)
 及[端到端加密威胁模型](docs/e2ee-threat-model.md)。
+
+会话保密不代表所有服务端数据都不可读：账户认证、路由元数据和主动反馈有单独规则。
+Web 还信任服务端下发的 JavaScript，不能抵抗服务端替换前端后在浏览器内读取明文。
+当前不承诺前向保密，专业独立密码学及侧信道审计尚未完成；
+[当前源码复核](docs/crypto-security-review.md)不能替代该审计。
 
 ## 开发环境
 

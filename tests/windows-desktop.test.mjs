@@ -640,7 +640,7 @@ test("desktop exposes Windows development, NSIS, credentials, and updater contra
   );
   assert.match(
     rustSecrets,
-    /pub fn clear_device_credentials[\s\S]*?device_token_entry[\s\S]*?legacy_e2ee_entry[\s\S]*?feishu_connection_entry[\s\S]*?browser_ids[\s\S]*?browser_key_entry[\s\S]*?vault\(\)\?\.clear/,
+    /pub fn clear_device_credentials[\s\S]*?vault\(\)\?\.clear\(&device_credential_entries[\s\S]*?fn device_credential_entries[\s\S]*?device_token_entry[\s\S]*?legacy_e2ee_entry[\s\S]*?attachment_store_key_entry[\s\S]*?browser_ids[\s\S]*?browser_key_entry/,
     "sign-out must atomically clear every per-device secret entry",
   );
   assert.match(

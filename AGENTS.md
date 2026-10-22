@@ -3,9 +3,12 @@
 ## Scope and review
 
 - Read this file and any more specific instructions before making changes.
-- This directory is a public-source preparation workspace. Do not initialize Git,
-  commit, add a remote, push, upload, or publish until preparation has been reviewed
-  and the maintainer authorizes that step.
+- This repository is the primary source for Relayune. The maintainer has authorized
+  local commits and the completed official 0.3.33 release. Keep credentials and
+  private runtime state outside Git. Do not push or publish repository source
+  until the maintainer explicitly authorizes that step. New release, upload,
+  installation, or deployment work must stay within the current task authorization;
+  routine source edits do not authorize those actions.
 - Do not copy private repository history, internal research, user data, credentials,
   signing material, or local runtime state into this directory.
 - Public-source preparation status and remaining decisions are recorded in

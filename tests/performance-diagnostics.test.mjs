@@ -181,8 +181,8 @@ test('CLI opt-in covers bootstrap failure before AttachmentStore construction co
     const result = await run(process.execPath, ['relay/cli.mjs', 'relay'], { env: {
       ...process.env, RELAY_PERFORMANCE_DIAGNOSTICS: enabled,
       RELAY_SERVER_URL: 'https://fixture.invalid', RELAY_DEVICE_ID: 'fixture-device',
-      RELAY_DEVICE_TOKEN: 'fixture-secret-token', RELAY_BROWSER_KEYS: '',
-      RELAY_E2EE_KEY: Buffer.alloc(32, 1).toString('base64url'),
+      RELAY_DEVICE_TOKEN: 'fixture-secret-token',
+      RELAY_BROWSER_KEYS: JSON.stringify([{browser_id: `web_${'1'.repeat(32)}`, e2ee_key: Buffer.alloc(32, 1).toString('base64url')}]),
       RELAY_ATTACHMENT_STORE_PATH: 'invalid-relative-path', RELAY_ATTACHMENT_STORE_KEY: Buffer.alloc(32, 2).toString('base64url'),
     } }).catch(error => error);
     assert.equal(result.code, 1);

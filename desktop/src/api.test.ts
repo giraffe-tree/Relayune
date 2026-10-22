@@ -3,6 +3,8 @@ import { DesktopCommandError, desktopErrorCode } from "./api";
 
 describe("desktop native error boundary", () => {
   it("parses stable native markers without exposing diagnostic text", () => {
+    expect(desktopErrorCode("relayune:browser_pairing_required"))
+      .toBe("browser_pairing_required");
     expect(desktopErrorCode("relayune:server_https_required"))
       .toBe("server_https_required");
     expect(desktopErrorCode(new Error("relayune:relay_unauthorized")))

@@ -80,7 +80,7 @@ Web 凭据和内容密钥仅用于页面同源 API，拒绝公共构建参数指
   SHA-256 transcript、HKDF-SHA256 确认密钥和 HMAC-SHA256 双向确认；RFC 会话密钥
   再通过 HKDF-SHA256 扩展为 32 字节内容密钥。双方确认成功后才能保存内容密钥。
 - 浏览器把不可导出的内容密钥保存在 IndexedDB；Desktop 不得使用 macOS Keychain 或
-  Windows Credential Manager，设备令牌、每客户端内容密钥和飞书密钥只保存在应用数据
+  Windows Credential Manager，设备令牌与每客户端内容密钥只保存在应用数据
   目录内经过认证加密的本机 vault 中。Server 只保存设备令牌的 SHA-256 摘要。
 - 多浏览器授权不得读取、包装、导出或复用本机 vault 中已有的内容密钥。每个
   浏览器必须通过各自的一次性短码 PAKE 得到独立内容密钥；Desktop 只把该浏览器对应
@@ -89,8 +89,11 @@ Web 凭据和内容密钥仅用于页面同源 API，拒绝公共构建参数指
   Git、命令输出、普通日志、截图、应用配置或任何明文文件。Server 秘密放在 root-owned 文件中：
   仅 root 读取时使用 `0600`，服务组必须读取时使用 `0640`。
 - Web/Desktop 的 `@noble/curves`、移动端 `elliptic` / `pointycastle` 组合及 Relayune
-  的 RFC 9382 profile 尚未完成独立密码学审计；正式扩大使用范围前必须完成独立审计，
-  并重点验证移动端 P-256 标量乘法的侧信道边界。不得把 RFC 测试向量通过等同于生产审计。
+  的 RFC 9382 profile 尚未完成专业独立密码学审计；正式扩大使用范围或作出更强的保密承诺前
+  必须完成独立审计，并重点验证跨语言 P-256 与运行时的侧信道边界。不得把 RFC 测试向量、
+  自动扫描或 AI 源码复核等同于生产审计。Web 依赖服务端下发脚本，不抵抗服务端篡改前端；
+  当前无逐消息 ratchet，不承诺后续客户端内容密钥失陷时的前向保密。详见
+  [威胁模型](e2ee-threat-model.md)和[密码学安全复核](crypto-security-review.md)。
 
 ## 客户端设备身份与重新授权
 

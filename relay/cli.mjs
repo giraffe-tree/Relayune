@@ -87,11 +87,7 @@ async function main() {
   const deviceId = required("RELAY_DEVICE_ID");
   const deviceToken = required("RELAY_DEVICE_TOKEN");
   const serializedBrowserKeys = process.env.RELAY_BROWSER_KEYS;
-  const legacyKey = serializedBrowserKeys ? null : process.env.RELAY_E2EE_KEY;
-  const browserKeys = browserKeyCredentials(
-    serializedBrowserKeys,
-    legacyKey,
-  );
+  const browserKeys = browserKeyCredentials(serializedBrowserKeys);
   if (!deviceToken || !browserKeys.length) {
     throw new Error("请先在 Relayune 桌面端完成安全连接。");
   }
@@ -313,7 +309,7 @@ async function completeBrowserPairing() {
   }
 }
 
-function browserKeyCredentials(serialized, legacyKey) {
+function browserKeyCredentials(serialized) {
   let values = [];
   if (serialized) {
     try {
@@ -321,8 +317,6 @@ function browserKeyCredentials(serialized, legacyKey) {
     } catch {
       throw new Error("RELAY_BROWSER_KEYS 格式无效");
     }
-  } else if (legacyKey) {
-    values = [{ browser_id: null, e2ee_key: legacyKey }];
   }
   if (
     !Array.isArray(values) ||
@@ -330,12 +324,23 @@ function browserKeyCredentials(serialized, legacyKey) {
       (value) =>
         !value ||
         typeof value !== "object" ||
-        (value.browser_id !== null &&
-          !/^web_[a-f0-9]{32}$/.test(value.browser_id)) ||
-        !/^[A-Za-z0-9_-]{43}$/.test(value.e2ee_key),
+        typeof value.browser_id !== "string" ||
+        !/^web_[a-f0-9]{32}$/.test(value.browser_id) ||
+        typeof value.e2ee_key !== "string" ||
+        !/^[A-Za-z0-9_-]{43}$/.test(value.e2ee_key) ||
+        Buffer.from(value.e2ee_key, "base64url").toString("base64url") !== value.e2ee_key,
     )
   ) {
     throw new Error("浏览器内容密钥列表无效");
+  }
+  const browserIds = new Set();
+  const keys = new Set();
+  for (const value of values) {
+    if (browserIds.has(value.browser_id) || keys.has(value.e2ee_key)) {
+      throw new Error("浏览器内容密钥必须独立且不可重复绑定");
+    }
+    browserIds.add(value.browser_id);
+    keys.add(value.e2ee_key);
   }
   return values.map((value) => ({
     browserId: value.browser_id,

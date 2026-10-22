@@ -24,13 +24,21 @@ Use a self-hosted loopback service and isolated synthetic accounts.
 
 Relayune's SPAKE2 profile, browser/Desktop cryptographic stack, and mobile elliptic-curve
 implementation have not completed an independent security or side-channel audit.
-Passing test vectors, secret scans, or integration tests does not establish that such an audit occurred.
+Passing test vectors, secret scans, integration tests, or an AI-assisted source review does not
+establish that such an audit occurred. The current review and unresolved audit work are recorded
+in [the cryptographic review](docs/crypto-security-review.md).
 The supported guarantees and remaining metadata are documented in
 [the threat model](docs/e2ee-threat-model.md) and [security constraints](docs/security-and-architecture.md).
 
 Each client pairs independently. The server routes authenticated encrypted session payloads;
 session keys and pairing codes must remain at endpoints. User-submitted feedback follows the
-separate, explicitly readable feedback policy in the security constraints.
+separate, explicitly readable feedback policy in the security constraints. Account authentication
+credentials and routing metadata have separate rules; the server necessarily processes login
+passwords and request bearer tokens in memory. Web clients also trust the server-delivered
+JavaScript: a server that replaces that code can read plaintext at the browser endpoint.
+The current protocol does not provide a per-message ratchet or forward secrecy against a later
+client content-key compromise. These boundaries preclude a claim that all data passing through
+the server is unconditionally inaccessible to it.
 
 For an accidentally disclosed secret, revoke or rotate it with the provider first and contact
 the maintainer privately. Removing a file or replacing repository history does not revoke a secret.

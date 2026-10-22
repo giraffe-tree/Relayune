@@ -30,6 +30,10 @@ See the [official release checklist](docs/official-deployment.md) for current de
 and the [release plan](docs/open-source-roadmap.md) for the overall scope. Most detailed
 documentation is currently in Chinese.
 
+The pre-publication source changes remove Feishu integration and patch dependencies and
+legacy shared-key entry points. These source changes have not been shipped in new signed
+clients or deployed to production; the existing live 0.3.33 release does not establish their validation.
+
 ## Using Relayune
 
 The normal workflow is: **install on your computer → sign in and prepare an
@@ -113,6 +117,13 @@ Account and routing metadata are not session ciphertext. Feedback submitted
 explicitly by the user follows separate readable-data rules. See the
 [security constraints](docs/security-and-architecture.md) and
 [encryption threat model](docs/e2ee-threat-model.md).
+
+Session confidentiality does not make all server data unreadable: account authentication,
+routing metadata and deliberately submitted feedback have separate rules. Web clients trust
+server-delivered JavaScript, so a server that replaces it can read plaintext in the browser.
+The current protocol does not promise forward secrecy. A professional independent cryptographic
+and side-channel audit remains incomplete; the [source review](docs/crypto-security-review.md)
+is not a substitute for that audit.
 
 ## Development
 

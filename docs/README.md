@@ -7,6 +7,7 @@
 
 - [架构与安全约束](security-and-architecture.md)：协议、存储、凭据和日志边界。
 - [端到端加密威胁模型](e2ee-threat-model.md)：明文端点、密钥与 Server 元数据边界。
+- [密码学安全复核](crypto-security-review.md)：当前源码复核证据、主动恶意服务端边界及待专业审计事项；不代表已完成独立审计。
 - [Server 运行说明](server-production.md)：Node + MongoDB、反向代理与运行配置。
 - [官方服务与客户端升级准备](official-deployment.md)：官方环境模板、不兼容旧客户端的首轮升级顺序与验收边界。
 - [Claude Cowork 接入](claude-cowork-integration.md)：本地任务发现、恢复、审批和模型配置。

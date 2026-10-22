@@ -40,7 +40,7 @@
     "mobile:build:ios": "node mobile/tool/flutter.mjs build ios --release --no-codesign",
     "verify:self-hosted-e2ee": "node scripts/verify-production-e2ee.mjs",
     "verify:mongo-self-hosted": "node scripts/verify-mongo-self-hosted.mjs",
-    "test": "npm run test:mobile-map && npm run build && node --test tests/*.test.mjs",
+    "test": "npm run test:mobile-map && npm run build && node --test --test-concurrency=2 tests/*.test.mjs",
     "test:mobile-map": "node scripts/verify-mobile-test-map.mjs",
     "test:mobile-map:release": "node scripts/verify-mobile-test-map.mjs --release",
     "test:crypto": "node --test tests/e2ee-crypto.test.mjs tests/server-blindness.test.mjs tests/remote-e2ee-relay.test.mjs",
@@ -51,7 +51,6 @@
     "self-hosted:prepare": "node scripts/prepare-self-hosted.mjs"
   },
   "dependencies": {
-    "@larksuiteoapi/node-sdk": "^1.72.0",
     "@noble/curves": "2.3.0",
     "@noble/hashes": "2.3.0",
     "jpeg-js": "0.4.4",

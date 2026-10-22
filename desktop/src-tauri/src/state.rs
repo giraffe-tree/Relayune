@@ -29,6 +29,7 @@ const ALLOWED_DIAGNOSTIC_CODES: &[&str] = &[
     "pairing_failed",
     "relay_connected",
     "relay_credentials_missing",
+    "browser_pairing_required",
     "relay_exited",
     "relay_legacy_process",
     "relay_reconnecting",

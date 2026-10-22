@@ -7,7 +7,8 @@
 切换需明确确认，会停止 Relay、清理旧加密 vault 与投递/附件状态、创建新设备身份并要求重新登录配对。
 旧实例上的授权不会随本机清理自动远程撤销，必要时应先在旧实例撤销。
 业务实例与官方更新信任分开，自托管不自动访问官方更新；主动检查仍使用受信官方渠道。
-完整首次准备见[自托管说明](../docs/self-hosting.md)。原生应用、系统信任和打包 sidecar 仍需实机验收。
+完整首次准备见[自托管说明](../docs/self-hosting.md)。官方 macOS 0.3.33 已完成签名、公证、
+打包 sidecar、正式安装和生产连接核验；自建私有 CA 的系统信任安装及 Windows 原生旅程仍未验收。
 
 > 品牌从 Agent Relay 更新为 Relayune。为保证已安装客户端、本机加密 vault 和签名更新链
 > 连续，`cn.giraffetree.agent-relay`、旧 URL scheme、更新签名密钥名称及生产域名
@@ -209,7 +210,7 @@ tooltip 与 VoiceOver 名称也追加“有更新 / Update available”，无需
   `%USERPROFILE%\Relayune`；升级不会覆盖用户已经保存的工作目录；
 - 非敏感配置位于系统应用配置目录：macOS 的 `~/Library/Application Support/…`
   或 Windows 的 `%APPDATA%\\cn.giraffetree.agent-relay\\config.json`；
-- 设备令牌、每浏览器内容密钥和飞书密钥只保存在加密 vault；vault 位于应用数据目录，
+- 设备令牌与每浏览器内容密钥只保存在加密 vault；vault 位于应用数据目录，
   密文使用 AES-256-GCM 认证，每次写入使用随机 nonce，文件原子替换；
 - outbox 只保存 A256GCM envelope；
 - macOS 不会在未登录启动阶段探测文件夹。账户登录提交成功后先显示用途说明，只有用户明确继续
@@ -275,7 +276,8 @@ tooltip 与 VoiceOver 名称也追加“有更新 / Update available”，无需
   自愈，连续失败也可见，且并发连接/重连不会被旧 phase 回放覆盖；
 - 冷启动时加密 vault 暂时不可访问，菜单保持“需要处理 /
   Needs attention”和“显示 Relayune”，不会把安全存储读取失败误当成首次连接或诱导用户
-  重复配对；这也覆盖配置尚无 `browser_ids` 的旧版授权。只有磁盘确认存在浏览器授权时
+  重复配对。旧版仅有共享密钥、没有独立 `browser_ids` 的状态不能启动 Relay，须连接新客户端并重新独立配对；
+  不会自动把旧共享密钥授权给新客户端。只有磁盘确认存在浏览器授权时
   Web 入口才保留启用；凭据重试成功后，bootstrap 会在原生刷新串行锁内同时提交 paired
   cache、recovery flag 与持久语言，再按真实安全存储状态执行完整语言刷新；Show、Web、
   Update、诊断、退出、tooltip 与 VoiceOver 不会出现一半新语言、一半 fallback 语言。

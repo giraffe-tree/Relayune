@@ -91,6 +91,33 @@ impl ConnectionTimings {
     }
 }
 
+// A legacy shared content key has no client identity and cannot authorize a
+// Relay connection. Keep it inert in the vault until explicit account cleanup;
+// the user must establish each client again with a separate PAKE enrollment.
+fn independent_browser_key_enrollments(
+    browser_ids: &[String],
+    mut read_key: impl FnMut(&str) -> Result<String, String>,
+) -> Result<Vec<serde_json::Value>, String> {
+    let mut ids = BTreeSet::new();
+    if browser_ids.is_empty() || browser_ids.iter().any(|id| {
+        !id.starts_with("web_") || id.len() != 36
+            || !id[4..].bytes().all(|byte| byte.is_ascii_digit() || (b'a'..=b'f').contains(&byte))
+            || !ids.insert(id)
+    }) {
+        return Err(user_error("browser_pairing_required"));
+    }
+    let mut keys = BTreeSet::new();
+    let mut enrollments = Vec::with_capacity(browser_ids.len());
+    for browser_id in browser_ids {
+        let key = read_key(browser_id)?;
+        if !keys.insert(key.clone()) {
+            return Err(user_error("browser_pairing_required"));
+        }
+        enrollments.push(serde_json::json!({ "browser_id": browser_id, "e2ee_key": key }));
+    }
+    Ok(enrollments)
+}
+
 pub async fn start(app: &AppHandle, state: &AppState) -> Result<RelaySnapshot, String> {
     start_with_config_change_admission(app, state, false).await
 }
@@ -148,6 +175,10 @@ fn start_reserved(app: &AppHandle, state: &AppState, generation: u64) -> Result<
     let preparation = (|| {
         let relay_config = state.config();
         config::validate(&relay_config)?;
+        let browser_keys = independent_browser_key_enrollments(
+            &relay_config.browser_ids,
+            |browser_id| secrets::get_browser_key(&relay_config.device_id, browser_id),
+        )?;
         let secret_presence =
             secrets::presence_for_browsers(&relay_config.device_id, &relay_config.browser_ids)?;
         if !secret_presence.device_token || !secret_presence.e2ee_key {
@@ -157,26 +188,6 @@ fn start_reserved(app: &AppHandle, state: &AppState, generation: u64) -> Result<
         // The bundled Relay receives them only in its transient process
         // environment, avoiding direct vault access from the standalone sidecar.
         let device_token = secrets::get(SecretKind::DeviceToken, &relay_config.device_id)?;
-        let mut browser_keys = Vec::new();
-        for browser_id in &relay_config.browser_ids {
-            if let Ok(e2ee_key) = secrets::get_browser_key(&relay_config.device_id, browser_id) {
-                browser_keys.push(serde_json::json!({
-                    "browser_id": browser_id,
-                    "e2ee_key": e2ee_key,
-                }));
-            }
-        }
-        if relay_config.browser_ids.is_empty() {
-            if let Ok(legacy_key) = secrets::get(SecretKind::E2eeKey, &relay_config.device_id) {
-                browser_keys.push(serde_json::json!({
-                    "browser_id": null,
-                    "e2ee_key": legacy_key,
-                }));
-            }
-        }
-        if browser_keys.is_empty() {
-            return Err(user_error("relay_credentials_missing"));
-        }
         let browser_keys_json = serde_json::to_string(&browser_keys)
             .map_err(|_| user_error("browser_access_failed"))?;
         let attachment_store_path =
@@ -1594,6 +1605,43 @@ mod tests {
         state::AppState,
     };
     use std::{sync::mpsc, thread, time::Duration};
+
+    #[test]
+    fn independent_enrollment_rejects_missing_or_invalid_clients_before_reading_keys() {
+        let first = format!("web_{}", "1".repeat(32));
+        for ids in [vec![], vec!["web_invalid".into()], vec![first.clone(), first.clone()]] {
+            let result = independent_browser_key_enrollments(&ids, |_| {
+                panic!("invalid enrollment must not read any vault key")
+            });
+            assert_eq!(result, Err(user_error("browser_pairing_required")));
+        }
+    }
+
+    #[test]
+    fn independent_enrollment_never_falls_back_when_a_client_key_is_missing_or_reused() {
+        let ids = vec![format!("web_{}", "1".repeat(32)), format!("web_{}", "2".repeat(32))];
+        let mut reads = Vec::new();
+        let missing = independent_browser_key_enrollments(&ids, |id| {
+            reads.push(id.to_owned());
+            if id == ids[0] { Ok("first-synthetic-key".into()) }
+            else { Err(user_error("credential_access_failed")) }
+        });
+        assert_eq!(missing, Err(user_error("credential_access_failed")));
+        assert_eq!(reads, ids);
+        assert_eq!(independent_browser_key_enrollments(&ids, |_| Ok("reused-synthetic-key".into())),
+            Err(user_error("browser_pairing_required")));
+    }
+
+    #[test]
+    fn independent_enrollment_binds_each_key_to_its_locally_paired_client() {
+        let ids = vec![format!("web_{}", "1".repeat(32)), format!("web_{}", "2".repeat(32))];
+        let result = independent_browser_key_enrollments(&ids, |id| Ok(format!("synthetic-{id}"))).unwrap();
+        assert_eq!(result.len(), 2);
+        for (enrollment, id) in result.iter().zip(&ids) {
+            assert_eq!(enrollment["browser_id"], id.as_str());
+            assert_eq!(enrollment["e2ee_key"], format!("synthetic-{id}"));
+        }
+    }
 
     #[cfg(unix)]
     #[test]

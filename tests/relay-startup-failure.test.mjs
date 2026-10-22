@@ -30,7 +30,7 @@ for (const ignoresTerm of [false, true]) test(`failed initial registration exits
       PATH: process.env.PATH, HOME: directory,
       RELAY_SERVER_URL: `http://127.0.0.1:${server.address().port}`,
       RELAY_DEVICE_ID: "dev_startup_test", RELAY_DEVICE_TOKEN: "synthetic-test-token",
-      RELAY_E2EE_KEY: Buffer.alloc(32, 1).toString("base64url"),
+      RELAY_BROWSER_KEYS: JSON.stringify([{ browser_id: `web_${"1".repeat(32)}`, e2ee_key: Buffer.alloc(32, 1).toString("base64url") }]),
       RELAY_ATTACHMENT_STORE_KEY: Buffer.alloc(32, 2).toString("base64url"),
       RELAY_ATTACHMENT_STORE_PATH: join(directory, "attachments.sqlite3"),
       RELAY_STATE_PATH: join(directory, "outbox.json"), RELAY_WORKSPACE: directory,

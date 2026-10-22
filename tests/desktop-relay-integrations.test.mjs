@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
+import { readFile } from "node:fs/promises";
 import { fileURLToPath } from "node:url";
 import { build } from "esbuild";
 
@@ -20,4 +21,8 @@ test("desktop Relay bundle does not ship the retired Feishu connector or SDK", a
     [],
   );
   assert.doesNotMatch(result.outputFiles[0].text, /RELAY_FEISHU_CONFIG|verify-feishu-credentials|verify-feishu-connection/);
+  const lock = JSON.parse(await readFile(new URL("../package-lock.json", import.meta.url), "utf8"));
+  for (const path of Object.keys(lock.packages)) {
+    assert.doesNotMatch(path, /node_modules\/(?:@larksuiteoapi\/node-sdk|axios|follow-redirects)$/, "retired SDK-only dependencies must not remain in the install graph");
+  }
 });

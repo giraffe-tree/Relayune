@@ -244,7 +244,7 @@
     },
     {
       "path": "mobile/assets/mermaid/BUILD.json",
-      "sha256": "83bb6c4de424a29cc0c49268c9d154b50bde04cccf35cbc114e33a2860b86e0b",
+      "sha256": "93670c6751909d54be55dff92c5d6b4ccc4bdd50eef50d5f992a0a21e34ce8d4",
       "status": "build-metadata",
       "evidence": "scripts/sync-mermaid-assets.mjs",
       "notes": "Preserve with the generated runtime; no private environment paths."
@@ -741,7 +741,7 @@
     },
     {
       "path": "public/mermaid/BUILD.json",
-      "sha256": "83bb6c4de424a29cc0c49268c9d154b50bde04cccf35cbc114e33a2860b86e0b",
+      "sha256": "93670c6751909d54be55dff92c5d6b4ccc4bdd50eef50d5f992a0a21e34ce8d4",
       "status": "build-metadata",
       "evidence": "scripts/sync-mermaid-assets.mjs",
       "notes": "Preserve with the generated runtime; no private environment paths."

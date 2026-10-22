@@ -152,17 +152,15 @@ test("新增浏览器写入独立加密 vault 条目且不读取或包装已有�
       durablePresentation.indexOf("state.set_paired(paired)"),
     "the shared durable transaction must invalidate stale bootstrap state before restoring native memory",
   );
-  assert.match(relay, /if relay_config\.browser_ids\.is_empty\(\)/);
+  assert.match(relay, /independent_browser_key_enrollments\([\s\S]*?browser_pairing_required/);
+  assert.doesNotMatch(relay, /"browser_id": null|secrets::get\(SecretKind::E2eeKey/);
   assert.match(relay, /separate_browser_authorizations/);
   assert.match(
     relay,
     /revoke_browser_authorization\(app, state, &authorization\.id\)\.await/,
   );
-  assert.match(cli, /const legacyKey = serializedBrowserKeys\s*\?\s*null/);
-  assert.doesNotMatch(
-    cli,
-    /browserKeyCredentials\(\s*process\.env\.RELAY_BROWSER_KEYS,\s*process\.env\.RELAY_E2EE_KEY/,
-  );
+  assert.match(cli, /browserKeyCredentials\(serializedBrowserKeys\)/);
+  assert.doesNotMatch(cli, /RELAY_E2EE_KEY/);
 });
 
 test("替换设备在持久化失败时恢复旧 Relay", async () => {

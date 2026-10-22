@@ -72,25 +72,26 @@ describe("desktop locale", () => {
       "credentialAccessError",
       "workspacePickerError",
       "pairingNativeError",
+      "browserPairingRequiredError",
       "browserAccessError",
       "languageError",
       "updateFailed",
     ];
     const expectedCoverage = {
-      en: { translated: 441, fallback: 0, total: 441 },
-      "zh-CN": { translated: 441, fallback: 0, total: 441 },
-      hi: { translated: 441, fallback: 0, total: 441 },
-      es: { translated: 441, fallback: 0, total: 441 },
-      ar: { translated: 441, fallback: 0, total: 441 },
-      fr: { translated: 441, fallback: 0, total: 441 },
-      bn: { translated: 441, fallback: 0, total: 441 },
-      pt: { translated: 441, fallback: 0, total: 441 },
-      id: { translated: 441, fallback: 0, total: 441 },
-      ur: { translated: 441, fallback: 0, total: 441 },
+      en: { translated: 378, fallback: 0, total: 378 },
+      "zh-CN": { translated: 378, fallback: 0, total: 378 },
+      hi: { translated: 378, fallback: 0, total: 378 },
+      es: { translated: 378, fallback: 0, total: 378 },
+      ar: { translated: 378, fallback: 0, total: 378 },
+      fr: { translated: 378, fallback: 0, total: 378 },
+      bn: { translated: 378, fallback: 0, total: 378 },
+      pt: { translated: 378, fallback: 0, total: 378 },
+      id: { translated: 378, fallback: 0, total: 378 },
+      ur: { translated: 378, fallback: 0, total: 378 },
     } as const;
     for (const locale of APP_LOCALES) {
       const coverage = translationCoverage(locale);
-      expect(coverage.total).toBe(441);
+      expect(coverage.total).toBe(378);
       expect(coverage.translated + coverage.fallback).toBe(coverage.total);
       expect(coverage).toEqual(expectedCoverage[locale]);
       expect(criticalKeys.every((key) => hasDirectTranslation(locale, key))).toBe(true);
@@ -100,7 +101,7 @@ describe("desktop locale", () => {
   it("keeps every interpolation placeholder identical to English", () => {
     const placeholders = (value: string) =>
       [...value.matchAll(/\{(\w+)\}/g)].map((match) => match[1]).sort();
-    expect(TRANSLATION_KEYS).toHaveLength(441);
+    expect(TRANSLATION_KEYS).toHaveLength(378);
     for (const locale of APP_LOCALES) {
       for (const key of TRANSLATION_KEYS) {
         expect(placeholders(translate(locale, key)), `${locale}.${key}`).toEqual(

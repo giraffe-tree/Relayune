@@ -29,8 +29,6 @@ const NONCE_LENGTH: usize = 12;
 const DEVICE_TOKEN_NAMESPACE: &str = "device-token";
 const LEGACY_E2EE_NAMESPACE: &str = "legacy-e2ee-key";
 const BROWSER_KEY_NAMESPACE: &str = "browser-content-key";
-// Retain legacy vault namespace for explicit account cleanup; never read or enable it.
-const FEISHU_CONNECTION_NAMESPACE: &str = "feishu-connection";
 const ATTACHMENT_STORE_KEY_NAMESPACE: &str = "attachment-store-key";
 
 static SECRET_VAULT: OnceLock<SecretVault> = OnceLock::new();
@@ -82,16 +80,13 @@ pub fn presence_for_browsers(
 ) -> Result<SecretPresence, String> {
     let vault = vault()?;
     let device_token = vault.contains(&device_token_entry(device_id))?;
-    let e2ee_key = if browser_ids.is_empty() {
-        vault.contains(&legacy_e2ee_entry(device_id))?
-    } else {
-        browser_ids
-            .iter()
-            .map(|browser_id| vault.contains(&browser_key_entry(device_id, browser_id)))
-            .collect::<Result<Vec<_>, _>>()?
-            .into_iter()
-            .any(|present| present)
-    };
+    // Legacy shared keys are inert; only individually paired clients count.
+    let e2ee_key = browser_ids
+        .iter()
+        .map(|browser_id| vault.contains(&browser_key_entry(device_id, browser_id)))
+        .collect::<Result<Vec<_>, _>>()?
+        .into_iter()
+        .any(|present| present);
     Ok(SecretPresence {
         device_token,
         e2ee_key,
@@ -126,7 +121,6 @@ fn device_credential_entries(device_id: &str, browser_ids: &[String]) -> Vec<Str
     let mut entries = vec![
         device_token_entry(device_id),
         legacy_e2ee_entry(device_id),
-        feishu_connection_entry(device_id),
         attachment_store_key_entry(device_id),
     ];
     entries.extend(
@@ -426,10 +420,6 @@ fn browser_key_entry(device_id: &str, browser_id: &str) -> String {
     format!("{BROWSER_KEY_NAMESPACE}:{device_id}:{browser_id}")
 }
 
-fn feishu_connection_entry(device_id: &str) -> String {
-    format!("{FEISHU_CONNECTION_NAMESPACE}:{device_id}")
-}
-
 fn attachment_store_key_entry(device_id: &str) -> String {
     format!("{ATTACHMENT_STORE_KEY_NAMESPACE}:{device_id}")
 }
@@ -508,16 +498,12 @@ mod tests {
         let vault = SecretVault::open(&directory.0).expect("open test vault");
         let token = "relayune-test-device-token-never-plaintext";
         let key = URL_SAFE_NO_PAD.encode([0x42; 32]);
-        let feishu_secret = "relayune-test-feishu-secret-never-plaintext";
         vault
             .set(device_token_entry("dev_test"), token)
             .expect("persist device token");
         vault
             .set(browser_key_entry("dev_test", "web_test"), &key)
             .expect("persist browser key");
-        vault
-            .set(feishu_connection_entry("dev_test"), feishu_secret)
-            .expect("persist Feishu secret");
 
         let raw = fs::read(directory.0.join(VAULT_FILE_NAME)).expect("read encrypted vault");
         assert!(!raw
@@ -526,9 +512,6 @@ mod tests {
         assert!(!raw
             .windows(key.len())
             .any(|window| window == key.as_bytes()));
-        assert!(!raw
-            .windows(feishu_secret.len())
-            .any(|window| window == feishu_secret.as_bytes()));
 
         vault
             .set(device_token_entry("dev_test"), token)
@@ -547,6 +530,31 @@ mod tests {
                 .unwrap(),
             key
         );
+    }
+
+    #[test]
+    fn unknown_legacy_entries_do_not_replace_current_credentials() {
+        let directory = TestDirectory::new("legacy-compatibility");
+        let vault = SecretVault::open(&directory.0).unwrap();
+        let legacy_entry = "retired-integration:dev_test".to_string();
+        let browser_entry = browser_key_entry("dev_test", "web_test");
+        vault.set(legacy_entry.clone(), "legacy-synthetic").unwrap();
+        vault.set(device_token_entry("dev_test"), "synthetic-token").unwrap();
+        vault.set(browser_entry.clone(), "synthetic-browser-key").unwrap();
+
+        // Updating current credentials must preserve unknown encrypted entries.
+        let reopened = SecretVault::open(&directory.0).unwrap();
+        reopened.set(device_token_entry("dev_test"), "rotated-token").unwrap();
+        assert_eq!(reopened.get(&legacy_entry).unwrap(), "legacy-synthetic");
+        assert_eq!(reopened.get(&browser_entry).unwrap(), "synthetic-browser-key");
+        reopened.clear(&device_credential_entries("dev_test", &["web_test".into()])).unwrap();
+        assert!(reopened.get_optional(&browser_entry).unwrap().is_none());
+        assert!(reopened.get_optional(&device_token_entry("dev_test")).unwrap().is_none());
+        assert_eq!(reopened.get(&legacy_entry).unwrap(), "legacy-synthetic");
+
+        // Explicit instance reset also removes unknown legacy entries.
+        reopened.clear_all().unwrap();
+        assert!(SecretVault::open(&directory.0).unwrap().get_optional(&legacy_entry).unwrap().is_none());
     }
 
     #[test]

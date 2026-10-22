@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { spawn } from 'node:child_process';
-import { mkdtemp, mkdir, rm, readFile, writeFile } from 'node:fs/promises';
+import { mkdtemp, mkdir, rm, readFile, writeFile, readdir } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { createServer as reserveServer } from 'node:net';
@@ -167,6 +167,46 @@ test('self-hosted HTTPS + real server/Mongo: independent instances, local accoun
     assert.ok(!first.wire.join('').includes(canary));
     assert.equal((await call(second,`/api/bootstrap?device_id=${deviceId}`,{headers:{cookie,'X-Relay-Browser-Token':pairings[0].token}})).status,401);
   });
+  await t.test('session command, approval, event, history and large attachment remain ciphertext through real HTTP/Mongo/blob routes',async()=>{
+    const client=pairings[0],now=new Date().toISOString(),expiry=new Date(Date.now()+60_000).toISOString();
+    const requestId='req_content_blindness',sessionId='ses_fixture';
+    const route={direction:'web_to_relay',type:'session.submit_message',device_id:deviceId,
+      session_id:sessionId,request_id:requestId,event_seq:null,created_at:now,expires_at:expiry};
+    const command={type:route.type,device_id:deviceId,session_id:sessionId,request_id:requestId,
+      issued_at:now,expires_at:expiry,payload:{content:`${canary} user instruction`,
+        cwd:`/synthetic/${canary}`,attachments:[{name:`${canary}.png`,base64:Buffer.from(canary.repeat(12000)).toString('base64')}]}};
+    const queued=await call(first,'/api/commands',{method:'POST',headers:{cookie,origin:first.origin,
+      'X-Relay-Browser-Token':client.token,'Idempotency-Key':requestId},body:{device_id:deviceId,
+      session_id:sessionId,request_id:requestId,command_type:route.type,created_at:now,expires_at:expiry,
+      aad:route,envelope:await sealJson(client.key,command,route)}});
+    assert.equal(queued.status,202);
+    const storedCommand=await first.db.collection('relay_commands').findOne({id:requestId});
+    assert.equal(storedCommand.envelope,null);assert.match(storedCommand.blob_key,/^commands\//);
+    const poll=await call(first,`/api/relay/commands?device_id=${deviceId}`,{headers:{authorization:`Bearer ${desktopToken}`}});
+    assert.equal(poll.status,200);const frame=poll.json().commands.find(item=>item.request_id===requestId);
+    assert.deepEqual(await openJson(client.key,frame.envelope,frame.aad),command);
+    const eventAad={...route,direction:'relay_to_web',type:'session.event',request_id:null,event_seq:1,expires_at:null};
+    const event={type:'session.event',event:{kind:'approval.requested',action:{command:`${canary} approval command`},
+      message:{content:`${canary} Agent output`},approval_id:'approval_fixture'}};
+    const historyAad={...route,direction:'relay_to_web',type:'session.history',expires_at:null};
+    const history={type:'session.history',request_id:requestId,messages:[{content:`${canary} history`}],
+      attachment:{name:`${canary}.png`,base64:Buffer.from(canary.repeat(12000)).toString('base64')}};
+    const push=await call(first,'/api/relay/push',{method:'POST',headers:{authorization:`Bearer ${desktopToken}`},
+      body:{device_id:deviceId,messages:[{kind:'event',device_id:deviceId,browser_id:client.id,session_id:sessionId,
+        event_id:'evt_content_blindness',event_seq:1,created_at:now,aad:eventAad,envelope:await sealJson(client.key,event,eventAad)},
+      {kind:'response',device_id:deviceId,browser_id:client.id,session_id:sessionId,request_id:requestId,
+        aad:historyAad,envelope:await sealJson(client.key,history,historyAad)}]}});
+    assert.equal(push.status,200);
+    const storedResponse=await first.db.collection('relay_responses').findOne({request_id:requestId});
+    assert.equal(storedResponse.envelope,null);assert.match(storedResponse.blob_key,/^responses\//);
+    const events=await call(first,`/api/events?device_id=${deviceId}&cursor=0`,{headers:{cookie,'X-Relay-Browser-Token':client.token}});
+    assert.equal(events.status,200);const forwarded=events.json().events.find(item=>item.event_id==='evt_content_blindness');
+    assert.deepEqual(await openJson(client.key,forwarded.envelope,forwarded.aad),event);
+    const response=await call(first,`/api/responses/${requestId}?device_id=${deviceId}`,{headers:{cookie,'X-Relay-Browser-Token':client.token}});
+    assert.equal(response.status,200);const fetched=response.json();
+    assert.deepEqual(await openJson(client.key,fetched.envelope,fetched.aad),history);
+    assert.ok(!first.wire.join('').includes(canary));
+  });
   await t.test('explicit feedback and local-only monitoring stay in this instance',async()=>{
     const id=randomBytes(16).toString('hex');
     const feedback=await call(first,'/api/feedback',{method:'POST',headers:{cookie,origin:first.origin},body:{id,category:'bug',description:'explicit local fixture feedback',client:'mobile',environment:{app_version:'0.0.0',device_model:'fixture',os_version:'fixture'},images:[]}});assert.equal(feedback.status,201);
@@ -194,4 +234,26 @@ test('self-hosted HTTPS + real server/Mongo: independent instances, local accoun
     for(const value of [password,'isolated-replacement-password',desktopToken,canary,...pairings.flatMap(item=>[item.key,item.token,item.code])])assert.ok(!instance.output.includes(value));
     assert.ok(!instance.output.includes('external_network_blocked'));
   }
+  await t.test('all server collections, private blob files and Mongo/app logs omit session canaries, PAKE codes and content keys',async()=>{
+    const forbidden=[canary,...pairings.flatMap(item=>[item.key,item.code,item.code.replaceAll('-','')])];
+    let documents=0,blobFiles=0;
+    const check=(text,location)=>{for(const value of forbidden)assert.ok(!text.includes(value),`endpoint secret found in ${location}`);};
+    async function scanBlobs(directory){
+      let entries;try{entries=await readdir(directory,{withFileTypes:true});}catch(error){if(error.code==='ENOENT')return;throw error;}
+      for(const entry of entries){const filename=join(directory,entry.name);
+        if(entry.isDirectory())await scanBlobs(filename);
+        else if(entry.isFile()){check(await readFile(filename,'utf8'),'private blob');blobFiles++;}}
+    }
+    for(const [index,instance] of instances.entries()){
+      for(const {name} of await instance.db.listCollections().toArray()){
+        const rows=await instance.db.collection(name).find({}).toArray();documents+=rows.length;
+        check(JSON.stringify(rows),`Mongo collection ${name}`);
+      }
+      await scanBlobs(join(root,`blobs-${index===0?'first':'second'}`));
+      check(instance.output,'application logs');check(instance.wire.join(''),'HTTP session bodies');
+    }
+    check(await readFile(join(root,'mongo.log'),'utf8'),'Mongo logs');
+    assert.ok(documents>0);assert.ok(blobFiles>=2,'must inspect actual command and response blob files');
+    t.diagnostic(`Scanned ${documents} actual Mongo documents, ${blobFiles} private blobs, HTTP request bodies and Mongo/app logs; no session canary, PAKE code or content key.`);
+  });
 });

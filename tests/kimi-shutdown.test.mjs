@@ -51,7 +51,7 @@ test('Relay stop waits for the synthetic Kimi child to be reaped', { skip: proce
     kimiHome: directory, historyReader: async () => ({ messages: [], agents: [] }),
     sessionStateReader: async () => new Map(), usageReader: async () => [], quotaReader: async () => [] });
   const relay = new MacRelay({ serverUrl: 'https://fixture.invalid', deviceId: 'dev_fixture', deviceToken: 'synthetic',
-    e2eeKey: Buffer.alloc(32, 1).toString('base64url'), adapter, statePath: null });
+    browserKeys: [{ browserId: `web_${'1'.repeat(32)}`, e2eeKey: Buffer.alloc(32, 1).toString('base64url') }], adapter, statePath: null });
   relay.connect = async () => {};
   t.after(() => relay.stop());
   await relay.start();

@@ -44,7 +44,6 @@ const READ_ONLY_COMMAND_TYPES = new Set([...DIRECT_READ_TYPES, 'session.read_age
   'project.sessions', 'project.locations', 'project.check', 'project.browse']);
 
 const MAX_SESSION_NAME_LENGTH = 80;
-const MAX_LOCAL_APPROVAL_ID_LENGTH = 256;
 const MAX_PREVIEW_FILE_BYTES = 1024 * 1024;
 const MAX_IMAGE_PREVIEW_BYTES = 1024 * 1024;
 const IMAGE_PREVIEW_LANDSCAPE_WIDTH = 1280;
@@ -161,11 +160,8 @@ export class MacRelay {
       platform: process.platform,
       transports: ["webrtc-session-v2", "webrtc-auto-v1", "webrtc-trickle-v1", "online-stream-v1"],
     };
-    this.browserKeySources =
-      options.browserKeys ??
-      (options.e2eeKey ? [{ browserId: null, e2eeKey: options.e2eeKey }] : []);
+    this.browserKeySources = options.browserKeys ?? [];
     this.browserKeys = new Map();
-    this.legacyKeysById = new Map();
     this.activeBrowserKeys = new Map();
     this.requestBrowsers = new Map();
     this.pollIntervalMs = options.pollIntervalMs ?? 750;
@@ -197,11 +193,6 @@ export class MacRelay {
       },
     });
     this.projectCommandChain = Promise.resolve();
-    this.integrations = Array.isArray(options.integrations)
-      ? options.integrations
-      : [];
-    this.localOnlySessionIds = new Set();
-    this.localIntegrationApprovals = new Map();
     this.outbox =
       options.outbox ??
       new RelayOutbox(
@@ -230,8 +221,7 @@ export class MacRelay {
       ...options.codexHooks,
       requestApproval: approval => this.requestApproval(approval),
       resolved: (sessionId, event) => this.handleAdapterEvent(sessionId, event),
-      available: sessionId => this.ready && !this.closed && this.activeBrowserKeys.size > 0 &&
-        !this.localOnlySessionIds.has(sessionId),
+      available: () => this.ready && !this.closed && this.activeBrowserKeys.size > 0,
     }) : null;
     this.attachments = new Map();
     this.attachmentBodies = new Map();
@@ -269,6 +259,36 @@ export class MacRelay {
   }
 
   async start() {
+    // Bind every key to its locally enrolled client before opening runtime
+    // state or starting an Agent. The server cannot assign a key by key ID.
+    if (!Array.isArray(this.browserKeySources) || !this.browserKeySources.length) {
+      throw new Error("RELAY_BROWSER_KEYS is required.");
+    }
+    const sources = this.browserKeySources.map(source => ({
+      browserId: source?.browserId,
+      e2eeKey: source?.e2eeKey,
+    }));
+    const browserIds = new Set();
+    for (const { browserId, e2eeKey } of sources) {
+      if (typeof browserId !== "string" || !/^web_[a-f0-9]{32}$/.test(browserId) ||
+          typeof e2eeKey !== "string" || !/^[A-Za-z0-9_-]{43}$/.test(e2eeKey) ||
+          browserIds.has(browserId)) {
+        throw new Error("Invalid browser content key enrollment.");
+      }
+      browserIds.add(browserId);
+    }
+    const browserKeys = new Map();
+    const keyIds = new Set();
+    for (const { browserId, e2eeKey } of sources) {
+      const key = await importE2eeKey(e2eeKey);
+      const keyId = await keyIdForKey(key);
+      if (keyIds.has(keyId)) {
+        throw new Error("Browser content keys must be independent.");
+      }
+      keyIds.add(keyId);
+      browserKeys.set(browserId, { browserId, key, keyId });
+    }
+    this.browserKeys = browserKeys;
     this.onStartupPhase?.("local_state");
     await this.outbox.load();
     await this.outbox.pruneExpired();
@@ -279,19 +299,6 @@ export class MacRelay {
       });
     }, 30_000);
     this.retentionTimer.unref();
-    for (const source of this.browserKeySources) {
-      const key = await importE2eeKey(source.e2eeKey);
-      const keyId = await keyIdForKey(key);
-      const record = { browserId: source.browserId, key, keyId };
-      if (source.browserId) {
-        this.browserKeys.set(source.browserId, record);
-      } else {
-        this.legacyKeysById.set(keyId, record);
-      }
-    }
-    if (!this.browserKeys.size && !this.legacyKeysById.size) {
-      throw new Error("RELAY_BROWSER_KEYS is required.");
-    }
     this.onStartupPhase?.("agents");
     await this.adapter.start({
       loadCodexQueueReceipts: () => Object.values(this.outbox.codexQueueReceipts),
@@ -308,30 +315,6 @@ export class MacRelay {
       writeAttachmentCheckpoint: (source, byteOffset) =>
         this.attachmentStore?.setIngestionCheckpoint(source, byteOffset),
     });
-    for (const integration of this.integrations) {
-      try {
-        await integration.start({
-          listSessions: () => this.readSessionCatalog(),
-          createSession: async (options) => {
-            const session = await this.adapter.createSession(options);
-            this.registerLocalOnlySessions([session?.id]);
-            return session;
-          },
-          registerLocalOnlySessions: (sessionIds) =>
-            this.registerLocalOnlySessions(sessionIds),
-          submitMessage: (options) => this.submitIntegrationMessage(options),
-          resolveLocalApproval: (options) =>
-            this.resolveLocalIntegrationApproval(options),
-          reportStatus: (status) => {
-            if (status === "error") {
-              console.error("Relayune Feishu connection needs attention.");
-            }
-          },
-        });
-      } catch {
-        console.error("Relayune Feishu connection could not start.");
-      }
-    }
     this.onStartupPhase?.("registration");
     await this.connect();
     if (this.codexHooks) {
@@ -574,8 +557,7 @@ export class MacRelay {
           !transportPayloadExpired(variant) &&
           this.activeBrowserKeys.has(variant.browser_id) &&
           (!variant.envelope?.kid || this.activeBrowserKeys.get(variant.browser_id)?.keyId === variant.envelope.kid) &&
-          !this.outbox.isQuarantinedEventVariant(variant) &&
-          !this.localOnlySessionIds.has(variant.session_id),
+          !this.outbox.isQuarantinedEventVariant(variant),
       );
     }
     if (message.type === "opaque.event") {
@@ -1126,7 +1108,7 @@ export class MacRelay {
   // A newly confirmed PAKE key arrives over the inherited private stdin pipe.
   // Server authorization remains the gate for activating it; no adapter restart.
   async updateBrowserKey(browserId, serializedKey) {
-    if (!/^web_[a-f0-9]{32}$/i.test(browserId ?? "")) throw new Error("Invalid browser.");
+    if (typeof browserId !== "string" || !/^web_[a-f0-9]{32}$/.test(browserId)) throw new Error("Invalid browser.");
     if (serializedKey === null) {
       this.browserKeys.delete(browserId);
       this.activeBrowserKeys.delete(browserId);
@@ -1140,6 +1122,10 @@ export class MacRelay {
     const keyId = await keyIdForKey(key);
     const existing = this.browserKeys.get(browserId);
     if (existing && existing.keyId !== keyId) throw new Error("Browser already enrolled.");
+    if ([...this.browserKeys.values()].some(record =>
+      record.browserId !== browserId && record.keyId === keyId)) {
+      throw new Error("Browser content keys must be independent.");
+    }
     this.browserKeys.set(browserId, { browserId, key, keyId });
   }
 
@@ -1158,16 +1144,9 @@ export class MacRelay {
         ? authorization.last_seen_at : Date.parse(authorization.last_seen_at);
       if (Number.isFinite(seen)) this.browserActivity.set(authorization.id,
         Math.max(this.browserActivity.get(authorization.id) ?? 0, Math.min(Date.now(), seen)));
-      const explicit = this.browserKeys.get(authorization.id);
-      const candidate =
-        explicit?.keyId === authorization.key_id
-          ? explicit
-          : this.legacyKeysById.get(authorization.key_id);
-      if (candidate) {
-        next.set(authorization.id, {
-          ...candidate,
-          browserId: authorization.id,
-        });
+      const enrolled = this.browserKeys.get(authorization.id);
+      if (enrolled?.keyId === authorization.key_id) {
+        next.set(authorization.id, enrolled);
       }
     }
     const changed =
@@ -1251,10 +1230,6 @@ export class MacRelay {
     clearTimeout(this.uploadRetryTimer);
     clearTimeout(this.bulkUploadRetryTimer);
     this.attachmentBodies.clear(); this.attachmentBodyBytes = 0;
-    await Promise.allSettled(
-      this.integrations.map((integration) => integration.disconnect()),
-    );
-    await this.rejectLocalIntegrationApprovals();
     await this.adapter.close();
     await Promise.allSettled([...this.operations]);
     await this.historyPerformance.flush?.();
@@ -1267,13 +1242,6 @@ export class MacRelay {
     try {
       message = JSON.parse(String(data));
     } catch {
-      return;
-    }
-    if (
-      typeof message.session_id === "string" &&
-      this.localOnlySessionIds.has(message.session_id)
-    ) {
-      this.requestBrowsers.delete(message.request_id);
       return;
     }
     if (["session.submit_message", "session.read_history", "session.interrupt_turn"].includes(message.type) &&
@@ -1300,7 +1268,7 @@ export class MacRelay {
         this.send({
           type: "relay.sync_sessions",
           device_id: this.deviceId,
-          sessions: this.remoteVisibleSessions(sessions),
+          sessions,
           projects,
           usage,
         });
@@ -1455,8 +1423,7 @@ export class MacRelay {
     validateSealedCommand(command, frame);
     if (!this.directHost.valid(peer) || !this.validateCommand(command) ||
         command.expires_at !== aad.expires_at || command.issued_at !== aad.created_at ||
-        Date.parse(command.expires_at) > Date.now() + 5 * 60_000 ||
-        this.localOnlySessionIds.has(command.session_id)) throw new Error("webrtc_invalid_request");
+        Date.parse(command.expires_at) > Date.now() + 5 * 60_000) throw new Error("webrtc_invalid_request");
     if (command.type === "transport.ping") {
       if (!/^[a-f0-9]{32}$/.test(command.payload?.nonce ?? "")) throw new Error("webrtc_invalid_probe");
       await this.sendDirectControl(peer, browser, command, "transport.pong", {
@@ -1564,8 +1531,7 @@ export class MacRelay {
     validateSealedCommand(command, frame);
     if (!this.onlineTransport.valid(peer) || !this.validateCommand(command) ||
         command.expires_at !== aad.expires_at || command.issued_at !== aad.created_at ||
-        Date.parse(command.expires_at) > Date.now() + 5 * 60_000 ||
-        this.localOnlySessionIds.has(command.session_id)) throw new Error('online_invalid_request');
+        Date.parse(command.expires_at) > Date.now() + 5 * 60_000) throw new Error('online_invalid_request');
     if (command.type === 'transport.event_ack') {
       const entry = this.onlineTransport.pending.get(command.payload?.event_id);
       if (command.payload?.connection_id === peer.connectionId && entry?.peer === peer &&
@@ -1710,177 +1676,16 @@ export class MacRelay {
     }
   }
 
-  async submitIntegrationMessage({ sessionId, requestId, content }) {
-    if (!this.localOnlySessionIds.has(sessionId)) {
-      throw new Error("Integration session is not registered as local-only.");
-    }
-    const result = await this.adapter.submitMessage({
-      sessionId,
-      requestId,
-      clientMessageId: requestId,
-      content,
-      attachments: [],
-    });
-    return result;
-  }
-
   async handleAdapterEvent(sessionId, event, extra) {
     if (event?.kind === "approval.resolved" && event.approval_id) {
       this.pendingApprovals.delete(event.approval_id);
     }
     const publicEvent = this.registerEventAttachments(sessionId, event);
-    if (this.localOnlySessionIds.has(sessionId)) {
-      this.notifyIntegrationEvent(sessionId, publicEvent);
-      return null;
-    }
-    const record = await this.emitEvent(sessionId, publicEvent, extra);
-    this.notifyIntegrationEvent(sessionId, publicEvent);
-    return record;
+    return this.emitEvent(sessionId, publicEvent, extra);
   }
 
   async handleAdapterApproval(approval) {
-    const sessionId = approval?.root_session_id ?? approval?.session_id;
-    if (this.localOnlySessionIds.has(sessionId)) {
-      let local;
-      try {
-        local = normalizeLocalIntegrationApproval(approval, sessionId);
-      } catch {
-        await this.rejectAdapterApproval(approval?.approval_id);
-        return;
-      }
-      if (this.localIntegrationApprovals.has(local.approval_id)) return;
-      const expiresInMs = Date.parse(local.expires_at) - Date.now();
-      if (expiresInMs <= 0) {
-        await this.rejectAdapterApproval(local.approval_id);
-        return;
-      }
-      local.timer = setTimeout(() => {
-        void this.expireLocalIntegrationApproval(local.approval_id);
-      }, expiresInMs);
-      local.timer.unref?.();
-      this.localIntegrationApprovals.set(local.approval_id, local);
-      if (!(await this.requestIntegrationApproval(
-        localIntegrationApprovalSnapshot(local),
-      ))) {
-        clearTimeout(local.timer);
-        this.localIntegrationApprovals.delete(local.approval_id);
-        await this.rejectAdapterApproval(local.approval_id);
-      }
-      return;
-    }
     return this.requestApproval(approval);
-  }
-
-  async resolveLocalIntegrationApproval({
-    approvalId,
-    sessionId,
-    decision,
-    optionId = null,
-  }) {
-    const pending = this.localIntegrationApprovals.get(approvalId);
-    if (!pending) {
-      return { status: "unavailable" };
-    }
-    if (
-      sessionId !== pending.local_session_id ||
-      !this.localOnlySessionIds.has(sessionId)
-    ) {
-      return { status: "invalid" };
-    }
-    if (Date.parse(pending.expires_at) <= Date.now()) {
-      await this.expireLocalIntegrationApproval(approvalId);
-      return { status: "expired" };
-    }
-    if (
-      hashAction(stripHash(pending.action)) !== pending.action.command_hash
-    ) {
-      await this.expireLocalIntegrationApproval(approvalId);
-      return { status: "invalid" };
-    }
-    const selection = validateLocalApprovalSelection(
-      pending.action?.options,
-      decision,
-      optionId,
-    );
-    if (!selection.ok) return { status: "invalid" };
-
-    clearTimeout(pending.timer);
-    this.localIntegrationApprovals.delete(approvalId);
-    try {
-      await this.adapter.resolveApproval({
-        approvalId,
-        decision,
-        optionId: selection.optionId,
-      });
-      return { status: decision };
-    } catch {
-      return { status: "unavailable" };
-    }
-  }
-
-  async expireLocalIntegrationApproval(approvalId) {
-    const pending = this.localIntegrationApprovals.get(approvalId);
-    if (!pending) return;
-    clearTimeout(pending.timer);
-    this.localIntegrationApprovals.delete(approvalId);
-    await this.rejectAdapterApproval(approvalId);
-  }
-
-  async rejectAdapterApproval(approvalId) {
-    if (
-      typeof approvalId !== "string" ||
-      !approvalId ||
-      approvalId.length > MAX_LOCAL_APPROVAL_ID_LENGTH
-    ) {
-      return;
-    }
-    await this.adapter.resolveApproval({
-      approvalId,
-      decision: "rejected",
-      optionId: null,
-    }).catch(() => {});
-  }
-
-  async rejectLocalIntegrationApprovals() {
-    const approvals = [...this.localIntegrationApprovals.values()];
-    this.localIntegrationApprovals.clear();
-    for (const approval of approvals) clearTimeout(approval.timer);
-    await Promise.allSettled(
-      approvals.map((approval) =>
-        this.rejectAdapterApproval(approval.approval_id),
-      ),
-    );
-  }
-
-  registerLocalOnlySessions(sessionIds) {
-    for (const sessionId of sessionIds ?? []) {
-      if (typeof sessionId === "string" && sessionId) {
-        this.localOnlySessionIds.add(sessionId);
-      }
-    }
-  }
-
-  remoteVisibleSessions(sessions) {
-    return (sessions ?? []).filter(
-      (session) => !this.localOnlySessionIds.has(session?.id),
-    );
-  }
-
-  notifyIntegrationEvent(sessionId, event) {
-    for (const integration of this.integrations) {
-      try {
-        integration.handleAgentEvent?.(sessionId, event);
-      } catch {}
-    }
-  }
-
-  async requestIntegrationApproval(approval) {
-    for (const integration of this.integrations) {
-      try {
-        if (await integration.handleApproval?.(approval)) return true;
-      } catch {}
-    }
-    return false;
   }
 
   updateFileAccess(scope, denied) {
@@ -2599,9 +2404,7 @@ export class MacRelay {
       this.send({
         type: "relay.sync_sessions",
         device_id: this.deviceId,
-        sessions: this.remoteVisibleSessions(
-          mergeCreatedSessionIntoCatalog(catalog, session),
-        ),
+        sessions: mergeCreatedSessionIntoCatalog(catalog, session),
         projects,
         usage,
       });
@@ -2973,7 +2776,7 @@ export class MacRelay {
         type: "relay.sync_sessions",
         observed_at: observedAt,
         device_id: this.deviceId,
-        sessions: this.remoteVisibleSessions(sessions),
+        sessions,
         projects: this.lastProjectCatalog,
         usage: this.usageCatalog,
       });
@@ -3269,75 +3072,6 @@ function stripHash(action) {
   const plain = { ...action };
   delete plain.command_hash;
   return plain;
-}
-
-function normalizeLocalIntegrationApproval(approval, localSessionId) {
-  if (!approval || typeof approval !== "object") {
-    throw new Error("Local integration approval is missing.");
-  }
-  const approvalId = approval.approval_id;
-  if (
-    typeof approvalId !== "string" ||
-    !approvalId ||
-    approvalId.length > MAX_LOCAL_APPROVAL_ID_LENGTH ||
-    /[\u0000-\u001f\u007f]/.test(approvalId)
-  ) {
-    throw new Error("Local integration approval ID is invalid.");
-  }
-  if (
-    typeof localSessionId !== "string" ||
-    !localSessionId ||
-    localSessionId.length > 256
-  ) {
-    throw new Error("Local integration approval session is invalid.");
-  }
-  const expiresAt = Date.parse(approval.expires_at);
-  if (
-    !Number.isFinite(expiresAt) ||
-    expiresAt <= Date.now() ||
-    expiresAt > Date.now() + 30 * 60_000
-  ) {
-    throw new Error("Local integration approval expiry is invalid.");
-  }
-  if (
-    !approval.action ||
-    typeof approval.action !== "object" ||
-    typeof approval.action.command_hash !== "string" ||
-    hashAction(stripHash(approval.action)) !== approval.action.command_hash
-  ) {
-    throw new Error("Local integration approval action is invalid.");
-  }
-  return {
-    ...structuredClone(approval),
-    local_session_id: localSessionId,
-    timer: null,
-  };
-}
-
-function localIntegrationApprovalSnapshot(local) {
-  const approval = { ...local };
-  delete approval.timer;
-  return structuredClone(approval);
-}
-
-function validateLocalApprovalSelection(options, decision, optionId) {
-  if (!["approved", "rejected"].includes(decision)) return { ok: false };
-  const declared = Array.isArray(options) ? options : [];
-  if (optionId !== null && typeof optionId !== "string") {
-    return { ok: false };
-  }
-  const selected = optionId === null
-    ? null
-    : declared.find((option) => option?.option_id === optionId);
-  if (optionId !== null && !selected) return { ok: false };
-  const rejecting = String(selected?.kind ?? "").startsWith("reject");
-  if (selected && rejecting !== (decision === "rejected")) {
-    return { ok: false };
-  }
-  if (decision === "approved" && declared.length > 0 && !selected) {
-    return { ok: false };
-  }
-  return { ok: true, optionId };
 }
 
 function relayAad({
