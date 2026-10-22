@@ -12,7 +12,8 @@ Relayune 让你从浏览器、iPhone、iPad 或 Android 手机继续操作 macOS
 Kimi Code；Windows 源码保留，但不在首轮安装包发行范围内。
 官方服务与自托管并行提供，自托管初始化与客户端实例设置已实现。
 0.3.33 的 macOS、Android 安装包已完成签名、许可核验和公开文件上传，iOS 已上传 Apple 并取得
-`VALID_BINARY`；正式 Mac 应用已替换安装并通过候选连接核验，官网 Web/API 联合切换仍待完成。
+`VALID_BINARY`。官网 Web/API 和公开下载入口已完成联合升级，macOS、Android 当前版本为 0.3.33，
+Android 构建号为 43；正式 Mac 应用已安装并连接生产服务，原有账户、客户端授权和默认任务目录保留。
 iOS 的 TestFlight 可安装状态未核对；Android 本轮仅完成有限登录/重启检查，配对和任务路径尚未验收，
 其余 Android 验收已取消，不作为本轮发行门槛。已验证范围和当前交付状态见
 [官方联合升级清单](docs/official-deployment.md)，整体计划见[开源与首轮发行计划](docs/open-source-roadmap.md)。
@@ -29,7 +30,7 @@ iOS 的 TestFlight 可安装状态未核对；Android 本轮仅完成有限登�
 ### 1. 下载安装
 
 打开 [Relayune 官网](https://relayune.giraffetree.cn)，从下载区选择对应平台。
-官网默认入口仍对应当前生产版本，新候选安装包已上传不代表官网和服务端已完成联合升级：
+官网已提供 0.3.33 的 macOS、Android 下载及中英文更新说明；iOS 状态按下表说明：
 
 | 设备 | 使用方式 |
 | --- | --- |

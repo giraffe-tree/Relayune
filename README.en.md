@@ -20,8 +20,10 @@ licenses; see [third-party notices](THIRD_PARTY_NOTICES.md) and
 Username authentication, local first-run setup and runtime instance switching are implemented.
 The 0.3.33 macOS and Android packages have passed signing and license checks and their
 public files are uploaded. iOS is uploaded to Apple with `VALID_BINARY`; TestFlight
-installability has not been checked. The final official Mac application is installed and
-connected to the isolated candidate; the production Web/API switch remains pending.
+installability has not been checked. The production Web/API and public download entries
+have completed their coordinated upgrade: macOS and Android are 0.3.33, with Android
+build 43. The installed official Mac application connects to production with the original
+account, client authorizations and working-directory preference retained.
 Android has only limited sign-in/relaunch validation; pairing and task workflows remain
 unverified. Remaining Android acceptance was cancelled and is not a release gate for this run.
 See the [official release checklist](docs/official-deployment.md) for current delivery status
@@ -36,8 +38,8 @@ Agent → connect your phone or browser → continue a task**.
 ### 1. Install the clients
 
 Visit the [official website](https://relayune.giraffetree.cn) for current download
-links. The default website still serves the existing production version; uploaded
-candidate packages do not mean the website and API have completed their coordinated upgrade.
+links. macOS and Android 0.3.33 downloads and Chinese/English release notes are published;
+iOS availability remains subject to the unverified TestFlight status below.
 
 | Device | Current installation path |
 | --- | --- |
