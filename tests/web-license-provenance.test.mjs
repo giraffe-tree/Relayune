@@ -5,7 +5,7 @@ import os from 'node:os';
 import path from 'node:path';
 import test from 'node:test';
 import { fileURLToPath } from 'node:url';
-import { splitSourceMapTrailer, inspectSourceMap, classifyGeneratedManifest, finalizeWebProvenance, verifyWebProvenance } from '../scripts/web-license-provenance.mjs';
+import { splitSourceMapTrailer, inspectSourceMap, classifyGeneratedManifest, classifyTurbopackBootstrap, finalizeWebProvenance, verifyWebProvenance } from '../scripts/web-license-provenance.mjs';
 
 const repository = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const sha = (bytes) => createHash('sha256').update(bytes).digest('hex');
@@ -60,6 +60,37 @@ test('generated manifests permit only data and the reviewed callback grammar', (
   assert.equal(classifyGeneratedManifest('_ssgManifest.js', good + ';alert(1)'), false);
   assert.throws(() => classifyGeneratedManifest('_ssgManifest.js', good.replace('["/en"]', '[alert(1)]')));
   assert.equal(classifyGeneratedManifest('unknown.js', 'void 0;'), false);
+});
+
+test('Turbopack inline data binds only reviewed local chunks and numeric module ids', () => {
+  const wrap = data => `(globalThis["TURBOPACK"] || (globalThis["TURBOPACK"] = [])).push(${JSON.stringify(data)});`;
+  const data = {otherChunks: ['static/chunks/app.js'], runtimeModuleIds: [94553]};
+  const emitted = ['out/_next/static/chunks/app.js'];
+  const good = wrap(data);
+  assert.equal(classifyTurbopackBootstrap(good, emitted), true);
+  assert.equal(classifyTurbopackBootstrap(good + 'alert(1);', emitted), false);
+  assert.equal(classifyTurbopackBootstrap(good.replace('94553', 'alert(1)'), emitted), false);
+  assert.equal(classifyTurbopackBootstrap(good.replace('"otherChunks":', '"otherChunks":[],"otherChunks":'), emitted), false);
+  for (const chunk of ['https://example.test/app.js', '../app.js', 'static/chunks/../app.js',
+    'static/chunks/%61pp.js', 'static/chunks/unreviewed.js', 'static/chunks/app.js?code=1']) {
+    assert.equal(classifyTurbopackBootstrap(wrap({...data, otherChunks: [chunk]}), emitted), false);
+  }
+  for (const ids of [[-1], ['94553'], [1.5], [Number.MAX_SAFE_INTEGER + 1], [], [1,1]]) {
+    assert.equal(classifyTurbopackBootstrap(wrap({...data, runtimeModuleIds: ids}), emitted), false);
+  }
+  assert.equal(classifyTurbopackBootstrap(wrap({...data, executable: 'alert(1)'}), emitted), false);
+  assert.equal(classifyTurbopackBootstrap(wrap({...data, otherChunks: [...data.otherChunks, ...data.otherChunks]}), emitted), false);
+});
+
+test('Turbopack bootstrap participates in output binding and cannot add a new unreviewed chunk', async t => {
+  const {root,put} = await fixture(t);
+  const bootstrap = '(globalThis["TURBOPACK"] || (globalThis["TURBOPACK"] = [])).push({"otherChunks":["static/chunks/app.js"],"runtimeModuleIds":[94553]});';
+  await put('out/index.html', `<script>${bootstrap}</script>`);
+  await finalizeWebProvenance({projectRoot:root});
+  const report = JSON.parse(await readFile(path.join(root,'.public-prep/web-license-provenance/coverage.json')));
+  assert.equal(report.inline_scripts[0].scripts[0].kind,'strict-turbopack-data-bootstrap');
+  await put('out/index.html', `<script>${bootstrap.replace('app.js','unreviewed.js')}</script>`);
+  await assert.rejects(verifyWebProvenance({projectRoot:root}),/Web provenance/);
 });
 
 test('finalizer binds actual JS/maps, preserves evidence privately and exports no maps', async (t) => {

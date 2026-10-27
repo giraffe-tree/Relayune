@@ -4,19 +4,39 @@
 核对 macOS arm64/x64、Windows x64 和 Linux x64 的依赖图。公告命中、实际目标依赖、
 调用条件和最终二进制是不同证据；本页不声称全项目零漏洞或已经通过密码学审计。
 
-## 2026-10-27 当前公开前待处理
+## 2026-10-27 修复后结果
 
-本轮只更新查询、调用范围复核与文档，没有修改依赖或锁文件。根完整 npm 审计有
-**3 个包命中：1 critical、1 high、1 moderate**；Desktop 完整 npm 审计零命中。
-不能沿用下文 2026-10-22 的旧审计计数或把本次发现写成已经修复。
+本轮已完成兼容补丁升级。根与 Desktop 的**完整 npm 审计均零命中**，原严格审计 CLI 的
+退出码、捕获时间和锁哈希验证通过，没有扩大例外。修复前根报告的 3 个命中包已经消除；
+这不是全项目无漏洞或整应用密码学审计结论。
 
-| 包与当前锁定版本 | 本轮证据与范围 | 处理要求 |
+| 包与版本变化 | 本轮证据与范围 | 本轮处理 |
 | --- | --- | --- |
-| `next@16.3.8` | critical，含图像优化及 `use cache`/Server Actions 公告。项目使用 `output: export`、`images.unoptimized: true`；线上是 Nginx 静态文件与独立 Node API，没有运行 Next 请求服务器 | 先升级到兼容的修复版本并验证构建；不能仅凭锁命中声称线上已存在可利用 RCE，也不能不处理构建工具依赖 |
-| `nodemailer@10.1.1` | moderate，收件地址解析公告；`server/email-auth.ts` 实际导入，Server bundle 许可输入也包含此包 | 补丁升级并回归邮箱地址校验、投递及恢复流程；公告修复边界为 10.1.4，本轮 npm 建议 10.2.1，具体目标仍需兼容验证 |
-| `zod@4.4.3` | high，过大集合校验的内存耗尽；本项目通过 `eslint-plugin-react-hooks` 的开发 lint 链引入，不是当前 Server bundle 输入 | 更新兼容转依赖并验证 lint；公告修复版本为 4.6.6 |
-| `tokio@1.53.1` | OSV 新命中 `RUSTSEC-2026-0386`，涉及 Unix `AsyncFd` 构造器的 I/O safety；macOS 目标实际经 Tauri/reqwest/updater 选中，项目源码未直接调用 `AsyncFd` | 复核间接调用范围并更新兼容补丁；当前主线修复边界为 1.53.3。不把包命中直接写成会话内容泄漏 |
-| `block-buffer@0.10.4` | OSV 新命中 `GHSA-qwgh-2vcv-g2f7`，涉及捕获 panic 后的缓冲区状态；macOS 图上经 `digest → sha2 → tauri-codegen → tauri-macros` 用于构建。公告标示修复 0.12.1，跨主版本 | 核对精确受影响版本及构建调用条件；这条依赖图不是会话加密运行时证据，不直接跨主版本覆盖或宣称已修复 |
+| `next` / `eslint-config-next` 16.3.8 → 16.4.3 | 项目使用静态导出与未优化图像，不运行 Next 请求服务器；修补的是构建依赖，不能把旧锁命中直接等同线上 RCE | 升级配套版本；类型、lint、静态构建及严格来源/许可验证通过 |
+| `nodemailer` 10.1.1 → 10.2.1 | 实际用于服务端邮件，旧版本存在收件地址解析公告 | 邮件/TLS/隔离 Mongo 定向回归 33 项通过；3 个真实 envelope 反例在旧版均失败、新版均通过，零网络验证未增加隐藏收件人 |
+| `zod` 4.4.3 → 4.6.6 | lint 传递依赖，不是当前 Server bundle 输入 | 使用兼容精确 override，lint 和完整 npm 审计通过 |
+| `tokio` 1.53.1 → 1.53.3 | macOS 实际 Tauri/reqwest/updater 链，修补 Unix I/O safety 公告 | 精确新版本 OSV 无该命中；Rust check 与 lib 183 项通过，1 项既有 packaged-sidecar 探针忽略 |
+
+完整 Node 1,433 项、Desktop 132 项通过，Node 无跳过；自托管 Web/API 构建通过。
+Next 16.4 新增的固定 Turbopack 内联数据描述采用精确 wrapper、canonical JSON、已审查本地 chunk
+和整数模块编号验证；未知脚本、追加代码、路径跳转及过期证据仍拒绝，不以宽泛例外绕过产物门禁。
+
+### 仍保留的 Rust 公告
+
+本次 OSV 覆盖 672 个去重 Cargo/hosted Pub 版本，**12 个 Cargo 包仍命中，hosted Pub 未命中**。
+Tokio 命中已消除；其余包含下文记录的平台漏洞、维护状态通知以及 `block-buffer`：
+
+- `block-buffer@0.10.4`：当前 macOS 图经 `digest → sha2 → tauri-codegen → tauri-macros` 用于构建，
+  不是会话加密运行时。已读取实际源码：此版本使用独立 `pos` 字段，没有公告描述的内嵌 cursor 或
+  `ReadBuffer`；2,305 个合成 caught-panic 用例未复现该机制。OSV 宽版本命中仍保留，未添加忽略，
+  不以未复现宣称整库安全。已核对的新旧 Tauri codegen 仍依赖 `sha2 ^0.10`，不能直接强制替换为
+  不兼容的 block-buffer 0.12。后续跟踪准确受影响版本与上游迁移。
+- `zip@4.6.1`：仅当前 Windows 更新目标使用。已核对官方 updater 2.12.0 和 2.14.0，仍使用
+  zip 4 和 `ZipArchive::extract`；普通框架升级不能闭环，未作无收益升级。Windows 分发前仍须处理。
+- Linux GTK/D-Bus 与跨目标 unic 的已披露项继续保留，下文按目标分类；维护通知不等于已证实可利用漏洞。
+
+本轮只更新源码、锁文件和材料，没有发布新安装包或修改线上服务。已发布 0.3.33 产物
+不自动包含本次补丁，后续正式发行必须重新构建验证。
 
 来源：[Next 图像优化](https://github.com/advisories/GHSA-2464-fhr4-w9xw)、
 [Next use cache](https://github.com/advisories/GHSA-673q-mjm6-r5xr)、
@@ -26,11 +46,8 @@
 [Tokio](https://rustsec.org/advisories/RUSTSEC-2026-0386.html)、
 [block-buffer](https://github.com/advisories/GHSA-qwgh-2vcv-g2f7)。
 
-本次 OSV 查询仍覆盖 672 个去重 Cargo/hosted Pub 版本，13 个 Cargo 包命中，hosted Pub 未命中。
-除新增两包外，其余包仍是下文记录的 Windows 解压、Linux GTK/D-Bus 与跨目标维护状态项。
-当前 npm 报告未再列出此前 braces 五包链；这是本轮审计接口返回结果，不代表源码已修补该链。
-现有 `check-npm-audit.mjs` 已实际拒绝本轮根报告；没有扩大豁免或关闭门禁。
-依赖修复及受影响验证完成前，不能把该候选写成“全部公开门禁通过”。
+修复前的 2026-10-27 查询为根 npm 3 包及 Cargo 13 包命中，原门禁正确拒绝当时的根报告。
+本节顶部是升级后的最新结果；不得用该历史失败记录或此前 braces 计数替代当前审计。
 
 ## 2026-10-22 已完成的源码整改
 

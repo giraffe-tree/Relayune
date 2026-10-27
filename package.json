@@ -55,7 +55,7 @@
     "@noble/hashes": "2.3.0",
     "jpeg-js": "0.4.4",
     "mongodb": "^6.16.0",
-    "nodemailer": "10.1.1",
+    "nodemailer": "10.2.1",
     "qr-scanner": "^1.4.2",
     "react": "19.2.6",
     "react-dom": "19.2.6",
@@ -72,9 +72,9 @@
     "@types/ws": "^8.18.1",
     "esbuild": "^0.25.12",
     "eslint": "9.39.4",
-    "eslint-config-next": "16.3.8",
+    "eslint-config-next": "16.4.3",
     "mermaid": "11.17.2",
-    "next": "16.3.8",
+    "next": "16.4.3",
     "postcss": "8.5.30",
     "sharp": "0.35.5",
     "tailwindcss": "4.2.1",
@@ -83,6 +83,7 @@
   "type": "module",
   "license": "MIT",
   "overrides": {
+    "zod": "4.6.6",
     "mermaid": {
       "katex": "0.18.2"
     }

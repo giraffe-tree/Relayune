@@ -120,6 +120,29 @@ export function classifyGeneratedManifest(filename, text) {
   return false;
 }
 
+// Next 16.4 emits a fixed queue wrapper around a JSON-only chunk descriptor.
+// Do not execute it or accept arbitrary queue calls: every referenced script
+// must already be in the actual JavaScript provenance inventory.
+export function classifyTurbopackBootstrap(text, emitted) {
+  const prefix = '(globalThis["TURBOPACK"] || (globalThis["TURBOPACK"] = [])).push(';
+  const suffix = ');';
+  if (!text.startsWith(prefix) || !text.endsWith(suffix)) return false;
+  const serialized = text.slice(prefix.length, -suffix.length);
+  let data;
+  try { data = JSON.parse(serialized); } catch { return false; }
+  if (!data || Array.isArray(data) ||
+      JSON.stringify(Object.keys(data)) !== '["otherChunks","runtimeModuleIds"]' ||
+      JSON.stringify(data) !== serialized) return false;
+  const { otherChunks, runtimeModuleIds } = data;
+  return Array.isArray(otherChunks) && otherChunks.length > 0 && otherChunks.length <= 256 &&
+    new Set(otherChunks).size === otherChunks.length && otherChunks.every(chunk =>
+      typeof chunk === 'string' && /^static\/chunks\/[A-Za-z0-9_-]+\.js$/.test(chunk) &&
+      emitted.includes(`out/_next/${chunk}`)) &&
+    Array.isArray(runtimeModuleIds) && runtimeModuleIds.length > 0 && runtimeModuleIds.length <= 256 &&
+    new Set(runtimeModuleIds).size === runtimeModuleIds.length &&
+    runtimeModuleIds.every(id => Number.isSafeInteger(id) && id >= 0);
+}
+
 async function inlineInventory(root, emitted) {
   const bootstrapFile = await readFile(path.join(root, 'app/not-found-bootstrap.ts'), 'utf8');
   const prefix = 'export const NOT_FOUND_BOOTSTRAP = String.raw`';
@@ -138,6 +161,7 @@ async function inlineInventory(root, emitted) {
         let kind;
         if (body === bootstrap) kind = 'exact-project-404-bootstrap';
         else if (body === '(self.__next_f=self.__next_f||[]).push([0])') kind = 'next-flight-bootstrap';
+        else if (classifyTurbopackBootstrap(body, emitted)) kind = 'strict-turbopack-data-bootstrap';
         else {
           fail(body.startsWith('self.__next_f.push(') && body.endsWith(')'), 'unknown inline executable script');
           const data = JSON.parse(body.slice('self.__next_f.push('.length, -1));

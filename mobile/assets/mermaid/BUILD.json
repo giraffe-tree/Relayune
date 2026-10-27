@@ -1,7 +1,7 @@
 {
   "source": "Mermaid ESM entry and installed locked dependencies, built with scripts/sync-mermaid-assets.mjs",
   "runtime_sha256": "71c5dfdd047eaff6ccc22e2782f0aea0fdedff035bf56569dbe3d4cf7cc1fe91",
-  "root_lock_sha256": "92c5771d728c421efa4d3364fedfc169860e84ccafc896837bd9f0d6ca7a6352",
+  "root_lock_sha256": "aee0586e38e1d9be0f20669fe915f313fe9ec2afcf9e7300a0206699329497cd",
   "bundler": "0.25.12",
   "bundled_packages": [
     {

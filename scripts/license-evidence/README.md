@@ -8,7 +8,7 @@ The collector verifies exact package identity/version, repository-relative paths
 
 | Applicable package | Evidence file | SHA-256 | Fixed upstream source |
 | --- | --- | --- | --- |
-| `@next/env@16.3.8` | `node_modules/next/license.md` | `ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224` | [source](https://github.com/vercel/next.js/blob/v16.3.8/license.md) |
+| `@next/env@16.4.3` | `node_modules/next/license.md` | `ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224` | [source](https://github.com/vercel/next.js/blob/v16.4.3/license.md) |
 | `@tauri-apps/plugin-process@2.3.1` | `scripts/license-evidence/tauri-plugins-LICENSE_MIT` | `89ff9689dcf9dd53968785d05a26f7898bb169dbfcada8d032b3e68cf0d55607` | [source](https://raw.githubusercontent.com/tauri-apps/plugins-workspace/process-v2.3.1/LICENSE_MIT) |
 | `@tauri-apps/plugin-process@2.3.1` | `scripts/license-evidence/tauri-plugins-LICENSE_APACHE-2.0` | `0cec06e0e55fbc3dc5cee4fca9b607f66cb8f4e4dbcf3b3c013594dd156732e9` | [source](https://raw.githubusercontent.com/tauri-apps/plugins-workspace/process-v2.3.1/LICENSE_APACHE-2.0) |
 | `@tauri-apps/plugin-updater@2.10.1` | `scripts/license-evidence/tauri-plugins-LICENSE_MIT` | `89ff9689dcf9dd53968785d05a26f7898bb169dbfcada8d032b3e68cf0d55607` | [source](https://raw.githubusercontent.com/tauri-apps/plugins-workspace/updater-v2.10.1/LICENSE_MIT) |
@@ -17,7 +17,7 @@ The collector verifies exact package identity/version, repository-relative paths
 | `dijkstrajs@1.0.3` | `scripts/license-evidence/SPDX-MIT-standard-terms.txt` | `b05785f9f18e6716bab63424b11454513b9943a222595b70411009202fc592b5` | [source](https://raw.githubusercontent.com/spdx/license-list-data/d46e94e2c78ceede1cfc63cfa0396472d2798d4c/text/MIT.txt) |
 
 Tauri process/updater package names and versions were also checked against each fixed tag's `plugins/process/package.json` / `plugins/updater/package.json`. Their package-owned `LICENSE.spdx` attribution remains in the generated notices.
-The root integration independently verified Next16.3.8 official `license.md` bytes and the same-tag `packages/next-env/package.json` MIT declaration before supplying the exact @next/env mapping.
+The root integration independently verified Next16.4.3 official `license.md` bytes and the same-tag `packages/next-env/package.json` MIT declaration before supplying the exact @next/env mapping. The installed license bytes match that fixed tag; the version update does not extend the mapping to other packages or versions.
 
 ## Dijkstra standard terms are distinct evidence
 
@@ -50,6 +50,13 @@ Code already prebundled inside published npm files is not automatically enumerat
 The absence of package-owned permission text for `client-only@0.0.1` is **not** repaired or waived. For the static Web export only, the normal build wrapper enables private production browser source maps and verifies the actual emitted `out/_next/static/**/*.js` files before generating notices. Every linked map's complete `sources` and `sourcesContent` inventory is checked, including sources without selected mapping segments. A `client-only` path or the exact nonempty published `error.js` content blocks exclusion. Its empty `index.js`, original `error.js`, package metadata and the exact package file set are pinned; changed bytes require review.
 
 Unmapped JavaScript must be byte-identical to installed Next's `polyfill-nomodule.js`, or a strictly parsed generated data manifest. Exported HTML scripts must reference reviewed chunks, contain JSON Flight data, or equal the project's reviewed 404 bootstrap. Unknown JavaScript or inline executable code fails. Turbopack currently emits shifted generated columns around some Unicode/multiline templates, so this is compiler-provided source-inventory evidence, **not** a claim that source-map positions cover each emitted byte or a general legal clearance.
+
+Next 16.4 also emits a fixed `TURBOPACK` queue wrapper containing a JSON chunk descriptor.
+The collector accepts only the exact wrapper, canonical JSON with the two reviewed fields,
+unique nonnegative integer module IDs, and local JavaScript chunk paths already present in the
+reviewed emitted-file inventory. Duplicate JSON keys, external or traversal paths, unknown chunks,
+extra fields and appended code are rejected. Verification re-reads the HTML and binds these descriptors
+to the same artifact hashes; this is not a general inline-script exception.
 
 The wrapper saves source maps and provenance under ignored `.public-prep/web-license-provenance/`, removes only the exact final standalone map directive from JS/CSS, and removes maps from `out`. It binds each final JS hash, private map hash, current source/build input snapshot and HTML script inventory. The Web collector independently rechecks that evidence before removing this one unused package from the conservative runtime superset. Missing/stale evidence, new scripts, changed source inputs or altered package/map bytes fail. The public coverage records `artifact_excluded_packages`, the artifact manifest hash and the explicit scope; other package/bundle collectors retain their default failure for missing permission text.
 

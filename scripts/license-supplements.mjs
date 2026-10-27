@@ -1,10 +1,10 @@
 // Fixed upstream complete texts, with explicit standard-term evidence where documented.
 export const bundleLicenseSupplements = {
-  "@next/env@16.3.8": [
+  "@next/env@16.4.3": [
     {
       "path": "node_modules/next/license.md",
       "sha256": "ee765244e2d59f5234d474f62e0766fa0c8b99af967fdd4c0cb8dcb0c76ea224",
-      "source_url": "https://github.com/vercel/next.js/blob/v16.3.8/license.md"
+      "source_url": "https://github.com/vercel/next.js/blob/v16.4.3/license.md"
     }
   ],
   "@tauri-apps/plugin-process@2.3.1": [
