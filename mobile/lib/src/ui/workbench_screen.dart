@@ -3884,7 +3884,7 @@ class _ComposerSendButton extends StatelessWidget {
                       ? Icon(
                           Icons.play_arrow_rounded,
                           key: const ValueKey('composer-continue-icon'),
-                          size: 28,
+                          size: 24,
                           color: foreground,
                         )
                       : SvgPicture.string(
