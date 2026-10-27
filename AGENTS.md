@@ -9,8 +9,11 @@
   until the maintainer explicitly authorizes that step. New release, upload,
   installation, or deployment work must stay within the current task authorization;
   routine source edits do not authorize those actions.
-- Do not copy private repository history, internal research, user data, credentials,
-  signing material, or local runtime state into this directory.
+- Do not copy private repository history, internal research, or user data into
+  publishable source. Credentials, signing material and runtime state must never
+  enter Git or public artifacts. The maintainer-authorized local server configuration
+  copy in ignored `.secrets/official/` is private: directories must be `0700`, files
+  `0600`, and publication checks must continue to reject that path if staged.
 - Public-source preparation status and remaining decisions are recorded in
   [the publication checklist](docs/publication-checklist.md).
 

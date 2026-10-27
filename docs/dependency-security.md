@@ -1,10 +1,38 @@
 # 依赖安全审查与剩余公告
 
-更新：2026-10-22。按当前锁文件重新查询 npm 官方审计与 OSV，并用 `cargo tree --locked`
-分别核对 macOS arm64/x64、Windows x64 和 Linux x64 的依赖图。公告命中、实际目标依赖、
+更新：2026-10-27。按当前锁文件重新查询 npm 官方审计与 OSV。此前已用 `cargo tree --locked`
+核对 macOS arm64/x64、Windows x64 和 Linux x64 的依赖图。公告命中、实际目标依赖、
 调用条件和最终二进制是不同证据；本页不声称全项目零漏洞或已经通过密码学审计。
 
-## 本轮已经处理
+## 2026-10-27 当前公开前待处理
+
+本轮只更新查询、调用范围复核与文档，没有修改依赖或锁文件。根完整 npm 审计有
+**3 个包命中：1 critical、1 high、1 moderate**；Desktop 完整 npm 审计零命中。
+不能沿用下文 2026-10-22 的旧审计计数或把本次发现写成已经修复。
+
+| 包与当前锁定版本 | 本轮证据与范围 | 处理要求 |
+| --- | --- | --- |
+| `next@16.3.8` | critical，含图像优化及 `use cache`/Server Actions 公告。项目使用 `output: export`、`images.unoptimized: true`；线上是 Nginx 静态文件与独立 Node API，没有运行 Next 请求服务器 | 先升级到兼容的修复版本并验证构建；不能仅凭锁命中声称线上已存在可利用 RCE，也不能不处理构建工具依赖 |
+| `nodemailer@10.1.1` | moderate，收件地址解析公告；`server/email-auth.ts` 实际导入，Server bundle 许可输入也包含此包 | 补丁升级并回归邮箱地址校验、投递及恢复流程；公告修复边界为 10.1.4，本轮 npm 建议 10.2.1，具体目标仍需兼容验证 |
+| `zod@4.4.3` | high，过大集合校验的内存耗尽；本项目通过 `eslint-plugin-react-hooks` 的开发 lint 链引入，不是当前 Server bundle 输入 | 更新兼容转依赖并验证 lint；公告修复版本为 4.6.6 |
+| `tokio@1.53.1` | OSV 新命中 `RUSTSEC-2026-0386`，涉及 Unix `AsyncFd` 构造器的 I/O safety；macOS 目标实际经 Tauri/reqwest/updater 选中，项目源码未直接调用 `AsyncFd` | 复核间接调用范围并更新兼容补丁；当前主线修复边界为 1.53.3。不把包命中直接写成会话内容泄漏 |
+| `block-buffer@0.10.4` | OSV 新命中 `GHSA-qwgh-2vcv-g2f7`，涉及捕获 panic 后的缓冲区状态；macOS 图上经 `digest → sha2 → tauri-codegen → tauri-macros` 用于构建。公告标示修复 0.12.1，跨主版本 | 核对精确受影响版本及构建调用条件；这条依赖图不是会话加密运行时证据，不直接跨主版本覆盖或宣称已修复 |
+
+来源：[Next 图像优化](https://github.com/advisories/GHSA-2464-fhr4-w9xw)、
+[Next use cache](https://github.com/advisories/GHSA-673q-mjm6-r5xr)、
+[Next Server Actions](https://github.com/advisories/GHSA-p3m5-59mp-jv5r)、
+[Nodemailer 地址解析](https://github.com/advisories/GHSA-8c8m-p3m8-cjg8)、
+[Zod](https://github.com/advisories/GHSA-mrhx-c7xc-m3w5)、
+[Tokio](https://rustsec.org/advisories/RUSTSEC-2026-0386.html)、
+[block-buffer](https://github.com/advisories/GHSA-qwgh-2vcv-g2f7)。
+
+本次 OSV 查询仍覆盖 672 个去重 Cargo/hosted Pub 版本，13 个 Cargo 包命中，hosted Pub 未命中。
+除新增两包外，其余包仍是下文记录的 Windows 解压、Linux GTK/D-Bus 与跨目标维护状态项。
+当前 npm 报告未再列出此前 braces 五包链；这是本轮审计接口返回结果，不代表源码已修补该链。
+现有 `check-npm-audit.mjs` 已实际拒绝本轮根报告；没有扩大豁免或关闭门禁。
+依赖修复及受影响验证完成前，不能把该候选写成“全部公开门禁通过”。
+
+## 2026-10-22 已完成的源码整改
 
 | 事项 | 当前源码结果 | 验证范围 |
 | --- | --- | --- |
@@ -22,15 +50,15 @@
 这些变更目前属于源码准备，未据此重签、安装、上传客户端或重新部署正式服务。
 之前发布的 0.3.33 安装包不能当作本轮补丁的已发行证据；后续发行应使用新的版本化产物并重新验证。
 
-## 剩余项按使用范围分类
+## 2026-10-22 的剩余项分类（保留历史证据）
 
 ### 1. 仅开发 lint 链：保留明确告警
 
-根完整 npm 审计仍有 **5 项 high**，全部来自同一条
+当时根完整 npm 审计有 **5 项 high**，全部来自同一条
 `eslint-config-next → @next/eslint-plugin-next → fast-glob → micromatch → braces@3.0.3`
 开发链与 [GHSA-vfj7-8cjw-p6xm](https://github.com/advisories/GHSA-vfj7-8cjw-p6xm)。
 它们是一个问题沿依赖链计数，不能说成五个独立漏洞，也不能说已经修复。
-当前报告未命中生产依赖，Desktop 完整依赖树为零命中；这些结论只针对本次查询。
+当时报告未命中生产依赖，Desktop 完整依赖树为零命中；不能将该历史结果用于 2026-10-27 的新查询。
 
 该 braces 公告没有可采用的修复版本。npm 提议降级 `eslint-config-next` 到 14.2.35，
 不是修补当前 braces 版本；本轮不采用该跨主版本降级。开发工具处理不受信任模式仍有风险，
@@ -84,8 +112,8 @@ cargo tree --manifest-path desktop/src-tauri/Cargo.toml --locked --target aarch6
 ```
 
 OSV 查询只发送公开包名、生态和锁定版本，不发送源码或运行时内容。
-本轮重新查询 672 个去重 Cargo/hosted Pub 版本，11 个 Cargo 包仍命中上述公告，
-hosted Pub 未命中；维护状态通知包含在该计数内。
+2026-10-22 查询 672 个去重 Cargo/hosted Pub 版本，当时 11 个 Cargo 包命中，
+hosted Pub 未命中；维护状态通知包含在该计数内。最新计数见本页顶部。
 结果保留输入锁哈希；查询错误不是零命中，不能借旧报告通过。
 `cargo tree` 是目标依赖图证据，不是最终链接二进制或漏洞利用证明。
 Flutter SDK、Pods/Gradle 下载的原生预编译库、设备侧信道与整应用协议不在该查询覆盖内。
