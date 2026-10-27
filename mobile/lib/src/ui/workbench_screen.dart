@@ -1537,7 +1537,6 @@ class _ConversationPageState extends State<ConversationPage> {
     _atMessageTail = widget.forceLatestOnEntry || (saved?.atTail ?? true);
     _initialHistoryFillStopped = !_atMessageTail;
     _initialTailPending = _atMessageTail;
-    _showBackToLatest.value = !_atMessageTail;
     _scroll = ConversationScrollController(
       initialScrollOffset: saved?.offset ?? 0,
       followsLatest: _atMessageTail,
@@ -2017,135 +2016,146 @@ class _ConversationPageState extends State<ConversationPage> {
     _scheduleInitialHistoryFill(controller, session, groups, running);
     return LayoutBuilder(
       key: _messageViewportKey,
-      builder: (context, constraints) => NotificationListener<ScrollNotification>(
-        onNotification: _handleHistoryScroll,
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: ListView.builder(
-            key: const ValueKey('conversation-message-list'),
-            controller: _scroll,
-            // The latest row is at offset zero: entering a long conversation never
-            // has to lay out historical rows to estimate its bottom.
-            reverse: true,
-            // Let short conversations occupy only their content height so the
-            // outer alignment keeps the first message at the viewport top.
-            shrinkWrap: true,
-            padding: const EdgeInsets.fromLTRB(14, 10, 14, 22),
-            itemCount: rowCount,
-            findChildIndexCallback: (key) => rowIndices[key],
-            itemBuilder: (context, index) {
-              final chronologicalIndex = rowCount - 1 - index;
-              if (standaloneThinking && index == 0) {
-                return Padding(
-                  key: const ValueKey('conversation-live-activity'),
-                  padding: const EdgeInsetsDirectional.only(start: 24),
-                  child: _AssistantActivityBubble(startedAt: thinkingStartedAt),
-                );
-              }
-              if (chronologicalIndex == 0) {
-                if (loading && historyError == null) {
-                  final firstPage = items.isEmpty;
-                  return ConstrainedBox(
-                    key: const ValueKey('history-loading-state'),
-                    constraints: firstPage
-                        ? BoxConstraints(
-                            minHeight: math.max(
-                              220.0,
-                              constraints.maxHeight * .62,
-                            ),
-                          )
-                        : const BoxConstraints.tightFor(height: 54),
-                    child: Center(
-                      child: HistoryLoadingProgress(
-                        progress: controller.historyProgressFor(session.id),
-                        compact: !firstPage,
-                      ),
+      builder: (context, constraints) => NotificationListener<ScrollMetricsNotification>(
+        onNotification: (notification) {
+          if (notification.depth == 0) _updateBackToLatestVisibility();
+          return false;
+        },
+        child: NotificationListener<ScrollNotification>(
+          onNotification: _handleHistoryScroll,
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: ListView.builder(
+              key: const ValueKey('conversation-message-list'),
+              controller: _scroll,
+              // The latest row is at offset zero: entering a long conversation never
+              // has to lay out historical rows to estimate its bottom.
+              reverse: true,
+              // Let short conversations occupy only their content height so the
+              // outer alignment keeps the first message at the viewport top.
+              shrinkWrap: true,
+              padding: const EdgeInsets.fromLTRB(14, 10, 14, 22),
+              itemCount: rowCount,
+              findChildIndexCallback: (key) => rowIndices[key],
+              itemBuilder: (context, index) {
+                final chronologicalIndex = rowCount - 1 - index;
+                if (standaloneThinking && index == 0) {
+                  return Padding(
+                    key: const ValueKey('conversation-live-activity'),
+                    padding: const EdgeInsetsDirectional.only(start: 24),
+                    child: _AssistantActivityBubble(
+                      startedAt: thinkingStartedAt,
                     ),
                   );
                 }
-                return Padding(
-                  padding: const EdgeInsets.only(bottom: 10),
-                  child: Center(
-                    child: !controller.deviceOnline
-                        ? Text(
-                            context.l10n.workbenchDeviceOfflineQueued,
-                            textAlign: TextAlign.center,
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(color: RelayTheme.muted),
-                          )
-                        : historyError != null
-                        ? Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(historyError, textAlign: TextAlign.center),
-                              TextButton(
-                                key: const ValueKey('retry-history-load'),
-                                onPressed: loading
-                                    ? null
-                                    : () => controller.retryHistory(session.id),
-                                child: Text(context.l10n.commonRetry),
+                if (chronologicalIndex == 0) {
+                  if (loading && historyError == null) {
+                    final firstPage = items.isEmpty;
+                    return ConstrainedBox(
+                      key: const ValueKey('history-loading-state'),
+                      constraints: firstPage
+                          ? BoxConstraints(
+                              minHeight: math.max(
+                                220.0,
+                                constraints.maxHeight * .62,
                               ),
-                            ],
-                          )
-                        : canLoadMore
-                        ? TextButton(
-                            key: const ValueKey('load-earlier-history'),
-                            onPressed: () => controller.loadHistory(
-                              session.id,
-                              earlier: true,
+                            )
+                          : const BoxConstraints.tightFor(height: 54),
+                      child: Center(
+                        child: HistoryLoadingProgress(
+                          progress: controller.historyProgressFor(session.id),
+                          compact: !firstPage,
+                        ),
+                      ),
+                    );
+                  }
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: Center(
+                      child: !controller.deviceOnline
+                          ? Text(
+                              context.l10n.workbenchDeviceOfflineQueued,
+                              textAlign: TextAlign.center,
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(color: RelayTheme.muted),
+                            )
+                          : historyError != null
+                          ? Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(historyError, textAlign: TextAlign.center),
+                                TextButton(
+                                  key: const ValueKey('retry-history-load'),
+                                  onPressed: loading
+                                      ? null
+                                      : () =>
+                                            controller.retryHistory(session.id),
+                                  child: Text(context.l10n.commonRetry),
+                                ),
+                              ],
+                            )
+                          : canLoadMore
+                          ? TextButton(
+                              key: const ValueKey('load-earlier-history'),
+                              onPressed: () => controller.loadHistory(
+                                session.id,
+                                earlier: true,
+                              ),
+                              child: Text(context.l10n.workbenchLoadEarlier),
+                            )
+                          : Text(
+                              items.isEmpty
+                                  ? context.l10n.workbenchSendFirst
+                                  : context.l10n.workbenchAtBeginning,
+                              style: Theme.of(context).textTheme.bodySmall
+                                  ?.copyWith(color: RelayTheme.muted),
                             ),
-                            child: Text(context.l10n.workbenchLoadEarlier),
-                          )
-                        : Text(
-                            items.isEmpty
-                                ? context.l10n.workbenchSendFirst
-                                : context.l10n.workbenchAtBeginning,
-                            style: Theme.of(context).textTheme.bodySmall
-                                ?.copyWith(color: RelayTheme.muted),
-                          ),
-                  ),
-                );
-              }
-              if (chronologicalIndex <= groups.length) {
-                final groupIndex = chronologicalIndex - 1;
-                _rowAnchors.removeWhere((_, key) => key.currentContext == null);
-                return KeyedSubtree(
-                  key: ValueKey('conversation-turn-${groups[groupIndex].id}'),
-                  child: _ConversationTurn(
-                    key: _rowAnchors.putIfAbsent(
-                      groups[groupIndex].id,
-                      GlobalKey.new,
                     ),
-                    onToggleActivity: (anchor, removedHeight) {
-                      _atMessageTail = false;
-                      _initialTailPending = false;
-                      _scroll.preserveAnchor(
-                        anchor,
-                        removedHeight: removedHeight,
-                      );
-                      WidgetsBinding.instance.addPostFrameCallback((_) {
-                        if (mounted) _handleMessageScroll();
-                      });
-                    },
-                    group: groups[groupIndex],
-                    approvals:
-                        approvalsByGroup[groups[groupIndex].id] ?? const [],
-                    session: session,
-                    controller: controller,
-                    active: running && groupIndex == groups.length - 1,
-                    latest: groupIndex == groups.length - 1,
-                    thinkingStartedAt:
-                        showLiveActivity && groupIndex == groups.length - 1
-                        ? thinkingStartedAt
-                        : null,
-                    waitingLabel: !running && groupIndex == groups.length - 1
-                        ? activity
-                        : null,
-                  ),
-                );
-              }
-              return const SizedBox.shrink();
-            },
+                  );
+                }
+                if (chronologicalIndex <= groups.length) {
+                  final groupIndex = chronologicalIndex - 1;
+                  _rowAnchors.removeWhere(
+                    (_, key) => key.currentContext == null,
+                  );
+                  return KeyedSubtree(
+                    key: ValueKey('conversation-turn-${groups[groupIndex].id}'),
+                    child: _ConversationTurn(
+                      key: _rowAnchors.putIfAbsent(
+                        groups[groupIndex].id,
+                        GlobalKey.new,
+                      ),
+                      onToggleActivity: (anchor, removedHeight) {
+                        _atMessageTail = false;
+                        _initialTailPending = false;
+                        _scroll.preserveAnchor(
+                          anchor,
+                          removedHeight: removedHeight,
+                        );
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          if (mounted) _handleMessageScroll();
+                        });
+                      },
+                      group: groups[groupIndex],
+                      approvals:
+                          approvalsByGroup[groups[groupIndex].id] ?? const [],
+                      session: session,
+                      controller: controller,
+                      active: running && groupIndex == groups.length - 1,
+                      latest: groupIndex == groups.length - 1,
+                      thinkingStartedAt:
+                          showLiveActivity && groupIndex == groups.length - 1
+                          ? thinkingStartedAt
+                          : null,
+                      waitingLabel: !running && groupIndex == groups.length - 1
+                          ? activity
+                          : null,
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
           ),
         ),
       ),
@@ -2249,7 +2259,6 @@ class _ConversationPageState extends State<ConversationPage> {
         _initialTailPending = false;
         _atMessageTail = false;
         _scroll.followsLatest = false;
-        _showBackToLatest.value = true;
       }
     } else if (notification is ScrollEndNotification) {
       _historyUserScrollActive = false;
@@ -2353,7 +2362,7 @@ class _ConversationPageState extends State<ConversationPage> {
       _atMessageTail = _scroll.distanceFromLatest <= (_atMessageTail ? 72 : 1);
     }
     _scroll.followsLatest = _atMessageTail;
-    _showBackToLatest.value = !_atMessageTail;
+    _updateBackToLatestVisibility();
     final sessionId = _readingSessionId;
     if (sessionId != null) {
       widget.readingPositions?.save(
@@ -2362,6 +2371,14 @@ class _ConversationPageState extends State<ConversationPage> {
         atTail: _atMessageTail,
       );
     }
+  }
+
+  void _updateBackToLatestVisibility() {
+    if (!_scroll.hasClients || !_scroll.position.hasContentDimensions) return;
+    // One screen of history is easy to return from with a gesture. Keep this
+    // visibility threshold independent of the stricter live-follow threshold.
+    _showBackToLatest.value =
+        _scroll.distanceFromLatest > _scroll.position.viewportDimension;
   }
 
   void _handleLiveReplyUpdate() {
