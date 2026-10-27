@@ -1,4 +1,8 @@
 {
+  "workbenchContinueUnconfirmed": "لم يتم تأكيد المتابعة بعد. يُرجى إعادة المحاولة بعد قليل.",
+  "workbenchContinueExpired": "انتهت صلاحية طلب المتابعة. تحقّق من الجلسة قبل إعادة المحاولة.",
+  "workbenchContinueSession": "متابعة",
+  "workbenchContinuingSession": "جارٍ المتابعة…",
   "workbenchStateAnswered": "تمت الإجابة",
   "workbenchTurnIncomplete": "لم تكتمل هذه المحاولة",
   "controllerQueueUnconfirmed": "لم تتأكد حالة معالجة الرسالة. حدّث المحادثة للتحقق.",

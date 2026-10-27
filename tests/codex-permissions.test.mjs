@@ -64,6 +64,37 @@ test('Desktop IPC routes to owner and reads back settings, retaining no conversa
   assert.equal(update.version,3); assert.equal(update.targetClientId,'owner'); assert.equal(update.hostId,'local');
   assert.deepEqual(update.params,{conversationId:id,threadSettings:desired});
 });
+
+test('native empty continuation verifies latest stopped turn and preserves the resume trigger', async t => {
+  const f = await ipcFixture(t, { turns: [{ turnId: 'stopped', status: 'interrupted', items: [] }, {}] });
+  const result = await f.start({ input: [], clientMessageId: 'continue-client',
+    expectedTurnId: 'stopped', turnTrigger: 'resume_interrupted_task' });
+  assert.equal(result.turnId, 'new-native-turn');
+  const start = f.requests.find(r => r.method === 'thread-follower-start-turn');
+  assert.deepEqual(start.params.turnStart.request.input, []);
+  assert.equal(start.params.turnStart.request.turnTrigger, 'resume_interrupted_task');
+  assert.equal(start.params.turnStart.request.clientUserMessageId, 'continue-client');
+});
+
+test('native continuation checks canonical history and the exact recoverable failure category', async t => {
+  const turn = { turnId: 'failed', status: 'failed', error: { codexErrorInfo: 'internalServerError', message: 'temporary' } };
+  const f = await ipcFixture(t, { turns: [], turnHistory: { kind: 'canonical', history: {
+    islands: [{ entries: [{ value: 'latest' }] }], entitiesByKey: { latest: turn } } } });
+  await f.start({ input: [], expectedTurnId: 'failed', turnTrigger: 'resume_interrupted_task' });
+  assert.equal(f.requests.filter(r => r.method === 'thread-follower-start-turn').length, 1);
+});
+
+for (const options of [
+  { turns: [{ turnId: 'newer', status: 'interrupted' }] },
+  { turns: [{ turnId: 'stopped', status: 'completed' }] },
+  { turns: [{ turnId: 'stopped', status: 'interrupted' }], running: true },
+  { turns: [{ turnId: 'stopped', status: 'interrupted' }], nativeRequests: [{ method: 'approval' }] },
+  { turns: [{ turnId: 'stopped', status: 'failed', error: { codexErrorInfo: 'usageLimitExceeded' } }] },
+]) test(`native continuation fails closed before starting: ${JSON.stringify(options)}`, async t => {
+  const f = await ipcFixture(t, options);
+  await assert.rejects(f.start({ input: [], expectedTurnId: 'stopped', turnTrigger: 'resume_interrupted_task' }));
+  assert.equal(f.requests.some(r => r.method === 'thread-follower-start-turn'), false);
+});
 test('Desktop denial and unsupported stream versions do not claim success', async t => {
   const denied = await ipcFixture(t,{deny:true}); await assert.rejects(denied.run(initial));
   const unsupported = await ipcFixture(t,{version:12}); await assert.rejects(unsupported.run());

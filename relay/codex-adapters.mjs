@@ -1,5 +1,6 @@
 import { withThinkingState } from "./turn-thinking.mjs";
 import { CodexAsyncQuestions, trackRolloutQuestions, parseAsyncAnswers } from './codex-async-questions.mjs';
+import { canContinueCodexTurn } from './codex-continuation.mjs';
 import { resumePermissionsFromRollout } from "./codex-resume-permissions.mjs";
 import { CodexQueueTracker } from "./codex-queue-tracker.mjs";
 import { CodexRolloutHistoryIndex, rolloutDataUrlSources } from './codex-rollout-history-index.mjs';
@@ -324,6 +325,7 @@ export class MockCodexAdapter {
 
 export class CodexAppServerAdapter {
   constructor(options = {}) {
+    this.supportsContinuation = true;
     this.codexBin = resolveCodexBinary(options.codexBin);
     this.workspace = options.workspace ?? process.cwd();
     this.child = null;
@@ -367,6 +369,9 @@ export class CodexAppServerAdapter {
     this.sessionCwds = new Map();
     this.activeTurns = new Map();
     this.liveTurns = new Map();
+    // Only owner notifications/snapshots populate this small lifecycle cursor.
+    // Non-owner thread/read may misreport a running Desktop turn as interrupted.
+    this.continueLifecycle = new Map();
     this.threadRuntimeRevisions = new Map();
     this.activeTurnStartedAt = new Map();
     this.observedUserMessages = new Map();
@@ -1619,6 +1624,8 @@ export class CodexAppServerAdapter {
   }
 
   async submitMessageUnlocked({
+    action = "message",
+    expectedTurnId,
     interruptRunning = false,
     sessionId,
     requestId,
@@ -1627,6 +1634,9 @@ export class CodexAppServerAdapter {
     attachments = [],
     runtimeSettings,
   }) {
+    if (action === "continue") return this.continueMessageUnlocked({ sessionId, requestId,
+      clientMessageId, expectedTurnId, content, attachments, runtimeSettings, interruptRunning });
+    if (action !== "message") throw new Error("Invalid Codex message action.");
     // Validate before stopping an active turn or acquiring a writer.
     const requestedSettings = runtimeSettings === undefined
       ? null : await this.validateMessageSettings(runtimeSettings, sessionId);
@@ -1774,6 +1784,77 @@ export class CodexAppServerAdapter {
       persisted,
       syncVerifiedAt: new Date().toISOString(),
     };
+  }
+
+  continueTurnId(sessionId) {
+    const rollout = this.externalRolloutTails.get(sessionId);
+    if (this.liveTurns.has(sessionId) || this.activeTurns.has(sessionId) ||
+        rollout?.activeTurnId || rollout?.caughtUp === false ||
+        this.threadMetadata.get(sessionId)?.status?.type === 'active' ||
+        [...this.pendingApprovals.values()].some(value => value.sessionId === sessionId) ||
+        [...this.asyncQuestions.entries.values()].some(value => value.sessionId === sessionId &&
+          ['pending', 'sending', 'unconfirmed'].includes(value.state))) return null;
+    const source = this.continueLifecycle.get(sessionId);
+    if (source) return source.continuable || source.status === 'interrupted' ? source.turnId : null;
+    return rollout?.lifecycleKnown && rollout.caughtUp === true && !rollout.activeTurnId &&
+      (rollout.terminalTurnStatuses?.get(rollout.currentTurnId) === 'interrupted' ||
+        rollout.terminalTurnContinuations?.get(rollout.currentTurnId) === true)
+      ? rollout.currentTurnId : null;
+  }
+
+  async continueMessageUnlocked({ sessionId, requestId, clientMessageId, expectedTurnId,
+    content, attachments, runtimeSettings, interruptRunning }) {
+    if (typeof expectedTurnId !== 'string' || !expectedTurnId || expectedTurnId.length > 2048 ||
+        (content !== undefined && content !== '') || attachments.length ||
+        runtimeSettings !== undefined || interruptRunning) throw new Error('Invalid Codex continue action.');
+    const assertCurrent = () => {
+      if (this.continueTurnId(sessionId) !== expectedTurnId)
+        throw new Error('Codex interrupted task changed; refresh before continuing.');
+    };
+    assertCurrent();
+    const metadata = this.threadMetadata.get(sessionId);
+    if (metadata?.path?.endsWith('.jsonl')) await this.pollExternalRolloutActivity(metadata);
+    assertCurrent();
+    const clientUserMessageId = clientMessageId ?? requestId ?? createId('msg');
+    let result;
+    if (!this.resumedThreads.has(sessionId)) {
+      const runtime = await this.readDesktopRuntime(sessionId);
+      assertCurrent();
+      if (runtime.type === 'idle') {
+        result = await this.startDesktopMessage(sessionId, { input: [], clientMessageId: clientUserMessageId,
+          expectedTurnId, turnTrigger: 'resume_interrupted_task' });
+      } else if (runtime.type === 'notOwned') {
+        // Only this explicit user action may acquire an unowned writer. Never
+        // queue or retry takeover when Desktop owns the conversation.
+        const resumed = await this.request('thread/resume', { threadId: sessionId, persistExtendedHistory: true,
+          ...await resumePermissionsFromRollout(metadata?.path) });
+        this.resumedThreads.add(sessionId);
+        if (resumed.thread) this.rememberThread(resumed.thread, { turnsAuthoritative: true });
+        this.rememberThreadSettingsFromResponse(sessionId, resumed);
+      } else throw new Error('Codex is not idle; task was not continued.');
+    }
+    if (!result) {
+      const revision = this.threadRuntimeRevisions.get(sessionId) ?? 0;
+      const read = await this.request('thread/read', { threadId: sessionId, includeTurns: true });
+      if (read.thread?.id !== sessionId) throw new Error('Codex continue state could not be confirmed.');
+      this.rememberThread(read.thread, { turnsAuthoritative: true, runtimeRevision: revision });
+      assertCurrent();
+      result = await this.request('turn/start', { threadId: sessionId,
+        cwd: this.sessionCwds.get(sessionId) ?? this.workspace, input: [],
+        clientUserMessageId, turnTrigger: 'resume_interrupted_task', ...this.turnSettingsParams(sessionId) });
+    }
+    const turnId = result.turn?.id ?? result.turnId;
+    if (!turnId) throw new Error('Codex continue acceptance could not be confirmed.');
+    // An empty native turn has no userMessage to verify. The returned turn ID
+    // acknowledges execution acceptance, never transcript persistence.
+    const observed = this.continueLifecycle.get(sessionId);
+    if (observed?.turnId !== turnId || observed.status === 'inProgress') {
+      this.continueLifecycle.set(sessionId, { turnId, status: 'inProgress' });
+      this.activeTurns.set(sessionId, turnId);
+      this.rememberThread({ id: sessionId, status: { type: 'active' } });
+    }
+    this.advanceThreadRuntimeRevision(sessionId);
+    return { action: 'continue', accepted: true, mode: 'started', turnId, persisted: false };
   }
 
   async validateMessageSettings(settings, sessionId) {
@@ -2473,6 +2554,12 @@ export class CodexAppServerAdapter {
       else delete next.status;
     }
     if (!staleRuntime && turnsAuthoritative && Array.isArray(thread.turns)) {
+      if (this.resumedThreads.has(thread.id) && thread.turns.length) {
+        const latest = thread.turns.at(-1);
+        const live = this.liveTurns.get(thread.id) ?? this.activeTurns.get(thread.id);
+        if (!live || live === latest.id) this.continueLifecycle.set(thread.id,
+          { turnId: latest.id, status: latest.status, continuable: canContinueCodexTurn(latest) });
+      }
       // A non-owner can report a live turn as interrupted; that snapshot cannot
       // retire a live writer. Completed/failed identify a real terminal turn.
       for (const turn of thread.turns) {
@@ -2528,6 +2615,15 @@ export class CodexAppServerAdapter {
     }
     const terminal = lifecycle.currentTurnId && lifecycle.terminalTurnStatuses?.has(lifecycle.currentTurnId);
     if (complete && terminal && !lifecycle.activeTurnId && !this.liveTurns.has(sessionId) && !this.activeTurns.has(sessionId)) {
+      const observed = this.continueLifecycle.get(sessionId);
+      // A live notification can reach us before its rollout append. Do not
+      // replace that newer terminal with a previously persisted interruption.
+      if (!observed || observed.turnId === lifecycle.currentTurnId ||
+          lifecycle.terminalTurnStatuses.has(observed.turnId)) {
+        this.continueLifecycle.set(sessionId, { turnId: lifecycle.currentTurnId,
+          status: lifecycle.terminalTurnStatuses.get(lifecycle.currentTurnId),
+          continuable: lifecycle.terminalTurnContinuations?.get(lifecycle.currentTurnId) === true });
+      }
       if (this.threadMetadata.get(sessionId)?.status?.type === 'active') changed = true;
       this.rememberThread({ id: sessionId, status: { type: 'idle' } });
     }
@@ -2599,6 +2695,8 @@ export class CodexAppServerAdapter {
     const effective = settingsFromConfigOptions(configOptions);
     return {
       ...session,
+      continue_turn_id: this.continueTurnId(thread.id),
+      capabilities: { continue_supported: true },
       model: sticky.model ?? (metadata.parentThreadId ? metadata.model ?? null : effective.model),
       reasoning_effort: sticky.effort ?? (metadata.parentThreadId ? metadata.reasoningEffort ?? null : effective.effort),
       service_tier: sticky.serviceTier ?? effective.serviceTier,
@@ -3305,6 +3403,7 @@ export class CodexAppServerAdapter {
       }
       case "turn/started":
         this.advanceThreadRuntimeRevision(sessionId);
+        this.continueLifecycle.set(sessionId, { turnId, status: 'inProgress' });
         if (turnId) {
           this.activeTurns.set(sessionId, turnId);
           this.liveTurns.set(sessionId, turnId);
@@ -3376,6 +3475,12 @@ export class CodexAppServerAdapter {
         break;
       case "turn/completed":
         this.advanceThreadRuntimeRevision(sessionId);
+        if (!(this.liveTurns.get(sessionId) ?? this.activeTurns.get(sessionId)) ||
+            (this.liveTurns.get(sessionId) ?? this.activeTurns.get(sessionId)) === turnId) {
+          const latest = this.continueLifecycle.get(sessionId);
+          if (!latest || latest.turnId === turnId) this.continueLifecycle.set(sessionId,
+            { turnId, status: params.turn?.status ?? 'completed', continuable: canContinueCodexTurn(params.turn) });
+        }
         // Local terminal state must commit even when question reconciliation
         // fails during a disconnected client/transport notification.
         if (this.clearTerminalTurn(sessionId, turnId) && !this.liveTurns.has(sessionId) && !this.activeTurns.has(sessionId))
@@ -3386,6 +3491,7 @@ export class CodexAppServerAdapter {
             params.turn?.status === "failed" ? "turn.failed" : "turn.completed",
           turn_id: turnId,
           status: params.turn?.status ?? "completed",
+          continue_turn_id: this.continueTurnId(sessionId),
           ...(params.turn?.status === "failed" && codexTurnErrorText(params.turn?.error)
             ? { error: codexTurnErrorText(params.turn.error) } : {}),
         });
@@ -4522,14 +4628,22 @@ export function codexRolloutActivityEvents(
       payload.type === "task_complete" ? "completed" : "interrupted";
     state.terminalTurnIds ??= new Set();
     state.terminalTurnStatuses ??= new Map();
+    state.terminalTurnContinuations ??= new Map();
     const duplicate = Boolean(turnId && state.terminalTurnIds.has(turnId));
     if (turnId) {
       state.terminalTurnIds.add(turnId);
       state.terminalTurnStatuses.set(turnId, status);
+      // Native rollout serialization can use the Rust field name. Preserve
+      // only the policy result, never another copy of the error payload.
+      const error = payload.error;
+      const nativeError = error && typeof error === 'object' && error.codexErrorInfo === undefined
+        ? { ...error, codexErrorInfo: error.codex_error_info } : error;
+      state.terminalTurnContinuations.set(turnId, canContinueCodexTurn({ status, error: nativeError }));
       while (state.terminalTurnIds.size > 128) {
         const oldest = state.terminalTurnIds.values().next().value;
         state.terminalTurnIds.delete(oldest);
         state.terminalTurnStatuses.delete(oldest);
+        state.terminalTurnContinuations.delete(oldest);
       }
     }
     if (!turnId || !state.activeTurnId || state.activeTurnId === turnId) {

@@ -9,6 +9,20 @@ class AppLocalizationsHi extends AppLocalizations {
   AppLocalizationsHi([String locale = 'hi']) : super(locale);
 
   @override
+  String get workbenchContinueUnconfirmed =>
+      'जारी रखने की अभी पुष्टि नहीं हुई है। थोड़ी देर बाद फिर कोशिश करें।';
+
+  @override
+  String get workbenchContinueExpired =>
+      'जारी रखने का अनुरोध समाप्त हो गया है। फिर कोशिश करने से पहले सत्र जाँचें।';
+
+  @override
+  String get workbenchContinueSession => 'जारी रखें';
+
+  @override
+  String get workbenchContinuingSession => 'जारी रखा जा रहा है…';
+
+  @override
   String get workbenchStateAnswered => 'उत्तर दिया गया';
 
   @override

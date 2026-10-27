@@ -53,6 +53,45 @@ void main() {
   });
 
   test(
+    'pending continuation survives reopen without counting its local marker as confirmation',
+    () async {
+      final action = RelayMessage(
+        id: 'local_continue',
+        role: 'system',
+        content: '',
+        createdAt: DateTime.now().toUtc().toIso8601String(),
+        kind: 'local.user.action',
+        turnId: 'stopped',
+        clientMessageId: 'continue',
+        deliveryState: MessageDeliveryState.sending,
+      );
+      final frame = {
+        'request_id': 'same-request',
+        'envelope': {'ciphertext': 'synthetic-only'},
+      };
+      await store.savePending(key, 'session', action, frame);
+      await store.appendMessages(key, 'session', [action]);
+      await store.close();
+      store = HistoryStore(
+        factory: databaseFactoryFfi,
+        path: '${directory.path}/history.sqlite',
+      );
+      final restored = (await store.readPendingMessages(key, 'session')).single;
+      expect(restored.kind, 'local.user.action');
+      expect(restored.deliveryState, MessageDeliveryState.unconfirmed);
+      expect((await store.readPending(key, 'session')).single['frame'], frame);
+      await store.confirmPending(key, 'session', 'continue');
+      expect(await store.readPending(key, 'session'), isEmpty);
+      final latest = await store.readLatest(key, 'session');
+      expect(
+        latest.recent?.messages.where((m) => m.kind == 'local.user.action') ??
+            [],
+        isEmpty,
+      );
+    },
+  );
+
+  test(
     'default controllers share one database without closing each other',
     () async {
       final original = sqlite.databaseFactoryOrNull;

@@ -9,6 +9,20 @@ class AppLocalizationsId extends AppLocalizations {
   AppLocalizationsId([String locale = 'id']) : super(locale);
 
   @override
+  String get workbenchContinueUnconfirmed =>
+      'Kelanjutan belum dikonfirmasi. Coba lagi sebentar lagi.';
+
+  @override
+  String get workbenchContinueExpired =>
+      'Permintaan untuk melanjutkan telah kedaluwarsa. Periksa sesi sebelum mencoba lagi.';
+
+  @override
+  String get workbenchContinueSession => 'Lanjutkan';
+
+  @override
+  String get workbenchContinuingSession => 'Melanjutkan…';
+
+  @override
   String get workbenchStateAnswered => 'Sudah dijawab';
 
   @override

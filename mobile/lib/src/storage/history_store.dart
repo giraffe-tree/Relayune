@@ -823,7 +823,8 @@ class HistoryStore {
       if (!messages.any(
         (m) =>
             m.clientMessageId == message.clientMessageId &&
-            m.kind != 'local.user.message',
+            m.kind != 'local.user.message' &&
+            m.kind != 'local.user.action',
       )) {
         messages.removeWhere((m) => m.id == message.id);
         messages.add(message);
@@ -930,7 +931,10 @@ class HistoryStore {
       final optimistic = await _latest(txn, messageRoute);
       if (optimistic != null && optimistic['deleted'] == 0) {
         final value = await _decode(key, optimistic);
-        if (value['kind'] == 'local.user.message' &&
+        if (const {
+              'local.user.message',
+              'local.user.action',
+            }.contains(value['kind']) &&
             value['client_message_id'] == clientId) {
           await txn.delete(
             'history_log',

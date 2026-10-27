@@ -1,4 +1,8 @@
 {
+  "workbenchContinueUnconfirmed": "La reprise n’a pas encore été confirmée. Réessayez dans un instant.",
+  "workbenchContinueExpired": "La demande de reprise a expiré. Vérifiez la session avant de réessayer.",
+  "workbenchContinueSession": "Continuer",
+  "workbenchContinuingSession": "Reprise…",
   "workbenchStateAnswered": "Répondu",
   "workbenchTurnIncomplete": "Cette exécution n’a pas abouti",
   "controllerQueueUnconfirmed": "Le traitement du message reste à confirmer. Actualisez la conversation.",

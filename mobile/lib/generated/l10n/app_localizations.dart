@@ -115,6 +115,30 @@ abstract class AppLocalizations {
     Locale('zh', 'CN'),
   ];
 
+  /// No description provided for @workbenchContinueUnconfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue has not been confirmed yet. Please retry shortly.'**
+  String get workbenchContinueUnconfirmed;
+
+  /// No description provided for @workbenchContinueExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'The continue request has expired. Check the session before retrying.'**
+  String get workbenchContinueExpired;
+
+  /// No description provided for @workbenchContinueSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get workbenchContinueSession;
+
+  /// No description provided for @workbenchContinuingSession.
+  ///
+  /// In en, this message translates to:
+  /// **'Continuing…'**
+  String get workbenchContinuingSession;
+
   /// No description provided for @workbenchStateAnswered.
   ///
   /// In en, this message translates to:

@@ -1,4 +1,8 @@
 {
+  "workbenchContinueUnconfirmed": "继续状态尚未确认，请稍后重试。",
+  "workbenchContinueExpired": "继续请求已过期，请核对会话后重试。",
+  "workbenchContinueSession": "继续",
+  "workbenchContinuingSession": "正在继续…",
   "workbenchTurnIncomplete": "本次处理未完成",
   "controllerQueueUnconfirmed": "尚未确认消息的处理状态，请刷新会话查看。",
   "homeGreetingMorning": "早上好",

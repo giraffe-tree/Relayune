@@ -1,4 +1,8 @@
 {
+  "workbenchContinueUnconfirmed": "A continuação ainda não foi confirmada. Tente novamente em breve.",
+  "workbenchContinueExpired": "O pedido para continuar expirou. Verifique a sessão antes de tentar novamente.",
+  "workbenchContinueSession": "Continuar",
+  "workbenchContinuingSession": "Continuando…",
   "workbenchStateAnswered": "Respondido",
   "workbenchTurnIncomplete": "Esta execução não foi concluída",
   "controllerQueueUnconfirmed": "O estado da mensagem não foi confirmado. Atualize a conversa.",

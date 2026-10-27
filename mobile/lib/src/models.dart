@@ -427,6 +427,19 @@ class RelaySession {
   bool get supportsInterruptAndSend =>
       provider == 'codex' || raw['supports_interrupt_and_send'] == true;
   final bool canInterrupt;
+  String? get continueTurnId {
+    final value = raw['continue_turn_id'];
+    return value is String && value.trim().isNotEmpty ? value : null;
+  }
+
+  bool get supportsContinue {
+    final capabilities = raw['capabilities'];
+    return provider == 'codex' &&
+        !isSubagent &&
+        capabilities is Map &&
+        capabilities['continue_supported'] == true;
+  }
+
   String? get forkMode => const {'turn', 'latest'}.contains(raw['fork_mode'])
       ? raw['fork_mode'] as String
       : null;

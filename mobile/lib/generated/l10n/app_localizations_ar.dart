@@ -9,6 +9,20 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String get workbenchContinueUnconfirmed =>
+      'لم يتم تأكيد المتابعة بعد. يُرجى إعادة المحاولة بعد قليل.';
+
+  @override
+  String get workbenchContinueExpired =>
+      'انتهت صلاحية طلب المتابعة. تحقّق من الجلسة قبل إعادة المحاولة.';
+
+  @override
+  String get workbenchContinueSession => 'متابعة';
+
+  @override
+  String get workbenchContinuingSession => 'جارٍ المتابعة…';
+
+  @override
   String get workbenchStateAnswered => 'تمت الإجابة';
 
   @override

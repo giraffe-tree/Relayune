@@ -1,4 +1,8 @@
 {
+  "workbenchContinueUnconfirmed": "চালিয়ে যাওয়া এখনও নিশ্চিত হয়নি। কিছুক্ষণ পরে আবার চেষ্টা করুন।",
+  "workbenchContinueExpired": "চালিয়ে যাওয়ার অনুরোধের মেয়াদ শেষ হয়েছে। আবার চেষ্টা করার আগে সেশনটি পরীক্ষা করুন।",
+  "workbenchContinueSession": "চালিয়ে যান",
+  "workbenchContinuingSession": "চালিয়ে যাওয়া হচ্ছে…",
   "workbenchStateAnswered": "উত্তর দেওয়া হয়েছে",
   "workbenchTurnIncomplete": "এই প্রচেষ্টা সম্পূর্ণ হয়নি",
   "controllerQueueUnconfirmed": "বার্তা প্রক্রিয়াকরণের অবস্থা নিশ্চিত নয়। কথোপকথন রিফ্রেশ করুন।",

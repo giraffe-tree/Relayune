@@ -9,6 +9,20 @@ class AppLocalizationsEs extends AppLocalizations {
   AppLocalizationsEs([String locale = 'es']) : super(locale);
 
   @override
+  String get workbenchContinueUnconfirmed =>
+      'La continuación aún no se ha confirmado. Vuelve a intentarlo en breve.';
+
+  @override
+  String get workbenchContinueExpired =>
+      'La solicitud para continuar ha caducado. Comprueba la sesión antes de volver a intentarlo.';
+
+  @override
+  String get workbenchContinueSession => 'Continuar';
+
+  @override
+  String get workbenchContinuingSession => 'Continuando…';
+
+  @override
   String get workbenchStateAnswered => 'Respondida';
 
   @override

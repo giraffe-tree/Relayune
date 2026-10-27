@@ -9,6 +9,18 @@ class AppLocalizationsZh extends AppLocalizations {
   AppLocalizationsZh([String locale = 'zh']) : super(locale);
 
   @override
+  String get workbenchContinueUnconfirmed => '继续状态尚未确认，请稍后重试。';
+
+  @override
+  String get workbenchContinueExpired => '继续请求已过期，请核对会话后重试。';
+
+  @override
+  String get workbenchContinueSession => '继续';
+
+  @override
+  String get workbenchContinuingSession => '正在继续…';
+
+  @override
   String get workbenchStateAnswered => 'Answered';
 
   @override
@@ -2450,6 +2462,18 @@ class AppLocalizationsZh extends AppLocalizations {
 /// The translations for Chinese, as used in China (`zh_CN`).
 class AppLocalizationsZhCn extends AppLocalizationsZh {
   AppLocalizationsZhCn() : super('zh_CN');
+
+  @override
+  String get workbenchContinueUnconfirmed => '继续状态尚未确认，请稍后重试。';
+
+  @override
+  String get workbenchContinueExpired => '继续请求已过期，请核对会话后重试。';
+
+  @override
+  String get workbenchContinueSession => '继续';
+
+  @override
+  String get workbenchContinuingSession => '正在继续…';
 
   @override
   String get workbenchStateAnswered => '已回答';

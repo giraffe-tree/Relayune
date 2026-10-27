@@ -9,6 +9,20 @@ class AppLocalizationsUr extends AppLocalizations {
   AppLocalizationsUr([String locale = 'ur']) : super(locale);
 
   @override
+  String get workbenchContinueUnconfirmed =>
+      'جاری رکھنے کی ابھی تصدیق نہیں ہوئی۔ کچھ دیر بعد دوبارہ کوشش کریں۔';
+
+  @override
+  String get workbenchContinueExpired =>
+      'جاری رکھنے کی درخواست کی میعاد ختم ہو گئی ہے۔ دوبارہ کوشش سے پہلے سیشن دیکھیں۔';
+
+  @override
+  String get workbenchContinueSession => 'جاری رکھیں';
+
+  @override
+  String get workbenchContinuingSession => 'جاری رکھا جا رہا ہے…';
+
+  @override
   String get workbenchStateAnswered => 'جواب دے دیا گیا';
 
   @override

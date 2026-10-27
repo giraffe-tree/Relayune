@@ -1033,7 +1033,7 @@ test('native turn failure forwards the error through the same terminal contract'
   await adapter.handleNotification({ method: 'turn/completed', params: { threadId: 'thread',
     turn: { id: 'turn', status: 'failed', error: { message: 'stream disconnected before completion' } } } });
   assert.deepEqual(events, [{ kind: 'turn.failed', turn_id: 'turn', status: 'failed',
-    error: 'stream disconnected before completion' }]);
+    continue_turn_id: null, error: 'stream disconnected before completion' }]);
   assert.equal(adapter.activeTurns.has('thread'), false);
   assert.equal(adapter.liveTurns.has('thread'), false);
 });

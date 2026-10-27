@@ -9,6 +9,20 @@ class AppLocalizationsBn extends AppLocalizations {
   AppLocalizationsBn([String locale = 'bn']) : super(locale);
 
   @override
+  String get workbenchContinueUnconfirmed =>
+      'চালিয়ে যাওয়া এখনও নিশ্চিত হয়নি। কিছুক্ষণ পরে আবার চেষ্টা করুন।';
+
+  @override
+  String get workbenchContinueExpired =>
+      'চালিয়ে যাওয়ার অনুরোধের মেয়াদ শেষ হয়েছে। আবার চেষ্টা করার আগে সেশনটি পরীক্ষা করুন।';
+
+  @override
+  String get workbenchContinueSession => 'চালিয়ে যান';
+
+  @override
+  String get workbenchContinuingSession => 'চালিয়ে যাওয়া হচ্ছে…';
+
+  @override
   String get workbenchStateAnswered => 'উত্তর দেওয়া হয়েছে';
 
   @override

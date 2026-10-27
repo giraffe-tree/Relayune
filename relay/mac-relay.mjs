@@ -1609,6 +1609,25 @@ export class MacRelay {
     await this.outbox.markProcessedRequest(command.request_id);
     this.acknowledgeCommand(command, "accepted");
     try {
+      const action = command.payload?.action ?? "message";
+      if (!["message", "continue"].includes(action)) throw new Error("Invalid message action.");
+      const continuation = action === "continue";
+      if (continuation) {
+        if (command.payload.content !== "" ||
+            (command.payload.attachments !== undefined &&
+              (!Array.isArray(command.payload.attachments) || command.payload.attachments.length !== 0)) ||
+            command.payload.runtime_settings !== undefined || command.payload.interrupt_running === true ||
+            typeof command.payload.expected_turn_id !== "string" || !command.payload.expected_turn_id) {
+          throw new Error("Invalid Codex continuation.");
+        }
+        // Exact routing also covers an opened session outside the recent catalog.
+        const supported = typeof this.adapter.providerForSession === "function"
+          ? await this.adapter.providerForSession(command.session_id) === "codex"
+          : this.adapter.supportsContinuation === true;
+        if (!supported) {
+          throw new Error("This agent does not support Codex continuation.");
+        }
+      }
       const attachments = normalizeUploadedAttachments(
         command.payload?.attachments,
       );
@@ -1632,7 +1651,7 @@ export class MacRelay {
           )}/attachments/${encodeURIComponent(attachment.id)}`,
         };
       });
-      await this.emitEvent(
+      if (!continuation) await this.emitEvent(
         command.session_id,
         {
           kind: "user.message",
@@ -1653,7 +1672,12 @@ export class MacRelay {
         runtimeSettings: command.payload.runtime_settings,
         content: command.payload?.content ?? "",
         attachments,
+        ...(continuation ? { action, expectedTurnId: command.payload.expected_turn_id } : {}),
       });
+      if (continuation && (result?.action !== "continue" || result.accepted !== true ||
+          typeof result.turnId !== "string" || !result.turnId)) {
+        throw new Error("Codex continuation acceptance could not be confirmed.");
+      }
       await this.emitEvent(command.session_id, {
         kind: "codex.persisted",
         operation: "turn",
@@ -1664,11 +1688,14 @@ export class MacRelay {
         queued_submission_id: result?.queuedSubmissionId ?? null,
         persisted: result?.persisted !== false,
         verified_at: result?.syncVerifiedAt ?? new Date().toISOString(),
+        ...(continuation ? { action, accepted: result?.accepted === true,
+          persisted: false } : {}),
       });
       await this.syncSessionCatalog();
     } catch (error) {
       await this.emitEvent(command.session_id, {
-        kind: command.payload?.interrupt_running === true ? "message.failed" : "turn.failed",
+        kind: command.payload?.action === "continue" || command.payload?.interrupt_running === true ? "message.failed" : "turn.failed",
+        ...(command.payload?.action === "continue" ? { action: "continue" } : {}),
         client_message_id: command.payload?.client_message_id ?? command.request_id,
         request_id: command.request_id,
         error: error instanceof Error ? error.message : "Codex adapter failed.",

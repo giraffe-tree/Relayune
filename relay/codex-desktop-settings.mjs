@@ -8,6 +8,7 @@ import { homedir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { randomUUID } from 'node:crypto';
 import { makeDesktopStatePool } from './codex-desktop-state.mjs';
+import { canContinueCodexTurn } from './codex-continuation.mjs';
 
 // Large native snapshots include full tool history. Bound allocation while
 // copying each incoming byte once instead of repeatedly concatenating history.
@@ -62,6 +63,17 @@ function desktopControlRuntimeType(state) {
   return turns.some(turn => turn.status === 'inProgress') ? type : 'idle';
 }
 
+function validateDesktopContinuation(state, message) {
+  if (message?.turnTrigger !== 'resume_interrupted_task') return;
+  const turns = nativeSnapshotTurns(state);
+  const latest = turns.findLast(turn => turn.turnId ?? turn.id);
+  if (desktopControlRuntimeType(state) !== 'idle' ||
+      !message.expectedTurnId || (latest?.turnId ?? latest?.id) !== message.expectedTurnId ||
+      !canContinueCodexTurn(latest) || (state.requests ?? []).length > 0) {
+    throw new Error('Codex continuation is no longer available; refresh the session.');
+  }
+}
+
 // Codex Desktop native IPC (host-scoped request versions). No general RPC proxy.
 // Snapshots stay transient; question replies are checked against native items.
 export async function desktopInterruptTurn(sessionId, options = {}) {
@@ -77,6 +89,13 @@ export async function desktopInterruptTurn(sessionId, options = {}) {
   throw new Error('Codex stop could not be confirmed; new message was not sent.');
 }
 export function desktopStartMessage(sessionId, message, options = {}) {
+  if (message?.turnTrigger !== undefined &&
+      (message.turnTrigger !== 'resume_interrupted_task' ||
+       typeof message.expectedTurnId !== 'string' || !message.expectedTurnId ||
+       !Array.isArray(message.input) || message.input.length !== 0 ||
+       message.runtimeSettings !== undefined)) {
+    throw new Error('Invalid Codex continuation.');
+  }
   const runtime = message?.runtimeSettings;
   if (runtime !== undefined && (!runtime || typeof runtime !== 'object' || Array.isArray(runtime) ||
       Object.keys(runtime).some(key => !['model', 'effort', 'permissions'].includes(key)) ||
@@ -121,7 +140,8 @@ export async function desktopPermissions(sessionId, settings, {
   ...operation
 } = {}) {
   if (!/^[0-9a-f-]{36}$/i.test(sessionId)) throw new Error('Invalid Codex thread id.');
-  const fresh = settings || operation.ownershipOnly || operation.questionReply || operation.approvalReply;
+  const fresh = settings || operation.ownershipOnly || operation.questionReply || operation.approvalReply ||
+    operation.startSubmission?.turnTrigger === 'resume_interrupted_task';
   if (fresh) {
     // Authority-sensitive actions always validate a new native snapshot. Also
     // discard old live state: a successful mutation must not reuse old settings.
@@ -164,6 +184,7 @@ export async function desktopPermissions(sessionId, settings, {
       if (type === 'active') throw new Error('Codex is still running; new message was not sent.');
       if (type !== 'idle') throw new Error('无法确认 Codex 电脑端权限，请刷新会话后重试。');
       const message = operation.startSubmission;
+      validateDesktopContinuation(state, message);
       const { permissions: permissionMode, ...runtime } = message.runtimeSettings ?? {};
       const permissions = pickPermissions(state.latestThreadSettings);
       if (permissionMode && (!permissions || !state.cwd)) throw new Error('无法确认 Codex 电脑端权限，请刷新会话后重试。');
@@ -173,7 +194,9 @@ export async function desktopPermissions(sessionId, settings, {
         model: runtime.model, ...(runtime.effort ? { reasoning_effort: runtime.effort } : {}) } } : null;
       const response = await connection.request('thread-follower-start-turn', {
         conversationId: sessionId, turnStart: { request: { threadId: sessionId, input: message.input,
-          clientUserMessageId: message.clientMessageId, ...runtime, ...permissionOverrides, ...(collaborationMode ? { collaborationMode } : {}) },
+          clientUserMessageId: message.clientMessageId,
+          ...(message.turnTrigger ? { turnTrigger: message.turnTrigger } : {}),
+          ...runtime, ...permissionOverrides, ...(collaborationMode ? { collaborationMode } : {}) },
           context: { inheritThreadSettings: true } },
       }, 3, connection.ownerId);
       const turnId = response.result?.result?.turn?.id;
@@ -331,6 +354,12 @@ async function desktopPermissionsFresh(sessionId, settings, {
           }
           if (submission || startSubmission) {
             const type = desktopControlRuntimeType(state);
+            try { validateDesktopContinuation(state, startSubmission); }
+            catch (error) {
+              snapshotWaiter?.reject(error);
+              snapshotWaiter = null;
+              continue;
+            }
             if (['active', 'idle'].includes(type)) snapshotWaiter?.resolve({
               running: type === 'active', cwd: state.cwd,
               ...(startSubmission?.runtimeSettings?.permissions ? { permissions: pickPermissions(state.latestThreadSettings) } : {}),
@@ -403,6 +432,7 @@ async function desktopPermissionsFresh(sessionId, settings, {
         turnStart: {
           request: { threadId: sessionId, input: startSubmission.input,
             clientUserMessageId: startSubmission.clientMessageId,
+            ...(startSubmission.turnTrigger ? { turnTrigger: startSubmission.turnTrigger } : {}),
             ...runtime, ...permissionOverrides, ...(collaborationMode ? { collaborationMode } : {}) },
           context: { inheritThreadSettings: true },
         },

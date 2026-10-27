@@ -1,4 +1,8 @@
 {
+  "workbenchContinueUnconfirmed": "جاری رکھنے کی ابھی تصدیق نہیں ہوئی۔ کچھ دیر بعد دوبارہ کوشش کریں۔",
+  "workbenchContinueExpired": "جاری رکھنے کی درخواست کی میعاد ختم ہو گئی ہے۔ دوبارہ کوشش سے پہلے سیشن دیکھیں۔",
+  "workbenchContinueSession": "جاری رکھیں",
+  "workbenchContinuingSession": "جاری رکھا جا رہا ہے…",
   "workbenchStateAnswered": "جواب دے دیا گیا",
   "workbenchTurnIncomplete": "یہ کوشش مکمل نہیں ہوئی",
   "controllerQueueUnconfirmed": "پیغام کی کارروائی کی حالت کی تصدیق نہیں ہوئی۔ گفتگو ریفریش کریں۔",

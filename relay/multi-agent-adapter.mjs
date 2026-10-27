@@ -257,6 +257,8 @@ export class MultiAgentAdapter {
 
   async submitMessage(options) {
     const provider = await this.providerForSession(options.sessionId);
+    if (options.action === 'continue' && provider !== 'codex')
+      throw new Error('Task continuation is only supported for Codex.');
     return this.adapters.get(provider).submitMessage(options);
   }
 

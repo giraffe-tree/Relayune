@@ -15,6 +15,156 @@ import 'package:relayune_mobile/src/ui/workbench_screen.dart';
 import '../support/workbench_fixture.dart';
 
 void main() {
+  test('continue metadata requires an explicit capability and valid turn id', () {
+    expect(_continuableSession().supportsContinue, isTrue);
+    expect(_continuableSession().continueTurnId, 'interrupted-turn');
+    for (final value in [null, '', '  ', 3, true]) {
+      expect(
+        _continuableSession({'continue_turn_id': value}).continueTurnId,
+        isNull,
+      );
+    }
+    for (final value in [null, true, [], {'continue_supported': 'true'}]) {
+      expect(
+        _continuableSession({'capabilities': value}).supportsContinue,
+        isFalse,
+      );
+    }
+  });
+
+  testWidgets('interrupted Codex continues from the send position without a chat bubble', (tester) async {
+    final capture = _ContinueComposerController();
+    final controller = workbenchController(
+      baseController: capture,
+      sessions: [_continuableSession()],
+    );
+    addTearDown(controller.dispose);
+    controller.messages['root'] = [
+      const RelayMessage(
+        id: 'continue-marker', role: 'system', content: 'HIDDEN_CONTINUE_MARKER',
+        createdAt: '2026-10-27T10:00:00Z', kind: 'local.user.action',
+      ),
+      const RelayMessage(
+        id: 'answer', role: 'codex', content: 'Visible interrupted answer',
+        createdAt: '2026-10-27T09:59:00Z', kind: 'message.completed',
+        turnId: 'interrupted-turn', turnStatus: 'interrupted',
+      ),
+    ];
+    await pumpWorkbench(tester, controller);
+    final send = find.byKey(const ValueKey('composer-send-button'));
+    expect(find.byTooltip('继续'), findsOneWidget);
+    expect(find.byKey(const ValueKey('composer-continue-icon')), findsOneWidget);
+    expect(find.text('HIDDEN_CONTINUE_MARKER'), findsNothing);
+    expect(find.text('Visible interrupted answer'), findsOneWidget);
+    await tester.tap(send);
+    await tester.pump();
+    expect(capture.continued, ['root']);
+    expect(find.byTooltip('正在继续…'), findsOneWidget);
+    expect(find.byKey(const ValueKey('composer-send-progress')), findsOneWidget);
+    await tester.tap(send);
+    await tester.pump();
+    expect(capture.continued, ['root']);
+    expect(_composerText(tester), isEmpty);
+    expect(capture.sent, isEmpty);
+    capture.result.complete(MessageSendOutcome.failed);
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(find.byTooltip('继续'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('typing in an interrupted session sends text and clearing restores continue', (tester) async {
+    final capture = _ContinueComposerController();
+    final controller = workbenchController(
+      baseController: capture, sessions: [_continuableSession()],
+    );
+    addTearDown(controller.dispose);
+    await pumpWorkbench(tester, controller);
+    final input = find.byKey(const ValueKey('conversation-composer-input'));
+    await tester.enterText(input, 'A different instruction');
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(find.byTooltip('继续'), findsNothing);
+    expect(find.byKey(const ValueKey('composer-send-icon-enabled')), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('composer-send-button')));
+    await tester.pump();
+    expect(capture.sent, ['A different instruction']);
+    expect(capture.continued, isEmpty);
+    expect(find.byTooltip('继续'), findsOneWidget);
+  });
+
+  testWidgets('an attachment keeps normal send instead of continuing', (tester) async {
+    final capture = _ContinueComposerController();
+    final controller = workbenchController(
+      baseController: capture, sessions: [_continuableSession()],
+    );
+    addTearDown(controller.dispose);
+    final drafts = SessionComposerDraftStore();
+    drafts.forSession('root').replaceAttachments([_attachment()]);
+    await _pumpWorkbench(tester, controller, draftStore: drafts);
+    await tester.pump(const Duration(milliseconds: 200));
+    expect(find.byTooltip('继续'), findsNothing);
+    expect(find.byKey(const ValueKey('composer-send-icon-enabled')), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('composer-send-button')));
+    await tester.pump();
+    expect(capture.sentAttachments.single, hasLength(1));
+    expect(capture.continued, isEmpty);
+  });
+
+  for (final state in ['idle', 'unsupported', 'missing-turn', 'offline', 'read-only', 'running', 'subagent', 'pending-message']) {
+    testWidgets('$state session does not expose a continue action', (tester) async {
+      final session = _continuableSession({
+        if (state == 'idle' || state == 'missing-turn') 'continue_turn_id': null,
+        if (state == 'unsupported') 'capabilities': {},
+        if (state == 'subagent') 'is_subagent': true,
+      });
+      final controller = workbenchController(
+        sessions: [session], online: state != 'offline',
+      );
+      // The fixture selects only top-level sessions; exercise a read-only child directly.
+      if (state == 'subagent') controller.activeSessionId = session.id;
+      if (state == 'read-only') controller.localReadOnly = true;
+      if (state == 'running') controller.runningSessions.add(session.id);
+      if (state == 'pending-message') {
+        controller.messages[session.id] = [
+          const RelayMessage(
+            id: 'pending-message', role: 'user', content: 'Sending instruction',
+            createdAt: '2026-10-27T10:00:00Z', kind: 'local.user.message',
+            clientMessageId: 'pending-message',
+            deliveryState: MessageDeliveryState.sending,
+          ),
+        ];
+      }
+      addTearDown(controller.dispose);
+      await pumpWorkbench(tester, controller);
+      expect(find.byTooltip('继续'), findsNothing);
+      expect(find.byKey(const ValueKey('composer-continue-icon')), findsNothing);
+    });
+  }
+
+  for (final type in ['command.execute', 'question.select']) {
+    testWidgets('a pending $type blocks continue in an interrupted session', (tester) async {
+      final now = DateTime.now();
+      final controller = workbenchController(
+        sessions: [_continuableSession()],
+        approvals: [
+          RelayApproval(
+            id: 'pending', sessionId: 'root', turnId: 'interrupted-turn',
+            action: {'type': type, 'display': 'Awaiting your decision'},
+            riskLevel: 'medium', state: 'pending',
+            requestedAt: now.toIso8601String(),
+            expiresAt: now.add(const Duration(minutes: 5)).toIso8601String(),
+          ),
+        ],
+      );
+      addTearDown(controller.dispose);
+      await pumpWorkbench(tester, controller);
+      expect(find.byTooltip('继续'), findsNothing);
+      expect(find.byKey(const ValueKey('composer-continue-icon')), findsNothing);
+      expect(tester.takeException(), isNull);
+    });
+  }
+
   testWidgets('MiniMax Code beta accepts text but disables image input', (tester) async {
     final controller = workbenchController(sessions: [relaySession(provider: 'mcode')]);
     addTearDown(controller.dispose);
@@ -1451,5 +1601,50 @@ class _PendingComposerSendController extends AppController {
   }) {
     calls += 1;
     return result.future;
+  }
+}
+
+RelaySession _continuableSession([Map<String, dynamic> overrides = const {}]) =>
+    RelaySession.fromJson({
+      ...relaySession().raw,
+      'status': 'idle',
+      'continue_turn_id': 'interrupted-turn',
+      'capabilities': {'continue_supported': true},
+      ...overrides,
+    });
+
+class _ContinueComposerController extends AppController {
+  final continued = <String>[];
+  final sent = <String>[];
+  final sentAttachments = <List<UploadAttachment>>[];
+  final result = Completer<MessageSendOutcome>();
+  bool pending = false;
+
+  @override
+  bool isContinuingSession(String? sessionId) =>
+      sessionId == 'root' && pending;
+
+  @override
+  Future<MessageSendOutcome> continueSession(String sessionId) async {
+    if (pending) return MessageSendOutcome.failed;
+    continued.add(sessionId);
+    pending = true;
+    notifyListeners();
+    try {
+      return await result.future;
+    } finally {
+      pending = false;
+      notifyListeners();
+    }
+  }
+
+  @override
+  Future<MessageSendOutcome> sendMessage(
+    String content, {
+    List<UploadAttachment> attachments = const [],
+  }) async {
+    sent.add(content);
+    sentAttachments.add([...attachments]);
+    return MessageSendOutcome.delivered;
   }
 }

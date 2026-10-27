@@ -1,4 +1,8 @@
 {
+  "workbenchContinueUnconfirmed": "Kelanjutan belum dikonfirmasi. Coba lagi sebentar lagi.",
+  "workbenchContinueExpired": "Permintaan untuk melanjutkan telah kedaluwarsa. Periksa sesi sebelum mencoba lagi.",
+  "workbenchContinueSession": "Lanjutkan",
+  "workbenchContinuingSession": "Melanjutkan…",
   "workbenchStateAnswered": "Sudah dijawab",
   "workbenchTurnIncomplete": "Proses ini belum selesai",
   "controllerQueueUnconfirmed": "Status pemrosesan pesan belum dikonfirmasi. Muat ulang percakapan.",

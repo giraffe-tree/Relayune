@@ -1908,11 +1908,20 @@ class _ConversationPageState extends State<ConversationPage> {
               (session?.supportsSteering ?? false) ||
               (session?.supportsInterruptAndSend ?? false),
           stopping: controller.isStoppingSession(session?.id),
+          canContinue: controller.canContinueSession(session),
+          continuing: controller.isContinuingSession(session?.id),
           pickingAttachments: _pickingAttachments,
           sending:
-              _sending || controller.configuringSessions.contains(session?.id),
+              _sending ||
+              controller.configuringSessions.contains(session?.id) ||
+              controller.isContinuingSession(session?.id),
           onStop: controller.interruptTurn,
           onSend: _send,
+          onContinue: () {
+            if (session != null) {
+              unawaited(controller.continueSession(session.id));
+            }
+          },
           onAttachment: _requestAttachment,
           onRemoveAttachment: (attachment) => setState(() {
             _pendingAttachments.removeWhere((item) => item.id == attachment.id);
@@ -3386,9 +3395,12 @@ class _Composer extends StatefulWidget {
     required this.canInterrupt,
     required this.canSteer,
     required this.stopping,
+    required this.canContinue,
+    required this.continuing,
     required this.pickingAttachments,
     required this.sending,
     required this.onSend,
+    required this.onContinue,
     required this.onStop,
     required this.onAttachment,
     required this.onRemoveAttachment,
@@ -3404,9 +3416,12 @@ class _Composer extends StatefulWidget {
   final bool canInterrupt;
   final bool canSteer;
   final bool stopping;
+  final bool canContinue;
+  final bool continuing;
   final bool pickingAttachments;
   final bool sending;
   final VoidCallback onSend;
+  final VoidCallback onContinue;
   final VoidCallback onStop;
   final VoidCallback onAttachment;
   final ValueChanged<UploadAttachment> onRemoveAttachment;
@@ -3458,6 +3473,8 @@ class _ComposerState extends State<_Composer> {
     final hasContent =
         widget.controller.text.trim().isNotEmpty ||
         widget.attachments.isNotEmpty;
+    final showContinue =
+        !hasContent && (widget.canContinue || widget.continuing);
     final input = KeyedSubtree(
       key: _inputKey,
       child: TextField(
@@ -3577,7 +3594,8 @@ class _ComposerState extends State<_Composer> {
                               !widget.sending &&
                               !widget.pickingAttachments &&
                               (value.text.trim().isNotEmpty ||
-                                  widget.attachments.isNotEmpty),
+                                  widget.attachments.isNotEmpty ||
+                                  widget.canContinue),
                           interactive:
                               canCompose &&
                               (!widget.running || widget.canSteer) &&
@@ -3585,7 +3603,11 @@ class _ComposerState extends State<_Composer> {
                               !widget.sending &&
                               !widget.pickingAttachments,
                           sending: widget.sending,
-                          onPressed: widget.onSend,
+                          continuing: widget.continuing,
+                          continueAction: showContinue,
+                          onPressed: showContinue
+                              ? widget.onContinue
+                              : widget.onSend,
                         ),
                       ),
                     if (showStop && widget.canSteer && hasContent)
@@ -3775,12 +3797,16 @@ class _ComposerSendButton extends StatelessWidget {
     required this.enabled,
     required this.interactive,
     required this.sending,
+    required this.continuing,
+    required this.continueAction,
     required this.onPressed,
   });
 
   final bool enabled;
   final bool interactive;
   final bool sending;
+  final bool continuing;
+  final bool continueAction;
   final VoidCallback onPressed;
 
   static const _arrowSvg = '''
@@ -3801,16 +3827,19 @@ class _ComposerSendButton extends StatelessWidget {
         ? RelayTheme.greenStrong
         : const Color(0xFF252525);
     final foreground = enabled ? const Color(0xFF102419) : RelayTheme.muted;
+    final label = continuing
+        ? context.l10n.workbenchContinuingSession
+        : continueAction
+        ? context.l10n.workbenchContinueSession
+        : sending
+        ? context.l10n.workbenchSending
+        : context.l10n.workbenchSend;
     return Semantics(
       button: true,
       enabled: enabled,
-      label: sending
-          ? context.l10n.workbenchSending
-          : context.l10n.workbenchSend,
+      label: label,
       child: Tooltip(
-        message: sending
-            ? context.l10n.workbenchSending
-            : context.l10n.workbenchSend,
+        message: label,
         child: AnimatedContainer(
           key: const ValueKey('composer-send-button'),
           duration: duration,
@@ -3850,6 +3879,13 @@ class _ComposerSendButton extends StatelessWidget {
                             strokeWidth: 2.2,
                             color: RelayTheme.greenStrong,
                           ),
+                        )
+                      : continueAction
+                      ? Icon(
+                          Icons.play_arrow_rounded,
+                          key: const ValueKey('composer-continue-icon'),
+                          size: 28,
+                          color: foreground,
                         )
                       : SvgPicture.string(
                           _arrowSvg,
@@ -3899,6 +3935,8 @@ List<_ConversationGroup> _groupMessagesByTurn(List<RelayMessage> messages) {
   final buffers = <_ConversationGroupBuffer>[];
   final indices = <String, int>{};
   for (final message in messages) {
+    // Local commands retain their delivery state without becoming chat bubbles.
+    if (message.kind == 'local.user.action') continue;
     final key = message.turnId == null
         ? 'message:${message.id}'
         : 'turn:${message.turnId}';

@@ -575,6 +575,10 @@ class AppController extends ChangeNotifier {
 
   Future<void> _invalidateHistoryCache() async {
     _historyCacheDisabled = true;
+    for (final receipt in _continueReceipts.values) {
+      if (!receipt.isCompleted) receipt.complete(false);
+    }
+    _continueFrames.clear();
     _clearAttachmentCache();
     _historyCacheEpoch++;
     _historyLoadProgress.clear();
@@ -1356,6 +1360,33 @@ class AppController extends ChangeNotifier {
   final Map<String, DateTime> _idleTurnObservedAt = {};
   final Map<String, String> _codexQueueStatuses = {};
   final Map<String, String> _pendingUserMessages = {};
+  final Set<String> _continuingSessions = {};
+  final Map<String, Completer<bool>> _continueReceipts = {};
+  final Map<String, Map<String, dynamic>> _continueFrames = {};
+
+  bool isContinuingSession(String? sessionId) =>
+      _continuingSessions.contains(sessionId);
+
+  bool canContinueSession(RelaySession? session) =>
+      session != null &&
+      session.supportsContinue &&
+      session.continueTurnId != null &&
+      phase == AppPhase.ready &&
+      !localReadOnly &&
+      deviceOnline &&
+      !session.isSubagent &&
+      !runningSessions.contains(session.id) &&
+      !isStoppingSession(session.id) &&
+      !isContinuingSession(session.id) &&
+      !configuringSessions.contains(session.id) &&
+      !approvalsForSession(
+        session.id,
+      ).any((a) => approvalIsPending(a) || a.state == 'deciding') &&
+      !(messages[session.id] ?? const <RelayMessage>[]).any(
+        (m) =>
+            m.kind == 'local.user.message' &&
+            m.deliveryState != MessageDeliveryState.failed,
+      );
   final Map<
     String,
     ({
@@ -1613,7 +1644,10 @@ class AppController extends ChangeNotifier {
           _pendingHistorySessions.contains(id) ||
           _historyCacheTimers.containsKey(id) ||
           _pendingUserMessages.containsKey(id) ||
-          items.any((m) => m.kind == 'local.user.message') ||
+          items.any(
+            (m) =>
+                m.kind == 'local.user.message' || m.kind == 'local.user.action',
+          ) ||
           known == null ||
           items.any((m) => !identical(known[m.id], m))) {
         continue;
@@ -4422,11 +4456,28 @@ class AppController extends ChangeNotifier {
   Future<MessageSendOutcome> sendMessage(
     String content, {
     List<UploadAttachment> attachments = const [],
+  }) => _submitMessage(content, attachments: attachments);
+
+  Future<MessageSendOutcome> continueSession(String sessionId) {
+    final session = activeSession;
+    if (session?.id != sessionId || !canContinueSession(session)) {
+      return Future.value(MessageSendOutcome.rejected);
+    }
+    return _submitMessage('', continueTurnId: session!.continueTurnId);
+  }
+
+  Future<MessageSendOutcome> _submitMessage(
+    String content, {
+    List<UploadAttachment> attachments = const [],
+    String? continueTurnId,
   }) async {
     final session = activeSession;
     final text = content.trim();
+    final continuation = continueTurnId != null;
     if (session == null ||
-        (text.isEmpty && attachments.isEmpty) ||
+        (continuation
+            ? !canContinueSession(session)
+            : (text.isEmpty && attachments.isEmpty)) ||
         session.isSubagent ||
         configuringSessions.contains(session.id) ||
         isStoppingSession(session.id)) {
@@ -4476,7 +4527,9 @@ class AppController extends ChangeNotifier {
         bootstrap?.device.id == authorizationDevice &&
         _historyCacheEpoch == authorizationEpoch;
     // Freeze the settings with this message, including transport retries.
-    final selectedSettings = _codexMessageSettings[session.id];
+    final selectedSettings = continuation
+        ? null
+        : _codexMessageSettings[session.id];
     final runtimeSettings = <String, String>{
       if (supportsMessageModelSettings(session)) ...{
         if (selectedSettings?['model'] case final String model) 'model': model,
@@ -4487,71 +4540,166 @@ class AppController extends ChangeNotifier {
           selectedSettings?['permissions'] != null)
         'permissions': selectedSettings!['permissions']!,
     };
-    final clientMessageId = _randomId('msg');
-    _upsertMessage(
-      session.id,
-      RelayMessage(
-        id: 'local_$clientMessageId',
-        role: 'user',
-        content: text,
-        createdAt: DateTime.now().toUtc().toIso8601String(),
-        kind: 'local.user.message',
-        clientMessageId: clientMessageId,
-        deliveryState: MessageDeliveryState.sending,
-        attachments: attachments
-            .map(
-              (attachment) => RelayAttachment(
-                id: attachment.id,
-                type: 'image',
-                name: attachment.name,
-                mimeType: attachment.mimeType,
-                url: '',
-                localBytes: attachment.bytes,
-                thumbnailBytes: attachment.thumbnailBytes,
-              ),
-            )
-            .toList(growable: false),
-      ),
-    );
+    final previousAction = continuation
+        ? (messages[session.id] ?? const <RelayMessage>[])
+              .where(
+                (m) =>
+                    m.kind == 'local.user.action' && m.turnId == continueTurnId,
+              )
+              .lastOrNull
+        : null;
+    final clientMessageId = previousAction?.clientMessageId ?? _randomId('msg');
+    if (continuation) {
+      _continuingSessions.add(session.id);
+      _continueReceipts[clientMessageId] = Completer<bool>();
+    }
+    if (previousAction == null) {
+      _upsertMessage(
+        session.id,
+        RelayMessage(
+          id: 'local_$clientMessageId',
+          role: continuation ? 'system' : 'user',
+          content: text,
+          createdAt: DateTime.now().toUtc().toIso8601String(),
+          kind: continuation ? 'local.user.action' : 'local.user.message',
+          turnId: continueTurnId,
+          clientMessageId: clientMessageId,
+          deliveryState: MessageDeliveryState.sending,
+          attachments: attachments
+              .map(
+                (attachment) => RelayAttachment(
+                  id: attachment.id,
+                  type: 'image',
+                  name: attachment.name,
+                  mimeType: attachment.mimeType,
+                  url: '',
+                  localBytes: attachment.bytes,
+                  thumbnailBytes: attachment.thumbnailBytes,
+                ),
+              )
+              .toList(growable: false),
+        ),
+      );
+    }
     _notify();
     try {
       final optimistic = messages[session.id]!.firstWhere(
         (m) => m.clientMessageId == clientMessageId,
       );
-      if (email.isNotEmpty) {
+      if (email.isNotEmpty && previousAction == null) {
         await _persistPendingInput(session.id, optimistic, {});
       }
       if (!currentAuthorization()) {
         throw const RelayApiException('', 0, 'request_cancelled');
       }
-      final result = await _sendEncryptedCommand(
-        'session.submit_message',
-        session.id,
-        {
-          'content': text,
-          'interrupt_running': session.supportsInterruptAndSend,
-          if (runtimeSettings.isNotEmpty) 'runtime_settings': runtimeSettings,
-          'client_message_id': clientMessageId,
-          'attachments': attachments
-              .map(
-                (attachment) => {
-                  'id': attachment.id,
-                  'type': 'image',
-                  'name': attachment.name,
-                  'mime_type': attachment.mimeType,
-                  'detail': attachment.detail,
-                  'base64': base64Encode(attachment.bytes),
-                },
-              )
-              .toList(growable: false),
-        },
-        ttl: const Duration(minutes: 5),
-        persistSealed: email.isEmpty
-            ? null
-            : (frame) => _persistPendingInput(session.id, optimistic, frame),
-      );
+      Map<String, dynamic>? previousFrame = _continueFrames[clientMessageId];
+      if (continuation &&
+          previousAction != null &&
+          previousFrame == null &&
+          _historyCacheKey != null) {
+        final pending = await _historyStore.readPending(
+          _historyCacheKey!,
+          session.id,
+        );
+        final entry = pending
+            .where(
+              (p) =>
+                  (p['message'] as Map?)?['client_message_id'] ==
+                  clientMessageId,
+            )
+            .firstOrNull;
+        if (entry?['frame'] is Map && (entry!['frame'] as Map).isNotEmpty) {
+          previousFrame = jsonMap(entry['frame']);
+          _continueFrames[clientMessageId] = previousFrame;
+        }
+      }
+      if (previousFrame != null &&
+          DateTime.tryParse(
+                jsonMap(previousFrame['aad'])['expires_at'] as String? ?? '',
+              )?.isAfter(DateTime.now().toUtc()) !=
+              true) {
+        _settleContinuation(session.id, clientMessageId, false);
+        error = _l10n.workbenchContinueExpired;
+        return MessageSendOutcome.rejected;
+      }
       if (!currentAuthorization()) {
         throw const RelayApiException('', 0, 'request_cancelled');
+      }
+      if (previousFrame != null && email.isNotEmpty) {
+        // A preceding attempt can fail while saving its sealed frame. Every
+        // explicit retry must durably save that same frame before transport.
+        await _persistPendingInput(session.id, optimistic, previousFrame);
+        if (!currentAuthorization()) {
+          throw const RelayApiException('', 0, 'request_cancelled');
+        }
+      }
+      final result = previousFrame != null
+          ? await _sendSealedFrame(previousFrame)
+          : await _sendEncryptedCommand(
+              'session.submit_message',
+              session.id,
+              {
+                'content': text,
+                if (continuation) ...{
+                  'action': 'continue',
+                  'expected_turn_id': continueTurnId,
+                } else ...{
+                  'interrupt_running': session.supportsInterruptAndSend,
+                  if (runtimeSettings.isNotEmpty)
+                    'runtime_settings': runtimeSettings,
+                },
+                'client_message_id': clientMessageId,
+                'attachments': attachments
+                    .map(
+                      (attachment) => {
+                        'id': attachment.id,
+                        'type': 'image',
+                        'name': attachment.name,
+                        'mime_type': attachment.mimeType,
+                        'detail': attachment.detail,
+                        'base64': base64Encode(attachment.bytes),
+                      },
+                    )
+                    .toList(growable: false),
+              },
+              ttl: const Duration(minutes: 5),
+              onSealed: continuation
+                  ? (frame) => _continueFrames[clientMessageId] = frame
+                  : null,
+              persistSealed: email.isEmpty
+                  ? null
+                  : (frame) =>
+                        _persistPendingInput(session.id, optimistic, frame),
+            );
+      if (!currentAuthorization()) {
+        throw const RelayApiException('', 0, 'request_cancelled');
+      }
+      if (continuation) {
+        final receipt = _continueReceipts[clientMessageId];
+        final accepted =
+            receipt != null &&
+            await receipt.future.timeout(
+              const Duration(seconds: 20),
+              onTimeout: () => false,
+            );
+        if (!currentAuthorization()) return MessageSendOutcome.failed;
+        if (accepted) {
+          error = '';
+          return MessageSendOutcome.delivered;
+        }
+        if ((messages[session.id] ?? const <RelayMessage>[]).any(
+          (m) =>
+              m.kind == 'local.user.action' &&
+              m.clientMessageId == clientMessageId,
+        )) {
+          _setMessageDeliveryState(
+            session.id,
+            clientMessageId,
+            MessageDeliveryState.unconfirmed,
+          );
+          error = _l10n.workbenchContinueUnconfirmed;
+        }
+        return MessageSendOutcome.failed;
       }
       _setMessageDeliveryState(
         session.id,
@@ -4589,6 +4737,16 @@ class AppController extends ChangeNotifier {
           ? MessageSendOutcome.queued
           : MessageSendOutcome.delivered;
     } on Object catch (exception) {
+      final continuationReceipt = continuation
+          ? _continueReceipts[clientMessageId]
+          : null;
+      if (continuationReceipt?.isCompleted == true &&
+          currentAuthorization() &&
+          await continuationReceipt!.future) {
+        // Native acceptance outranks a later failure of the transport ACK.
+        error = '';
+        return MessageSendOutcome.delivered;
+      }
       error = _userFailure(exception, _l10n.apiErrorGeneric);
       _setMessageDeliveryState(
         session.id,
@@ -4601,8 +4759,65 @@ class AppController extends ChangeNotifier {
       }
       return MessageSendOutcome.failed;
     } finally {
+      if (continuation) {
+        _continuingSessions.remove(session.id);
+        _continueReceipts.remove(clientMessageId);
+      }
       _notify();
     }
+  }
+
+  void _settleContinuation(String sessionId, String clientId, bool accepted) {
+    messages[sessionId] = [
+      for (final m in messages[sessionId] ?? const <RelayMessage>[])
+        if (!(m.kind == 'local.user.action' && m.clientMessageId == clientId))
+          m,
+    ];
+    _continueFrames.remove(clientId);
+    final receipt = _continueReceipts[clientId];
+    if (receipt != null && !receipt.isCompleted) receipt.complete(accepted);
+    final epoch = _historyCacheEpoch;
+    unawaited(
+      _pendingInputWrites
+          .then((_) async {
+            if (_disposed ||
+                epoch != _historyCacheEpoch ||
+                _historyCacheKey == null) {
+              return;
+            }
+            final key = List<int>.of(_historyCacheKey!);
+            try {
+              await _historyStore.confirmPending(key, sessionId, clientId);
+            } finally {
+              key.fillRange(0, key.length, 0);
+            }
+          })
+          .catchError((Object _) {}),
+    );
+  }
+
+  void _setContinueTurn(String sessionId, String? turnId) {
+    sessions = [
+      for (final s in sessions)
+        if (s.id == sessionId)
+          RelaySession(
+            id: s.id,
+            name: s.name,
+            project: s.project,
+            branch: s.branch,
+            cwd: s.cwd,
+            status: s.status,
+            updatedAt: s.updatedAt,
+            provider: s.provider,
+            isSubagent: s.isSubagent,
+            rootSessionId: s.rootSessionId,
+            supportsSteering: s.supportsSteering,
+            canInterrupt: s.canInterrupt,
+            raw: {...s.raw, 'continue_turn_id': turnId},
+          )
+        else
+          s,
+    ];
   }
 
   bool canInterruptSession(RelaySession? session) {
@@ -7392,6 +7607,7 @@ class AppController extends ChangeNotifier {
         return;
       }
       runningSessions.add(record.sessionId);
+      _setContinueTurn(record.sessionId, null);
       _idleTurnObservedAt.remove(record.sessionId);
       _activeTurns[record.sessionId] = turnId;
       _activeTurnObservedAt[record.sessionId] =
@@ -7419,6 +7635,7 @@ class AppController extends ChangeNotifier {
     if (kind == 'turn.completed' || kind == 'turn.failed') {
       final activeTurnId = _activeTurns[record.sessionId];
       if (activeTurnId != null && activeTurnId != turnId) return;
+      _setContinueTurn(record.sessionId, event['continue_turn_id'] as String?);
       final stop = _stopHaptics[record.sessionId];
       if (kind == 'turn.completed' &&
           event['status'] == 'interrupted' &&
@@ -7488,6 +7705,18 @@ class AppController extends ChangeNotifier {
     }
     if (kind == 'message.failed') {
       final clientId = event['client_message_id'] as String?;
+      if (event['action'] == 'continue' &&
+          clientId != null &&
+          event['request_id'] != null &&
+          (_continueFrames[clientId] == null ||
+              _continueFrames[clientId]!['request_id'] ==
+                  event['request_id']) &&
+          (messages[record.sessionId] ?? const <RelayMessage>[]).any(
+            (m) =>
+                m.kind == 'local.user.action' && m.clientMessageId == clientId,
+          )) {
+        _settleContinuation(record.sessionId, clientId, false);
+      }
       // A rejected submission is terminal only for its own delivery activity.
       // An older failure must not clear a newer send or an active turn.
       if (clientId != null &&
@@ -7770,6 +7999,42 @@ class AppController extends ChangeNotifier {
       return;
     }
     if (kind == 'codex.persisted') {
+      if (event['action'] == 'continue') {
+        final clientId = event['client_message_id'] as String?;
+        final requestId = event['request_id'] as String?;
+        final frame = _continueFrames[clientId];
+        if (event['operation'] == 'turn' &&
+            event['accepted'] == true &&
+            event['turn_id'] is String &&
+            (event['turn_id'] as String).isNotEmpty &&
+            clientId != null &&
+            requestId != null &&
+            (frame == null || frame['request_id'] == requestId) &&
+            (messages[record.sessionId] ?? const <RelayMessage>[]).any(
+              (m) =>
+                  m.kind == 'local.user.action' &&
+                  m.clientMessageId == clientId,
+            )) {
+          final previousTurn = messages[record.sessionId]!
+              .firstWhere(
+                (m) =>
+                    m.kind == 'local.user.action' &&
+                    m.clientMessageId == clientId,
+              )
+              .turnId;
+          _settleContinuation(record.sessionId, clientId, true);
+          // A fast native failure/stop can arrive before this acceptance.
+          // Retire only the old button, preserving any newer terminal turn.
+          if (sessions
+                  .where((s) => s.id == record.sessionId)
+                  .firstOrNull
+                  ?.continueTurnId ==
+              previousTurn) {
+            _setContinueTurn(record.sessionId, null);
+          }
+        }
+        return;
+      }
       // Shared receipt: the pre-interrupt user event may inherit the old turn.
       // Rebind only the matching submission once its actual turn is known.
       final submittedTurn = event['turn_id'] as String?;
@@ -8517,6 +8782,10 @@ class AppController extends ChangeNotifier {
 
   @override
   void dispose() {
+    for (final receipt in _continueReceipts.values) {
+      if (!receipt.isCompleted) receipt.complete(false);
+    }
+    _continueFrames.clear();
     haptics.dispose();
     _historyStore.unpinSession();
     unawaited(
