@@ -1,12 +1,19 @@
 import { open } from 'node:fs/promises';
+import { constants } from 'node:fs';
+import { readRolloutOwner } from './codex-rollout-path.mjs';
 
 // Codex resume otherwise inherits the current global sandbox, even when the
 // previous turn used a narrower one. Read only the last native turn context;
 // never store or return conversation text, credentials, or older settings.
-export async function resumePermissionsFromRollout(path) {
+export async function resumePermissionsFromRollout(path, { sessionId, requirePolicy = false } = {}) {
   if (!path) return {};
-  const file = await open(path, 'r');
+  const file = await open(path, constants.O_RDONLY | (constants.O_NOFOLLOW ?? 0));
   try {
+    if (sessionId) {
+      const owner = await readRolloutOwner(file);
+      if (owner?.id !== sessionId)
+        throw new Error('Codex history source does not match this conversation.');
+    }
     let position = (await file.stat()).size;
     let prefix = Buffer.alloc(0);
     while (position > 0) {
@@ -23,9 +30,15 @@ export async function resumePermissionsFromRollout(path) {
         if (!lines[i].includes('turn_context')) continue;
         let record;
         try { record = JSON.parse(lines[i]); } catch { continue; }
-        if (record.type === 'turn_context') return resumePermissionParams(record.payload);
+        if (record.type === 'turn_context') {
+          const permissions = resumePermissionParams(record.payload);
+          if (requirePolicy && !permissions.sandbox)
+            throw new Error('无法确认此 Codex 会话原有的权限设置，请在 Codex 中打开后重试。');
+          return permissions;
+        }
       }
     }
+    if (requirePolicy) throw new Error('无法确认此 Codex 会话原有的权限设置，请在 Codex 中打开后重试。');
     return {};
   } finally { await file.close(); }
 }

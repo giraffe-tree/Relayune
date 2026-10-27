@@ -2,6 +2,7 @@ import { withThinkingState } from "./turn-thinking.mjs";
 import { CodexAsyncQuestions, trackRolloutQuestions, parseAsyncAnswers } from './codex-async-questions.mjs';
 import { canContinueCodexTurn } from './codex-continuation.mjs';
 import { resumePermissionsFromRollout } from "./codex-resume-permissions.mjs";
+import { findReplacementRollout, isMissingRolloutError } from './codex-rollout-path.mjs';
 import { CodexQueueTracker } from "./codex-queue-tracker.mjs";
 import { CodexRolloutHistoryIndex, rolloutDataUrlSources } from './codex-rollout-history-index.mjs';
 import { normalizeCodexQuota } from "./agent-quota.mjs";
@@ -424,6 +425,7 @@ export class CodexAppServerAdapter {
     this.permissionRefreshAt = new Map();
     this.historyPermissionRefreshes = new Map();
     this.historyPages = new Map();
+    this.recoveredRolloutPaths = new Map();
     this.nativeHistoryAvailable = undefined;
     this.nativeHistorySourceFallbacks = new Map();
     this.rolloutHistoryIndex = new CodexRolloutHistoryIndex({
@@ -942,14 +944,26 @@ export class CodexAppServerAdapter {
     else this.refreshHistoryPermissions(sessionId);
     let rememberedThread = this.threadMetadata.get(sessionId);
     let metadataRead;
+    if (rememberedThread?.path?.endsWith('.jsonl') && !await historyFileFingerprint(rememberedThread.path)) {
+      metadataRead = await this.recoverRolloutThread(sessionId);
+      rememberedThread = this.threadMetadata.get(sessionId);
+    }
     if (!rememberedThread?.path?.endsWith('.jsonl')) {
-      metadataRead = await this.readThreadHistoryWithRetry(sessionId, { includeTurns: false });
+      try { metadataRead = await this.readThreadHistoryWithRetry(sessionId, { includeTurns: false }); }
+      catch (error) {
+        if (!isMissingRolloutError(error)) throw error;
+        metadataRead = await this.recoverRolloutThread(sessionId);
+      }
       if (metadataRead.historyNotMaterialized) return { messages: [], next_cursor: null,
         has_more: false, agents: [], sessions: [] };
       const metadataThread = metadataRead.thread ?? metadataRead;
       if (metadataThread.id !== sessionId) throw new Error('Codex history source does not match this conversation.');
       this.rememberThread(metadataThread, { runtimeRevision });
       rememberedThread = this.threadMetadata.get(sessionId);
+      if (rememberedThread?.path?.endsWith('.jsonl') && !await historyFileFingerprint(rememberedThread.path)) {
+        metadataRead = await this.recoverRolloutThread(sessionId);
+        rememberedThread = this.threadMetadata.get(sessionId);
+      }
     }
     // A large latest page deliberately uses the complete compatibility read.
     // Probing many native pages first can end at an older source without a
@@ -1011,7 +1025,7 @@ export class CodexAppServerAdapter {
           this.nativeHistorySourceFallbacks.set(sessionId, {
             fingerprint: await historyFileFingerprint(rememberedThread.path),
           });
-        } else throw error;
+        } else if (!isMissingRolloutError(error)) throw error;
       }
     }
     const indexedPath = rememberedThread?.path;
@@ -1072,9 +1086,19 @@ export class CodexAppServerAdapter {
           messages => ({ messages }), error => ({ error }),
         ) : null;
     const prefetched = concurrentProviderRead ? await concurrentProviderRead : null;
-    if (prefetched?.error) throw prefetched.error;
-    const result = (metadataRead?.thread ?? metadataRead)?.turns?.length
-      ? metadataRead : prefetched?.value ?? await this.readThreadHistoryWithRetry(sessionId);
+    let result;
+    try {
+      if (prefetched?.error) throw prefetched.error;
+      result = (metadataRead?.thread ?? metadataRead)?.turns?.length
+        ? metadataRead : prefetched?.value ?? await this.readThreadHistoryWithRetry(sessionId);
+    } catch (error) {
+      // Only legacy JSONL explicitly declares that it contains complete history.
+      // Paginated sources can be mere pointers; never claim those are complete.
+      if (!isMissingRolloutError(error) || projection?.sessionId !== sessionId ||
+          !projection.sourceComplete || projection.requiresProvider) throw error;
+      return this.readIndexedHistory({ sessionId, thread: rememberedThread, projection,
+        limit, before, includeAgentDetails, maxBytes });
+    }
     if (result.historyNotMaterialized) {
       // No persisted history exists before the first message. Do not replay
       // empty turn metadata over notifications from a concurrent turn/start.
@@ -1609,6 +1633,66 @@ export class CodexAppServerAdapter {
     throw lastError;
   }
 
+  async recoverRolloutThread(sessionId, { requireFile = false } = {}) {
+    const runtimeRevision = this.threadRuntimeRevisions.get(sessionId) ?? 0;
+    let fresh;
+    try {
+      const result = await this.readThreadHistoryWithRetry(sessionId, { includeTurns: false });
+      fresh = result.thread ?? result;
+      if (fresh.id !== sessionId) throw new Error('Codex history source does not match this conversation.');
+    } catch (error) {
+      if (!isMissingRolloutError(error)) throw error;
+    }
+    const replacement = await findReplacementRollout(this.codexSessionsRoot, sessionId, fresh?.path);
+    if (!replacement) {
+      // Modern provider-backed history may remain available without a JSONL.
+      if (fresh && !requireFile) {
+        this.recoveredRolloutPaths.delete(sessionId);
+        this.rememberThread({ ...fresh, path: fresh.path ?? null }, { runtimeRevision });
+        return { thread: fresh };
+      }
+      throw new Error('找不到此 Codex 会话的历史文件，无法安全恢复。请确认会话仍在原电脑的 Codex 中。');
+    }
+    const thread = { ...this.threadMetadata.get(sessionId), ...fresh, id: sessionId,
+      path: replacement.path, ...(fresh?.cwd ? {} : { cwd: replacement.owner.cwd }) };
+    this.historyPages.delete(sessionId);
+    this.nativeHistorySourceFallbacks.delete(sessionId);
+    if (this.recoveredRolloutPaths.size >= 300)
+      this.recoveredRolloutPaths.delete(this.recoveredRolloutPaths.keys().next().value);
+    this.recoveredRolloutPaths.set(sessionId, replacement.path);
+    this.rememberThread(thread, { runtimeRevision });
+    return { thread };
+  }
+
+  async resumeRolloutParams(sessionId) {
+    const path = this.threadMetadata.get(sessionId)?.path;
+    try {
+      const recovered = path && this.recoveredRolloutPaths.get(sessionId) === path;
+      const permissions = await resumePermissionsFromRollout(path, recovered ? { sessionId, requirePolicy: true } : {});
+      return { ...(recovered ? { path } : {}), ...permissions };
+    }
+    catch (error) {
+      if (!isMissingRolloutError(error)) throw error;
+      const { thread } = await this.recoverRolloutThread(sessionId, { requireFile: true });
+      if (!thread.path?.endsWith('.jsonl'))
+        throw new Error('无法确认此 Codex 会话原有的权限设置，请在 Codex 中打开后重试。');
+      // The native path override bypasses a stale provider path index. Its first
+      // header was checked above because resume by path can ignore threadId.
+      return { path: thread.path,
+        ...await resumePermissionsFromRollout(thread.path, { sessionId, requirePolicy: true }) };
+    }
+  }
+
+  async resumeThreadFromRollout(sessionId) {
+    const params = await this.resumeRolloutParams(sessionId);
+    const result = await this.request('thread/resume', {
+      threadId: sessionId, persistExtendedHistory: true, ...params,
+    });
+    if (params.path && result.thread?.id !== sessionId)
+      throw new Error('Codex resumed a different conversation; message was not sent.');
+    return result;
+  }
+
   serializeControl(sessionId, operation) {
     const previous = this.sessionControls.get(sessionId) ?? Promise.resolve();
     const next = previous.catch(() => {}).then(operation);
@@ -1680,11 +1764,7 @@ export class CodexAppServerAdapter {
       }
       let resumed;
       try {
-        resumed = await this.request("thread/resume", {
-          threadId: sessionId,
-          persistExtendedHistory: true,
-          ...await resumePermissionsFromRollout(this.threadMetadata.get(sessionId)?.path),
-        });
+        resumed = await this.resumeThreadFromRollout(sessionId);
       } catch (error) {
         if (!isActiveWriterError(error)) throw error;
         // Native queue items cannot carry runtime settings. Never silently drop them.
@@ -1826,8 +1906,7 @@ export class CodexAppServerAdapter {
       } else if (runtime.type === 'notOwned') {
         // Only this explicit user action may acquire an unowned writer. Never
         // queue or retry takeover when Desktop owns the conversation.
-        const resumed = await this.request('thread/resume', { threadId: sessionId, persistExtendedHistory: true,
-          ...await resumePermissionsFromRollout(metadata?.path) });
+        const resumed = await this.resumeThreadFromRollout(sessionId);
         this.resumedThreads.add(sessionId);
         if (resumed.thread) this.rememberThread(resumed.thread, { turnsAuthoritative: true });
         this.rememberThreadSettingsFromResponse(sessionId, resumed);
@@ -2024,10 +2103,7 @@ export class CodexAppServerAdapter {
       if (!/^thread not found:/i.test(error?.message ?? "") || this.closed) throw error;
       const desktopOwned = await this.readDesktopPermissions(sessionId).then(() => true, () => false);
       if (desktopOwned || this.closed) throw error;
-      const resumed = await this.request("thread/resume", {
-        threadId: sessionId, persistExtendedHistory: true,
-        ...await resumePermissionsFromRollout(this.threadMetadata.get(sessionId)?.path),
-      });
+      const resumed = await this.resumeThreadFromRollout(sessionId);
       // An active writer is rejected by resume; never force ownership or alter permissions.
       if (this.closed) throw error;
       if (resumed.thread) this.rememberThread(resumed.thread, { turnsAuthoritative: true });
@@ -3086,6 +3162,7 @@ export class CodexAppServerAdapter {
     this.closed = true;
     this.desktopStatePool.close();
     this.historyPages.clear();
+    this.recoveredRolloutPaths.clear();
     this.agentDetailCache.clear();
     this.threadRuntimeRevisions.clear();
     this.nativeHistorySourceFallbacks.clear();
