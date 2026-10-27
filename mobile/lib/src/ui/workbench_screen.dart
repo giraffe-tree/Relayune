@@ -3579,7 +3579,7 @@ class _ComposerState extends State<_Composer> {
                             )
                           : const Icon(
                               Icons.add_photo_alternate_outlined,
-                              size: 23,
+                              size: 22,
                             ),
                     ),
                     Expanded(child: input),
@@ -3631,13 +3631,15 @@ class _ComposerState extends State<_Composer> {
                           icon: widget.stopping
                               ? const SizedBox.square(
                                   key: ValueKey('composer-stop-progress'),
-                                  dimension: 16,
+                                  dimension: 18,
                                   child: CircularProgressIndicator(
                                     strokeWidth: 2,
                                     color: RelayTheme.mutedBright,
                                   ),
                                 )
-                              : const Icon(Icons.stop_rounded, size: 24),
+                              : const _ComposerActionIcon(
+                                  glyph: _ComposerActionGlyph.stop,
+                                ),
                         ),
                       ),
                   ],
@@ -3792,6 +3794,33 @@ class _ComposerAttachmentTile extends StatelessWidget {
   );
 }
 
+enum _ComposerActionGlyph { send, continueTask, stop }
+
+/// One optical grid for the composer's task controls. The enclosing buttons
+/// retain their independent 48 dp touch targets and accessibility labels.
+class _ComposerActionIcon extends StatelessWidget {
+  const _ComposerActionIcon({super.key, required this.glyph, this.color});
+
+  final _ComposerActionGlyph glyph;
+  final Color? color;
+
+  @override
+  Widget build(BuildContext context) => SvgPicture.string(
+    '''<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">${switch (glyph) {
+      _ComposerActionGlyph.send => '<path d="M12 18V6M7 11L12 6L17 11" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+      _ComposerActionGlyph.continueTask => '<path d="M9 6.5Q8 5.9 8 7.1V16.9Q8 18.1 9 17.5L17.3 12.7Q18.5 12 17.3 11.3Z" fill="currentColor"/>',
+      _ComposerActionGlyph.stop => '<rect x="6.5" y="6.5" width="11" height="11" rx="2" fill="currentColor"/>',
+    }}</svg>''',
+    width: 24,
+    height: 24,
+    excludeFromSemantics: true,
+    colorFilter: ColorFilter.mode(
+      color ?? IconTheme.of(context).color ?? RelayTheme.text,
+      BlendMode.srcIn,
+    ),
+  );
+}
+
 class _ComposerSendButton extends StatelessWidget {
   const _ComposerSendButton({
     required this.enabled,
@@ -3808,12 +3837,6 @@ class _ComposerSendButton extends StatelessWidget {
   final bool continuing;
   final bool continueAction;
   final VoidCallback onPressed;
-
-  static const _arrowSvg = '''
-<svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <path d="M12 19V5M12 5L6.5 10.5M12 5L17.5 10.5" stroke="currentColor" stroke-width="2.25" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-''';
 
   @override
   Widget build(BuildContext context) {
@@ -3874,32 +3897,26 @@ class _ComposerSendButton extends StatelessWidget {
                   child: sending
                       ? const SizedBox.square(
                           key: ValueKey('composer-send-progress'),
-                          dimension: 19,
+                          dimension: 18,
                           child: CircularProgressIndicator(
-                            strokeWidth: 2.2,
+                            strokeWidth: 2,
                             color: RelayTheme.greenStrong,
                           ),
                         )
                       : continueAction
-                      ? Icon(
-                          Icons.play_arrow_rounded,
+                      ? _ComposerActionIcon(
+                          glyph: _ComposerActionGlyph.continueTask,
                           key: const ValueKey('composer-continue-icon'),
-                          size: 24,
                           color: foreground,
                         )
-                      : SvgPicture.string(
-                          _arrowSvg,
+                      : _ComposerActionIcon(
+                          glyph: _ComposerActionGlyph.send,
                           key: ValueKey(
                             enabled
                                 ? 'composer-send-icon-enabled'
                                 : 'composer-send-icon-disabled',
                           ),
-                          width: 23,
-                          height: 23,
-                          colorFilter: ColorFilter.mode(
-                            foreground,
-                            BlendMode.srcIn,
-                          ),
+                          color: foreground,
                         ),
                 ),
               ),
