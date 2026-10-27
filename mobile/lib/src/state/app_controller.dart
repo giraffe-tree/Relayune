@@ -8228,6 +8228,8 @@ class AppController extends ChangeNotifier {
     final merged = index < 0
         ? next
         : next.copyWith(
+            clientMessageId:
+                next.clientMessageId ?? current[index].clientMessageId,
             content: append
                 ? '${current[index].content}${next.content}'
                 : next.content,
@@ -8430,7 +8432,15 @@ class AppController extends ChangeNotifier {
   List<RelayMessage> _mergeMessages(List<RelayMessage> input) {
     final byId = <String, RelayMessage>{};
     for (final message in input) {
-      byId[message.id] = message;
+      final previous = byId[message.id];
+      // Older cached/native rows may omit the submission ID. Once recovered
+      // for this native item, an overlapping row must not erase its identity.
+      byId[message.id] = message.role == 'user' && previous?.role == 'user'
+          ? message.copyWith(
+              clientMessageId:
+                  message.clientMessageId ?? previous?.clientMessageId,
+            )
+          : message;
     }
     // Cache snapshots can overlap a newer live echo under a different item ID.
     // Correlate only stable client IDs; repeated text is a valid separate send.

@@ -5792,6 +5792,25 @@ function foldRolloutHistoryRecord(record, state, context) {
     if (existing >= 0) state.messages[existing] = { ...state.messages[existing], ...message };
     else state.messages.push(message);
   };
+  // Desktop writes the native item first, then its submission identity in a
+  // separate user_message event. Enrich that pending item rather than creating
+  // another message. Only the latest input in this turn can own this receipt;
+  // identical text from separate submissions must keep independent identities.
+  if (record?.type === 'event_msg' && payload.type === 'user_message' &&
+      typeof payload.client_id === 'string' && payload.client_id &&
+      typeof payload.message === 'string' && turnId &&
+      !state.messages.some(message => message.client_message_id === payload.client_id)) {
+    const pending = state.pendingResponseUsers.at(-1);
+    const raw = pending && state.messages.find(message => message.id === pending.id);
+    if (raw && pending.turn_id === turnId &&
+        pending.content === sanitizeUserMessageText(payload.message) && !raw.client_message_id) {
+      // If a read split these adjacent records, the provider seed may use a
+      // different native ID. Recalibrate it once instead of appending a second
+      // copy under the raw ID to that already-seeded history.
+      if ((state.messageOffsets.get(raw.id) ?? -1) < (state.seedOffset ?? 0)) delete state.providerSeed;
+      put({ ...raw, client_message_id: payload.client_id });
+    }
+  }
   for (const event of events) {
     if (event.kind === 'turn.started') {
       state.statuses.set(event.turn_id, 'inProgress');
@@ -5805,11 +5824,15 @@ function foldRolloutHistoryRecord(record, state, context) {
         completedAt: payload.completed_at ?? record.timestamp,
       }));
     } else if (event.kind === 'user.message') {
-      const pendingIndex = state.pendingResponseUsers.findLastIndex(value =>
-        value.turn_id === event.turn_id && value.content === event.text);
+      const pendingIndex = state.pendingResponseUsers.findLastIndex(value => {
+        const clientId = state.messages.find(message => message.id === value.id)?.client_message_id;
+        return value.turn_id === event.turn_id && value.content === event.text &&
+          (!clientId || !event.client_message_id || clientId === event.client_message_id);
+      });
       if (pendingIndex >= 0) {
         const pending = state.pendingResponseUsers.splice(pendingIndex, 1)[0];
         const raw = state.messages.find(value => value.id === pending.id);
+        event.client_message_id ??= raw?.client_message_id ?? null;
         state.messages = state.messages.filter(value => value.id !== pending.id);
         state.messageOffsets.delete(pending.id);
         state.untypedUserIds.delete(pending.id);
@@ -5919,16 +5942,30 @@ function mergeProjectedHistory(seed, projected, { preserveDistinctIds = false } 
   const matchedUsers = new Set();
   for (const message of projected) {
     const sameId = messages.findIndex(value => value.id === message.id);
-    if (sameId >= 0) { messages[sameId] = { ...messages[sameId], ...structuredClone(message) }; continue; }
-    if (preserveDistinctIds) { messages.push(structuredClone(message)); continue; }
-    const duplicate = messages.findIndex(value => value.role === message.role &&
+    if (sameId >= 0) {
+      const merged = { ...messages[sameId], ...structuredClone(message) };
+      if (message.role === 'user') {
+        merged.client_message_id ??= messages[sameId].client_message_id;
+        matchedUsers.add(merged.id);
+      }
+      messages[sameId] = merged;
+      continue;
+    }
+    const sameClientId = message.role === 'user' && message.client_message_id
+      ? messages.findIndex(value => value.role === 'user' && value.client_message_id === message.client_message_id) : -1;
+    if (preserveDistinctIds && sameClientId < 0) { messages.push(structuredClone(message)); continue; }
+    const duplicate = sameClientId >= 0 ? sameClientId : messages.findIndex(value => value.role === message.role &&
       value.turn_id === message.turn_id && value.content === message.content &&
       (message.role === 'codex' ? compatibleHistoryPhases(value.message_phase, message.message_phase)
         : value.message_phase === message.message_phase) && message.content?.trim() &&
       (message.role === 'codex' || (message.role === 'user' &&
+        (!value.client_message_id || !message.client_message_id || value.client_message_id === message.client_message_id) &&
         seed.some(candidate => candidate.id === value.id) && !matchedUsers.has(value.id))));
     if (duplicate >= 0) {
-      if (message.role === 'user') matchedUsers.add(messages[duplicate].id);
+      if (message.role === 'user') {
+        matchedUsers.add(messages[duplicate].id);
+        messages[duplicate].client_message_id ??= message.client_message_id;
+      }
       // Keep provider IDs and timestamps while recovering image sources absent
       // from a lagging materialized snapshot.
       if (!messages[duplicate].attachments?.length && message.attachments?.length)
@@ -6489,7 +6526,7 @@ async function readNativeHistorySupplement(path, sessionId, turnId, { deadline, 
         if (!text.includes('"turn_context"') && !text.includes('"task_started"') &&
             !text.includes('"task_complete"') && !text.includes('"turn_aborted"') &&
             !text.includes('"final_answer"') && !text.includes('"input_image"') &&
-            !text.includes('"request_user_input_async"') &&
+            !text.includes('"request_user_input_async"') && !text.includes('"user_message"') &&
             !(text.includes('"function_call_output"') && text.includes('accepted')) &&
             !/"role"\s*:\s*"user"/.test(text) &&
             !(text.includes('"item_completed"') && /"type"\s*:\s*"(?:user_?message|agent_?message)"/i.test(text)) &&

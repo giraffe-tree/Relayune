@@ -2825,6 +2825,108 @@ void main() {
   );
 
   test(
+    '[MOB-ATT-009][flutter] recovered Codex client ID repairs duplicate history while preserving a repeated send',
+    () async {
+      final key = RelayKey.import(_testKey());
+      final historyMessage = <String, dynamic>{
+        'id': 'native_image_a',
+        'role': 'user',
+        'content': '检查图片',
+        'created_at': '2026-10-28T01:27:22.000Z',
+        'turn_id': 'turn_image',
+        'client_message_id': 'client_a',
+        'attachments': [
+          {
+            'id': 'native_image',
+            'type': 'image',
+            'name': 'screenshot.png',
+            'mime_type': 'image/png',
+            'url': '/api/sessions/session_root/attachments/native_image',
+          },
+        ],
+      };
+      final api = _HistoryRelayApi(key)
+        ..responsePayload = {
+          'type': 'session.history',
+          'messages': [historyMessage],
+          'next_cursor': null,
+          'has_more': false,
+          'agents': <Map<String, dynamic>>[],
+          'sessions': <Map<String, dynamic>>[],
+        };
+      final controller = AppController(api: api)
+        ..phase = AppPhase.ready
+        ..bootstrap = _bootstrap()
+        ..relayKey = key
+        ..sessions = [
+          RelaySession.fromJson({'id': 'session_root', 'name': 'Root'}),
+        ];
+      addTearDown(controller.dispose);
+      controller.applyEventForTesting(
+        _event('acceptance_a', {
+          'kind': 'user.message',
+          'client_message_id': 'client_a',
+          'text': '检查图片',
+        }, createdAt: '2026-10-28T01:27:14.000Z'),
+      );
+      // A cache created by the old Relay lost the companion client ID.
+      controller.messages['session_root']!.add(
+        RelayMessage.fromHistory({
+          ...historyMessage,
+          'client_message_id': null,
+        }),
+      );
+      expect(controller.messages['session_root'], hasLength(2));
+      await controller.selectSession('session_root');
+      expect(controller.messages['session_root'], hasLength(1));
+      expect(controller.messages['session_root']!.single.id, 'native_image_a');
+      expect(
+        controller.messages['session_root']!.single.clientMessageId,
+        'client_a',
+      );
+      expect(
+        controller.messages['session_root']!.single.attachments.single.id,
+        'native_image',
+      );
+
+      controller.applyEventForTesting(
+        _event('native_replay_a', {
+          'kind': 'user.message',
+          'item_id': 'native_image_a',
+          'turn_id': 'turn_image',
+          'text': '检查图片',
+        }, createdAt: '2026-10-28T01:27:22.000Z'),
+      );
+      expect(
+        controller.messages['session_root']!.single.clientMessageId,
+        'client_a',
+      );
+
+      controller.applyEventForTesting(
+        _event('acceptance_b', {
+          'kind': 'user.message',
+          'client_message_id': 'client_b',
+          'text': '检查图片',
+        }, createdAt: '2026-10-28T01:27:23.000Z'),
+      );
+      api.responsePayload['messages'] = [
+        historyMessage,
+        {
+          ...historyMessage,
+          'id': 'native_image_b',
+          'client_message_id': 'client_b',
+          'created_at': '2026-10-28T01:27:24.000Z',
+        },
+      ];
+      await controller.loadHistory('session_root');
+      expect(controller.messages['session_root']!.map((m) => m.id), [
+        'native_image_a',
+        'native_image_b',
+      ]);
+    },
+  );
+
+  test(
     '[MOB-ATT-009][flutter] authoritative history replaces the live attachment event by client id',
     () async {
       final key = RelayKey.import(_testKey());

@@ -86,6 +86,126 @@ async function fixture(t, records) {
   return { directory, path, reads, adapter };
 }
 
+const desktopUser = (id, text, images = []) => row('response_item', {
+  type: 'message', id, role: 'user',
+  content: [{ type: 'input_text', text }, ...images.map(image_url => ({ type: 'input_image', image_url }))],
+  internal_chat_message_metadata_passthrough: {
+    turn_id: 'one', content_item_kinds: ['user.text', ...images.map(() => 'user.image')],
+  },
+});
+const desktopUserReceipt = (client_id, message) => row('event_msg', {
+  type: 'user_message', client_id, message, images: [], local_images: [],
+});
+
+for (const distinctProviderIds of [false, true]) test(`Desktop companion receipts preserve distinct sends through cold/warm history: provider IDs differ=${distinctProviderIds}`, async t => {
+  const image = 'data:image/png;base64,YWJj';
+  const records = [meta, start('one'),
+    desktopUser('raw-a', 'same text', [image]), desktopUserReceipt('client-a', 'same text'),
+    desktopUser('raw-b', 'same text', [image]), desktopUserReceipt('client-b', 'same text')];
+  const f = await fixture(t, records);
+  for (const restart of [false, true]) {
+    const a = f.adapter();
+    const request = a.request.bind(a);
+    a.request = async (method, params) => {
+      const result = await request(method, params);
+      if (distinctProviderIds) for (const turn of result.thread?.turns ?? [])
+        for (const item of turn.items) item.id = item.id.replace('raw-', 'native-');
+      return result;
+    };
+    for (const warm of [false, true]) {
+      const page = await a.readHistory({ sessionId: 'thread', limit: 500, includeAgentDetails: false });
+      assert.deepEqual(page.messages.map(m => m.client_message_id), ['client-a', 'client-b'], `restart=${restart}, warm=${warm}`);
+      assert.deepEqual(page.messages.map(m => m.id), distinctProviderIds ? ['native-a', 'native-b'] : ['raw-a', 'raw-b']);
+      assert.ok(page.messages.every(m => m.attachments.length === 1));
+    }
+  }
+});
+
+test('a companion receipt appended after provider seeding upgrades the existing input once', async t => {
+  const f = await fixture(t, [meta, start('one'), desktopUser('raw-a', 'same text')]);
+  const a = f.adapter();
+  const request = a.request.bind(a);
+  a.request = async (method, params) => {
+    const result = await request(method, params);
+    for (const turn of result.thread?.turns ?? []) for (const item of turn.items) item.id = 'native-a';
+    return result;
+  };
+  const read = () => a.readHistory({ sessionId: 'thread', limit: 500, includeAgentDetails: false });
+  assert.equal((await read()).messages[0].client_message_id, null);
+  await appendFile(f.path, serialize([desktopUserReceipt('client-a', 'same text')]));
+  const page = await read();
+  assert.equal(page.messages.length, 1);
+  assert.equal(page.messages[0].id, 'native-a');
+  assert.equal(page.messages[0].client_message_id, 'client-a');
+  await appendFile(f.path, serialize([desktopUser('raw-b', 'same text'), desktopUserReceipt('client-b', 'same text')]));
+  assert.deepEqual((await read()).messages.map(m => m.client_message_id), ['client-a', 'client-b']);
+});
+
+test('typed user completion retains the companion identity and does not steal another submission identity', async t => {
+  const f = await fixture(t, [meta, start('one'),
+    desktopUser('raw-a', 'same text'), desktopUserReceipt('client-a', 'same text'),
+    row('event_msg', {type: 'item_completed', turn_id: 'one', item: {
+      type: 'UserMessage', id: 'native-a', content: [{type: 'text', text: 'same text'}],
+    }}),
+    desktopUser('raw-b', 'same text'), desktopUserReceipt('client-a', 'same text'),
+    desktopUserReceipt('client-b', 'same text')]);
+  const a = f.adapter();
+  const projection = await a.rolloutHistoryIndex.read(f.path, 'thread');
+  assert.deepEqual(projection.messages.map(m => [m.id, m.client_message_id]), [
+    ['native-a', 'client-a'], ['raw-b', 'client-b'],
+  ]);
+});
+
+test('companion receipts do not correlate across turns or overwrite an explicit client ID', async t => {
+  const raw = desktopUser('raw-a', 'same text');
+  raw.payload.client_id = 'explicit-a';
+  const f = await fixture(t, [meta, start('one'), raw,
+    desktopUserReceipt('wrong-a', 'same text'),
+    desktopUser('raw-b', 'different text'), desktopUserReceipt('wrong-b', 'same text'),
+    start('two'), desktopUserReceipt('wrong-turn', 'different text')]);
+  const projection = await f.adapter().rolloutHistoryIndex.read(f.path, 'thread');
+  assert.deepEqual(projection.messages.map(m => m.client_message_id), ['explicit-a', null]);
+});
+
+test('native paginated history recovers companion IDs when display items omit them', async t => {
+  const f = await fixture(t, [meta, start('one'),
+    desktopUser('raw-a', 'same text'), desktopUserReceipt('client-a', 'same text'),
+    desktopUser('raw-b', 'same text'), desktopUserReceipt('client-b', 'same text')]);
+  const a = f.adapter();
+  const calls = [];
+  const request = a.request.bind(a);
+  a.request = async (method, params) => {
+    calls.push(method);
+    if (method === 'thread/turns/list') return { data: [{ id: 'one', status: 'inProgress', startedAt: at, items: [] }], nextCursor: null };
+    if (method === 'thread/items/list') return { data: ['a', 'b'].map(id => ({ turnId: 'one', item: {
+      type: 'userMessage', id: `native-${id}`, content: [{ type: 'text', text: 'same text' }],
+    }})), nextCursor: null };
+    const result = await request(method, params);
+    if (result.thread) result.thread.historyMode = 'paginated';
+    return result;
+  };
+  const page = await a.readHistory({ sessionId: 'thread', limit: 100, includeAgentDetails: false });
+  assert.ok(calls.includes('thread/items/list'));
+  assert.deepEqual(page.messages.map(m => [m.id, m.client_message_id]), [
+    ['native-a', 'client-a'], ['native-b', 'client-b'],
+  ]);
+});
+
+test('image-only input keeps its receipt identity and a late typed item does not duplicate a seeded input', async t => {
+  const f = await fixture(t, [meta, start('one'),
+    desktopUser('raw-a', '', ['data:image/png;base64,YWJj']), desktopUserReceipt('client-a', '')]);
+  const a = f.adapter();
+  const read = () => a.readHistory({ sessionId: 'thread', limit: 500, includeAgentDetails: false });
+  assert.equal((await read()).messages[0].client_message_id, 'client-a');
+  await appendFile(f.path, serialize([row('event_msg', {type: 'item_completed', turn_id: 'one', item: {
+    type: 'UserMessage', id: 'native-a', content: [{type: 'image', url: 'data:image/png;base64,YWJj'}],
+  }})]));
+  const page = await read();
+  assert.equal(page.messages.length, 1);
+  assert.equal(page.messages[0].client_message_id, 'client-a');
+  assert.equal(page.messages[0].attachments.length, 1);
+});
+
 test('large source images remain outside history cache and pages, including a Relay restart', async t => {
   const image = `data:image/png;base64,${Buffer.alloc(14 * 1024 * 1024, 42).toString('base64')}`;
   const records = [meta, start('old'), user('old', 'old-user', 'old'), answer('old', 'old-answer', 'old reply'), done('old'),

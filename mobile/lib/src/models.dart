@@ -573,6 +573,7 @@ class RelayMessage {
 
   RelayMessage copyWith({
     String? content,
+    String? clientMessageId,
     String? turnId,
     String? messagePhase,
     String? turnStatus,
@@ -596,7 +597,7 @@ class RelayMessage {
     turnId: turnId ?? this.turnId,
     messagePhase: messagePhase ?? this.messagePhase,
     turnStatus: turnStatus ?? this.turnStatus,
-    clientMessageId: clientMessageId,
+    clientMessageId: clientMessageId ?? this.clientMessageId,
     deliveryState: deliveryState ?? this.deliveryState,
     attachments: attachments ?? this.attachments,
     toolActivityLabel: toolActivityLabel ?? this.toolActivityLabel,
