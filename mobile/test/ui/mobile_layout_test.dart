@@ -9,6 +9,42 @@ import '../support/workbench_fixture.dart';
 
 void main() {
   testWidgets(
+    'running composer stays as compact as idle and still expands for drafts',
+    (tester) async {
+      for (final width in [320.0, 390.0]) {
+        final controller = workbenchController();
+        addTearDown(controller.dispose);
+        await pumpWorkbench(
+          tester,
+          controller,
+          size: Size(width, 700),
+          textScale: 1.3,
+        );
+        final input = find.byKey(const ValueKey('conversation-composer-input'));
+        final idleHeight = tester.getSize(input).height;
+
+        controller.runningSessions.add('root');
+        await pumpWorkbench(
+          tester,
+          controller,
+          size: Size(width, 700),
+          textScale: 1.3,
+        );
+        await tester.pump(const Duration(milliseconds: 300));
+        expect(find.text('发送新指令…'), findsOneWidget);
+        expect(tester.getSize(input).height, closeTo(idleHeight, 0.1));
+
+        await tester.enterText(input, '第一行\n第二行\n第三行');
+        await tester.pump();
+        expect(tester.getSize(input).height, greaterThan(idleHeight));
+        expect(tester.takeException(), isNull);
+        await tester.pumpWidget(const SizedBox.shrink());
+        await tester.pump();
+      }
+    },
+  );
+
+  testWidgets(
     'expanded subtask dock fits above keyboard with multiline draft',
     (tester) async {
       final controller = _layoutController();

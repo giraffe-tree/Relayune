@@ -3482,6 +3482,7 @@ class _ComposerState extends State<_Composer> {
               : widget.running
               ? context.l10n.workbenchSteerPlaceholder
               : context.l10n.workbenchSendPlaceholder,
+          hintMaxLines: 1,
           contentPadding: const EdgeInsets.fromLTRB(12, 13, 12, 13),
         ),
       ),

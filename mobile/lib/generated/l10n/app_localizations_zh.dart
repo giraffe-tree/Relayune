@@ -3016,7 +3016,7 @@ class AppLocalizationsZhCn extends AppLocalizationsZh {
   String get workbenchOfflineQueued => '电脑离线 · 暂时无法发送消息';
 
   @override
-  String get workbenchSteerPlaceholder => '发送新指令，停止当前执行后继续…';
+  String get workbenchSteerPlaceholder => '发送新指令…';
 
   @override
   String get workbenchSendPlaceholder => '发送指令到电脑…';

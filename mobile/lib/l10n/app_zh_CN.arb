@@ -183,7 +183,7 @@
   "workbenchRemoveAttachment": "移除 {name}",
   "workbenchReadOnly": "当前会话只读",
   "workbenchOfflineQueued": "电脑离线 · 暂时无法发送消息",
-  "workbenchSteerPlaceholder": "发送新指令，停止当前执行后继续…",
+  "workbenchSteerPlaceholder": "发送新指令…",
   "workbenchSendPlaceholder": "发送指令到电脑…",
   "workbenchStopTask": "停止任务",
   "workbenchSending": "正在发送",
