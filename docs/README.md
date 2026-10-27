@@ -3,6 +3,12 @@
 这里收录 Relayune 的运行、架构、安全与开发说明。测试文档中的历史测量结论和方法说明，
 不代表当前版本已在全部平台重新验收；实际验证范围见[公开前检查清单](publication-checklist.md)。
 
+## 开始使用
+
+- [普通用户使用指南](getting-started.md) · [English walkthrough](getting-started.en.md)：安装、登录、配对、任务与排障。
+- [自托管与客户端连接](self-hosting.md)：用户名初始化、HTTPS、实例选择、升级与恢复。
+- [项目首页](../README.md)：产品介绍、安装入口和源码开发。
+
 ## 架构与运行
 
 - [架构与安全约束](security-and-architecture.md)：协议、存储、凭据和日志边界。

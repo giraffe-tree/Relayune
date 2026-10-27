@@ -1,186 +1,99 @@
+<p align="center">
+  <img src="public/brand/relayune/relayune-eclipse-static.svg" width="80" height="80" alt="Relayune" />
+</p>
+
 # Relayune
 
-[简体中文](README.md) | English
+**Pick up your computer's AI coding tasks from anywhere.**
 
-Relayune lets you continue AI coding tasks on your computer from a browser,
-iPhone, iPad or Android phone. Agents run on the computer; the Web and mobile
-clients display sessions, send instructions and handle approvals.
+Use your phone, tablet or browser to follow Codex, Claude Code and Kimi Code, continue conversations,
+and respond to approvals. Agents execute in the original projects on your computer; Relayune connects
+clients and routes encrypted sessions.
 
-The project includes a **Node.js + MongoDB** server, a **Tauri Desktop** client
-and a **Flutter Mobile** client. The initial coordinated release targets
-**macOS, Android and iOS**, prioritizing Codex users in China and the complete
-Codex, Claude Code and Kimi Code workflows. Windows source remains available,
-but Windows installers are outside the initial release.
+[Website & downloads](https://relayune.giraffetree.cn/#downloads) · [Get started](#get-started) ·
+[Self-hosting](#self-hosting) · [Documentation](docs/README.md) · [简体中文](README.md)
 
-Project-owned code and assets use the [MIT License](LICENSE).
-Copyright (c) 2026 Ernest Chen. Third-party components retain their original
-licenses; see [third-party notices](THIRD_PARTY_NOTICES.md) and
-[licensing notes](docs/licensing.md).
+[![Source checks](https://github.com/giraffe-tree/Relayune/actions/workflows/quality.yml/badge.svg)](https://github.com/giraffe-tree/Relayune/actions/workflows/quality.yml)
+[![MIT License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-Username authentication, local first-run setup and runtime instance switching are implemented.
-The 0.3.33 macOS and Android packages have passed signing and license checks and their
-public files are uploaded. iOS is uploaded to Apple with `VALID_BINARY`; TestFlight
-installability has not been checked. The production Web/API and public download entries
-have completed their coordinated upgrade: macOS and Android are 0.3.33, with Android
-build 43. The installed official Mac application connects to production with the original
-account, client authorizations and working-directory preference retained.
-Android has only limited sign-in/relaunch validation; pairing and task workflows remain
-unverified. Remaining Android acceptance was cancelled and is not a release gate for this run.
-See the [official release checklist](docs/official-deployment.md) for current delivery status
-and the [release plan](docs/open-source-roadmap.md) for the overall scope. Most detailed
-documentation is currently in Chinese.
+## What you can do
 
-The pre-publication source changes remove Feishu integration and patch dependencies and
-legacy shared-key entry points. These source changes have not been shipped in new signed
-clients or deployed to production; the existing live 0.3.33 release does not establish their validation.
+- **Resume ongoing work**: browse projects, session history and live output; send messages, steer or stop tasks where the Agent supports it.
+- **Make decisions on your phone**: read the context of commands, file operations and questions before allowing, rejecting or answering.
+- **Connect multiple computers**: switch between computers and projects while keeping each computer's working directories and Agent environment.
+- **Authorize clients independently**: pair with an eight-character code or QR scan; each client has its own content key and can be revoked separately.
+- **Choose your server**: use the official service or deploy the same Node.js + MongoDB backend and configure its address in your clients.
 
-## Using Relayune
+The primary integrations are **Codex, Claude Code and Kimi Code**. Other adapters and their experimental
+status are documented in the [documentation index](docs/README.md). Each Agent uses your own account
+and model access; your Relayune account connects devices.
 
-The normal workflow is: **install on your computer → sign in and prepare an
-Agent → connect your phone or browser → continue a task**.
+## Get started
 
-### 1. Install the clients
+### Install
 
-Visit the [official website](https://relayune.giraffetree.cn) for current download
-links. macOS and Android 0.3.33 downloads and Chinese/English release notes are published;
-iOS availability remains subject to the unverified TestFlight status below.
-
-| Device | Current installation path |
+| Device | Availability |
 | --- | --- |
-| Mac, macOS 13+ | Download the DMG and move Relayune to Applications. |
-| Android | Download the APK from the official website and follow the system installation prompts. |
-| iPhone / iPad | Use the Web client in Safari, or the TestFlight link when available. The initial native release will use public TestFlight testing before a later App Store release. |
-| Browser | Open the website and connect to the computer running Relayune. |
-| Windows | Build from source using the [Windows development guide](docs/windows-desktop-development.md); no initial public installer is planned. |
+| macOS 13+ | [Download](https://relayune.giraffetree.cn/#downloads) the signed and Apple-notarized Universal package for Apple silicon and Intel |
+| Android | [Download the APK](https://relayune.giraffetree.cn/#downloads); the complete device journey has not yet been validated |
+| iPhone / iPad | [TestFlight entry](https://testflight.apple.com/join/1smeJNXD), subject to availability shown by TestFlight; Safari Web access is also available |
+| Browser | Open [Relayune](https://relayune.giraffetree.cn), sign in and connect your computer |
+| Windows | [Build from source](docs/windows-desktop-development.md); no public installer is currently provided |
 
-Your computer must also run Relayune. A phone client alone cannot run the Agents
-installed on your computer.
+### Connect in three steps
 
-### 2. Sign in and prepare an Agent
+1. **Prepare the computer**: install and open Relayune, sign in, grant project-folder access, and check that at least one Agent is installed and signed in.
+2. **Pair a client**: choose **Connect device** on the computer. Sign in to the same service instance and account on your phone or browser, then enter the code. Mobile apps can also scan the QR code.
+3. **Continue a task**: select a computer, project and session; send messages and handle approvals. Keep the computer online, awake and running Relayune.
 
-1. On your Mac, open Relayune and choose **Sign in to Relayune**.
-2. Sign in using your email and password in the browser. New accounts first use
-   the verification email to set a password and confirm the computer login.
-3. Return to Relayune and grant access to the folders containing your projects.
-4. Prepare at least one of Codex, Claude Code or Kimi Code. Use the Agent panel
-   to check installation and sign-in status.
-5. Choose a default Agent and working directory if needed.
+On macOS, account sign-in binds the computer to your account; it does not authorize the sign-in browser
+to access Agents. The eight-character code is used for separate client authorization and is not uploaded.
+The Windows source build has a different first-connection flow; see its platform guide.
 
-Your Relayune account connects devices. Each Agent still requires its own account
-and model access. The Windows source build uses a different initial short-code
-connection flow; see the Desktop documentation.
+Devices do not need to share Wi-Fi when they can reach the same Relayune service. Closing the Desktop
+window can leave the menu-bar process running; quitting the app or sleeping the computer interrupts new remote work.
 
-### 3. Connect a phone or browser
+See the [full walkthrough](docs/getting-started.en.md) for installation, revocation and troubleshooting.
 
-1. On the computer, choose **Connect device**, select the phone/tablet or browser
-   option, and keep the eight-digit code visible.
-2. Sign in to the same Relayune account on the phone or browser.
-3. In the mobile app, scan the QR code or enter the code manually. In the Web
-   client, follow the pairing instructions and enter the code.
-4. Wait until the computer appears connected and the workbench opens.
+> Current public installers are **0.3.33**. `main` includes subsequent source fixes; installers and the
+> hosted service may differ from it. iOS was uploaded to Apple, but TestFlight installability was not
+> checked. See the [release record](docs/official-deployment.md) for platform validation scope.
 
-Each client receives an independent authorization. Pair new devices and browsers
-separately. Generate a new code if it expires, and never publish pairing codes or
-QR codes in screenshots.
+## How it works
 
-### 4. Continue a task
+```mermaid
+flowchart LR
+    Client["Browser / Mobile"] <-->|"Encrypted sessions"| Server["Node.js relay service"]
+    Server <-->|"Encrypted sessions"| Desktop["Desktop Relayune"]
+    Server --- Store["MongoDB / Private ciphertext files"]
+    Desktop <--> Agent["Local Codex / Claude Code / Kimi Code"]
+```
 
-- Select an online computer, project and session to view history and new output.
-- Create a session where supported, choose a working directory and send a task.
-- Review commands and other requested actions before approving or rejecting them.
-- Use the stop action to interrupt a task. Prioritize foreground use; background
-  notification delivery depends on platform and provider setup and is not guaranteed.
+- **Desktop** calls local Agents, reads session history and encrypts output for authorized clients.
+- **Server** handles accounts, device discovery and ciphertext routing without session content keys.
+- **Mobile and Web** encrypt input and decrypt results locally. Supported clients can negotiate WebRTC and fall back to the encrypted relay.
 
-Keep the computer online, awake and running Relayune. Closing the window may
-leave the tray or menu bar process running; quitting the application or putting
-the computer to sleep prevents new local work. Cached history may remain readable.
-Devices do not need to share Wi-Fi when both can reach the same Relayune service.
+Session messages, history, attachments and approval content use AES-256-GCM before leaving endpoints.
+Accounts, routing metadata and deliberately submitted feedback have separate rules. Web clients also
+trust the source of their page code. See the [encryption threat model](docs/e2ee-threat-model.md).
 
-### 5. Manage access and troubleshoot
+## Develop from source
 
-Revoke an individual phone or browser from the computer's **Manage devices** list.
-Other clients keep their own authorizations. Sign out from the Desktop client to
-end its account session.
-
-For connection failures, check whether the computer is awake, Relayune is running,
-and the selected Agent is signed in. For file access failures, check the working
-directory and folder permissions. Use **Help and diagnostics** for connection status.
-
-## Architecture and security
-
-The server manages accounts, device routing and bounded encrypted forwarding.
-Session plaintext and client content keys stay at the clients and the Desktop
-Relay. Each client pairs independently using the eight-digit-code PAKE flow.
-Desktop credentials are kept in its encrypted local vault.
-
-Account and routing metadata are not session ciphertext. Feedback submitted
-explicitly by the user follows separate readable-data rules. See the
-[security constraints](docs/security-and-architecture.md) and
-[encryption threat model](docs/e2ee-threat-model.md).
-
-Session confidentiality does not make all server data unreadable: account authentication,
-routing metadata and deliberately submitted feedback have separate rules. Web clients trust
-server-delivered JavaScript, so a server that replaces it can read plaintext in the browser.
-The current protocol does not promise forward secrecy. A professional independent cryptographic
-and side-channel audit remains incomplete; the [source review](docs/crypto-security-review.md)
-is not a substitute for that audit.
-
-## Development
-
-Use Node.js **>=22.13.0** and install locked dependencies:
+Use **Node.js 22.13+**. Desktop additionally needs Rust and platform tooling; Mobile needs Flutter.
 
 ```bash
+git clone https://github.com/giraffe-tree/Relayune.git
+cd Relayune
 npm ci
 npm ci --prefix desktop
 npm run dev
 ```
 
-`npm run dev` starts the Web frontend only; configure the API server separately.
-The root TypeScript checks include Desktop source, so Web/Server builds also
-require the Desktop dependencies. Use synthetic data and isolated state for tests.
+`npm run dev` starts only the Web frontend. Sign-in, pairing and sessions also require a same-origin
+Node API, MongoDB and configuration; see [self-hosting](docs/self-hosting.md). Root type checks include
+Desktop source, so install Desktop dependencies too.
 
-Desktop development requires Rust and the platform's Tauri prerequisites.
-Mobile development requires Flutter and the platform SDKs. Follow the
-[Desktop](desktop/README.md) and [Mobile](mobile/README.md) guides.
-macOS contributors can build an isolated ad-hoc development application without
-the maintainer's Developer ID:
-
-```bash
-npm --prefix desktop run desktop:build:macos:adhoc
-```
-
-Development and official release identities, storage and update trust are separate.
-Do not export Desktop vault credentials into plaintext for a manual Relay launch.
-
-## Self-hosting
-
-Username mode requires MongoDB and an HTTPS endpoint, without SMTP.
-The operator chooses the initial administrator password locally. The preparation tool
-generates a private CA and IP certificate for your VPN or public address; clients
-still explicitly verify and trust the certificate. Official email mode remains
-available with its own mail configuration and separate database. Start with [.env.mongo.example](.env.mongo.example)
-and the [self-hosting guide](docs/self-hosting.md), then build:
-
-```bash
-npm run build:self-hosted
-```
-
-The outputs are `dist/self-hosted/` for static hosting and
-`dist/self-hosted-server/server.cjs` for the API, started with `npm start`.
-The API and MongoDB bind to loopback by default. Inject environment variables
-through your process manager; `npm start` does not load the example environment
-file. Store passwords in restricted files outside the repository and never expose
-the private encrypted blob directory as static content.
-
-Desktop and mobile clients now select the instance at runtime. A confirmed switch
-clears the previous credentials and pairing state and requires fresh sign-in and pairing.
-Self-hosted core operation does not require Relayune official services; automatic
-official push and update access is disabled for custom instances. Native package
-checks and iOS simulator acceptance are recorded separately from unverified real-phone
-behavior and private-CA trust onboarding on other platforms. See the
-[plan and acceptance criteria](docs/open-source-roadmap.md).
-
-## Checks and publication boundaries
+Common checks:
 
 ```bash
 npm run typecheck
@@ -188,34 +101,63 @@ npm run lint
 npm test
 npm run desktop:check
 npm run desktop:test
-npm run mobile:check
 ```
 
-The full root Node fixture suite targets macOS/Linux or WSL; some fixtures use
-POSIX shell tools. Native Windows checks are documented separately.
+| Component | Stack and entry |
+| --- | --- |
+| Web | Next.js / TypeScript; `app/` |
+| Server | Node.js / MongoDB; `server/` |
+| Desktop | Tauri / Rust / TypeScript; [development guide](desktop/README.md) |
+| Mobile | Flutter / Dart; [development guide](mobile/README.md) |
+| Agent adapters and transport | Node.js; `relay/` |
 
-Before publishing, inspect the actual Git candidates and staged blobs:
+macOS contributors can use an isolated [ad-hoc development build](desktop/README.md) without the
+maintainer's Developer ID. The complete Node fixture suite targets macOS/Linux or WSL; native Windows
+checks are described in the platform guide.
+
+## Self-hosting
+
+The official service and self-hosted instances use the same source. Clients can select a custom HTTPS
+server, with separate sign-in, pairing and local caches for each instance.
+
+**Username mode** requires no SMTP. Set the administrator password on the deployment machine;
+there is no shared default password. Use your own VPN or public endpoint for remote access. The setup
+tool can generate IP/domain certificates, which clients must explicitly verify and trust.
+Email authentication is also available with your own SMTP configuration.
+
+After installing the source dependencies above, build the backend and static site:
 
 ```bash
-node scripts/install-gitleaks.mjs
-GITLEAKS_BIN="$PWD/.public-prep/tools/gitleaks" npm run audit:publication -- --secrets
+npm run build:self-hosted
 ```
 
-Do not upload the whole working directory. Keep credentials, signing keys, runtime
-data, logs and local Agent history outside public candidates. Client-side build
-variables are public and must never contain server secrets.
+Outputs are `dist/self-hosted/` and `dist/self-hosted-server/`. Deployment still requires a least-privilege
+MongoDB account, protected environment files, a private data directory, and Nginx/HTTPS.
+`npm start` does not automatically load an environment template.
 
-Builds and scans cover only their tested scope. Real devices, independent deployment,
-native-package licenses and independent cryptographic review have separate
-acceptance requirements. Read the [publication checklist](docs/publication-checklist.md)
-and [dependency security notes](docs/dependency-security.md).
+Follow the [self-hosting guide](docs/self-hosting.md) for initialization, client configuration, upgrades
+and recovery. A fresh-machine, step-by-step reproduction remains unverified. Core self-hosted workflows
+do not depend on Relayune's hosted backend; model access remains with your configured Agents.
 
-## Support and contributions
+## Documentation and community
 
-Use [GitHub Issues](https://github.com/giraffe-tree/Relayune/issues) for ordinary
-bugs and suggestions. Maintenance is best effort, without a guaranteed response
-time. There is no current third-party client protocol compatibility commitment.
+Most detailed engineering guides are currently in Chinese.
 
-See the [contribution guide](CONTRIBUTING.md) and [documentation index](docs/README.md).
-Report vulnerabilities or exposed credentials privately using [SECURITY.md](SECURITY.md).
-Use synthetic content in public reproductions and screenshots.
+- [User guide](docs/getting-started.en.md): installation, sign-in, pairing, tasks and troubleshooting.
+- [Documentation index](docs/README.md): architecture, platform development, Agent integration and operations.
+- [Roadmap](docs/open-source-roadmap.md): current scope and planned work.
+- [GitHub Issues](https://github.com/giraffe-tree/Relayune/issues): bugs and feature requests.
+- [Contributing](CONTRIBUTING.md): contribution scope, validation and licensing.
+- [Security reports](SECURITY.md): report vulnerabilities or exposed credentials privately, not in public issues.
+
+Maintenance is best effort, with no guaranteed response time. Use synthetic content in public
+reproductions and screenshots. Never commit production configuration, signing keys, user data or
+local Agent histories. See the [validation record](docs/publication-checklist.md) and
+[dependency security notes](docs/dependency-security.md) for exact scope and outstanding advisories.
+
+## License
+
+Copyright © 2026 Ernest Chen. Project-owned code and assets use the [MIT License](LICENSE), permitting
+use, modification and commercial redistribution under its terms. Third-party components retain their
+own licenses; see [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [licensing notes](docs/licensing.md).
+Use of the Relayune name and Logo is covered separately by the [brand policy](public/brand/relayune/README.md#品牌使用边界).
