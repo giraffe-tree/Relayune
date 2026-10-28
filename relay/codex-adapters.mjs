@@ -2,8 +2,9 @@ import { withThinkingState } from "./turn-thinking.mjs";
 import { CodexAsyncQuestions, trackRolloutQuestions, parseAsyncAnswers } from './codex-async-questions.mjs';
 import { canContinueCodexTurn } from './codex-continuation.mjs';
 import { resumePermissionsFromRollout } from "./codex-resume-permissions.mjs";
-import { findReplacementRollout, isMissingRolloutError } from './codex-rollout-path.mjs';
+import { findReplacementRollout, isMissingRolloutError, rolloutOwner } from './codex-rollout-path.mjs';
 import { CodexQueueTracker } from "./codex-queue-tracker.mjs";
+import { CodexMessageSubmissions } from './codex-message-submissions.mjs';
 import { CodexRolloutHistoryIndex, rolloutDataUrlSources } from './codex-rollout-history-index.mjs';
 import { normalizeCodexQuota } from "./agent-quota.mjs";
 import { createDesktopStatePool, desktopStartMessage, desktopInterruptTurn, desktopSubmitMessage, desktopPermissions, desktopRuntime, desktopAnswerQuestion, desktopPendingApprovals, desktopResolveApproval, pickPermissions } from './codex-desktop-settings.mjs';
@@ -378,6 +379,10 @@ export class CodexAppServerAdapter {
     this.observedUserMessages = new Map();
     this.emittedUserMessages = new Map();
     this.pendingPersistenceChecks = new Map();
+    this.messageSubmissions = new CodexMessageSubmissions({
+      save: receipt => this.handlers?.saveCodexMessageReceipt?.(receipt),
+      remove: receipt => this.handlers?.removeCodexMessageReceipt?.(receipt),
+    });
     this.queueTracker = new CodexQueueTracker({
       request: (method, params) => this.request(method, params),
       readTurnStatuses: async thread => {
@@ -388,7 +393,11 @@ export class CodexAppServerAdapter {
         if (state?.activeTurnId) statuses.set(state.activeTurnId, "running");
         return statuses;
       },
-      emit: (id, event) => this.handlers?.emitEvent(id, event),
+      emit: async (id, event) => {
+        if (event.turn_id && ['running', 'completed', 'failed', 'interrupted'].includes(event.status))
+          await this.noteSubmittedMessage(id, event.client_message_id, event.turn_id, true);
+        await this.handlers?.emitEvent(id, event);
+      },
       save: receipt => this.handlers?.saveCodexQueueReceipt?.(receipt),
       remove: receipt => this.handlers?.removeCodexQueueReceipt?.(receipt),
       intervalMs: options.queuePollIntervalMs,
@@ -434,6 +443,12 @@ export class CodexAppServerAdapter {
     });
     this.closed = false;
     this.sessionControls = new Map();
+    this.idleUnsubscribed = new Set();
+    this.idleReleaseTimers = new Map();
+    this.idleReleaseVersions = new Map();
+    this.unloadChecks = new Map();
+    this.idleReleaseDelayMs = options.idleReleaseDelayMs ?? 5000;
+    this.idleReleaseRetryMs = options.idleReleaseRetryMs ?? 30_000;
     this.startDesktopMessage = options.desktopStartMessage ?? ((id, message, extra) => desktopStartMessage(id, message, desktopOptions(extra)));
     this.interruptDesktopTurn = options.desktopInterruptTurn ?? ((id, extra) => desktopInterruptTurn(id, desktopOptions(extra)));
     this.submitDesktopMessage = options.desktopSubmitMessage ?? ((id, message, extra) => desktopSubmitMessage(id, message, desktopOptions(extra)));
@@ -466,6 +481,7 @@ export class CodexAppServerAdapter {
       if (process.env.CODEX_RELAY_DEBUG === "1") process.stderr.write(chunk);
     });
     this.child.once("exit", (code, signal) => {
+      this.cancelAllIdleReleases();
       this.queueTracker.close();
       this.rejectAll(
         new Error(`codex app-server exited with ${signal ?? code ?? 1}.`),
@@ -483,6 +499,7 @@ export class CodexAppServerAdapter {
     });
     this.notify("initialized", {});
     await this.queueTracker.restore(await this.handlers.loadCodexQueueReceipts?.() ?? []);
+    this.messageSubmissions.restore(await this.handlers.loadCodexMessageReceipts?.() ?? []);
     await this.recoverRecentAttachmentRollouts();
   }
 
@@ -830,7 +847,7 @@ export class CodexAppServerAdapter {
     this.rememberThreadSettingsFromResponse(createdThread.id, result);
     // thread/start already loads and subscribes this thread. Resuming before
     // its first message can fail because its rollout is not materialized yet.
-    this.resumedThreads.add(createdThread.id);
+    this.markThreadSubscribed(createdThread.id);
     return {
       ...this.toRelaySession(createdThread, sessionCwd),
       sync_state: "pending",
@@ -893,7 +910,7 @@ export class CodexAppServerAdapter {
         throw codexForkError("session_fork_outcome_unknown");
       this.rememberThread(thread);
       this.rememberThreadSettingsFromResponse(thread.id, result);
-      this.resumedThreads.add(thread.id);
+      this.markThreadSubscribed(thread.id);
       // Native thread/fork persists immediately, without submitting a prompt.
       try {
         const read = await this.request("thread/read", { threadId: thread.id, includeTurns: true });
@@ -1693,18 +1710,279 @@ export class CodexAppServerAdapter {
     return result;
   }
 
-  serializeControl(sessionId, operation) {
+  cancelIdleRelease(sessionId) {
+    clearTimeout(this.idleReleaseTimers.get(sessionId));
+    this.idleReleaseTimers.delete(sessionId);
+    this.idleReleaseVersions.set(sessionId, (this.idleReleaseVersions.get(sessionId) ?? 0) + 1);
+  }
+
+  cancelAllIdleReleases() {
+    for (const timer of this.idleReleaseTimers.values()) clearTimeout(timer);
+    this.idleReleaseTimers.clear();
+  }
+
+  touchThreadActivity(sessionId) {
+    const visited = new Set();
+    for (let id = sessionId; id && !visited.has(id); id = this.threadMetadata.get(id)?.parentThreadId) {
+      visited.add(id);
+      this.cancelIdleRelease(id);
+      // A child can outlive an idle parent without another parent status event.
+      // Keep rechecking that parent after invalidating its in-flight proof.
+      if (id !== sessionId) this.scheduleIdleRelease(id);
+    }
+  }
+
+  markThreadSubscribed(sessionId) {
+    this.cancelIdleRelease(sessionId);
+    this.resumedThreads.add(sessionId);
+    this.idleUnsubscribed.delete(sessionId);
+  }
+
+  async resubscribeOwnedThread(sessionId) {
+    if (!this.idleUnsubscribed.has(sessionId)) return;
+    let resumed;
+    try { resumed = await this.resumeThreadFromRollout(sessionId); }
+    catch (error) {
+      if (!isActiveWriterError(error)) throw error;
+      // A native unload/close may not have reached us before Desktop resumed.
+      // Drop only stale local ownership and let the existing Desktop/queue path
+      // deliver the original message; never force a writer takeover.
+      this.clearOwnedThread(sessionId);
+      return;
+    }
+    this.markThreadSubscribed(sessionId);
+    if (resumed.thread) this.rememberThread(resumed.thread, { turnsAuthoritative: true });
+    this.rememberThreadSettingsFromResponse(sessionId, resumed);
+    await this.recoverActiveTurn(sessionId, resumed.thread);
+  }
+
+  idleReleaseEligible(sessionId) {
+    const thread = this.threadMetadata.get(sessionId);
+    return !this.closed && this.resumedThreads.has(sessionId) && !this.idleUnsubscribed.has(sessionId) &&
+      !this.unpublishedCreatedThreads.has(sessionId) && !thread?.parentThreadId && thread?.status?.type === 'idle' &&
+      !this.continueTurnId(sessionId);
+  }
+
+  idleReleaseCandidate(sessionId) {
+    return this.idleReleaseEligible(sessionId) && !this.activeTurns.has(sessionId) && !this.liveTurns.has(sessionId) &&
+      !this.permissionConfigurations.has(sessionId) && !this.permissionUpdateWaiters.has(sessionId) &&
+      ![...this.pendingApprovals.values()].some(p => p.sessionId === sessionId || p.rootSessionId === sessionId) &&
+      ![...this.asyncQuestions.entries.values()].some(p => (p.sessionId === sessionId || p.rootSessionId === sessionId) &&
+        ['pending', 'sending', 'unconfirmed'].includes(p.state)) &&
+      ![...this.pendingPersistenceChecks.values()].some(checks => checks.some(p => p.sessionId === sessionId)) &&
+      ![...this.queueTracker.receipts.values()].some(p => p.sessionId === sessionId) &&
+      !this.messageSubmissions.hasPending(sessionId);
+  }
+
+  scheduleIdleRelease(sessionId, delayMs = this.idleReleaseDelayMs) {
+    if (!this.idleReleaseEligible(sessionId) || this.idleReleaseTimers.has(sessionId)) return;
+    const version = this.idleReleaseVersions.get(sessionId) ?? 0;
+    const timer = setTimeout(() => {
+      this.idleReleaseTimers.delete(sessionId);
+      void this.serializeControl(sessionId, async () => {
+        if (!this.idleReleaseCandidate(sessionId) || version !== (this.idleReleaseVersions.get(sessionId) ?? 0)) return;
+        const deadline = Date.now() + 8000;
+        const read = async (method, params) => {
+          if (version !== (this.idleReleaseVersions.get(sessionId) ?? 0) || Date.now() >= deadline)
+            throw new Error('Idle release check superseded.');
+          const result = await this.request(method, params, { timeoutMs: Math.min(2000, deadline - Date.now()) });
+          if (version !== (this.idleReleaseVersions.get(sessionId) ?? 0)) throw new Error('Idle release check superseded.');
+          return result;
+        };
+        try {
+          const { thread } = await read('thread/read', { threadId: sessionId, includeTurns: true });
+          const settled = thread => thread && ['idle', 'notLoaded'].includes(thread.status?.type) &&
+            thread.turns?.length > 0 && !thread.turns.some(t => t.status === 'inProgress') &&
+            ['completed', 'failed', 'interrupted'].includes(thread.turns.at(-1).status) &&
+            !canContinueCodexTurn(thread.turns.at(-1)) &&
+            !(thread.turns.at(-1).items ?? []).some(i => i.status === 'inProgress');
+          if (thread?.id !== sessionId || thread.status?.type !== 'idle' || !settled(thread) ||
+              !thread.path?.endsWith('.jsonl')) return;
+          const file = await stat(thread.path);
+          if (!file.isFile() || !file.size || (await rolloutOwner(thread.path))?.id !== sessionId) return;
+          const noBackground = async threadId => {
+            const terminals = await read('thread/backgroundTerminals/list', { threadId });
+            return Array.isArray(terminals.data) && !terminals.data.length && !terminals.nextCursor;
+          };
+          const descendants = await this.listDescendants(sessionId, { request: read });
+          for (const child of descendants) {
+            if (!['idle', 'notLoaded'].includes(child.status?.type)) return;
+            const result = await read('thread/read', { threadId: child.id, includeTurns: true });
+            if (result.thread?.id !== child.id || !settled(result.thread) || !(await noBackground(child.id))) return;
+          }
+          if (!(await noBackground(sessionId)) ||
+              !this.idleReleaseCandidate(sessionId) || version !== (this.idleReleaseVersions.get(sessionId) ?? 0)) return;
+          const response = await this.request('thread/unsubscribe', { threadId: sessionId });
+          if (['unsubscribed', 'notSubscribed'].includes(response.status)) this.idleUnsubscribed.add(sessionId);
+          else if (response.status === 'notLoaded') this.clearOwnedThread(sessionId);
+        } catch {
+          // Missing state, unsupported APIs and read failures retain the writer.
+          // Never archive, interrupt, or stop another task to make it unload.
+        }
+      }, { touch: false }).finally(() => {
+        this.scheduleIdleRelease(sessionId, this.idleReleaseRetryMs);
+      }).catch(() => {});
+    }, delayMs);
+    timer.unref?.();
+    this.idleReleaseTimers.set(sessionId, timer);
+  }
+
+  clearOwnedThread(sessionId) {
+    this.cancelIdleRelease(sessionId);
+    this.resumedThreads.delete(sessionId);
+    this.idleUnsubscribed.delete(sessionId);
+    this.activeTurns.delete(sessionId);
+    this.liveTurns.delete(sessionId);
+    this.activeTurnStartedAt.delete(sessionId);
+    this.threadPermissions.delete(sessionId);
+    this.desktopStatePool.invalidate(sessionId);
+    this.advanceThreadRuntimeRevision(sessionId);
+    this.rememberThread({ id: sessionId, status: { type: 'notLoaded' } });
+  }
+
+  confirmThreadUnloaded(sessionId) {
+    if (!this.resumedThreads.has(sessionId)) return;
+    if (this.unloadChecks.has(sessionId)) return this.unloadChecks.get(sessionId);
+    const check = this.serializeControl(sessionId, async () => {
+      // A close notification can arrive after a new resume was requested.
+      // Recheck this app-server before clearing newly acquired ownership.
+      const result = await this.request('thread/loaded/list', {});
+      if (Array.isArray(result.data) && !result.data.includes(sessionId)) this.clearOwnedThread(sessionId);
+    }, { touch: false }).catch(() => {}).finally(() => this.unloadChecks.delete(sessionId));
+    this.unloadChecks.set(sessionId, check);
+    return check;
+  }
+
+  serializeControl(sessionId, operation, { touch = true } = {}) {
+    if (touch) this.cancelIdleRelease(sessionId);
     const previous = this.sessionControls.get(sessionId) ?? Promise.resolve();
     const next = previous.catch(() => {}).then(operation);
     this.sessionControls.set(sessionId, next);
     void next.finally(() => {
-      if (this.sessionControls.get(sessionId) === next) this.sessionControls.delete(sessionId);
+      if (this.sessionControls.get(sessionId) === next) {
+        this.sessionControls.delete(sessionId);
+        if (touch) this.scheduleIdleRelease(sessionId);
+      }
     }).catch(() => {});
     return next;
   }
 
   submitMessage(options) {
-    return this.serializeControl(options.sessionId, () => this.submitMessageUnlocked(options));
+    return this.serializeControl(options.sessionId, () => this.submitMessageOnce(options));
+  }
+
+  async findExistingSubmission({ sessionId, clientMessageId, requestId }, { strict = false } = {}) {
+    const [queue, history] = await Promise.allSettled([
+      this.request('thread/queue/list', { threadId: sessionId }),
+      this.request('thread/read', { threadId: sessionId, includeTurns: true }),
+    ]);
+    const existing = queue.status === 'fulfilled' && queue.value.data?.find(
+      item => item.clientUserMessageId === clientMessageId);
+    if (existing) return this.queueTracker.trackExisting({ sessionId, clientMessageId, requestId,
+      queuedSubmissionId: existing.id });
+    const turn = history.status === 'fulfilled' && history.value.thread?.id === sessionId && (history.value.thread.turns ?? []).find(turn =>
+      (turn.items ?? []).some(item => item.type === 'userMessage' &&
+        (item.clientId ?? item.client_id) === clientMessageId));
+    if (turn) return { mode: 'started', turnId: turn.id, persisted: true, syncVerifiedAt: new Date().toISOString() };
+    if (strict && (queue.status === 'rejected' || history.status === 'rejected' || history.value?.thread?.id !== sessionId)) {
+      throw new Error('Cannot confirm the previous Codex submission; refresh before retrying.');
+    }
+    return null;
+  }
+
+  async resumeQueuedSubmission(sessionId) {
+    if (this.closed) return;
+    if (this.resumedThreads.has(sessionId)) {
+      await this.resubscribeOwnedThread(sessionId);
+      return;
+    }
+    const desktopOwner = await this.readDesktopPermissions(sessionId, undefined, {
+      ownershipOnly: true, timeoutMs: 1000,
+    }).then(() => true, () => false);
+    if (desktopOwner || this.closed) return;
+    try {
+      // This method is only reached by an explicit send/retry, never by the
+      // background receipt tracker. Resuming automatically consumes the queue.
+      const resumed = await this.resumeThreadFromRollout(sessionId);
+      this.markThreadSubscribed(sessionId);
+      if (resumed.thread) this.rememberThread(resumed.thread, { turnsAuthoritative: true });
+      this.rememberThreadSettingsFromResponse(sessionId, resumed);
+      await this.recoverActiveTurn(sessionId, resumed.thread);
+    } catch (error) {
+      if (!isActiveWriterError(error)) throw error;
+      // Another writer won the race. Keep the original queued item for it.
+    }
+  }
+
+  async submitMessageOnce(options) {
+    if (options.action === 'continue') {
+      await this.resubscribeOwnedThread(options.sessionId);
+      return this.submitMessageUnlocked(options);
+    }
+    const clientMessageId = options.clientMessageId ?? options.requestId ?? createId('msg');
+    options = { ...options, clientMessageId };
+    const previous = this.messageSubmissions.get(options.sessionId, clientMessageId);
+    const queuedReceipt = this.queueTracker.receipts.get(this.queueTracker.key(options.sessionId, clientMessageId));
+    let known = previous?.result;
+    let queuedInNative = false;
+    if (known?.mode === 'queued') {
+      const fresh = await this.findExistingSubmission(options);
+      if (!fresh) return { ...known }; // No proof of a pending item: do not wake an unrelated queue.
+      known = fresh;
+      queuedInNative = fresh.mode === 'queued';
+      await this.messageSubmissions.accept(previous, known);
+    }
+    if (!known && (previous || queuedReceipt)) known = await this.findExistingSubmission(options, { strict: true });
+    if (known?.mode === 'queued') queuedInNative = true;
+    if (!known && queuedReceipt) return this.queueTracker.result(queuedReceipt);
+    if (known) {
+      if (previous?.state === 'pending' && (known.mode !== 'queued' || known.queuedSubmissionId))
+        await this.messageSubmissions.accept(previous, known);
+      if (queuedInNative) await this.resumeQueuedSubmission(options.sessionId);
+      return { ...known };
+    }
+    if (previous) throw new Error('The previous Codex submission is still being confirmed; refresh before retrying.');
+    const receipt = await this.messageSubmissions.reserve(options.sessionId, clientMessageId);
+    const dispatches = [];
+    try {
+      if (this.idleUnsubscribed.has(options.sessionId)) {
+        const existing = await this.findExistingSubmission(options);
+        if (existing) {
+          dispatches.push('existing');
+          if (existing.mode !== 'queued' || existing.queuedSubmissionId) await this.messageSubmissions.accept(receipt, existing);
+          if (existing.mode === 'queued') await this.resumeQueuedSubmission(options.sessionId);
+          return existing;
+        }
+      }
+      await this.resubscribeOwnedThread(options.sessionId);
+      const result = await this.submitMessageUnlocked({ ...options,
+        beforeSubmit: kind => { dispatches.push(kind); },
+        submissionNotSent: kind => { if (dispatches.at(-1) === kind) dispatches.pop(); },
+      });
+      // An ambiguous queue/add timeout has no native submission ID yet. Keep
+      // the reservation pending until an exact queue/history match is found.
+      if (result.mode !== 'queued' || result.queuedSubmissionId) await this.messageSubmissions.accept(receipt, result);
+      return result;
+    } catch (error) {
+      if (!dispatches.length || (dispatches.length === 1 && error.codexRequestNotDispatched) ||
+          (dispatches.length === 1 && !['interrupt', 'existing'].includes(dispatches[0]) &&
+          [-32600, -32601, -32602].includes(error.code))) await this.messageSubmissions.forget(receipt);
+      throw error;
+    }
+  }
+
+  async noteSubmittedMessage(sessionId, clientMessageId, turnId, persisted) {
+    if (!clientMessageId || !turnId) return;
+    const receipt = this.messageSubmissions.get(sessionId, clientMessageId);
+    if (!receipt || receipt.state === 'accepted' && (!persisted || receipt.result?.persisted)) return;
+    try {
+      await this.messageSubmissions.accept(receipt, { mode: receipt.result?.mode === 'steered' ? 'steered' : 'started',
+        turnId, persisted: persisted || receipt.result?.persisted === true, syncVerifiedAt: new Date().toISOString() });
+      this.scheduleIdleRelease(sessionId);
+    } catch {
+      // Keep the pending admission when durable confirmation fails. Runtime
+      // notifications still reach the client; a retry must not repeat it.
+    }
   }
 
   async submitMessageUnlocked({
@@ -1717,6 +1995,8 @@ export class CodexAppServerAdapter {
     content,
     attachments = [],
     runtimeSettings,
+    beforeSubmit,
+    submissionNotSent,
   }) {
     if (action === "continue") return this.continueMessageUnlocked({ sessionId, requestId,
       clientMessageId, expectedTurnId, content, attachments, runtimeSettings, interruptRunning });
@@ -1741,7 +2021,10 @@ export class CodexAppServerAdapter {
       }).then(() => true, () => false);
       if (desktopOwner) {
         if (interruptRunning) {
-          await this.interruptDesktopTurn(sessionId);
+          beforeSubmit?.('interrupt');
+          const stopped = await this.interruptDesktopTurn(sessionId);
+          if (stopped?.turnId === null) submissionNotSent?.('interrupt');
+          beforeSubmit?.('start');
           const result = await this.startDesktopMessage(sessionId, {
             input, clientMessageId: clientUserMessageId,
             ...(requestedSettings ? { runtimeSettings: requestedSettings } : {}),
@@ -1755,12 +2038,25 @@ export class CodexAppServerAdapter {
           return result;
         }
         if (requestedSettings) throw new Error("Codex message settings require starting a new turn.");
+        beforeSubmit?.('steer');
         const delivery = await this.submitDesktopMessage(sessionId, {
           input, content, clientMessageId: clientUserMessageId,
         });
+        // The helper only returns awaitingNewTurn before dispatching a steer.
+        // A later definitive queue refusal must not look like an ambiguous write.
+        if (delivery.awaitingNewTurn === true) submissionNotSent?.('steer');
         if (delivery.accepted) return { mode: "steered", turnId: null, persisted: false,
           syncVerifiedAt: new Date().toISOString() };
-        return this.queueTracker.enqueue({ sessionId, requestId, clientMessageId: clientUserMessageId, input });
+        return this.queueTracker.enqueue({ sessionId, requestId, clientMessageId: clientUserMessageId, input,
+          beforeAdd: () => beforeSubmit?.('queue') });
+      }
+      // A persisted queue may outlive both its writer and this adapter. Check
+      // before resume: native resume can start that exact message immediately.
+      const known = await this.findExistingSubmission({ sessionId, requestId, clientMessageId: clientUserMessageId });
+      if (known) {
+        beforeSubmit?.('existing');
+        if (known.mode === 'queued') await this.resumeQueuedSubmission(sessionId);
+        return known;
       }
       let resumed;
       try {
@@ -1769,13 +2065,14 @@ export class CodexAppServerAdapter {
         if (!isActiveWriterError(error)) throw error;
         // Native queue items cannot carry runtime settings. Never silently drop them.
         if (requestedSettings) throw new Error("无法将所选设置应用到电脑端会话，请打开 Codex 电脑版后重试。");
-        return this.queueTracker.enqueue({ sessionId, requestId, clientMessageId: clientUserMessageId, input });
+        return this.queueTracker.enqueue({ sessionId, requestId, clientMessageId: clientUserMessageId, input,
+          beforeAdd: () => beforeSubmit?.('queue') });
       }
       if (resumed.thread) {
         this.rememberThread(resumed.thread, { turnsAuthoritative: true });
       }
       this.rememberThreadSettingsFromResponse(sessionId, resumed);
-      this.resumedThreads.add(sessionId);
+      this.markThreadSubscribed(sessionId);
       await this.recoverActiveTurn(sessionId, resumed.thread);
     }
     const {permissions: requestedPermissionMode, ...modelSettings} = requestedSettings ?? {};
@@ -1787,6 +2084,7 @@ export class CodexAppServerAdapter {
       requestedPermissionMode, currentPermissions, this.sessionCwds.get(sessionId) ?? this.workspace,
     ) : {};
     if (interruptRunning && this.activeTurns.has(sessionId)) {
+      beforeSubmit?.('interrupt');
       await this.interruptOwnedTurn(sessionId);
     }
     const activeTurnId = this.activeTurns.get(sessionId);
@@ -1798,6 +2096,7 @@ export class CodexAppServerAdapter {
         content,
         clientMessageId: clientUserMessageId,
       });
+      beforeSubmit?.('steer');
       await this.request("turn/steer", {
         threadId: sessionId,
         expectedTurnId: activeTurnId,
@@ -1824,6 +2123,7 @@ export class CodexAppServerAdapter {
         syncVerifiedAt: new Date().toISOString(),
       };
     }
+    beforeSubmit?.('start');
     const result = await this.request("turn/start", {
       threadId: sessionId,
       cwd: this.sessionCwds.get(sessionId) ?? this.workspace,
@@ -1907,7 +2207,7 @@ export class CodexAppServerAdapter {
         // Only this explicit user action may acquire an unowned writer. Never
         // queue or retry takeover when Desktop owns the conversation.
         const resumed = await this.resumeThreadFromRollout(sessionId);
-        this.resumedThreads.add(sessionId);
+        this.markThreadSubscribed(sessionId);
         if (resumed.thread) this.rememberThread(resumed.thread, { turnsAuthoritative: true });
         this.rememberThreadSettingsFromResponse(sessionId, resumed);
       } else throw new Error('Codex is not idle; task was not continued.');
@@ -1993,6 +2293,7 @@ export class CodexAppServerAdapter {
   }
 
   async applyPermissions(sessionId, value) {
+    await this.resubscribeOwnedThread(sessionId);
     if (!CODEX_PERMISSION_MODES.includes(value)) throw new Error("Unsupported Codex permission mode.");
     const thread = this.threadMetadata.get(sessionId);
     if (!thread || thread.parentThreadId || this.activeTurns.has(sessionId) || thread.status?.type === "active") {
@@ -2047,7 +2348,14 @@ export class CodexAppServerAdapter {
     }
   }
 
-  async configureSession({ sessionId, configId, value }) {
+  configureSession(options) {
+    return this.serializeControl(options.sessionId, async () => {
+      await this.resubscribeOwnedThread(options.sessionId);
+      return this.configureSessionUnlocked(options);
+    });
+  }
+
+  async configureSessionUnlocked({ sessionId, configId, value }) {
     if (configId === "permissions") return this.configurePermissions(sessionId, value);
     if (
       !["model", "reasoning", "speed"].includes(configId) ||
@@ -2108,7 +2416,7 @@ export class CodexAppServerAdapter {
       if (this.closed) throw error;
       if (resumed.thread) this.rememberThread(resumed.thread, { turnsAuthoritative: true });
       this.rememberThreadSettingsFromResponse(sessionId, resumed);
-      this.resumedThreads.add(sessionId);
+      this.markThreadSubscribed(sessionId);
       await this.request("thread/settings/update", update);
     }
     this.replaceThreadSettings(sessionId, effective);
@@ -2392,6 +2700,7 @@ export class CodexAppServerAdapter {
 
   interruptTurn({ sessionId }) {
     return this.serializeControl(sessionId, async () => {
+      await this.resubscribeOwnedThread(sessionId);
       if (!this.resumedThreads.has(sessionId)) {
         return this.interruptDesktopTurn(sessionId);
       }
@@ -2630,6 +2939,12 @@ export class CodexAppServerAdapter {
       else delete next.status;
     }
     if (!staleRuntime && turnsAuthoritative && Array.isArray(thread.turns)) {
+      if (this.messageSubmissions.hasPending(thread.id)) {
+        for (const turn of thread.turns) for (const item of turn.items ?? []) {
+          if (item.type === 'userMessage') void this.noteSubmittedMessage(thread.id,
+            item.clientId ?? item.client_id, turn.id, true);
+        }
+      }
       if (this.resumedThreads.has(thread.id) && thread.turns.length) {
         const latest = thread.turns.at(-1);
         const live = this.liveTurns.get(thread.id) ?? this.activeTurns.get(thread.id);
@@ -2665,6 +2980,8 @@ export class CodexAppServerAdapter {
       this.syncActiveTurn({ ...thread, id: next.id }, { turnsAuthoritative });
       this.syncRunningStartedAt({ ...next, turns: thread.turns }, { turnsAuthoritative });
     }
+    if (next.status?.type === 'active') this.touchThreadActivity(next.id);
+    else this.scheduleIdleRelease(next.id);
   }
 
   clearTerminalTurn(sessionId, turnId) {
@@ -3160,6 +3477,8 @@ export class CodexAppServerAdapter {
 
   async close() {
     this.closed = true;
+    this.cancelAllIdleReleases();
+    this.idleUnsubscribed.clear();
     this.desktopStatePool.close();
     this.historyPages.clear();
     this.recoveredRolloutPaths.clear();
@@ -3233,6 +3552,7 @@ export class CodexAppServerAdapter {
     const sessionId = params.threadId;
     const thread = this.threadMetadata.get(sessionId);
     const rootSessionId = await this.rootSessionIdForThread(thread) ?? sessionId;
+    this.cancelIdleRelease(rootSessionId);
     const pending = {
       rpcId: request.id,
       method: request.method,
@@ -3412,6 +3732,11 @@ export class CodexAppServerAdapter {
       return;
     }
     if (notification.method === "thread/status/changed") {
+      if (params.status?.type === 'notLoaded' && this.resumedThreads.has(params.threadId)) {
+        await this.confirmThreadUnloaded(params.threadId);
+        return;
+      }
+      if (params.status?.type === 'active') this.cancelIdleRelease(params.threadId);
       this.advanceThreadRuntimeRevision(params.threadId);
       const thread =
         this.threadMetadata.get(params.threadId) ??
@@ -3427,6 +3752,10 @@ export class CodexAppServerAdapter {
           });
         }
       }
+      return;
+    }
+    if (notification.method === 'thread/closed') {
+      await this.confirmThreadUnloaded(params.threadId);
       return;
     }
     const sessionId =
@@ -3479,6 +3808,7 @@ export class CodexAppServerAdapter {
         break;
       }
       case "turn/started":
+        this.touchThreadActivity(sessionId);
         this.advanceThreadRuntimeRevision(sessionId);
         this.continueLifecycle.set(sessionId, { turnId, status: 'inProgress' });
         if (turnId) {
@@ -3545,6 +3875,7 @@ export class CodexAppServerAdapter {
         });
         break;
       case "item/started":
+        this.touchThreadActivity(sessionId);
         await this.handleItem(sessionId, turnId, item, false);
         break;
       case "item/completed":
@@ -3580,7 +3911,8 @@ export class CodexAppServerAdapter {
             summary: params.turn?.error?.message ?? null,
           });
         }
-        await this.verifyCompletedTurnPersistence(turnId);
+        try { await this.verifyCompletedTurnPersistence(turnId); }
+        finally { this.scheduleIdleRelease(sessionId); }
         break;
       case "turn/diff/updated":
         await this.handlers.emitEvent(sessionId, {
@@ -3637,6 +3969,7 @@ export class CodexAppServerAdapter {
     if (normalizeCodexItemType(item.type) === "usermessage") {
       const observed = this.observedUserMessages.get(sessionId) ?? new Set();
       const clientMessageId = item.clientId ?? item.client_id ?? null;
+      await this.noteSubmittedMessage(sessionId, clientMessageId, turnId, completed);
       if (clientMessageId) observed.add(`client:${clientMessageId}`);
       for (const part of item.content ?? []) {
         if (part.type === "text" && part.text)
@@ -3834,6 +4167,10 @@ export class CodexAppServerAdapter {
   }
 
   request(method, params, { timeoutMs } = {}) {
+    if (!this.child?.stdin || this.child.stdin.destroyed || this.child.stdin.writable === false ||
+        this.child.killed || this.child.exitCode != null) {
+      return Promise.reject(Object.assign(new Error('Codex app-server is not running.'), { codexRequestNotDispatched: true }));
+    }
     const id = this.nextId++;
     return new Promise((resolve, reject) => {
       const timer = timeoutMs ? setTimeout(() => {

@@ -37,6 +37,7 @@ async function fixture(t, { historyMode = 'legacy', policy = true } = {}) {
   const calls = [];
   const native = async (method, params) => {
     calls.push({ method, params });
+    if (method === 'thread/queue/list') return { data: [] };
     if (method === 'thread/list') return { data: [] };
     if (method === 'thread/resume') return { thread: { id, path, cwd: root, status: { type: 'idle' } } };
     if (method === 'turn/start') return { turn: { id: 'new-turn' } };
@@ -121,7 +122,7 @@ test('missing source, ambiguous copies, symlinks and missing policies never trig
       if (kind === 'wrong-owner') await writeFile(f.path, row('session_meta', { id: 'another-thread' }) + f.records);
       f.a.request = (method, params) => method === 'thread/read' ? { thread: { id, path: f.oldPath } } : f.native(method, params);
       await assert.rejects(send(f.a), /找不到|无法确认/);
-      assert.equal(f.calls.length, 0);
+      assert.equal(f.calls.filter(c => c.method !== 'thread/queue/list').length, 0);
       assert.equal(f.a.resumedThreads.size, 0);
     });
   }

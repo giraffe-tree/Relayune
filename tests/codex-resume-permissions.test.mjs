@@ -36,10 +36,11 @@ test('cold adapter sends persisted sandbox overrides on explicit continuation', 
       throw new Error('Unexpected '+method);
     };
     await adapter.submitMessage({sessionId:'thread-test',content:'Resume test',requestId:'request-test'});
-    assert.equal(calls[0].method,'thread/resume');
-    assert.equal(calls[0].params.sandbox,'workspace-write');
-    assert.equal(calls[0].params.approvalPolicy,'untrusted');
-    assert.equal(calls[0].params.config['sandbox_workspace_write.network_access'],false);
-    assert.equal(calls[1].method,'turn/start');
+    const mutations = calls.filter(c => !['thread/read','thread/queue/list'].includes(c.method));
+    assert.equal(mutations[0].method,'thread/resume');
+    assert.equal(mutations[0].params.sandbox,'workspace-write');
+    assert.equal(mutations[0].params.approvalPolicy,'untrusted');
+    assert.equal(mutations[0].params.config['sandbox_workspace_write.network_access'],false);
+    assert.equal(mutations[1].method,'turn/start');
   } finally {await rm(dir,{recursive:true,force:true});}
 });

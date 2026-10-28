@@ -1,5 +1,6 @@
 import { transportPayloadExpired } from "../shared/relay-retention.mjs";
 import { hashAction } from "./protocol.mjs";
+import { submissionReceipt } from './codex-message-submissions.mjs';
 import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
 import { dirname } from "node:path";
 
@@ -13,6 +14,7 @@ export class RelayOutbox {
     this.transportRequests = Object.create(null);
     this.projectOperations = {};
     this.codexQueueReceipts = {};
+    this.codexMessageReceipts = {};
     this.writeChain = null;
     this.writeRevision = 0;
     this.appendChain = Promise.resolve();
@@ -26,6 +28,8 @@ export class RelayOutbox {
     this.transportRequests = Object.assign(Object.create(null), stored.transportRequests ?? {});
     this.projectOperations = stored.projectOperations ?? {};
     this.codexQueueReceipts = stored.codexQueueReceipts ?? {};
+    this.codexMessageReceipts = Object.fromEntries(Object.values(stored.codexMessageReceipts ?? {})
+      .map(submissionReceipt).filter(Boolean).map(r => [JSON.stringify([r.sessionId, r.clientMessageId]), r]));
     this.nextSeq = Math.max(1, Number(stored.nextSeq) || 1);
     this.lastAcked = Math.max(0, Number(stored.lastAcked) || 0);
     this.pending = new Map(
@@ -201,6 +205,7 @@ export class RelayOutbox {
       transportRequests: this.transportRequests,
       projectOperations: this.projectOperations,
       codexQueueReceipts: this.codexQueueReceipts,
+      codexMessageReceipts: this.codexMessageReceipts,
     });
     await mkdir(dirname(this.path), { recursive: true });
     const temporary = `${this.path}.tmp`;
@@ -223,6 +228,18 @@ export class RelayOutbox {
 
   async removeCodexQueueReceipt({ sessionId, clientMessageId }) {
     delete this.codexQueueReceipts[JSON.stringify([sessionId, clientMessageId])];
+    await this.persist();
+  }
+
+  async saveCodexMessageReceipt(value) {
+    const receipt = submissionReceipt(value);
+    if (!receipt) throw new Error('Invalid Codex submission receipt.');
+    this.codexMessageReceipts[JSON.stringify([receipt.sessionId, receipt.clientMessageId])] = receipt;
+    await this.persist();
+  }
+
+  async removeCodexMessageReceipt({ sessionId, clientMessageId }) {
+    delete this.codexMessageReceipts[JSON.stringify([sessionId, clientMessageId])];
     await this.persist();
   }
 }

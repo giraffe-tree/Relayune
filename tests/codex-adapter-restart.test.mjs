@@ -861,7 +861,7 @@ test("[relay] restarted adapter resumes an old thread and keeps its cwd for turn
               items: [
                 {
                   type: "userMessage",
-                  clientId: "msg_new",
+                  clientId: requests.some(r => r.method === 'turn/start') ? "msg_new" : "msg_old",
                   content: [{ type: "text", text: "继续旧会话" }],
                 },
               ],
@@ -938,7 +938,7 @@ test("[relay] unconfirmed owner retains writer-conflict queue fallback", async (
   };
   const result = await adapter.submitMessage({sessionId: "thread", clientMessageId: "msg", content: "hello"});
   assert.equal(result.mode, "queued");
-  assert.deepEqual(requests, ["thread/resume", "thread/queue/list", "thread/read", "thread/queue/add"]);
+  assert.deepEqual(requests, ["thread/queue/list", "thread/read", "thread/resume", "thread/queue/list", "thread/read", "thread/queue/add"]);
   await adapter.close();
 });
 
@@ -961,7 +961,7 @@ test("[relay] unrelated resume failures never enqueue a duplicate message", asyn
   );
   assert.deepEqual(
     requests.map(({ method }) => method),
-    ["thread/resume"],
+    ["thread/queue/list", "thread/read", "thread/resume"],
   );
   assert.equal(adapter.queueTracker.receipts.size, 0);
   await adapter.close();
@@ -996,7 +996,7 @@ test("[relay] restarted adapter recovers an in-progress turn and steers the firs
               items: [
                 {
                   type: "userMessage",
-                  clientId: "msg_steer",
+                  clientId: requests.some(r => r.method === 'turn/steer') ? "msg_steer" : "msg_initial",
                   content: [{ type: "text", text: "接着跑" }],
                 },
               ],
@@ -1636,7 +1636,8 @@ test('Desktop active message is steered without resume or queue; ambiguous failu
   };
   assert.equal((await adapter.submitMessage(message)).mode, 'steered');
   adapter.submitDesktopMessage = async () => { throw new Error('acknowledgement lost'); };
-  await assert.rejects(adapter.submitMessage(message), /acknowledgement lost/);
+  assert.equal((await adapter.submitMessage(message)).mode, 'steered', 'accepted ID is not sent again');
+  await assert.rejects(adapter.submitMessage({...message, clientMessageId:'mobile_next'}), /acknowledgement lost/);
   assert.equal(adapter.queueTracker.receipts.size, 0);
   await adapter.close();
 });

@@ -23,16 +23,16 @@ export class CodexQueueTracker {
     this.arm();
   }
 
-  enqueue({ sessionId, clientMessageId, requestId, input }) {
+  enqueue({ sessionId, clientMessageId, requestId, input, beforeAdd }) {
     const key = this.key(sessionId, clientMessageId);
     if (this.sends.has(key)) return this.sends.get(key);
-    const sending = this.send({ sessionId, clientMessageId, requestId, input }, key);
+    const sending = this.send({ sessionId, clientMessageId, requestId, input, beforeAdd }, key);
     this.sends.set(key, sending);
     void sending.finally(() => this.sends.delete(key)).catch(() => {});
     return sending;
   }
 
-  async send({ sessionId, clientMessageId, requestId, input }, key) {
+  async send({ sessionId, clientMessageId, requestId, input, beforeAdd }, key) {
     if (this.closed) throw new Error("Codex queue tracker closed.");
     const previous = this.receipts.get(key);
     if (previous) return this.result(previous);
@@ -49,6 +49,7 @@ export class CodexQueueTracker {
     this.receipts.set(key, receipt);
     if (!existing) {
       try {
+        await beforeAdd?.();
         const response = await this.request("thread/queue/add", { threadId: sessionId, input, clientUserMessageId: clientMessageId });
         receipt.queuedSubmissionId = response.queuedSubmission?.id ?? null;
         await this.save(receipt);
@@ -61,6 +62,16 @@ export class CodexQueueTracker {
         // The request may already have committed. Reconcile by ID, never add twice.
       }
     }
+    this.arm();
+    return this.result(receipt);
+  }
+
+  async trackExisting({ sessionId, clientMessageId, requestId, queuedSubmissionId }) {
+    const key = this.key(sessionId, clientMessageId);
+    const receipt = this.receipts.get(key) ?? { sessionId, clientMessageId, requestId, createdAt: Date.now() };
+    receipt.queuedSubmissionId = queuedSubmissionId ?? receipt.queuedSubmissionId ?? null;
+    await this.save(receipt);
+    this.receipts.set(key, receipt);
     this.arm();
     return this.result(receipt);
   }

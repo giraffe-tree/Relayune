@@ -51,6 +51,9 @@ export class MultiAgentAdapter {
         loadCodexQueueReceipts: this.handlers.loadCodexQueueReceipts,
         saveCodexQueueReceipt: this.handlers.saveCodexQueueReceipt,
         removeCodexQueueReceipt: this.handlers.removeCodexQueueReceipt,
+        loadCodexMessageReceipts: this.handlers.loadCodexMessageReceipts,
+        saveCodexMessageReceipt: this.handlers.saveCodexMessageReceipt,
+        removeCodexMessageReceipt: this.handlers.removeCodexMessageReceipt,
       } : {}),
       emitEvent: async (sessionId, event, extra) => {
         this.sessionProviders.set(sessionId, provider);

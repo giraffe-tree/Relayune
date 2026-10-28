@@ -304,6 +304,9 @@ export class MacRelay {
       loadCodexQueueReceipts: () => Object.values(this.outbox.codexQueueReceipts),
       saveCodexQueueReceipt: receipt => this.outbox.saveCodexQueueReceipt(receipt),
       removeCodexQueueReceipt: receipt => this.outbox.removeCodexQueueReceipt(receipt),
+      loadCodexMessageReceipts: () => Object.values(this.outbox.codexMessageReceipts),
+      saveCodexMessageReceipt: receipt => this.outbox.saveCodexMessageReceipt(receipt),
+      removeCodexMessageReceipt: receipt => this.outbox.removeCodexMessageReceipt(receipt),
       emitEvent: (sessionId, event, extra) =>
         this.handleAdapterEvent(sessionId, event, extra),
       requestApproval: (approval) => this.handleAdapterApproval(approval),
