@@ -109,7 +109,7 @@ class _PairingScreenState extends State<PairingScreen> {
                     ),
                   ),
                   const SizedBox(height: 24),
-                  StatusBanner(controller: controller),
+                  if (!_showManual) StatusBanner(controller: controller),
                   if (widget.connections case final connections?) ...[
                     ComputerColorPicker(
                       value: connections.colorOf(controller),
@@ -304,6 +304,7 @@ class _PairingScreenState extends State<PairingScreen> {
                             ),
                             if (pairing) _pairingProgress(),
                             const SizedBox(height: 14),
+                            StatusBanner(controller: controller),
                             FilledButton.icon(
                               onPressed: !pairing && !_busy ? _pair : null,
                               icon: const Icon(Icons.lock_outline),

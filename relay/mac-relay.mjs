@@ -2983,7 +2983,11 @@ function serializableCatalog(message) {
     JSON.stringify({
       type: message.type,
       desktop: message.desktop,
-      sessions: message.sessions ?? [],
+      // Bootstrap is a directory preview. Repeating complete model menus for
+      // fifty sessions can exceed the encrypted catalog limit and strand a
+      // newly paired client. Session history/configuration responses retain
+      // these menus and supply them when the client opens a conversation.
+      sessions: (message.sessions ?? []).map(({ session_config_options, kimi_config_options, ...session }) => session),
       projects: message.projects ?? [],
       usage: message.usage ?? {},
       file_access_limited: message.file_access_limited === true,

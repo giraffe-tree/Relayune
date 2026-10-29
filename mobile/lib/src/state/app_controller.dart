@@ -1897,6 +1897,7 @@ class AppController extends ChangeNotifier {
         _l10n.controllerPairingConfirmationTimeout,
       'pairing_confirmation_failed' =>
         _l10n.controllerPairingConfirmationFailed,
+      'pairing_catalog_timeout' => _l10n.controllerEncryptedResponseTimeout,
       'desktop_offline' => _l10n.controllerDesktopOffline,
       'attachment_gone' => _l10n.controllerAttachmentGone,
       'file_access_denied' => _l10n.controllerFileAccessDenied,
@@ -2611,8 +2612,10 @@ class AppController extends ChangeNotifier {
       api.browserToken = browserToken;
       _notify();
       ServerBootstrap? activated;
+      var desktopOnline = false;
       for (var attempt = 0; attempt < 60; attempt++) {
         final snapshot = await api.bootstrap(deviceId: completed.deviceId);
+        desktopOnline = snapshot.device.online;
         if (snapshot.device.online && snapshot.catalog != null) {
           await _decryptCatalog(snapshot.catalog!, candidateKey);
           activated = snapshot;
@@ -2622,10 +2625,10 @@ class AppController extends ChangeNotifier {
         if (_disposed) return;
       }
       if (activated == null) {
-        throw const RelayApiException(
-          'Desktop did not come online after pairing.',
+        throw RelayApiException(
+          'The first encrypted catalog was not available after pairing.',
           503,
-          'desktop_offline',
+          desktopOnline ? 'pairing_catalog_timeout' : 'desktop_offline',
         );
       }
       if (_disposed) return;

@@ -101,11 +101,16 @@ type DesktopLoginDocument = {
 };
 
 export class PairingApi {
+  private commandWait?: { notify(deviceId: string): void };
   private realtime?: {
     revokeBrowser(deviceId: string, browserId: string): void;
   };
 
   constructor(private readonly db: Db) {}
+
+  setCommandWait(commandWait: { notify(deviceId: string): void }) {
+    this.commandWait = commandWait;
+  }
 
   setRealtime(realtime: {
     revokeBrowser(deviceId: string, browserId: string): void;
@@ -864,6 +869,7 @@ export class PairingApi {
         { _id: existing.browser_id, pairing_id: pairingId },
         { $set: { pairing_confirmed: true } },
       );
+      this.commandWait?.notify(existing.device_id);
       return json({
         paired: true,
         pairing_id: pairingId,
@@ -997,6 +1003,9 @@ export class PairingApi {
       { _id: existing.browser_id, pairing_id: pairingId },
       { $set: { pairing_confirmed: true } },
     );
+    // Reuse the existing command waiter so an idle Relay immediately reloads
+    // the confirmed authorization and can publish this client's first catalog.
+    this.commandWait?.notify(deviceId);
     return json(
       {
         paired: true,

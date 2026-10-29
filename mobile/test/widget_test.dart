@@ -9,6 +9,40 @@ import 'package:relayune_mobile/src/ui/pairing_screen.dart';
 import 'package:relayune_mobile/src/widgets/brand_mark.dart';
 
 void main() {
+  testWidgets(
+    'manual pairing failure stays visible beside the connect button',
+    (tester) async {
+      tester.view.physicalSize = const Size(402, 874);
+      tester.view.devicePixelRatio = 1;
+      addTearDown(tester.view.resetPhysicalSize);
+      addTearDown(tester.view.resetDevicePixelRatio);
+      final controller = AppController();
+      addTearDown(controller.dispose);
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: RelayTheme.web,
+          home: PairingScreen(controller: controller),
+        ),
+      );
+      await tester.ensureVisible(
+        find.byKey(const ValueKey('toggle-manual-pairing')),
+      );
+      await tester.tap(find.byKey(const ValueKey('toggle-manual-pairing')));
+      await tester.pump();
+      controller.error = '配对失败，请重新连接。';
+      await tester.pumpWidget(
+        MaterialApp(
+          theme: RelayTheme.web,
+          home: PairingScreen(controller: controller),
+        ),
+      );
+      await tester.ensureVisible(find.text('安全连接'));
+      await tester.pump();
+      expect(find.text(controller.error).hitTestable(), findsOneWidget);
+      expect(find.text(controller.error), findsOneWidget);
+    },
+  );
+
   testWidgets('pairing progress is visible with manual entry collapsed', (
     tester,
   ) async {

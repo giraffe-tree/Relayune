@@ -602,6 +602,7 @@ realtime.onSubscriptionsChanged(deviceId => {
   for (const browserId of cipherStream.activeBrowserIds(deviceId)) realtime.suppressDelivery(deviceId, browserId);
   cipherStream.legacySubscriptionsChanged(deviceId);
 });
+pairingApi.setCommandWait(env.COMMAND_WAIT);
 pairingApi.setRealtime({
   revokeBrowser(deviceId, browserId) {
     realtime.revokeBrowser(deviceId, browserId);

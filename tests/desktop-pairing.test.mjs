@@ -36,6 +36,12 @@ test("短码 PAKE 只让 MongoDB 看到公开握手消息", async () => {
     ]);
     const database = new MemoryMongo();
     const api = new PairingApi(database);
+    const authorizationWakeups = [];
+    api.setCommandWait({ notify(deviceId) {
+      assert.equal(database.documents.relay_browser_authorizations[0].pairing_confirmed, true);
+      assert.equal(database.documents.relay_pake_pairings[0].status, 'paired');
+      authorizationWakeups.push(deviceId);
+    } });
     await api.initialize();
 
     const desktop = await pake.createPairingInitiator();
@@ -100,6 +106,13 @@ test("短码 PAKE 只让 MongoDB 看到公开握手消息", async () => {
     assert.equal(completed.status, 201);
     const issued = await completed.json();
     assert.match(issued.device_id, /^dev_[a-f0-9]{32}$/);
+    assert.deepEqual(authorizationWakeups, [issued.device_id]);
+    const repeated = await api.handle(request(
+      `https://relay.test/api/pairings/${desktop.pairingId}/complete`,
+      { desktop_confirm: derived.desktopConfirm },
+    ), null);
+    assert.equal(repeated.status, 200);
+    assert.deepEqual(authorizationWakeups, [issued.device_id, issued.device_id]);
 
     const paired = await read(api, desktop.pairingId);
     pake.verifyDesktopConfirmation(
