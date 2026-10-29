@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -194,7 +195,139 @@ class _MermaidDiagramState extends State<MermaidDiagram> {
   );
 }
 
-/// Displays the validated, self-contained SVG at readable native dimensions.
+/// Gives the active diagram exclusive drag gestures until the user taps Done.
+/// The scrolling widget remains mounted, keeping its controller and position.
+class DiagramScrollRegion extends StatefulWidget {
+  const DiagramScrollRegion({super.key, required this.child});
+
+  final Widget child;
+
+  static bool isInteracting(BuildContext context) =>
+      context
+          .dependOnInheritedWidgetOfExactType<_DiagramScrollScope>()
+          ?.active ??
+      false;
+
+  @override
+  State<DiagramScrollRegion> createState() => _DiagramScrollRegionState();
+}
+
+class _DiagramScrollRegionState extends State<DiagramScrollRegion> {
+  final _activeMessages = <Object>{};
+
+  void _setActive(Object message, bool active) {
+    if (!mounted || _activeMessages.contains(message) == active) return;
+    setState(() {
+      if (active) {
+        _activeMessages.add(message);
+      } else {
+        _activeMessages.remove(message);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => _DiagramScrollScope(
+    active: _activeMessages.isNotEmpty,
+    setActive: _setActive,
+    child: ScrollConfiguration(
+      behavior: ScrollConfiguration.of(context).copyWith(
+        physics: _activeMessages.isEmpty
+            ? null
+            : const NeverScrollableScrollPhysics(),
+      ),
+      child: widget.child,
+    ),
+  );
+}
+
+class _DiagramScrollScope extends InheritedWidget {
+  const _DiagramScrollScope({
+    required this.active,
+    required this.setActive,
+    required super.child,
+  });
+
+  final bool active;
+  final void Function(Object message, bool active) setActive;
+
+  @override
+  bool updateShouldNotify(_DiagramScrollScope oldWidget) =>
+      active != oldWidget.active;
+}
+
+/// Keeps message selection available while no diagram is being manipulated.
+/// SelectionContainer.disabled alone cannot stop SelectionArea's ancestor
+/// gesture recognizers. Reparent the stable content outside those recognizers
+/// during diagram interaction, preserving the Markdown and diagram state.
+class DiagramSelectionArea extends StatefulWidget {
+  const DiagramSelectionArea({super.key, required this.child});
+
+  final Widget child;
+
+  @override
+  State<DiagramSelectionArea> createState() => _DiagramSelectionAreaState();
+}
+
+class _DiagramSelectionAreaState extends State<DiagramSelectionArea> {
+  final _contentKey = GlobalKey();
+  Object? _activeDiagram;
+  _DiagramScrollScope? _scrollScope;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _scrollScope = context
+        .dependOnInheritedWidgetOfExactType<_DiagramScrollScope>();
+  }
+
+  @override
+  void dispose() {
+    final scope = _scrollScope;
+    if (_activeDiagram != null) {
+      WidgetsBinding.instance.addPostFrameCallback(
+        (_) => scope?.setActive(this, false),
+      );
+    }
+    super.dispose();
+  }
+
+  void _setActive(Object diagram, bool active) {
+    if (!mounted || (!active && _activeDiagram != diagram)) return;
+    setState(() => _activeDiagram = active ? diagram : null);
+    _scrollScope?.setActive(this, active);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final content = KeyedSubtree(key: _contentKey, child: widget.child);
+    return _DiagramInteractionScope(
+      activeDiagram: _activeDiagram,
+      setActive: _setActive,
+      child: _activeDiagram == null ? SelectionArea(child: content) : content,
+    );
+  }
+}
+
+class _DiagramInteractionScope extends InheritedWidget {
+  const _DiagramInteractionScope({
+    required this.activeDiagram,
+    required this.setActive,
+    required super.child,
+  });
+
+  final Object? activeDiagram;
+  final void Function(Object diagram, bool active) setActive;
+
+  static _DiagramInteractionScope? maybeOf(BuildContext context) =>
+      context.dependOnInheritedWidgetOfExactType<_DiagramInteractionScope>();
+
+  @override
+  bool updateShouldNotify(_DiagramInteractionScope oldWidget) =>
+      activeDiagram != oldWidget.activeDiagram;
+}
+
+/// Shows the entire diagram first; manipulation is an explicit inline mode.
 class MermaidDiagramPreview extends StatefulWidget {
   const MermaidDiagramPreview({
     super.key,
@@ -210,7 +343,11 @@ class MermaidDiagramPreview extends StatefulWidget {
 }
 
 class _MermaidDiagramPreviewState extends State<MermaidDiagramPreview> {
+  final _identity = Object();
+  final _viewportKey = GlobalKey<_DiagramViewportState>();
   bool _showSource = false;
+  bool _localInteracting = false;
+  _DiagramInteractionScope? _scope;
   late Size _size;
 
   @override
@@ -222,7 +359,24 @@ class _MermaidDiagramPreviewState extends State<MermaidDiagramPreview> {
   @override
   void didUpdateWidget(MermaidDiagramPreview oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.svg != oldWidget.svg) _readSize();
+    if (widget.svg != oldWidget.svg) {
+      _readSize();
+      _localInteracting = false;
+      _releaseInteraction();
+    }
+  }
+
+  void _releaseInteraction() {
+    final scope = _scope;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      scope?.setActive(_identity, false);
+    });
+  }
+
+  @override
+  void dispose() {
+    _releaseInteraction();
+    super.dispose();
   }
 
   void _readSize() {
@@ -245,65 +399,75 @@ class _MermaidDiagramPreviewState extends State<MermaidDiagramPreview> {
         : const Size(320, 200);
   }
 
-  Widget _viewer(Size size) => InteractiveViewer(
-    key: ValueKey(widget.svg),
-    constrained: false,
-    alignment: Alignment.topLeft,
-    minScale: 0.1,
-    maxScale: 8,
-    child: SvgPicture.string(
-      widget.svg,
-      width: size.width,
-      height: size.height,
-      fit: BoxFit.contain,
-      semanticsLabel: widget.source,
-      errorBuilder: (_, _, _) => SelectableText(widget.source),
-    ),
-  );
+  void _setInteracting(bool active) {
+    setState(() => _localInteracting = active);
+    _scope?.setActive(_identity, active);
+    if (active) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted && _localInteracting) {
+          // Interaction pauses user scrolling. First bring the expanded card
+          // into view so controls and the entire canvas stay reachable.
+          Scrollable.ensureVisible(
+            context,
+            alignment: .5,
+            duration: const Duration(milliseconds: 200),
+          );
+        }
+      });
+    }
+  }
 
-  void _openFullscreen(Size size) => showDialog<void>(
-    context: context,
-    builder: (context) => Dialog.fullscreen(
-      child: SafeArea(
-        child: Column(
-          children: [
-            const Align(
-              alignment: AlignmentDirectional.centerEnd,
-              child: CloseButton(),
-            ),
-            Expanded(child: _viewer(size)),
-          ],
-        ),
+  void _openFullscreen(Size size) {
+    _setInteracting(false);
+    showDialog<void>(
+      context: context,
+      builder: (context) => _FullscreenDiagram(
+        svg: widget.svg,
+        source: widget.source,
+        nativeSize: size,
       ),
-    ),
-  );
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
+    _scope = _DiagramInteractionScope.maybeOf(context);
+    final interacting = _scope == null
+        ? _localInteracting
+        : _scope!.activeDiagram == _identity;
     final textScale = MediaQuery.textScalerOf(context).scale(16) / 16;
     final size = _size * textScale.clamp(1.0, 3.0);
     return LayoutBuilder(
-      builder: (context, constraints) {
-        final overflow = size.width > constraints.maxWidth || size.height > 320;
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Row(
+      builder: (context, constraints) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SelectionContainer.disabled(
+            child: Wrap(
+              alignment: WrapAlignment.end,
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                if (overflow && !_showSource)
-                  Expanded(
-                    child: Text(
-                      size.height > 320 ? '拖动、双指缩放查看图表' : '左右滑动查看完整图表',
-                      style: Theme.of(context).textTheme.labelSmall,
-                    ),
+                if (!_showSource && !interacting)
+                  TextButton.icon(
+                    onPressed: () => _setInteracting(true),
+                    icon: const Icon(Icons.zoom_in),
+                    label: const Text('放大操作'),
                   )
-                else
-                  const Spacer(),
-                IconButton(
-                  tooltip: 'Mermaid',
-                  icon: const Icon(Icons.code),
-                  onPressed: () => setState(() => _showSource = !_showSource),
-                ),
+                else if (interacting) ...[
+                  ..._diagramControls(_viewportKey),
+                  TextButton(
+                    onPressed: () => _setInteracting(false),
+                    child: const Text('完成'),
+                  ),
+                ],
+                if (!interacting)
+                  IconButton(
+                    tooltip: 'Mermaid',
+                    icon: const Icon(Icons.code),
+                    onPressed: () {
+                      _setInteracting(false);
+                      setState(() => _showSource = !_showSource);
+                    },
+                  ),
                 IconButton(
                   tooltip: '全屏查看图表',
                   icon: const Icon(Icons.fullscreen),
@@ -311,22 +475,208 @@ class _MermaidDiagramPreviewState extends State<MermaidDiagramPreview> {
                 ),
               ],
             ),
-            if (_showSource)
-              SelectableText(
-                widget.source,
-                textDirection: TextDirection.ltr,
-                style: const TextStyle(fontFamily: 'monospace'),
-              )
-            else
-              SizedBox(
-                height: size.height.clamp(80.0, 320.0),
-                child: _viewer(size),
+          ),
+          if (interacting)
+            SelectionContainer.disabled(
+              child: Text(
+                '拖动、双指缩放查看图表',
+                style: Theme.of(context).textTheme.labelSmall,
               ),
-          ],
-        );
-      },
+            ),
+          if (_showSource)
+            SelectableText(
+              widget.source,
+              textDirection: TextDirection.ltr,
+              style: const TextStyle(fontFamily: 'monospace'),
+            )
+          else
+            SizedBox(
+              height:
+                  (size.height *
+                          math.min(1.0, constraints.maxWidth / size.width))
+                      .clamp(120.0, 320.0),
+              child: _DiagramViewport(
+                key: _viewportKey,
+                svg: widget.svg,
+                source: widget.source,
+                nativeSize: size,
+                interactive: interacting,
+              ),
+            ),
+        ],
+      ),
     );
   }
+}
+
+List<Widget> _diagramControls(GlobalKey<_DiagramViewportState> key) => [
+  IconButton(
+    tooltip: '缩小图表',
+    icon: const Icon(Icons.remove),
+    onPressed: () => key.currentState?.zoom(1 / 1.5),
+  ),
+  IconButton(
+    tooltip: '放大图表',
+    icon: const Icon(Icons.add),
+    onPressed: () => key.currentState?.zoom(1.5),
+  ),
+  IconButton(
+    tooltip: '适应全图',
+    icon: const Icon(Icons.fit_screen),
+    onPressed: () => key.currentState?.fit(),
+  ),
+];
+
+class _FullscreenDiagram extends StatelessWidget {
+  _FullscreenDiagram({
+    required this.svg,
+    required this.source,
+    required this.nativeSize,
+  });
+
+  final String svg;
+  final String source;
+  final Size nativeSize;
+  final _viewportKey = GlobalKey<_DiagramViewportState>();
+
+  @override
+  Widget build(BuildContext context) => Dialog.fullscreen(
+    child: SafeArea(
+      child: Column(
+        children: [
+          Row(
+            children: [
+              ..._diagramControls(_viewportKey),
+              const Spacer(),
+              const CloseButton(),
+            ],
+          ),
+          Expanded(
+            child: _DiagramViewport(
+              key: _viewportKey,
+              svg: svg,
+              source: source,
+              nativeSize: nativeSize,
+              interactive: true,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
+class _DiagramViewport extends StatefulWidget {
+  const _DiagramViewport({
+    super.key,
+    required this.svg,
+    required this.source,
+    required this.nativeSize,
+    required this.interactive,
+  });
+
+  final String svg;
+  final String source;
+  final Size nativeSize;
+  final bool interactive;
+
+  @override
+  State<_DiagramViewport> createState() => _DiagramViewportState();
+}
+
+class _DiagramViewportState extends State<_DiagramViewport> {
+  static const _maxScale = 32.0;
+  final _transform = TransformationController();
+  Size? _viewport;
+  bool _zoomOnActivate = false;
+  bool _resetPending = false;
+
+  @override
+  void didUpdateWidget(_DiagramViewport oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.svg != oldWidget.svg || !widget.interactive) {
+      _zoomOnActivate = false;
+      _resetPending = true;
+    } else if (!oldWidget.interactive) {
+      _zoomOnActivate = true;
+    }
+  }
+
+  @override
+  void dispose() {
+    _transform.dispose();
+    super.dispose();
+  }
+
+  void fit() => _transform.value = Matrix4.identity();
+
+  void zoom(double factor) {
+    final viewport = _viewport;
+    if (viewport == null) return;
+    final matrix = _transform.value;
+    final scale = matrix.getMaxScaleOnAxis();
+    final next = (scale * factor).clamp(1.0, _maxScale);
+    final ratio = next / scale;
+    final x =
+        (viewport.width / 2 - (viewport.width / 2 - matrix.storage[12]) * ratio)
+            .clamp(viewport.width * (1 - next), 0.0);
+    final y =
+        (viewport.height / 2 -
+                (viewport.height / 2 - matrix.storage[13]) * ratio)
+            .clamp(viewport.height * (1 - next), 0.0);
+    _transform.value = Matrix4.identity()
+      ..translate(x, y)
+      ..scale(next);
+  }
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (context, constraints) {
+      final viewport = constraints.biggest;
+      final fitScale = math.min(
+        1.0,
+        math.min(
+          viewport.width / widget.nativeSize.width,
+          viewport.height / widget.nativeSize.height,
+        ),
+      );
+      final fitted = widget.nativeSize * fitScale;
+      if (_viewport != viewport || _zoomOnActivate || _resetPending) {
+        final activate = _zoomOnActivate;
+        _viewport = viewport;
+        _zoomOnActivate = false;
+        _resetPending = false;
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (!mounted) return;
+          fit();
+          if (activate) zoom(math.max(2.0, 1 / fitScale));
+        });
+      }
+      // A viewport-sized canvas includes the letterbox space. Its boundaries
+      // permit the complete diagram at scale 1, regardless of aspect ratio.
+      final canvas = SizedBox.fromSize(
+        size: viewport,
+        child: Center(
+          child: SvgPicture.string(
+            widget.svg,
+            width: fitted.width,
+            height: fitted.height,
+            fit: BoxFit.contain,
+            semanticsLabel: '流程图',
+            errorBuilder: (_, _, _) => SelectableText(widget.source),
+          ),
+        ),
+      );
+      return widget.interactive
+          ? InteractiveViewer(
+              transformationController: _transform,
+              minScale: 1,
+              maxScale: _maxScale,
+              child: canvas,
+            )
+          : canvas;
+    },
+  );
 }
 
 String buildMermaidDocument(

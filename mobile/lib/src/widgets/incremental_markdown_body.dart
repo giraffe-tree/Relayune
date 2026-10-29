@@ -126,7 +126,7 @@ class _IncrementalMarkdownBodyState extends State<IncrementalMarkdownBody> {
         _blocks[i] = block;
       }
     }
-    return SelectionArea(
+    return DiagramSelectionArea(
       child: SelectionContainer(
         delegate: _selection,
         child: _blocks.length == 1

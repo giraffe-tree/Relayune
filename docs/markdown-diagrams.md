@@ -11,8 +11,11 @@ flowchart TD
   C --> D[AI 回应]
 ```
 
-手机端在消息输出结束后渲染，保留可读字号，宽图可以左右拖动；图表高度随内容变化，
-较大的图表可以拖动、双指缩放或全屏查看，也可切换源码。Web 端在内容停止变化
+手机端在消息输出结束后渲染，首次居中展示完整图表，预览高度随宽高比变化，最高为
+320 个逻辑像素。默认上下滑动继续浏览会话；点击“放大操作”后将卡片滚入可见区域、
+原地放大，并将手势交给图表，支持单指拖动、双指缩放、加减按钮和“适应全图”。点击“完成”恢复消息
+滚动与正文选择复制。图表也可切换源码，或全屏查看；全屏首次同样展示全图。
+完整预览优先展示结构，大图细节需放大阅读。Web 端在内容停止变化
 350 毫秒后渲染，首次适应容器宽度，可用加减按钮缩放和 Mermaid 按钮查看源码。
 语法错误、平台不支持或超出限制时保留源码；当前限制为 20,000 字符、200 条边。
 为保持隔离，含配置指令或 YAML 前置配置的图表暂时保留源码。
@@ -45,8 +48,10 @@ PLAYWRIGHT_MODULE=/path/to/playwright/index.mjs node scripts/verify-mermaid-secu
 `mobile/test/fixtures/mermaid/flowchart.svg` 是截图中 11 个中文节点经实际 Mermaid
 渲染得到的原生兼容性样本。升级运行库时也需重新检查实际生成的 SVG。
 使用 `verify-mobile-mermaid-browser.mjs --update-fixtures` 更新原生样本。
-`wide-flowchart-dark.svg` 和 `wide-flowchart-light.svg` 覆盖手机横向流程图的配色、
-尺寸与拖动回归。按模拟器占用流程取得设备后，可运行真实 WebView 导出与原生显示验收：
+`wide-flowchart-dark.svg` 和 `wide-flowchart-light.svg` 覆盖手机横向流程图的配色
+与完整预览回归；合成宽高均超出的图表覆盖消息文字选择区域内的双轴拖动、
+双指缩放、适应全图、退出后的会话滚动与复制。按模拟器占用流程取得设备后，
+可在隔离的合成消息中运行真实 WebView 导出、Markdown 渲染与原生交互验收（深浅主题）：
 
 ```sh
 MERMAID_QA_SCREENSHOTS=/tmp/relayune-mermaid-qa node mobile/tool/flutter.mjs drive \

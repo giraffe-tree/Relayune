@@ -31,6 +31,7 @@ import '../state/session_reading_positions.dart';
 import '../state/session_projects.dart';
 import '../widgets/brand_mark.dart';
 import '../widgets/incremental_markdown_body.dart';
+import '../widgets/mermaid_diagram.dart';
 import '../widgets/visible_route_builder.dart';
 import '../widgets/image_loading_placeholder.dart';
 import '../widgets/conversation_scroll_controller.dart';
@@ -212,8 +213,10 @@ class _WorkbenchScreenState extends State<WorkbenchScreen> {
           const SizedBox(width: 8),
         ],
       ),
-      body: DrawerSwipeRegion(
-        child: SafeArea(top: false, child: _conversationPage),
+      body: DiagramScrollRegion(
+        child: DrawerSwipeRegion(
+          child: SafeArea(top: false, child: _conversationPage),
+        ),
       ),
     );
   }
