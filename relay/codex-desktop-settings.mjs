@@ -308,7 +308,7 @@ async function desktopPermissionsFresh(sessionId, settings, {
             item.resolve({ ownerAbsent: true });
           } else item.reject(failure());
         } else if (message.type === 'broadcast' && message.method === 'thread-stream-state-changed' &&
-          message.version === 11 && message.sourceClientId === ownerId &&
+          message.sourceClientId === ownerId &&
           message.params?.hostId === 'local' && message.params?.conversationId === sessionId &&
           (!message.targetClientIds || message.targetClientIds.includes(clientId)) &&
           message.params?.change?.type === 'snapshot') {

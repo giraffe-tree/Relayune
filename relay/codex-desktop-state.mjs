@@ -300,7 +300,8 @@ export function makeDesktopStatePool({ decodeFrames, maxEntries = 16, idleTimeou
             if (message.method === 'ipc-connection-reset' || (message.method === 'client-status-changed' && message.params?.clientId === entry.ownerId && message.params?.status !== 'connected')) { entry.close(); continue; }
             if (message.method !== 'thread-stream-state-changed' || message.sourceClientId !== entry.ownerId || message.params?.hostId !== 'local' || message.params?.conversationId !== sessionId ||
                 (message.targetClientIds && !message.targetClientIds.includes(entry.clientId))) continue;
-            if (message.version !== 11) throw failure();
+            // Consume the control fields and revision chain we understand;
+            // Desktop may change its stream version for unrelated UI fields.
             const change = message.params.change;
             if (change?.type === 'snapshot') {
               if (entry.revision !== null && (!Number.isSafeInteger(change.revision) || change.revision < entry.revision)) throw failure();

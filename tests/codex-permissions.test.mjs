@@ -95,9 +95,8 @@ for (const options of [
   await assert.rejects(f.start({ input: [], expectedTurnId: 'stopped', turnTrigger: 'resume_interrupted_task' }));
   assert.equal(f.requests.some(r => r.method === 'thread-follower-start-turn'), false);
 });
-test('Desktop denial and unsupported stream versions do not claim success', async t => {
+test('Desktop denial does not claim success', async t => {
   const denied = await ipcFixture(t,{deny:true}); await assert.rejects(denied.run(initial));
-  const unsupported = await ipcFixture(t,{version:12}); await assert.rejects(unsupported.run());
 });
 test('Desktop running session cannot change permissions',async t=>{
   const f=await ipcFixture(t,{running:true}); await assert.rejects(f.run(initial),/正在运行/);
@@ -242,6 +241,14 @@ test('Desktop async answer verifies native question and steers the owner with ho
   assert.equal(steer.params.clientUserMessageId,'answer-1');
   assert.match(steer.params.input[0].text,/request_user_input_async/);
 });
+test('future Desktop stream versions validate async answers from fresh canonical history before steering', async t => {
+  const f = await ipcFixture(t, { version: 99, running: true, turns: [], turnHistory: { kind: 'canonical', history: {
+    entitiesByKey: { current: questionTurns[0] }, islands: [{ entries: [{ value: 'current' }] }],
+  } } });
+  assert.deepEqual(await f.answer(asyncReply), { accepted: true });
+  const steer = f.requests.find(request => request.method === 'thread-follower-steer-turn');
+  assert.equal(steer.version, 2); assert.equal(steer.hostId, 'local');
+});
 test('Desktop does not send answers to ended, replaced or already answered questions', async t => {
   for (const config of [
     {running:false,turns:questionTurns},
@@ -275,6 +282,16 @@ test('Desktop approval is read narrowly and verifies the exact native command be
   assert.equal(calls.length,1); assert.equal(calls[0].version,2); assert.equal(calls[0].targetClientId,'owner');
   assert.deepEqual(calls[0].params,{conversationId:id,requestId:102,decision:'accept'});
   assert.throws(()=>f.decide({...reply,decision:'acceptForSession'}),/Invalid/);
+});
+test('future Desktop stream versions validate the exact approval against a fresh snapshot before deciding', async t => {
+  const f = await ipcFixture(t, { version: 99, running: true, nativeRequests: [nativeApproval] });
+  const reply = { requestId: nativeApproval.id, method: nativeApproval.method,
+    paramsHash: hashAction(nativeApproval.params), decision: 'accept' };
+  await assert.rejects(f.decide({ ...reply, paramsHash: 'changed' }), /changed/);
+  assert.equal(f.requests.some(request => request.method === 'thread-follower-command-approval-decision'), false);
+  assert.deepEqual(await f.decide(reply), { accepted: true });
+  const decision = f.requests.find(request => request.method === 'thread-follower-command-approval-decision');
+  assert.equal(decision.version, 2); assert.equal(decision.hostId, 'local');
 });
 test('permission readback uses a fresh subscription when Desktop coalesces following toggles',async t=>{
   const f=await ipcFixture(t); await f.run(permissionSettings('manual',initial,'/workspace'));

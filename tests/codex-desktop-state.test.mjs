@@ -16,11 +16,11 @@ const state = (runtime = 'idle') => ({ cwd: '/workspace', latestThreadSettings: 
   currentPermissions: structuredClone(initial), threadRuntimeStatus: { type: runtime }, turns: [], requests: [] });
 
 async function fixture(t, { states = new Map([[A, state()]]), idleTimeoutMs = 30_000, maxEntries = 16,
-  stopDelayMs = 0, stopSettles = true, stopRuntimeType = 'idle', responseDelayMs = 0, snapshotDelayMs = 0 } = {}) {
+  stopDelayMs = 0, stopSettles = true, stopRuntimeType = 'idle', responseDelayMs = 0, snapshotDelayMs = 0, streamVersion = 11 } = {}) {
   const dir = await mkdtemp(join(tmpdir(), 'codex-state-'));
   await chmod(dir, 0o700);
   const socketPath = join(dir, 'ipc.sock'), pool = createDesktopStatePool({ idleTimeoutMs, maxEntries });
-  const sessions = new Map([...states].map(([id, value]) => [id, { value, owner: `owner-${id}`, revision: 0 }]));
+  const sessions = new Map([...states].map(([id, value]) => [id, { value, owner: `owner-${id}`, revision: 0, streamVersion }]));
   const sockets = new Set(), requests = [];
   let clientNumber = 0, snapshots = 0;
   function send(socket, message) {
@@ -32,7 +32,7 @@ async function fixture(t, { states = new Map([[A, state()]]), idleTimeoutMs = 30
     const source = sessions.get(id);
     const change = { type: 'patches', baseRevision: source.revision, revision: ++source.revision, patches, ...overrides };
     for (const socket of sockets) if (socket.sessionId === id && socket.following) send(socket, {
-      type: 'broadcast', method: 'thread-stream-state-changed', version: 11, sourceClientId: source.owner,
+      type: 'broadcast', method: 'thread-stream-state-changed', version: source.streamVersion, sourceClientId: source.owner,
       params: { hostId: 'local', conversationId: id, change },
     });
   }
@@ -78,7 +78,7 @@ async function fixture(t, { states = new Map([[A, state()]]), idleTimeoutMs = 30
         } else if (message.type === 'broadcast' && message.params?.following) {
           const id = message.params.conversationId, source = sessions.get(id);
           socket.following = true; socket.sessionId = id; snapshots++;
-          const snapshot = () => send(socket, { type: 'broadcast', method: 'thread-stream-state-changed', version: 11, sourceClientId: source.owner,
+          const snapshot = () => send(socket, { type: 'broadcast', method: 'thread-stream-state-changed', version: source.streamVersion, sourceClientId: source.owner,
             params: { hostId: 'local', conversationId: id, change: { type: 'snapshot', revision: source.revision, conversationState: source.value } } });
           if (snapshotDelayMs) setTimeout(snapshot, snapshotDelayMs); else snapshot();
         } else if (message.params?.following === false) socket.following = false;
@@ -98,6 +98,50 @@ async function fixture(t, { states = new Map([[A, state()]]), idleTimeoutMs = 30
 }
 
 const nextEvent = () => new Promise(resolve => setTimeout(resolve, 20));
+
+test('Desktop v13 reads permissions and follows stop/start patches with host-scoped request versions', async t => {
+  const value = state('active'); value.turns = [{ id: 'old-turn', status: 'inProgress' }];
+  const f = await fixture(t, { streamVersion: 13, states: new Map([[A, value]]) });
+  assert.equal((await f.permissions()).approvalPolicy, initial.approvalPolicy);
+  assert.deepEqual(await f.runtime(), { type: 'active' });
+  assert.deepEqual(await f.stop(), { turnId: 'old-turn' });
+  assert.deepEqual(await f.start({ input: [{ type: 'text', text: 'next' }], clientMessageId: 'v13-message' }),
+    { mode: 'started', turnId: 'new-turn', persisted: false });
+  assert.deepEqual(await f.runtime(), { type: 'active' });
+  const interrupt = f.requests.find(request => request.method === 'thread-follower-interrupt-turn');
+  const start = f.requests.find(request => request.method === 'thread-follower-start-turn');
+  assert.equal(interrupt.version, 5); assert.equal(start.version, 3);
+  assert.equal(interrupt.hostId, 'local'); assert.equal(start.hostId, 'local');
+  assert.equal(start.params.turnStart.request.clientUserMessageId, 'v13-message');
+  assert.equal(f.snapshots, 1);
+});
+
+test('future Desktop stream versions use fresh permission snapshots and retain host-scoped request versions', async t => {
+  const f = await fixture(t, { streamVersion: 99 });
+  await f.permissions();
+  const desired = permissionSettings('manual', initial, '/workspace');
+  assert.equal((await f.permissions(desired)).approvalPolicy, 'untrusted');
+  const update = f.requests.find(request => request.method === 'thread-follower-update-thread-settings');
+  assert.equal(update.version, 3); assert.equal(update.hostId, 'local');
+  assert.equal(f.snapshots, 3); assert.equal(f.pool.stats.entries, 0);
+});
+
+for (const streamVersion of [12, 14, 99]) test(`Desktop stream v${streamVersion} accepts compatible control fields`, async t => {
+  const f = await fixture(t, { streamVersion });
+  assert.deepEqual(await f.start({ input: [] }), { mode: 'started', turnId: 'new-turn', persisted: false });
+  assert.equal(f.requests.filter(request => request.method === 'thread-follower-start-turn').length, 1);
+});
+
+test('a stream version change preserves compatible state when the revision chain remains continuous', async t => {
+  const f = await fixture(t); await f.runtime();
+  f.sessions.get(A).streamVersion = 99;
+  f.patch(A, [{ op: 'replace', path: ['threadRuntimeStatus', 'type'], value: 'active' }]);
+  await nextEvent();
+  assert.deepEqual(await f.runtime(), { type: 'active' });
+  assert.equal(f.pool.stats.entries, 1);
+  assert.equal(f.pool.stats.invalidations, 0);
+  assert.equal(f.snapshots, 1);
+});
 
 test('queued read deadline expires without closing another caller or releasing its native operation', async t => {
   const f = await fixture(t);
