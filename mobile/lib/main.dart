@@ -548,12 +548,9 @@ class _RelayuneAppState extends State<RelayuneApp> with WidgetsBindingObserver {
     final request = _pendingNotificationOpen;
     if (request == null || _connections.phase != AppPhase.ready) return;
     final target = _connections.resolve(request.sessionId);
-    if (target == null ||
-        !target.controller.sessions.any(
-          (session) => session.id == target.sessionId,
-        )) {
-      return;
-    }
+    // The scoped route already binds the request to an authorized computer.
+    // Its conversation may be new or outside the phone's recent directory.
+    if (target == null || target.controller.phase != AppPhase.ready) return;
     _pendingNotificationOpen = null;
     unawaited(_openNotificationRequest(request));
   }

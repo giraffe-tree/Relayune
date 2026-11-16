@@ -3624,6 +3624,8 @@ class AppController extends ChangeNotifier {
             'include_agent_details': false,
             'include_progress': requestVisible && !localOnly,
             if (!earlier) 'include_pending_approvals': true,
+            if (!earlier && !sessions.any((session) => session.id == sessionId))
+              'include_session_metadata': true,
             'max_bytes': 1024 * 1024,
           },
           ttl: historyRequestTimeout,

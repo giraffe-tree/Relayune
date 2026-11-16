@@ -373,6 +373,12 @@ export class MultiAgentAdapter {
     );
   }
 
+  async findSession(sessionId) {
+    const provider = await this.providerForSession(sessionId);
+    const session = await this.adapters.get(provider)?.findSession?.(sessionId);
+    return session?.id === sessionId ? this.decorateSession(session, provider) : null;
+  }
+
   selectProvider(provider) {
     const selected = provider ?? this.defaultProvider;
     this.requireProvider(selected);

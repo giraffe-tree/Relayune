@@ -1869,6 +1869,7 @@ export class MacRelay {
           sessionId: command.session_id, requestId: command.request_id})};
       const includePendingApprovals = command.payload?.include_pending_approvals === true &&
         readOptions.before === null;
+      let sessionMetadata;
       let response;
       for (;;) {
         progress('reading');
@@ -1883,6 +1884,11 @@ export class MacRelay {
           }} : {}),
         }); }
         finally { readProgress.active = false; acceptingSourceProgress = false; }
+        if (sessionMetadata === undefined && command.payload?.include_session_metadata === true &&
+            readOptions.before === null && !page.sessions?.some(session => session.id === command.session_id)) {
+          sessionMetadata = this.lastSessionCatalog.find(session => session.id === command.session_id) ??
+            await this.adapter.findSession?.(command.session_id).catch(() => null) ?? null;
+        }
         progress('preparing', sourceSizes);
         let messages = this.registerHistoryAttachments(command.session_id, page.messages);
         if (budget) messages = messages.map(message => compactHistoryMessage(message,
@@ -1890,7 +1896,9 @@ export class MacRelay {
             this.registerHistoryDocument(command.session_id, bytes, name, mimeType)));
         response = {type: 'session.history', request_id: command.request_id,
           session_id: command.session_id, messages, next_cursor: page.next_cursor,
-          has_more: page.has_more, agents: page.agents ?? [], sessions: page.sessions ?? [],
+          has_more: page.has_more, agents: page.agents ?? [], sessions: sessionMetadata?.id === command.session_id &&
+            !page.sessions?.some(session => session.id === command.session_id)
+            ? [sessionMetadata, ...(page.sessions ?? [])] : (page.sessions ?? []),
           ...(includePendingApprovals ? {pending_approvals: this.pendingApprovalSnapshot(
             command.session_id, Math.min(64 * 1024, Math.floor((budget ?? 1024 * 1024) / 8)),
           )} : {}),

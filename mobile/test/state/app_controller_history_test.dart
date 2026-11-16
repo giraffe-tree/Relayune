@@ -42,6 +42,9 @@ void main() {
       final api = _HistoryRelayApi(key)
         ..responsePayload = {
           ..._historyPage(),
+          'sessions': [
+            {'id': 'session_root', 'name': 'Original Codex conversation'},
+          ],
           'pending_approvals': {
             'complete': true,
             'items': [approval],
@@ -55,6 +58,8 @@ void main() {
 
       await controller.selectSession('session_root');
       expect(api.historyPayloads.single['include_pending_approvals'], isTrue);
+      expect(api.historyPayloads.single['include_session_metadata'], isTrue);
+      expect(controller.activeSession?.name, 'Original Codex conversation');
       final recovered = controller.approvals.single;
       expect(recovered.id, 'from-lock-screen');
       expect(recovered.sessionId, 'session_root');

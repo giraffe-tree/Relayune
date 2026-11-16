@@ -57,6 +57,8 @@ test('latest encrypted history recovers complete approval actions for its root o
   const f = await fixture([]);
   f.relay.emitEvent = async () => {};
   const root = 'session_unicode_测';
+  const conversation = {id: root, name: 'Original Codex conversation', provider: 'codex'};
+  f.relay.adapter.findSession = async id => id === root ? conversation : null;
   const expiresAt = new Date(Date.now() + 120_000).toISOString();
   const action = {type: 'command.exec', command: 'PRIVATE_APPROVAL', command_hash: 'fixture_hash'};
   await f.relay.requestApproval({approval_id: 'target', session_id: 'child', root_session_id: root,
@@ -68,10 +70,13 @@ test('latest encrypted history recovers complete approval actions for its root o
   await f.relay.readHistory(f.command({before: 'old', include_pending_approvals: true}));
   assert.equal(f.sent.at(-1).pending_approvals, undefined);
 
-  await f.relay.readHistory(f.command({max_bytes: 16 * 1024, include_pending_approvals: true}));
+  await f.relay.readHistory(f.command({max_bytes: 16 * 1024, include_pending_approvals: true,
+    include_session_metadata: true}));
   const [frame] = await f.relay.encodeRemoteMessage(f.sent.at(-1));
   assert.doesNotMatch(JSON.stringify(frame), /PRIVATE_APPROVAL/);
-  const recovered = (await openJson(f.browser.key, frame.envelope, frame.aad)).pending_approvals;
+  const clear = await openJson(f.browser.key, frame.envelope, frame.aad);
+  assert.deepEqual(clear.sessions, [conversation]);
+  const recovered = clear.pending_approvals;
   assert.deepEqual(recovered, {complete: true, items: [{
     approval_id: 'target', session_id: 'child', root_session_id: root,
     expires_at: expiresAt, action, device_id: f.relay.deviceId,
