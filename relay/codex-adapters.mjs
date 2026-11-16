@@ -2747,8 +2747,11 @@ export class CodexAppServerAdapter {
     pending.resolution = { relayDecision: decision };
     try {
       if (pending.source === 'desktop') {
+        const nativeDecision = pending.method === 'item/permissions/requestApproval'
+          ? (selected.relayDecision === 'approved' ? 'accept' : 'decline')
+          : selected.response.decision;
         await this.answerDesktopApproval(pending.sessionId, {requestId:pending.rpcId, method:pending.method,
-          paramsHash:hashAction(pending.params), decision:selected.response.decision});
+          paramsHash:hashAction(pending.params), decision:nativeDecision});
         return {confirmation:'serverRequest/resolved'};
       }
       this.respond(pending.rpcId, selected.response);
@@ -3138,10 +3141,13 @@ export class CodexAppServerAdapter {
 
   async syncExternalRolloutActivity(threads) {
     if (!this.handlers) return;
+    const awaitingDesktopApproval = new Set([...this.pendingApprovals.values()]
+      .filter(pending => pending.source === 'desktop').map(pending => pending.sessionId));
     const candidates = threads
       .filter(
         (thread) =>
-          (['notLoaded', 'active'].includes(thread?.status?.type) || this.liveTurns.has(thread?.id) || this.activeTurns.has(thread?.id)) &&
+          (awaitingDesktopApproval.has(thread?.id) || ['notLoaded', 'active'].includes(thread?.status?.type) ||
+            this.liveTurns.has(thread?.id) || this.activeTurns.has(thread?.id)) &&
           typeof thread.path === "string" &&
           thread.path.endsWith(".jsonl"),
       )
@@ -3344,18 +3350,28 @@ export class CodexAppServerAdapter {
   async syncDesktopApprovals(thread, state) {
     if (this.resumedThreads.has(thread.id)) return;
     const existing = [...this.pendingApprovals.entries()].filter(([,p]) => p.source === 'desktop' && p.sessionId === thread.id);
-    if ((!state.activeTurnId && !existing.length) || Date.now() - (state.desktopApprovalsCheckedAt ?? 0) < 3000) return;
+    if ((!state.activeTurnId && thread.status?.type !== 'active' && !existing.length) ||
+        Date.now() - (state.desktopApprovalsCheckedAt ?? 0) < 3000) return;
     state.desktopApprovalsCheckedAt = Date.now();
     const requests = await this.readDesktopApprovals(thread.id, {timeoutMs:1500}).catch(() => null);
     if (!requests || this.closed) return;
     const current = new Set();
     for (const request of requests) {
-      const id = `apr_desktop_${createHash('sha256').update(JSON.stringify([thread.id,request.params.turnId,request.id])).digest('hex')}`;
+      const digest = hashAction([thread.id, request.method, request.id, request.params]).slice('sha256:'.length);
+      const id = `apr_desktop_${digest}`;
       current.add(id);
       if (this.pendingApprovals.has(id)) continue;
-      const normalized = approvalFromCodexRequest(request.method, request.params, thread.cwd ?? this.workspace);
+      let normalized;
+      try {
+        normalized = approvalFromCodexRequest(request.method, request.params, thread.cwd ?? this.workspace);
+      } catch {
+        // An unsupported decision in one native request must not hide later requests.
+        continue;
+      }
       // Native Desktop approvals expose only one-time decisions through Relayune.
-      const decisionOptions = normalized.decisionOptions.filter(o => ['accept','decline','cancel'].includes(o.response?.decision));
+      const decisionOptions = normalized.decisionOptions.filter(option => request.method === 'item/permissions/requestApproval'
+        ? option.response.scope === 'turn'
+        : ['accept', 'decline', 'cancel'].includes(option.response.decision));
       if (!decisionOptions.length) continue;
       const action = {...normalized.action, options:publicCodexApprovalOptions(decisionOptions)};
       const pending = {source:'desktop',sessionId:thread.id,rootSessionId:await this.rootSessionIdForThread(thread) ?? thread.id,

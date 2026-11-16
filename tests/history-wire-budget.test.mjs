@@ -53,6 +53,38 @@ test('history budget includes exact encrypted frame, Unicode metadata and HTTPS 
   assert.ok(!JSON.stringify(frame).includes('完整工具记录'));
 });
 
+test('latest encrypted history recovers complete approval actions for its root only', async () => {
+  const f = await fixture([]);
+  f.relay.emitEvent = async () => {};
+  const root = 'session_unicode_测';
+  const expiresAt = new Date(Date.now() + 120_000).toISOString();
+  const action = {type: 'command.exec', command: 'PRIVATE_APPROVAL', command_hash: 'fixture_hash'};
+  await f.relay.requestApproval({approval_id: 'target', session_id: 'child', root_session_id: root,
+    expires_at: expiresAt, action});
+  await f.relay.requestApproval({approval_id: 'unrelated', session_id: 'other', expires_at: expiresAt, action});
+  await f.relay.requestApproval({approval_id: 'expired', session_id: root, expires_at: new Date(0).toISOString(), action});
+  await f.relay.readHistory(f.command());
+  assert.equal(f.sent.at(-1).pending_approvals, undefined);
+  await f.relay.readHistory(f.command({before: 'old', include_pending_approvals: true}));
+  assert.equal(f.sent.at(-1).pending_approvals, undefined);
+
+  await f.relay.readHistory(f.command({max_bytes: 16 * 1024, include_pending_approvals: true}));
+  const [frame] = await f.relay.encodeRemoteMessage(f.sent.at(-1));
+  assert.doesNotMatch(JSON.stringify(frame), /PRIVATE_APPROVAL/);
+  const recovered = (await openJson(f.browser.key, frame.envelope, frame.aad)).pending_approvals;
+  assert.deepEqual(recovered, {complete: true, items: [{
+    approval_id: 'target', session_id: 'child', root_session_id: root,
+    expires_at: expiresAt, action, device_id: f.relay.deviceId,
+  }]});
+
+  await f.relay.requestApproval({approval_id: 'oversize', session_id: root, expires_at: expiresAt,
+    action: {...action, command: 'long'.repeat(2000)}});
+  await f.relay.readHistory(f.command({max_bytes: 16 * 1024, include_pending_approvals: true}));
+  const partial = f.sent.at(-1).pending_approvals;
+  assert.equal(partial.complete, false);
+  assert.deepEqual(partial.items, recovered.items);
+});
+
 test('bounded pages retain native cursors and every oversized message full content remains retrievable', async () => {
   const messages = Array.from({length: 30}, (_, index) => ({id: `m_${index}`, role: 'codex',
     content: `${index}你好🌱`.repeat(1800)}));

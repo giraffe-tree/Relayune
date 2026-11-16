@@ -1867,6 +1867,8 @@ export class MacRelay {
         browserId: this.browserForRequest(command.request_id)?.browserId ?? null,
         aad: relayAad({type: 'session.history', deviceId: this.deviceId,
           sessionId: command.session_id, requestId: command.request_id})};
+      const includePendingApprovals = command.payload?.include_pending_approvals === true &&
+        readOptions.before === null;
       let response;
       for (;;) {
         progress('reading');
@@ -1889,6 +1891,9 @@ export class MacRelay {
         response = {type: 'session.history', request_id: command.request_id,
           session_id: command.session_id, messages, next_cursor: page.next_cursor,
           has_more: page.has_more, agents: page.agents ?? [], sessions: page.sessions ?? [],
+          ...(includePendingApprovals ? {pending_approvals: this.pendingApprovalSnapshot(
+            command.session_id, Math.min(64 * 1024, Math.floor((budget ?? 1024 * 1024) / 8)),
+          )} : {}),
           ...(traceId ? {performance: {trace_id: traceId, desktop_received_at_ms: receivedAt,
             history_started_at_ms: readStartedAt, command_wait_ms: readStartedAt - receivedAt,
             history_ready_at_ms: Date.now(), history_read_ms: performance.now() - readStarted,
@@ -2549,6 +2554,28 @@ export class MacRelay {
     });
   }
 
+  pendingApprovalSnapshot(sessionId, maxBytes) {
+    const items = [];
+    const now = Date.now();
+    let complete = true;
+    let bytes = 0;
+    // Keep the original action and hash intact. A partial list is usable but
+    // cannot establish that a request omitted under the budget has settled.
+    for (const pending of [...this.pendingApprovals.values()].reverse()) {
+      if ((pending.root_session_id ?? pending.session_id) !== sessionId ||
+          !(Date.parse(pending.expires_at) > now)) continue;
+      const {resolving, ...approval} = pending;
+      const size = Buffer.byteLength(JSON.stringify(approval)) + 1;
+      if (items.length >= 64 || bytes + size > maxBytes) {
+        complete = false;
+        continue;
+      }
+      bytes += size;
+      items.push(approval);
+    }
+    return {items, complete};
+  }
+
   async resolveApproval(command) {
     let payload;
     let pending;
@@ -2704,20 +2731,40 @@ export class MacRelay {
     const record = await this.outbox.appendWithSequence(async (eventSeq) => {
       const recipients = this.eventRecipients().filter(browser => !historyProgress ||
         browser.browserId === recipient.browserId && browser.key === recipient.key);
-      const notificationOnly = new Set();
+      const approval = event.kind === 'approval.requested';
       const notify = shouldNotifyPhone(sessionId, event, this.lastSessionCatalog, extra);
-      // Background completion/attention is a low-frequency durable notification,
-      // separate from the stream. Never retain offline deltas or tool output.
-      let notificationBudget = 0;
-      if (this.onlineTransportEnabled && notify) {
-        notificationBudget = ONLINE_TOTAL_EVENT_BYTES - [...this.outbox.pending.values()]
-          .reduce((sum, value) => sum + Buffer.byteLength(JSON.stringify(value)), 0);
-        const present = new Set(recipients.map(browser => browser.browserId));
-        for (const browser of this.activeBrowserKeys.values()) if (!present.has(browser.browserId)) {
-          recipients.push(browser);
-          notificationOnly.add(browser.browserId);
+      const notifications = [];
+      const realtime = [];
+      const present = new Set(recipients.map(browser => browser.browserId));
+      for (const browser of recipients) {
+        if (!approval) {
+          realtime.push({browser});
+          continue;
+        }
+        const id = browser.browserId;
+        const direct = this.directHost?.peers.get(id);
+        const hasDirect = direct && this.directHost.valid(direct) && direct.channel?.readyState === 'open' &&
+          direct.eventsState !== 'server';
+        const transport = this.onlineTransport?.peer(id)?.transport;
+        if (hasDirect || transport === 'stream') {
+          // A subscription can look online after the phone is suspended. Keep
+          // the push independent of both the realtime connection and its ACK.
+          realtime.push({browser, onlineOnly: true});
+          notifications.push({browser, compact: this.onlineTransportEnabled && transport !== 'legacy'});
+        } else {
+          // Legacy clients read the complete approval over HTTPS.
+          notifications.push({browser, compact: false});
         }
       }
+      if (this.onlineTransportEnabled && notify) {
+        for (const browser of this.activeBrowserKeys.values()) {
+          if (!present.has(browser.browserId)) notifications.push({browser, compact: true});
+        }
+      }
+      let notificationBudget = notifications.length
+        ? ONLINE_TOTAL_EVENT_BYTES - [...this.outbox.pending.values()]
+          .reduce((sum, value) => sum + Buffer.byteLength(JSON.stringify(value)), 0)
+        : 0;
       const aad = relayAad({
         type: "session.event",
         deviceId: this.deviceId,
@@ -2726,12 +2773,14 @@ export class MacRelay {
         eventSeq,
         createdAt,
       });
+      const deliveries = [...notifications, ...realtime];
       const variants = await Promise.all(
-        recipients.map(async (browser) => ({
+        deliveries.map(async ({browser, compact, onlineOnly}) => ({
           kind: "event",
-          ...(notificationOnly.has(browser.browserId) ? {notification_only: true} : {}),
-          ios_push: await this.iosPushState.seal(browser.key, iosSnapshot, aad),
-          ...(notify ? { notification_hint: true } : {}),
+          ...(compact !== undefined ? {notification_only: true} : {}),
+          ...(onlineOnly ? {online_only: true} : {}),
+          ios_push: onlineOnly ? undefined : await this.iosPushState.seal(browser.key, iosSnapshot, aad),
+          ...(notify && !onlineOnly ? {notification_hint: true} : {}),
           event_id: createId("evt"),
           event_seq: eventSeq,
           device_id: this.deviceId,
@@ -2748,18 +2797,19 @@ export class MacRelay {
               session_id: sessionId,
               agent_id: extra?.agent_id ?? null,
               request_id: extra?.request_id ?? event?.request_id ?? null,
-              event: notificationOnly.has(browser.browserId) ? compactNotificationEvent(event) : event,
+              event: compact ? compactNotificationEvent(event) : event,
               created_at: createdAt,
             },
             aad,
           ),
         })),
       );
-      const accepted = variants.filter(frame => {
-        if (historyProgress && this.activeBrowserKeys.get(frame.browser_id)?.key !== recipient.key) return false;
+      const accepted = variants.filter((frame, index) => {
+        const {browser, compact} = deliveries[index];
+        if (this.activeBrowserKeys.get(frame.browser_id)?.key !== browser.key) return false;
         if (frame.notification_only) {
           const bytes = Buffer.byteLength(JSON.stringify(frame));
-          if (bytes > 16 * 1024 || bytes > notificationBudget) return false;
+          if ((compact && bytes > 16 * 1024) || bytes > notificationBudget) return false;
           notificationBudget -= bytes;
           this.notificationEvents.set(frame.event_id, {frame, bytes});
           this.notificationEventBytes += bytes;
@@ -2772,7 +2822,7 @@ export class MacRelay {
           frame.online_only = true;
           return this.onlineTransport.hold(peer, frame);
         }
-        return !this.onlineTransportEnabled || peer?.transport === 'legacy';
+        return !frame.online_only && (!this.onlineTransportEnabled || peer?.transport === 'legacy');
       });
       if (!accepted.length) return null;
       return {
@@ -2844,7 +2894,7 @@ export class MacRelay {
     for (const [id, entry] of this.directEvents) {
       if (entry.peer !== peer) continue;
       clearTimeout(entry.timer); this.directEvents.delete(id);
-      if (!this.closed && this.activeBrowserKeys.has(entry.frame.browser_id) &&
+      if (!this.closed && !entry.frame.online_only && this.activeBrowserKeys.has(entry.frame.browser_id) &&
           (!this.onlineTransportEnabled || this.onlineTransport?.peer(entry.frame.browser_id)?.transport === 'legacy')) {
         this.enqueueRemoteMessages([entry.frame], {live: true});
         void this.flushRemoteUploads();
@@ -2894,8 +2944,17 @@ export class MacRelay {
         return;
       }
       const encoded = await this.encodeRemoteMessage(message);
+      // Start uploading notifications before any potentially stalled WebRTC
+      // send. The realtime path carries the separately acknowledged event.
+      const notifications = encoded.filter(frame => frame.notification_only);
+      let notificationUpload;
+      if (notifications.length) {
+        this.enqueueRemoteMessages(notifications, {live: !replay});
+        notificationUpload = this.flushRemoteUploads().catch(error => this.reportDeliveryWarning(error));
+      }
       const upload = [];
       for (const frame of encoded) {
+        if (frame.notification_only) continue;
         const receipt = this.outbox.transportRequests[frame.request_id];
         if (frame.kind === "response" && receipt && receipt.browserId === frame.browser_id) {
           const bytes = Buffer.byteLength(JSON.stringify(frame));
@@ -2921,7 +2980,7 @@ export class MacRelay {
         // Responses follow the request's transport. A live subscription alone
         // does not register a stream waiter for an HTTPS mutation or fallback.
         // Sending that result only on WSS strands the caller's durable read.
-        if (!frame.notification_only && onlinePeer?.transport === 'stream' &&
+        if (onlinePeer?.transport === 'stream' &&
             (frame.kind === 'event' || frame.kind === 'catalog' ||
               frame.kind === 'response' && directPeer?.transport === 'stream')) {
           const entry = this.onlineTransport.pending.get(frame.event_id);
@@ -2935,7 +2994,7 @@ export class MacRelay {
           // disconnected or slow event consumers must never create Mongo load.
           if (frame.kind !== 'response') continue;
         }
-        if (frame.kind === 'event' && !frame.notification_only && (frame.online_only || this.onlineTransportEnabled &&
+        if (frame.kind === 'event' && (frame.online_only || this.onlineTransportEnabled &&
             this.onlineTransport?.peer(frame.browser_id)?.transport !== 'legacy')) continue;
         // Read requests get a fresh ID on fallback; mutations keep their receipt.
         if (directPeer && directPeer.transport !== 'stream' && frame.kind === "response" && !receipt) continue;
@@ -2945,6 +3004,7 @@ export class MacRelay {
         this.enqueueRemoteMessages(upload, {live: !replay});
         await this.flushRemoteUploads();
       }
+      await notificationUpload;
     })().catch(error => {
       const key = `encode:${safeUploadErrorCode(error)}`;
       this.rejectedUploadKeys.add(key);

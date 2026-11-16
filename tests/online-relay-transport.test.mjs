@@ -21,7 +21,8 @@ async function fixture(t) {
   const online = new OnlineRelayTransport({serverUrl: 'https://example.test', deviceId: relay.deviceId, token: 'test',
     authorized: id => relay.activeBrowserKeys.has(id), now: () => now,
     receive: (peer, frame) => relay.receiveOnlineCommand(peer, frame),
-    paused: peer => relay.sendOnlineControl(peer, null, 'transport.resync_required')});
+    paused: peer => relay.sendOnlineControl(peer, null, 'transport.resync_required'),
+    reservedBytes: () => relay.notificationEventBytes});
   online.socket = {readyState: 1, bufferedAmount: 0, send: raw => wire.push(JSON.parse(raw)), terminate() {}};
   relay.onlineTransport = online;
   relay.enqueueRemoteMessages = frames => uploads.push(...frames);
@@ -44,9 +45,11 @@ async function fixture(t) {
   }
   const resume = () => command('transport.resume', {connection_id: peer().connectionId});
   const event = () => relay.writeEvent('ses_test', {type: 'message.delta', text: 'PRIVATE_CANARY'});
+  const approval = () => relay.requestApproval({approval_id: 'apr_test', session_id: 'ses_test', turn_id: 'turn_test',
+    action: {type: 'shell', display: 'PRIVATE_APPROVAL'}, expires_at: new Date(Date.now() + 120_000).toISOString()});
   const settle = () => Promise.all([...relay.operations]);
   t.after(async () => {relay.closed = true; online.close(); await settle();});
-  return {relay, online, wire, uploads, peer, command, resume, event, settle, subscriptions,
+  return {relay, online, wire, uploads, peer, command, resume, event, approval, settle, subscriptions,
     advance(ms) {now += ms;}, browsers};
 }
 
@@ -197,6 +200,72 @@ test('offline completion uses one small durable notification without retaining g
   assert.equal(plaintext.event.kind, 'turn.completed');
   assert.equal(plaintext.event.output, undefined);
   assert.equal(f.relay.notificationEvents.size, 1);
+});
+
+test('stale online subscribers and offline recipients both get one durable approval push', async t => {
+  const f = await fixture(t);
+  await f.resume();
+  await f.approval();
+  await f.settle();
+  const realtime = f.wire.find(message => message.frame?.kind === 'event').frame;
+  assert.equal(f.uploads.length, 2);
+  const live = await openJson(f.browsers[0].key, realtime.envelope, realtime.aad);
+  assert.equal(live.event.kind, 'approval.requested');
+  assert.equal(live.event.action.display, 'PRIVATE_APPROVAL');
+  assert.equal(realtime.notification_hint, undefined);
+  for (const browser of f.browsers) {
+    const notification = f.uploads.find(frame => frame.browser_id === browser.browserId);
+    assert.ok(notification);
+    assert.notEqual(notification.event_id, realtime.event_id);
+    assert.equal(notification.event_seq, realtime.event_seq);
+    assert.equal(notification.notification_hint, true);
+    assert.equal(notification.ios_push.alert, true);
+    const durable = await openJson(browser.key, notification.envelope, notification.aad);
+    assert.deepEqual(durable.event, {kind: 'notification.available'});
+  }
+
+  await f.command('transport.event_ack', {event_id: realtime.event_id, event_seq: realtime.event_seq,
+    connection_id: f.peer().connectionId});
+  assert.equal(f.online.pending.size, 0);
+  assert.deepEqual(f.relay.outbox.after(0)[0].variants, f.uploads);
+});
+
+test('approval push queues before a stalled direct send and never uploads its realtime sibling', async t => {
+  const f = await fixture(t);
+  f.relay.onlineTransportEnabled = false;
+  f.relay.activeBrowserKeys.delete(f.browsers[1].browserId);
+  const browser = f.browsers[0];
+  const peer = {browserId: browser.browserId, channel: {readyState: 'open'}, eventsState: 'direct'};
+  const started = Promise.withResolvers();
+  const directSend = Promise.withResolvers();
+  f.relay.directHost = {peers: new Map([[browser.browserId, peer]]), valid: () => true,
+    send: async (_, frame) => { started.resolve(frame); await directSend.promise; }};
+  try {
+    await f.approval();
+    const frame = await started.promise;
+    assert.equal(f.uploads.length, 1);
+    assert.equal(f.uploads[0].ios_push.alert, true);
+    assert.notEqual(f.uploads[0].event_id, frame.event_id);
+    f.relay.fallbackDirectEvents(peer);
+  } finally {
+    directSend.resolve();
+  }
+  await f.settle();
+  assert.equal(f.uploads.length, 1);
+});
+
+test('legacy session delivery retains the actionable approval and sends one push', async t => {
+  const f = await fixture(t);
+  await f.online.handle({type: 'subscriptions',
+    peers: [{browser_id: 'web_live', connection_id: 'legacy:web_live', transport: 'legacy'}], expires_at: Date.now() + 30_000});
+  await f.approval();
+  await f.settle();
+  const uploads = f.uploads.filter(frame => frame.browser_id === 'web_live');
+  assert.equal(uploads.length, 1);
+  assert.equal(uploads[0].ios_push.alert, true);
+  const clear = await openJson(f.browsers[0].key, uploads[0].envelope, uploads[0].aad);
+  assert.equal(clear.event.kind, 'approval.requested');
+  assert.equal(clear.event.action.display, 'PRIVATE_APPROVAL');
 });
 
 test('byte pressure pauses producer even below the event-count limit', async t => {

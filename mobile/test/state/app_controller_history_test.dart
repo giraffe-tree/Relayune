@@ -21,6 +21,82 @@ import 'package:relayune_mobile/src/state/history_load_progress.dart';
 import '../support/workbench_fixture.dart';
 
 void main() {
+  test(
+    'opening a conversation restores the offline approval and retains its native reply target',
+    () async {
+      final key = RelayKey.import(_testKey());
+      final requestedAt = DateTime.now().toUtc();
+      final approval = {
+        'approval_id': 'from-lock-screen',
+        'root_session_id': 'session_root',
+        'session_id': 'source_child',
+        'requested_at': requestedAt.toIso8601String(),
+        'expires_at': requestedAt
+            .add(const Duration(minutes: 2))
+            .toIso8601String(),
+        'action': {
+          'type': 'command.exec',
+          'command_hash': 'fixture-action-hash',
+        },
+      };
+      final api = _HistoryRelayApi(key)
+        ..responsePayload = {
+          ..._historyPage(),
+          'pending_approvals': {
+            'complete': true,
+            'items': [approval],
+          },
+        };
+      final controller = AppController(api: api)
+        ..phase = AppPhase.ready
+        ..bootstrap = _bootstrap()
+        ..relayKey = key;
+      addTearDown(controller.dispose);
+
+      await controller.selectSession('session_root');
+      expect(api.historyPayloads.single['include_pending_approvals'], isTrue);
+      final recovered = controller.approvals.single;
+      expect(recovered.id, 'from-lock-screen');
+      expect(recovered.sessionId, 'session_root');
+      expect(recovered.targetSessionId, 'source_child');
+      expect(controller.approvalIsPending(recovered), isTrue);
+      await controller.decideApproval(recovered, 'approved');
+      final decision = api.approvalCommands.single;
+      expect(decision['session_id'], 'session_root');
+      expect(decision['payload'], containsPair('session_id', 'source_child'));
+      expect(
+        decision['payload'],
+        containsPair('command_hash', 'fixture-action-hash'),
+      );
+      expect(
+        decision['payload'],
+        containsPair('expires_at', approval['expires_at']),
+      );
+
+      // An older live delivery cannot reset an in-flight decision, and a stale
+      // snapshot cannot resurrect the request once the source confirms it.
+      controller.applyEventForTesting(
+        _event('duplicate', {...approval, 'kind': 'approval.requested'}),
+      );
+      expect(controller.approvals.single.state, 'deciding');
+      controller.applyEventForTesting(
+        _event(
+          'resolved',
+          {
+            'kind': 'approval.resolved',
+            'approval_id': 'from-lock-screen',
+            'decision': 'approved',
+          },
+          createdAt: requestedAt
+              .add(const Duration(seconds: 1))
+              .toIso8601String(),
+        ),
+      );
+      await controller.loadHistory('session_root');
+      expect(controller.approvals.single.state, 'approved');
+    },
+  );
+
   testWidgets(
     'encrypted history progress must bind every request route before updating the loader',
     (tester) async {
@@ -3227,6 +3303,7 @@ class _HistoryRelayApi extends RelayApi {
   final RelayKey _key;
   final List<String> historyRequests = [];
   final List<Map<String, dynamic>> historyPayloads = [];
+  final List<Map<String, dynamic>> approvalCommands = [];
   int bootstrapReads = 0;
   int queueReads = 0;
   int responseReads = 0;
@@ -3309,6 +3386,11 @@ class _HistoryRelayApi extends RelayApi {
         aad,
       );
       historyPayloads.add(Map<String, dynamic>.from(command['payload'] as Map));
+    }
+    if (commandType == 'approval.resolve') {
+      approvalCommands.add(
+        await RelayCipher().openJson<Map<String, dynamic>>(_key, envelope, aad),
+      );
     }
     return CommandResult(requestId: requestId, delivery: 'delivered');
   }

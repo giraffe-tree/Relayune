@@ -113,6 +113,45 @@ test('external native command approvals publish once and confirm only after the 
   assert.equal(events[0].decision,'approved'); assert.equal(a.pendingApprovals.size,0);
 });
 
+test('external Desktop permission changes replace the stale card before accepting a turn-only decision', async () => {
+  const adapter = new CodexAppServerAdapter({ workspace: '/workspace' });
+  const approvals = [], events = [], replies = [];
+  adapter.handlers = {
+    requestApproval: async approval => approvals.push(approval),
+    emitEvent: async (_, event) => events.push(event),
+  };
+  const method = 'item/permissions/requestApproval';
+  const thread = { id: 'session', status: { type: 'active' } };
+  const state = {};
+  let params = { threadId: thread.id, turnId: 'turn-1', permissions: { network: { enabled: true } } };
+  adapter.readDesktopApprovals = async () => [{ id: 42, method, params }];
+  adapter.answerDesktopApproval = async (id, reply) => replies.push({ id, ...reply });
+  const sync = async () => {
+    state.desktopApprovalsCheckedAt = 0;
+    await adapter.syncDesktopApprovals(thread, state);
+  };
+  await sync();
+  assert.deepEqual(approvals[0].action.options.map(option => option.kind), ['allow_once', 'reject_once']);
+
+  params = { ...params, reason: 'A changed native request' };
+  await sync();
+  assert.notEqual(approvals[0].approval_id, approvals[1].approval_id);
+  assert.equal(events[0].approval_id, approvals[0].approval_id);
+  assert.equal(events[0].decision, 'expired');
+  await assert.rejects(adapter.resolveApproval({ approvalId: approvals[0].approval_id, decision: 'approved' }), /no longer pending/);
+  assert.equal(replies.length, 0);
+
+  const approvalId = approvals[1].approval_id;
+  await adapter.resolveApproval({ approvalId, decision: 'rejected' });
+  assert.equal(events.length, 1);
+  assert.deepEqual(replies.map(({ id, requestId, decision }) => ({ id, requestId, decision })),
+    [{ id: thread.id, requestId: 42, decision: 'decline' }]);
+  adapter.readDesktopApprovals = async () => [];
+  await sync();
+  assert.equal(events[1].approval_id, approvalId);
+  assert.equal(events[1].decision, 'rejected');
+});
+
 test('phone-created multi questions survive normal completion and answers resume the same conversation', async () => {
   const a=new CodexAppServerAdapter({workspace:'/workspace'}), approvals=[], events=[], requests=[];
   a.handlers={requestApproval:async p=>approvals.push(p),emitEvent:async(s,e)=>events.push(e)};

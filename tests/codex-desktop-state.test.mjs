@@ -295,6 +295,34 @@ test('approval decisions use fresh native validation after a cached request disa
   assert.equal(f.requests.some(request => request.method === 'thread-follower-command-approval-decision'), false); assert.equal(f.snapshots, 2);
 });
 
+test('Desktop v13 reads permission requests from patches and replies to the original owner with a turn-only grant', async t => {
+  const value = state('active');
+  const f = await fixture(t, { streamVersion: 13, states: new Map([[A, value]]) });
+  assert.deepEqual(await f.approvals(), []);
+  const approval = { id: 42, method: 'item/permissions/requestApproval',
+    params: { threadId: A, turnId: 'turn-1', permissions: { network: { enabled: true } } } };
+  f.sessions.get(A).value.requests = [approval];
+  f.patch(A, [{ op: 'add', path: ['requests', 0], value: approval }]);
+  await nextEvent();
+  assert.deepEqual(await f.approvals(), [approval]);
+  assert.equal(f.snapshots, 1);
+
+  const reply = { method: approval.method, requestId: approval.id, paramsHash: hashAction(approval.params) };
+  const rpc = 'thread-follower-permissions-request-approval-response';
+  assert.throws(() => f.decide({ ...reply, decision: 'acceptForSession' }), /Invalid Codex Desktop approval/);
+  await assert.rejects(f.decide({ ...reply, requestId: '42', decision: 'accept' }), /no longer pending/);
+  assert.equal(f.requests.some(request => request.method === rpc), false);
+
+  assert.deepEqual(await f.decide({ ...reply, decision: 'accept' }), { accepted: true });
+  assert.deepEqual(await f.decide({ ...reply, decision: 'decline' }), { accepted: true });
+  const sent = f.requests.filter(request => request.method === rpc);
+  assert.ok(sent.every(request => request.hostId === 'local' && request.version === 2 && request.targetClientId === f.sessions.get(A).owner));
+  assert.deepEqual(sent.map(request => request.params), [
+    { conversationId: A, requestId: 42, response: { permissions: approval.params.permissions, scope: 'turn' } },
+    { conversationId: A, requestId: 42, response: { permissions: {}, scope: 'turn' } },
+  ]);
+});
+
 for (const event of ['gap', 'disconnect', 'reset']) test(`${event} invalidates native authority and forces a new snapshot`, async t => {
   const f = await fixture(t); await f.runtime(); f.sessions.get(A).value.threadRuntimeStatus = { type: 'active' };
   if (event === 'gap') f.patch(A, [{ op: 'replace', path: ['threadRuntimeStatus', 'type'], value: 'active' }], { baseRevision: 9, revision: 10 });

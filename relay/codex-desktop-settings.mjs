@@ -7,7 +7,7 @@ import { lstat } from 'node:fs/promises';
 import { homedir } from 'node:os';
 import { join, dirname } from 'node:path';
 import { randomUUID } from 'node:crypto';
-import { makeDesktopStatePool } from './codex-desktop-state.mjs';
+import { DESKTOP_APPROVAL_METHODS, makeDesktopStatePool } from './codex-desktop-state.mjs';
 import { canContinueCodexTurn } from './codex-continuation.mjs';
 
 // Large native snapshots include full tool history. Bound allocation while
@@ -120,18 +120,41 @@ export function desktopAnswerQuestion(sessionId, reply, options = {}) {
     throw new Error('Invalid Codex question answer.');
   return desktopPermissions(sessionId, undefined, { ...options, questionReply: reply });
 }
-const DESKTOP_APPROVAL_METHODS = {
-  'item/commandExecution/requestApproval': 'thread-follower-command-approval-decision',
-  'item/fileChange/requestApproval': 'thread-follower-file-approval-decision',
-};
 export function desktopPendingApprovals(sessionId, options = {}) {
   return desktopPermissions(sessionId, undefined, {...options, readApprovals:true});
 }
 export function desktopResolveApproval(sessionId, reply, options = {}) {
-  if (!DESKTOP_APPROVAL_METHODS[reply?.method] || !['accept','decline','cancel'].includes(reply?.decision) ||
+  const permissions = reply?.method === 'item/permissions/requestApproval';
+  const choices = permissions ? ['accept', 'decline'] : ['accept', 'decline', 'cancel'];
+  if (!DESKTOP_APPROVAL_METHODS.has(reply?.method) || !choices.includes(reply?.decision) ||
       !['number','string'].includes(typeof reply.requestId) || typeof reply.paramsHash !== 'string')
     throw new Error('Invalid Codex Desktop approval decision.');
   return desktopPermissions(sessionId, undefined, {...options, approvalReply:reply});
+}
+
+function pendingDesktopApprovals(state, sessionId) {
+  return (state?.requests ?? []).filter(request =>
+    DESKTOP_APPROVAL_METHODS.has(request?.method) && request.params?.threadId === sessionId).slice(0, 64);
+}
+
+function desktopApprovalReplyParams(requests, sessionId, reply) {
+  const request = requests.find(candidate => candidate.id === reply.requestId && candidate.method === reply.method);
+  if (!request || hashAction(request.params) !== reply.paramsHash) {
+    throw new Error('Codex Desktop approval is no longer pending or has changed.');
+  }
+  const params = { conversationId: sessionId, requestId: request.id };
+  if (request.method === 'item/permissions/requestApproval') {
+    const permissions = request.params.permissions;
+    if (!permissions || typeof permissions !== 'object' || Array.isArray(permissions)) {
+      throw new Error('Invalid Codex Desktop permission request.');
+    }
+    return { ...params, response: { permissions: reply.decision === 'accept' ? permissions : {}, scope: 'turn' } };
+  }
+  const choices = request.params.availableDecisions ?? ['accept', 'decline', 'cancel'];
+  if (!Array.isArray(choices) || !choices.includes(reply.decision)) {
+    throw new Error('Codex Desktop approval is no longer pending or has changed.');
+  }
+  return { ...params, decision: reply.decision };
 }
 export async function desktopPermissions(sessionId, settings, {
   statePool = defaultStatePool,
@@ -160,8 +183,7 @@ export async function desktopPermissions(sessionId, settings, {
       if (!['active', 'idle', 'systemError'].includes(type)) throw new Error('无法确认 Codex 电脑端权限，请刷新会话后重试。');
       return { type };
     }
-    if (operation.readApprovals) return structuredClone((state.requests ?? []).filter(request =>
-      DESKTOP_APPROVAL_METHODS[request.method] && request.params?.threadId === sessionId).slice(0, 64));
+    if (operation.readApprovals) return structuredClone(pendingDesktopApprovals(state, sessionId));
     if (operation.interrupt) {
       const active = nativeSnapshotTurns(state).findLast(turn => turn.status === 'inProgress');
       const turnId = active?.turnId ?? active?.id;
@@ -314,14 +336,10 @@ async function desktopPermissionsFresh(sessionId, settings, {
           message.params?.change?.type === 'snapshot') {
           const state = message.params.change.conversationState;
           if (readApprovals || approvalReply) {
-            const requests = (state?.requests ?? []).filter(r => DESKTOP_APPROVAL_METHODS[r.method] &&
-              r.params?.threadId === sessionId).slice(0, 64);
+            const requests = pendingDesktopApprovals(state, sessionId);
             if (approvalReply) {
-              const match = requests.find(r => r.id === approvalReply.requestId && r.method === approvalReply.method);
-              const choices = match?.params?.availableDecisions ?? ['accept','decline','cancel'];
-              if (!match || hashAction(match.params) !== approvalReply.paramsHash || !choices.includes(approvalReply.decision))
-                snapshotWaiter?.reject(new Error('Codex Desktop approval is no longer pending or has changed.'));
-              else snapshotWaiter?.resolve({});
+              try { snapshotWaiter?.resolve(desktopApprovalReplyParams(requests, sessionId, approvalReply)); }
+              catch (error) { snapshotWaiter?.reject(error); }
             } else snapshotWaiter?.resolve(requests);
             snapshotWaiter = null;
             continue;
@@ -455,9 +473,10 @@ async function desktopPermissionsFresh(sessionId, settings, {
     }
     if (readApprovals) return actual;
     if (approvalReply) {
-      await request(DESKTOP_APPROVAL_METHODS[approvalReply.method], {conversationId:sessionId,
-        requestId:approvalReply.requestId, decision:approvalReply.decision}, 2, ownerId);
-      return {accepted:true};
+      // Native follower methods use base v1; passing hostId uses v2.
+      const response = await request(DESKTOP_APPROVAL_METHODS.get(approvalReply.method), actual, 2, ownerId);
+      if (response.result?.ok !== true) throw new Error('Codex Desktop did not acknowledge the approval decision.');
+      return { accepted: true };
     }
     if (questionReply) {
       // An idle owner cannot steer; use the existing durable queue path after

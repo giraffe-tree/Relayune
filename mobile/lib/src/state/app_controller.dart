@@ -3579,6 +3579,11 @@ class AppController extends ChangeNotifier {
     historyLoading.add(sessionId);
     if (earlier) historyEarlierLoading.add(sessionId);
     var sourceAtRequest = _sessionSourceSequences[sessionId] ?? 0;
+    final approvalsAtRequest = earlier
+        ? const <RelayApproval>{}
+        : approvals
+              .where((approval) => approval.sessionId == sessionId)
+              .toSet();
     final epoch = _historyCacheEpoch;
     final watch = Stopwatch()..start();
     final requestVisible = _historyVisibleSession == sessionId;
@@ -3618,6 +3623,7 @@ class AppController extends ChangeNotifier {
             'performance_trace_id': requestId,
             'include_agent_details': false,
             'include_progress': requestVisible && !localOnly,
+            if (!earlier) 'include_pending_approvals': true,
             'max_bytes': 1024 * 1024,
           },
           ttl: historyRequestTimeout,
@@ -3895,6 +3901,13 @@ class AppController extends ChangeNotifier {
         agents = _mergeAgents(agents, page.agents);
         sessions = _mergeSessions(sessions, page.sessions);
         _reconcileRuntimeStateWithCatalog();
+        if (!earlier) {
+          _applyPendingApprovalSnapshot(
+            sessionId,
+            result['pending_approvals'],
+            approvalsAtRequest,
+          );
+        }
         final existing = messages[sessionId] ?? const <RelayMessage>[];
         messages[sessionId] = _mergeHistoryMessages(
           sessionId,
@@ -4891,6 +4904,130 @@ class AppController extends ChangeNotifier {
     if (pending == null || pending.$1 != approvalId) return;
     if (notice == pending.$2) notice = '';
     _approvalNotice = null;
+  }
+
+  RelayApproval? _approvalFromRequest(
+    String sessionId,
+    Map<String, dynamic> request, {
+    String? fallbackRequestedAt,
+  }) {
+    final id = request['approval_id'];
+    final expiresAt = request['expires_at'];
+    final requestedAt = request['requested_at'] ?? fallbackRequestedAt;
+    if (id is! String ||
+        expiresAt is! String ||
+        requestedAt is! String ||
+        DateTime.tryParse(expiresAt) == null) {
+      return null;
+    }
+    final outcome = _approvalOutcomes[(sessionId, id)];
+    final requested = DateTime.tryParse(requestedAt);
+    final decision =
+        outcome != null && requested != null && !requested.isAfter(outcome.at)
+        ? outcome.decision
+        : null;
+    return RelayApproval(
+      id: id,
+      turnId: request['turn_id'] as String?,
+      sessionId: sessionId,
+      targetSessionId: request['session_id'] as String? ?? sessionId,
+      action: jsonMap(request['action']),
+      riskLevel: request['risk_level'] as String? ?? 'high',
+      state: decision ?? 'pending',
+      requestedAt: requestedAt,
+      expiresAt: expiresAt,
+      sourceAgentName: request['source_agent_name'] as String?,
+      sourceThreadId: request['source_thread_id'] as String?,
+      sourceAgentId: request['source_agent_id'] as String?,
+    );
+  }
+
+  void _applyPendingApprovalSnapshot(
+    String sessionId,
+    Object? snapshot,
+    Set<RelayApproval> approvalsAtRequest,
+  ) {
+    if (snapshot is! Map || snapshot['items'] is! List) return;
+    final current = {
+      for (final approval in approvals)
+        if (approval.sessionId == sessionId) approval.id: approval,
+    };
+    final recovered = <String, RelayApproval>{};
+    var complete = snapshot['complete'] == true;
+    final now = DateTime.now();
+    for (final entry in snapshot['items'] as List) {
+      if (entry is! Map<String, dynamic> ||
+          (entry['root_session_id'] ?? entry['session_id']) != sessionId ||
+          entry['session_id'] is! String) {
+        complete = false;
+        continue;
+      }
+      final approval = _approvalFromRequest(sessionId, entry);
+      final requestedAt = DateTime.tryParse(approval?.requestedAt ?? '');
+      if (approval == null ||
+          requestedAt == null ||
+          approval.action['command_hash'] is! String) {
+        complete = false;
+        continue;
+      }
+      if (approval.state != 'pending' ||
+          !DateTime.parse(approval.expiresAt).isAfter(now)) {
+        continue;
+      }
+      final existing = current[approval.id];
+      final existingRequestedAt = DateTime.tryParse(
+        existing?.requestedAt ?? '',
+      );
+      recovered[approval.id] =
+          existing != null &&
+              existingRequestedAt != null &&
+              !existingRequestedAt.isBefore(requestedAt)
+          ? existing
+          : approval;
+    }
+    if (recovered.values.any((approval) => approval.state == 'pending')) {
+      _setSessionActivity(sessionId, _l10n.controllerApprovalNeeded);
+    }
+    approvals = [
+      ...recovered.values,
+      for (final approval in approvals)
+        if (approval.sessionId != sessionId ||
+            !recovered.containsKey(approval.id))
+          if (complete &&
+              approval.sessionId == sessionId &&
+              approvalsAtRequest.contains(approval) &&
+              const {'pending', 'deciding'}.contains(approval.state))
+            _retireMissingApproval(approval)
+          else
+            approval,
+    ];
+  }
+
+  RelayApproval _retireMissingApproval(RelayApproval approval) {
+    final requestedAt = DateTime.tryParse(approval.requestedAt);
+    if (requestedAt != null) {
+      _rememberApprovalOutcome(
+        approval.sessionId,
+        approval.id,
+        'expired',
+        requestedAt,
+      );
+    }
+    _clearApprovalNotice(approval.id);
+    haptics.cancel(_approvalHaptics.remove(approval.id));
+    return approval.copyWith(state: 'expired');
+  }
+
+  void _rememberApprovalOutcome(
+    String sessionId,
+    String approvalId,
+    String decision,
+    DateTime at,
+  ) {
+    _approvalOutcomes[(sessionId, approvalId)] = (decision: decision, at: at);
+    if (_approvalOutcomes.length > 2048) {
+      _approvalOutcomes.remove(_approvalOutcomes.keys.first);
+    }
   }
 
   Future<void> decideApproval(
@@ -7434,35 +7571,25 @@ class AppController extends ChangeNotifier {
       activeTurnId: _activeTurns[record.sessionId],
     );
     if (kind == 'turn.thinking') return;
-    if (kind == 'approval.requested' && event['approval_id'] is String) {
-      final outcome =
-          _approvalOutcomes[(record.sessionId, event['approval_id'] as String)];
-      final requestedAt = DateTime.tryParse(
-        event['requested_at'] as String? ?? record.createdAt,
+    if (kind == 'approval.requested') {
+      final approval = _approvalFromRequest(
+        record.sessionId,
+        event,
+        fallbackRequestedAt: record.createdAt,
       );
-      final replayDecision =
-          outcome != null &&
-              requestedAt != null &&
-              !requestedAt.isAfter(outcome.at)
-          ? outcome.decision
-          : null;
-      if (replayDecision == null) {
+      if (approval == null) return;
+      final existing = approvals
+          .where((item) => item.id == approval.id)
+          .firstOrNull;
+      // Recovery and the live stream can deliver the same request. Keep an
+      // in-flight local decision until the desktop confirms or rejects it.
+      if (existing?.requestedAt == approval.requestedAt &&
+          existing?.state == 'deciding' &&
+          approval.state == 'pending')
+        return;
+      if (approval.state == 'pending') {
         _setSessionActivity(record.sessionId, _l10n.controllerApprovalNeeded);
       }
-      final approval = RelayApproval(
-        id: event['approval_id'] as String,
-        turnId: event['turn_id'] as String?,
-        sessionId: record.sessionId,
-        targetSessionId: event['session_id'] as String? ?? record.sessionId,
-        action: jsonMap(event['action']),
-        riskLevel: event['risk_level'] as String? ?? 'high',
-        state: replayDecision ?? 'pending',
-        requestedAt: event['requested_at'] as String? ?? record.createdAt,
-        expiresAt: event['expires_at'] as String,
-        sourceAgentName: event['source_agent_name'] as String?,
-        sourceThreadId: event['source_thread_id'] as String?,
-        sourceAgentId: event['source_agent_id'] as String?,
-      );
       approvals = [
         approval,
         ...approvals.where((item) => item.id != approval.id),
@@ -7470,14 +7597,12 @@ class AppController extends ChangeNotifier {
       return;
     }
     if (kind == 'approval.resolved' && event['approval_id'] is String) {
-      final key = (record.sessionId, event['approval_id'] as String);
-      _approvalOutcomes[key] = (
-        decision: event['decision'] as String? ?? 'expired',
-        at: DateTime.tryParse(record.createdAt) ?? DateTime.now(),
+      _rememberApprovalOutcome(
+        record.sessionId,
+        event['approval_id'] as String,
+        event['decision'] as String? ?? 'expired',
+        DateTime.tryParse(record.createdAt) ?? DateTime.now(),
       );
-      if (_approvalOutcomes.length > 2048) {
-        _approvalOutcomes.remove(_approvalOutcomes.keys.first);
-      }
       _clearApprovalNotice(event['approval_id'] as String);
       final ticket = _approvalHaptics.remove(event['approval_id']);
       if (const {'approved', 'rejected'}.contains(event['decision'])) {

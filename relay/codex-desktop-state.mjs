@@ -3,7 +3,11 @@ import { lstat } from 'node:fs/promises';
 import { dirname } from 'node:path';
 import { randomUUID } from 'node:crypto';
 
-const APPROVAL_METHODS = new Set(['item/commandExecution/requestApproval', 'item/fileChange/requestApproval']);
+export const DESKTOP_APPROVAL_METHODS = new Map([
+  ['item/commandExecution/requestApproval', 'thread-follower-command-approval-decision'],
+  ['item/fileChange/requestApproval', 'thread-follower-file-approval-decision'],
+  ['item/permissions/requestApproval', 'thread-follower-permissions-request-approval-response'],
+]);
 
 const failure = () => new Error('无法确认 Codex 电脑端权限，请刷新会话后重试。');
 const ROOTS = new Set(['cwd', 'latestThreadSettings', 'latestCollaborationMode', 'currentPermissions', 'threadRuntimeStatus', 'turns', 'turnHistory', 'requests']);
@@ -39,7 +43,7 @@ export function projectDesktopState(value) {
     turns: (value?.turns ?? []).map(turn),
     turnHistory: turnHistory(value?.turnHistory),
     // Preserve array indices for native patches without keeping unrelated RPCs.
-    requests: (value?.requests ?? []).map(request => APPROVAL_METHODS.has(request.method) ? clone(request) : {}),
+    requests: (value?.requests ?? []).map(request => DESKTOP_APPROVAL_METHODS.has(request?.method) ? clone(request) : {}),
   });
 }
 
@@ -80,15 +84,15 @@ function projectedPatch(patch, state) {
     if (path.length === 1) value = { type: value?.type };
     else if (path[1] !== 'type') return null;
   } else if (root === 'requests') {
-    if (path.length > 2 && !APPROVAL_METHODS.has(state.requests?.[path[1]]?.method)) {
+    if (path.length > 2 && !DESKTOP_APPROVAL_METHODS.has(state.requests?.[path[1]]?.method)) {
       // An unrelated RPC can update arbitrary tool fields. Only a complete
       // approval request may replace its placeholder, never a partial patch.
-      if (path[2] === 'method' && APPROVAL_METHODS.has(value)) throw failure();
+      if (path[2] === 'method' && DESKTOP_APPROVAL_METHODS.has(value)) throw failure();
       return null;
     }
     if (patch.op !== 'remove') {
-      if (path.length === 1) value = (value ?? []).map(request => APPROVAL_METHODS.has(request.method) ? clone(request) : {});
-      else if (path.length === 2) value = APPROVAL_METHODS.has(value?.method) ? clone(value) : {};
+      if (path.length === 1) value = (value ?? []).map(request => DESKTOP_APPROVAL_METHODS.has(request?.method) ? clone(request) : {});
+      else if (path.length === 2) value = DESKTOP_APPROVAL_METHODS.has(value?.method) ? clone(value) : {};
     }
   }
   return { ...patch, value: clone(value) };
