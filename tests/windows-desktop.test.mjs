@@ -1556,6 +1556,9 @@ test("Windows CI admits clean install, synthetic upgrade, and exact lifecycle cl
   assert.match(lifecycle, /\$secondary\.WaitForExit\(10000\)/);
   assert.match(lifecycle, /\$secondary\.ExitCode -ne 0/);
   assert.match(lifecycle, /if \(!enumerated\)[\s\S]*?EnumWindows failed with Win32 error/);
+  assert.match(lifecycle, /owner == processId && IsWindowVisible\(window\) && !IsRuntimeMessageWindow\(window\)/);
+  assert.match(lifecycle, /messageWindowStyle = WS_EX_TRANSPARENT \| WS_EX_TOOLWINDOW \| WS_EX_LAYERED \| WS_EX_NOACTIVATE/);
+  assert.match(lifecycle, /windowClass == "Tao Thread Event Target" \|\| windowClass\.EndsWith\("-sic", StringComparison\.Ordinal\)/);
   assert.match(lifecycle, /\$mainWindowHandle = \$visibleWindows\[0\]/);
   assert.match(lifecycle, /WindowTitle\(\$mainWindowHandle\) -ne \$ProductName/);
   assert.match(lifecycle, /GetWindowDpiAwarenessContext\(IntPtr window\)/);

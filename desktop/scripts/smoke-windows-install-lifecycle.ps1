@@ -116,6 +116,12 @@ public static class RelayuneWindowProbe {
   [DllImport("user32.dll")]
   private static extern bool IsWindowVisible(IntPtr window);
 
+  [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+  private static extern int GetWindowLong(IntPtr window, int index);
+
+  [DllImport("user32.dll", CharSet = CharSet.Unicode)]
+  private static extern int GetClassName(IntPtr window, StringBuilder name, int count);
+
   [DllImport("user32.dll")]
   private static extern uint GetWindowThreadProcessId(IntPtr window, out uint processId);
 
@@ -156,12 +162,27 @@ public static class RelayuneWindowProbe {
     ref uint bufferLength
   );
 
+  private static bool IsRuntimeMessageWindow(IntPtr window) {
+    const int GWL_EXSTYLE = -20;
+    const int WS_EX_TRANSPARENT = 0x20, WS_EX_TOOLWINDOW = 0x80;
+    const int WS_EX_LAYERED = 0x80000, WS_EX_NOACTIVATE = 0x8000000;
+    const int messageWindowStyle = WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW | WS_EX_LAYERED | WS_EX_NOACTIVATE;
+    if ((GetWindowLong(window, GWL_EXSTYLE) & messageWindowStyle) != messageWindowStyle) {
+      return false;
+    }
+    var name = new StringBuilder(256);
+    GetClassName(window, name, name.Capacity);
+    var windowClass = name.ToString();
+    // The runtime sets WS_VISIBLE on these transparent Win32 message targets.
+    return windowClass == "Tao Thread Event Target" || windowClass.EndsWith("-sic", StringComparison.Ordinal);
+  }
+
   public static IntPtr[] VisibleWindows(uint processId) {
     var windows = new List<IntPtr>();
     var enumerated = EnumWindows((window, parameter) => {
       uint owner;
       GetWindowThreadProcessId(window, out owner);
-      if (owner == processId && IsWindowVisible(window)) {
+      if (owner == processId && IsWindowVisible(window) && !IsRuntimeMessageWindow(window)) {
         windows.Add(window);
       }
       return true;
