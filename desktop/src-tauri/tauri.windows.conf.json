@@ -12,6 +12,7 @@
         "resizable": true,
         "maximizable": false,
         "visible": false,
+        "focus": false,
         "center": true,
         "decorations": true
       }

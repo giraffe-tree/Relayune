@@ -694,6 +694,7 @@ test("Windows tray recovery and narrow-viewport layout have source-level admissi
   assert.ok(baseMainWindow);
   assert.equal(mainWindow.resizable, true);
   assert.equal(mainWindow.visible, false);
+  assert.equal(mainWindow.focus, false);
   assert.equal(mainWindow.width, 520);
   assert.equal(mainWindow.height, 480);
   assert.equal(mainWindow.minWidth, 420);
