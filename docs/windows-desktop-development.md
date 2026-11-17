@@ -145,9 +145,9 @@
   Windows UI Automation 从主窗口句柄读取 WebView 可访问树，要求首次交互显示及关闭后
   恢复都存在已启用、屏幕内且支持 Invoke 的登录按钮；首次显示时不只读取
   `InvokePattern`，还会真实 Invoke 登录按钮。脚本通过进程级测试配置把配对 API 固定到
-  随机 `127.0.0.1` 端口；本机 stub 以流式字节比较只接受固定
-  `POST /api/pairings/start HTTP/1.1` request line，不保留请求 header、不读取 request body，
-  只返回固定可重试 503 并记录匹配请求的聚合次数；其他 loopback 请求不能替代真实 CTA
+  随机 `127.0.0.1` 端口。本机 stub 以流式字节比较，只接受配对启动路径的 OPTIONS
+  预检和 POST，响应只允许 `http://tauri.localhost` 跨源读取。它只对 POST 返回固定
+  可重试 503 和计入配对请求次数，丢弃请求 header 且不读取 request body。其他 loopback 请求不能替代真实 CTA
   触发而假绿。清理时不仅停止 listener，还会在锁内关闭唯一 active client，以中断只发送
   半截 header 的连接；后台 worker 在 5 秒内未退出会进入 cleanup error 汇总，不能因
   `Thread.IsBackground` 或忽略 `Join` 结果而假称清理完成。因此登录操作必须进入可恢复状态，显示可用的双语

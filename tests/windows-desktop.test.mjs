@@ -1643,7 +1643,10 @@ test("Windows CI admits clean install, synthetic upgrade, and exact lifecycle cl
   const pairingStub = lifecycle.match(/public sealed class RelayunePairingFailureStub[\s\S]*?\n\}/)?.[0];
   assert.ok(pairingStub, "the lifecycle must host a process-local pairing failure stub");
   assert.match(pairingStub, /new TcpListener\(IPAddress\.Loopback, 0\)/);
-  assert.match(pairingStub, /private static bool DiscardExpectedPairingStartHeaders\(NetworkStream stream\)/);
+  assert.match(pairingStub, /private static bool DiscardExpectedPairingStartHeaders\(NetworkStream stream, out bool preflight\)/);
+  assert.match(pairingStub, /OPTIONS \/api\/pairings\/start HTTP\/1\.1\\r\\n/);
+  assert.match(pairingStub, /Access-Control-Allow-Origin: http:\/\/tauri\.localhost/);
+  assert.match(pairingStub, /if \(preflight\) \{\s*Interlocked\.Increment\(ref preflightCount\);\s*\} else \{\s*Interlocked\.Increment\(ref requestCount\);/);
   assert.match(pairingStub, /POST \/api\/pairings\/start HTTP\/1\.1\\r\\n/);
   assert.match(pairingStub, /total < expectedRequestLine\.Length && value != expectedRequestLine\[total\]/);
   assert.match(pairingStub, /total < 16384/);

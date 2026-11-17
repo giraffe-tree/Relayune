@@ -286,6 +286,7 @@ public sealed class RelayunePairingFailureStub : IDisposable {
   private readonly object clientGate = new object();
   private TcpClient activeClient;
   private int requestCount;
+  private int preflightCount;
   private volatile bool stopping;
 
   public RelayunePairingFailureStub() {
@@ -306,6 +307,10 @@ public sealed class RelayunePairingFailureStub : IDisposable {
     get { return Volatile.Read(ref requestCount); }
   }
 
+  public int PreflightCount {
+    get { return Volatile.Read(ref preflightCount); }
+  }
+
   private void Serve() {
     while (!stopping) {
       TcpClient client = null;
@@ -322,13 +327,22 @@ public sealed class RelayunePairingFailureStub : IDisposable {
           client.ReceiveTimeout = 5000;
           client.SendTimeout = 5000;
           using (var stream = client.GetStream()) {
-            if (!DiscardExpectedPairingStartHeaders(stream)) {
+            if (!DiscardExpectedPairingStartHeaders(stream, out var preflight)) {
               continue;
             }
-            Interlocked.Increment(ref requestCount);
-            const string body = "{\"error\":{\"code\":\"service_unavailable\"}}";
+            if (preflight) {
+              Interlocked.Increment(ref preflightCount);
+            } else {
+              Interlocked.Increment(ref requestCount);
+            }
+            var body = preflight ? "" : "{\"error\":{\"code\":\"service_unavailable\"}}";
+            var status = preflight ? "HTTP/1.1 200 OK" : "HTTP/1.1 503 Service Unavailable";
             var response = Encoding.ASCII.GetBytes(
-              "HTTP/1.1 503 Service Unavailable\r\n" +
+              status + "\r\n" +
+              "Access-Control-Allow-Origin: http://tauri.localhost\r\n" +
+              "Access-Control-Allow-Methods: POST\r\n" +
+              "Access-Control-Allow-Headers: Content-Type\r\n" +
+              "Access-Control-Allow-Private-Network: true\r\n" +
               "Content-Type: application/json\r\n" +
               "Cache-Control: no-store\r\n" +
               "Connection: close\r\n" +
@@ -361,12 +375,19 @@ public sealed class RelayunePairingFailureStub : IDisposable {
     }
   }
 
-  private static bool DiscardExpectedPairingStartHeaders(NetworkStream stream) {
-    // Deliberately retain no request data. Stop at the header terminator so the
-    // pairing JSON body, short code and tokens are never read by the probe.
-    var expectedRequestLine = Encoding.ASCII.GetBytes("POST /api/pairings/start HTTP/1.1\r\n");
+  private static bool DiscardExpectedPairingStartHeaders(NetworkStream stream, out bool preflight) {
+    // Deliberately retain no request data. Read only headers for the expected
+    // POST and its CORS preflight, and count the two methods separately.
+    var first = stream.ReadByte();
+    preflight = first == 'O';
+    if (first != 'P' && !preflight) {
+      return false;
+    }
+    var expectedRequestLine = Encoding.ASCII.GetBytes(preflight
+      ? "OPTIONS /api/pairings/start HTTP/1.1\r\n"
+      : "POST /api/pairings/start HTTP/1.1\r\n");
     var terminatorOffset = 0;
-    for (var total = 0; total < 16384; total++) {
+    for (var total = 1; total < 16384; total++) {
       var value = stream.ReadByte();
       if (value < 0) {
         return false;
@@ -1212,7 +1233,7 @@ function Wait-ForLoopbackPairingRequest {
     if ($Stub.RequestCount -gt $PreviousCount) { return }
     Start-Sleep -Milliseconds 100
   } while ([DateTime]::UtcNow -lt $deadline)
-  throw "Invoking the first-login action did not reach the isolated loopback pairing failure stub."
+  throw "The isolated first-login stub received no new pairing POST (preflights: $($Stub.PreflightCount), POSTs: $($Stub.RequestCount))."
 }
 
 function Assert-LoopbackPairingRequestsStopped {
