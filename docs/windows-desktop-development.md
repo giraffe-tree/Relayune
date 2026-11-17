@@ -92,16 +92,17 @@
   `*.dll`；陈旧升级残留或误打包 DLL 不能进入 Windows 优先的应用目录搜索路径。随后在没有既有 Relayune
   安装的 Windows Server 2022 runner 上执行基线静默安装和当前包 `/UPDATE` 升级，校验
   注册版本、固定 `%LOCALAPPDATA%\Relayune` 路径、桌面/开始菜单快捷方式、用户数据、
-  带引号登录启动值和 sidecar 哈希替换。两轮安装都会把解包后的 GUI 与 sidecar 分别和
-  当前编译/打包源 PE 做 SHA-256 对比，防止 NSIS 缓存旧二进制却因旧版本仍能启动而假绿。
+  带引号登录启动值和 sidecar 哈希替换。两轮安装都会按 Tauri 的 NSIS 类型标记
+  生成预期 GUI，然后将已安装的 GUI 和 sidecar 分别与预期文件做完整 SHA-256 对比，
+  防止 NSIS 缓存旧二进制却因旧版本仍能启动而假绿。
   快捷方式不只通过 COM 回读目标和空参数：后台首启后的交互二启必须由 Windows Shell
   实际激活桌面 `.lnk`，关闭到托盘后的恢复则必须实际激活开始菜单 `.lnk`；两次返回的进程
   都必须正常完成 single-instance handoff。损坏或仅元数据看似正确、实际无法打开的入口
   不能由直接执行安装目录 EXE 掩盖。Tauri 的 NSIS 模板将安装目录写入 `.lnk` 的
   WorkingDirectory，测试会回读并校验该路径。Shell 激活从干净的 `System32` CWD
   发起，由 Windows Shell 使用快捷方式记录的目录。Windows Shell Property System
-  还会从桌面与开始菜单 `.lnk`
-  原生回读 `System.AppUserModel.ID`，并要求精确等于 bundle identifier；仅能启动但丢失
+  还会从桌面与开始菜单 `.lnk` 原生回读 `System.AppUserModel.ID`，并要求精确等于
+  bundle identifier；仅能启动但丢失
   任务栏分组、通知与 Shell 身份的快捷方式不能通过。直接 GUI 探针仍固定到真实安装目录；两类启动都只向子进程
   提供标准 Windows 系统 PATH，因此 GitHub workspace 或 toolcache 中偶然存在的 DLL/工具
   不能替 clean Win10/11 补齐运行时依赖。启动 helper 还会临时清除

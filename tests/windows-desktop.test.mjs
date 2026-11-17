@@ -1445,6 +1445,9 @@ test("Windows CI admits clean install, synthetic upgrade, and exact lifecycle cl
     /Wait-ForAccessibleLoginAction -WindowHandle \$restoredWindows\[0\][\s\S]*?Assert-ExpectedAutostartState -AppExecutable \$appExecutable[\s\S]*?Stop-ExactProcess -Process \$primary/,
     "the completed first-login/cancel/reopen journey must not silently change login startup",
   );
+  assert.match(lifecycle, /currentSourceGuiHash = Get-ExpectedNsisGuiHash -Path \$CurrentGuiSource/);
+  assert.match(lifecycle, /__TAURI_BUNDLE_TYPE_VAR_UNK/);
+  assert.match(lifecycle, /__TAURI_BUNDLE_TYPE_VAR_NSS/);
   assert.match(lifecycle, /installedGuiHash -ne \$currentSourceGuiHash/);
   assert.match(lifecycle, /baselineGuiHash = \(Get-FileHash -LiteralPath \$baselineLayout\.AppExecutable -Algorithm SHA256\)\.Hash/);
   assert.match(lifecycle, /\$hasUpgradeBaseline -and \$installedGuiHash -eq \$baselineGuiHash/);

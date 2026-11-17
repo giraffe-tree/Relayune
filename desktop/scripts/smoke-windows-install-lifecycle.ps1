@@ -429,6 +429,21 @@ function Get-SoleInstaller {
   return $installers[0]
 }
 
+function Get-ExpectedNsisGuiHash {
+  param([Parameter(Mandatory = $true)][string]$Path)
+  # Tauri patches the first bundle marker before makensis reads the EXE,
+  # then restores the original EXE in the build directory.
+  $gui = [IO.File]::ReadAllBytes((Resolve-Path -LiteralPath $Path).ProviderPath)
+  $marker = "__TAURI_BUNDLE_TYPE_VAR_UNK"
+  $offset = [Text.Encoding]::Latin1.GetString($gui).IndexOf($marker, [StringComparison]::Ordinal)
+  if ($offset -lt 0) {
+    throw "The current GUI source is missing Tauri's unbundled type marker: $Path."
+  }
+  $nsisMarker = [Text.Encoding]::ASCII.GetBytes("__TAURI_BUNDLE_TYPE_VAR_NSS")
+  [Array]::Copy($nsisMarker, 0, $gui, $offset, $nsisMarker.Length)
+  return [Convert]::ToHexString([Security.Cryptography.SHA256]::HashData($gui))
+}
+
 function Invoke-SilentInstaller {
   param(
     [Parameter(Mandatory = $true)][string]$Path,
@@ -1516,10 +1531,10 @@ try {
   $installDirectory = $layout.InstallDirectory
   $appExecutable = $layout.AppExecutable
   $sidecar = $layout.Sidecar
-  $currentSourceGuiHash = (Get-FileHash -LiteralPath $CurrentGuiSource -Algorithm SHA256).Hash
+  $currentSourceGuiHash = Get-ExpectedNsisGuiHash -Path $CurrentGuiSource
   $installedGuiHash = (Get-FileHash -LiteralPath $appExecutable -Algorithm SHA256).Hash
   if ($installedGuiHash -ne $currentSourceGuiHash) {
-    throw "NSIS installed a stale GUI instead of the current compiled executable."
+    throw "The installed GUI does not match the expected current NSIS payload."
   }
   if ($hasUpgradeBaseline -and $installedGuiHash -eq $baselineGuiHash) {
     throw "The synthetic baseline and current GUI hashes are identical; the GUI upgrade assertion is not executable."
