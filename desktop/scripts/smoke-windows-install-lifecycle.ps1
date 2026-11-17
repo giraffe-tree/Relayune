@@ -1258,6 +1258,8 @@ function Wait-ForAccessibleRecoveryCancelPattern {
     [System.Windows.Automation.ControlType]::Button
   )
   $deadline = [DateTime]::UtcNow.AddSeconds(15)
+  $recoveryState = "missing"
+  $cancelState = "missing"
   do {
     try {
       $root = [System.Windows.Automation.AutomationElement]::FromHandle($WindowHandle)
@@ -1278,6 +1280,12 @@ function Wait-ForAccessibleRecoveryCancelPattern {
             [System.Windows.Automation.AutomationElement]::IsOffscreenProperty,
             $true
           )
+          if ([string]::Equals($name, $expectedRecoveryName, [StringComparison]::Ordinal)) {
+            $recoveryState = "enabled=$enabled offscreen=$offscreen"
+          }
+          if ([string]::Equals($name, $expectedCancelName, [StringComparison]::Ordinal)) {
+            $cancelState = "enabled=$enabled offscreen=$offscreen"
+          }
           if (
             [string]::Equals($name, $expectedRecoveryName, [StringComparison]::Ordinal) -and
             -not $enabled -and
@@ -1302,7 +1310,7 @@ function Wait-ForAccessibleRecoveryCancelPattern {
     }
     Start-Sleep -Milliseconds 100
   } while ([DateTime]::UtcNow -lt $deadline)
-  throw "The isolated 503 did not expose recoverable, cancellable first-login UI for expected UI language $expectedUiLanguageCode."
+  throw "The isolated 503 did not expose recoverable, cancellable first-login UI for $expectedUiLanguageCode (recovery: $recoveryState; cancel: $cancelState)."
 }
 
 function Assert-IsolatedConfigPreserved {

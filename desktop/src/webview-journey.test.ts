@@ -51,7 +51,7 @@ describe("desktop WebView journey admission", () => {
 
     expect(main).toMatch(/showStartupFailure[\s\S]*?moveFocus\(startupRetry\)/);
     expect(main).toMatch(
-      /function renderInitialPairingActionAvailability\(\)[\s\S]*?pairingStage !== "idle" \|\| nativeLanguageReconciliationPromise !== null[\s\S]*?loginButton\.disabled = installingUpdate;[\s\S]*?toggleAttribute\("aria-busy", busy\)[\s\S]*?toggleAttribute\("aria-disabled", busy \|\| installingUpdate\)/,
+      /function renderInitialPairingActionAvailability\(\)[\s\S]*?pairingStage !== "idle" \|\| nativeLanguageReconciliationPromise !== null[\s\S]*?loginButton\.disabled = installingUpdate;[\s\S]*?setAttribute\("aria-busy", String\(busy\)\)[\s\S]*?setAttribute\("aria-disabled", String\(busy \|\| installingUpdate\)\)/,
     );
     expect(main).not.toMatch(
       /loginButton\.disabled\s*=\s*pairingStage !== "idle"/,
@@ -722,7 +722,7 @@ describe("desktop WebView journey admission", () => {
       /id="login-note"[\s\S]{0,180}?role="status"[\s\S]{0,120}?aria-live="polite"[\s\S]{0,120}?aria-atomic="true"/,
     );
     expect(main).toMatch(
-      /function renderInitialPairingActionAvailability\(\)[\s\S]*?const busy =[\s\S]*?pairingStage !== "idle"[\s\S]*?loginButton\.toggleAttribute\("aria-busy", busy\)/,
+      /function renderInitialPairingActionAvailability\(\)[\s\S]*?const busy =[\s\S]*?pairingStage !== "idle"[\s\S]*?loginButton\.setAttribute\("aria-busy", String\(busy\)\)/,
     );
     expect(main).toMatch(
       /initialPairingButtonKey[\s\S]*?pairingStage === "starting"[\s\S]*?"creatingSecureConnection"[\s\S]*?pairingStage === "finishing"[\s\S]*?"pairingFinishing"[\s\S]*?pairingStage === "waiting"[\s\S]*?"waitingBrowser"/,

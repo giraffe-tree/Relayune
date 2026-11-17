@@ -965,8 +965,8 @@ function renderInitialPairingActionAvailability() {
   // focused while its click guard rejects duplicates; native `disabled`
   // would drop keyboard and screen-reader users onto the document body.
   loginButton.disabled = installingUpdate;
-  loginButton.toggleAttribute("aria-busy", busy);
-  loginButton.toggleAttribute("aria-disabled", busy || installingUpdate);
+  loginButton.setAttribute("aria-busy", String(busy));
+  loginButton.setAttribute("aria-disabled", String(busy || installingUpdate));
 }
 
 function setWorkspacePickerBusy(busy: boolean) {
