@@ -97,10 +97,10 @@
   快捷方式不只通过 COM 回读目标和空参数：后台首启后的交互二启必须由 Windows Shell
   实际激活桌面 `.lnk`，关闭到托盘后的恢复则必须实际激活开始菜单 `.lnk`；两次返回的进程
   都必须正常完成 single-instance handoff。损坏或仅元数据看似正确、实际无法打开的入口
-  不能由直接执行安装目录 EXE 掩盖。锁定 Tauri NSIS 生成的 `.lnk` 必须保持空
-  WorkingDirectory；Shell 激活会临时从干净的 `System32` CWD 发起，且不向
-  `Start-Process` 注入 WorkingDirectory，证明 Explorer 的真实空-CWD 快捷方式无需 CI
-  代填安装目录也能恢复应用。Windows Shell Property System 还会从桌面与开始菜单 `.lnk`
+  不能由直接执行安装目录 EXE 掩盖。Tauri 的 NSIS 模板将安装目录写入 `.lnk` 的
+  WorkingDirectory，测试会回读并校验该路径。Shell 激活从干净的 `System32` CWD
+  发起，由 Windows Shell 使用快捷方式记录的目录。Windows Shell Property System
+  还会从桌面与开始菜单 `.lnk`
   原生回读 `System.AppUserModel.ID`，并要求精确等于 bundle identifier；仅能启动但丢失
   任务栏分组、通知与 Shell 身份的快捷方式不能通过。直接 GUI 探针仍固定到真实安装目录；两类启动都只向子进程
   提供标准 Windows 系统 PATH，因此 GitHub workspace 或 toolcache 中偶然存在的 DLL/工具

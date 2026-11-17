@@ -1476,8 +1476,8 @@ test("Windows CI admits clean install, synthetic upgrade, and exact lifecycle cl
   assert.match(lifecycle, /shortcut does not target the installed Relayune GUI/i);
   assert.match(lifecycle, /shortcut unexpectedly adds launch arguments/i);
   assert.match(lifecycle, /WorkingDirectory = \$shortcut\.WorkingDirectory/);
-  assert.match(lifecycle, /-not \[string\]::IsNullOrWhiteSpace\(\$shortcutLayout\.WorkingDirectory\)/);
-  assert.match(lifecycle, /shortcut unexpectedly supplies a working directory/i);
+  assert.match(lifecycle, /\$shortcutLayout\.WorkingDirectory -ne \$installDirectory/);
+  assert.match(lifecycle, /shortcut working directory is/i);
   assert.match(lifecycle, /\$shortcutLayout\.AppUserModelId -ne \$BundleIdentifier/);
   assert.match(lifecycle, /shortcut has an unexpected Windows AppUserModelID/i);
   const shortcutActivationProbe = lifecycle.match(/function Start-InstalledShortcut \{[\s\S]*?\n\}/)?.[0];

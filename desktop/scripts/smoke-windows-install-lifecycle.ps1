@@ -510,10 +510,9 @@ function Start-InstalledShortcut {
   $previousProcessDirectory = [Environment]::CurrentDirectory
   try {
     # A hosted runner's repository and toolcache can contain DLLs/tools that a
-    # clean user's PATH does not. Activate the real, empty-working-directory
-    # shell link from System32 with only the standard Windows system PATH. Do
-    # not supply an explicit child working directory: that would mask the exact
-    # behavior Explorer gives the NSIS-created shortcut.
+    # clean user's PATH does not. Activate the installed shell link from
+    # System32 with only the standard Windows system PATH, letting the shell
+    # use the working directory stored by NSIS.
     Set-InstalledLaunchEnvironmentClean -Snapshot $environmentSnapshot
     Set-Location -LiteralPath $cleanShellWorkingDirectory
     [Environment]::CurrentDirectory = $cleanShellWorkingDirectory
@@ -723,8 +722,8 @@ function Get-InstalledLayout {
     if (-not [string]::IsNullOrWhiteSpace($shortcutLayout.Arguments)) {
       throw "The NSIS shortcut unexpectedly adds launch arguments: $shortcut."
     }
-    if (-not [string]::IsNullOrWhiteSpace($shortcutLayout.WorkingDirectory)) {
-      throw "The NSIS shortcut unexpectedly supplies a working directory: $shortcut."
+    if ($shortcutLayout.WorkingDirectory -ne $installDirectory) {
+      throw "The NSIS shortcut working directory is '$($shortcutLayout.WorkingDirectory)', expected '$installDirectory': $shortcut."
     }
     if ($shortcutLayout.AppUserModelId -ne $BundleIdentifier) {
       throw "The NSIS shortcut has an unexpected Windows AppUserModelID: $shortcut."
