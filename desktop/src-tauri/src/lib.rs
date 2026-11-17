@@ -1565,6 +1565,7 @@ async fn set_ui_language(
     app: AppHandle,
     state: State<'_, AppState>,
     language: String,
+    persist_preference: Option<bool>,
 ) -> Result<(), String> {
     let _config_update = state.inner.config_update.lock().await;
     let language =
@@ -1572,6 +1573,7 @@ async fn set_ui_language(
     set_ui_language_with_refresh_and_save(
         &state,
         language,
+        persist_preference.unwrap_or(true),
         |language| refresh_tray_language_locked(&app, &state, language),
         |config| config::save(&app, config),
     )
@@ -1580,6 +1582,7 @@ async fn set_ui_language(
 fn set_ui_language_with_refresh_and_save(
     state: &AppState,
     language: UiLanguage,
+    persist_preference: bool,
     mut refresh: impl FnMut(UiLanguage) -> Result<(), String>,
     mut save: impl FnMut(&RelayConfig) -> Result<(), String>,
 ) -> Result<(), String> {
@@ -1591,7 +1594,8 @@ fn set_ui_language_with_refresh_and_save(
     let previous = state.ui_language();
     let previous_config = state.config();
     if previous == language
-        && previous_config.ui_language.as_deref() == Some(language.language_code())
+        && (!persist_preference
+            || previous_config.ui_language.as_deref() == Some(language.language_code()))
     {
         // A failed native refresh can partially change NSMenu, tooltip, or AX
         // properties, and its best-effort rollback may fail too. Reapplying an
@@ -1604,6 +1608,11 @@ fn set_ui_language_with_refresh_and_save(
         state.set_ui_language(previous);
         let _ = refresh(previous);
         return Err(user_error("language_failed"));
+    }
+    // Bootstrap can synchronize the tray to the effective system language
+    // without turning that locale into a durable user override.
+    if !persist_preference {
+        return Ok(());
     }
     let mut next_config = previous_config.clone();
     next_config.ui_language = Some(language.language_code().into());
@@ -4779,6 +4788,7 @@ mod tray_tests {
         set_ui_language_with_refresh_and_save(
             &state,
             UiLanguage::English,
+            true,
             |language| {
                 language_refreshes.push(language);
                 Ok(())
@@ -4823,6 +4833,7 @@ mod tray_tests {
         set_ui_language_with_refresh_and_save(
             &state,
             UiLanguage::English,
+            true,
             |language| {
                 reconciliation_refreshes += 1;
                 assert_eq!(language, UiLanguage::English);
@@ -6826,6 +6837,7 @@ mod tray_tests {
         let result = set_ui_language_with_refresh_and_save(
             &state,
             UiLanguage::SimplifiedChinese,
+            true,
             |language| {
                 failed_refreshes.push(language);
                 Err(user_error("language_failed"))
@@ -6845,6 +6857,7 @@ mod tray_tests {
         let result = set_ui_language_with_refresh_and_save(
             &state,
             UiLanguage::English,
+            true,
             |language| {
                 reconciliation_refreshes.push(language);
                 Ok(())
@@ -6859,6 +6872,46 @@ mod tray_tests {
     }
 
     #[test]
+    fn native_language_reconciliation_preserves_the_system_preference() {
+        let mut config = runtime_probe_config("https://relayune.giraffetree.cn");
+        config.ui_language = None;
+        let state = AppState::new(config, false);
+        let language = if state.ui_language() == UiLanguage::English {
+            UiLanguage::SimplifiedChinese
+        } else {
+            UiLanguage::English
+        };
+        let mut refreshed_language = None;
+        set_ui_language_with_refresh_and_save(
+            &state,
+            language,
+            false,
+            |language| {
+                refreshed_language = Some(language);
+                Ok(())
+            },
+            |_| panic!("automatic reconciliation must follow the system preference"),
+        )
+        .unwrap();
+        assert_eq!(refreshed_language, Some(language));
+        assert_eq!(state.ui_language(), language);
+        assert_eq!(state.config().ui_language, None);
+
+        set_ui_language_with_refresh_and_save(
+            &state,
+            language,
+            true,
+            |_| Ok(()),
+            |config| {
+                assert_eq!(config.ui_language.as_deref(), Some(language.language_code()));
+                Ok(())
+            },
+        )
+        .unwrap();
+        assert_eq!(state.config().ui_language.as_deref(), Some(language.language_code()));
+    }
+
+    #[test]
     fn unchanged_language_request_does_not_hide_native_refresh_failure() {
         let mut config = runtime_probe_config("https://relayune.giraffetree.cn");
         config.ui_language = Some(UiLanguage::English.language_code().into());
@@ -6866,6 +6919,7 @@ mod tray_tests {
         let result = set_ui_language_with_refresh_and_save(
             &state,
             UiLanguage::English,
+            true,
             |_| Err(user_error("language_failed")),
             |_| panic!("an unchanged durable language must not rewrite config"),
         );

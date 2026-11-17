@@ -177,8 +177,8 @@ export const relayApi = {
     invokeDesktop<KeepAwakeStatus>("set_prevent_automatic_lock", "keep_awake_failed", { enabled }),
   setLaunchAtLogin: (enabled: boolean) =>
     invokeDesktop<boolean>("set_launch_at_login", "autostart_failed", { enabled }),
-  setUiLanguage: (language: AppLocale) =>
-    invokeDesktop<void>("set_ui_language", "language_failed", { language }),
+  setUiLanguage: (language: AppLocale, persistPreference = true) =>
+    invokeDesktop<void>("set_ui_language", "language_failed", { language, persistPreference }),
   setUpdateAvailable: (available: boolean) =>
     invokeDesktop<void>("set_update_available", "update_failed", { available }),
   selectWorkspace: (current: string, language: AppLocale) =>

@@ -459,7 +459,7 @@ export function installDesktopQaHarness(): AppLocale | null {
         return bootstrap.launch_at_login;
       case "set_ui_language":
         if (!isAppLocale(args.language)) throw new Error("relayune:language_failed");
-        bootstrap.config.ui_language = args.language;
+        if (args.persistPreference !== false) bootstrap.config.ui_language = args.language;
         return null;
       case "select_workspace":
         return bootstrap.platform.os === "windows" ? "C:\\Relayune QA Workspace" : "/Relayune QA Workspace";

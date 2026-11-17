@@ -1189,7 +1189,7 @@ function requestNativeLanguageReconciliation() {
 
   const desiredLanguage = locale;
   nativeLanguageReconciliationPromise = relayApi
-    .setUiLanguage(desiredLanguage)
+    .setUiLanguage(desiredLanguage, false)
     .then(() => {
       // A newer refresh may have selected another persisted language while
       // this native command was in flight. Only clear the request we actually

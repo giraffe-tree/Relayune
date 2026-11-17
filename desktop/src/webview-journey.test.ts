@@ -553,7 +553,7 @@ describe("desktop WebView journey admission", () => {
       /!bootstrap[\s\S]*?pairingStage !== "idle"[\s\S]*?configSaveInFlight[\s\S]*?settingsSaveInFlight[\s\S]*?logoutInFlight[\s\S]*?browserRevokeInFlight[\s\S]*?relayStartInFlight[\s\S]*?workspacePickerInFlight[\s\S]*?installingUpdate[\s\S]*?languageSwitchInFlight[\s\S]*?!nativeLanguageReconciliationNeeded/,
     );
     expect(reconciliation).toMatch(
-      /const desiredLanguage = locale;[\s\S]*?setUiLanguage\(desiredLanguage\)/,
+      /const desiredLanguage = locale;[\s\S]*?setUiLanguage\(desiredLanguage, false\)/,
     );
     expect(reconciliation).toMatch(
       /if \(locale === desiredLanguage\) \{\s*nativeLanguageReconciliationNeeded = false;/,
