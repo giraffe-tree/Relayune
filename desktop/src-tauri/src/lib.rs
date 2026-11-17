@@ -5787,6 +5787,7 @@ mod tray_tests {
         let webview = WebviewWindowBuilder::new(&app, "main", Default::default())
             .build()
             .expect("mock IPC window should build");
+        let ipc_url = webview.url().expect("mock IPC window URL");
         let publication_guard = state
             .inner
             .tray_update
@@ -5801,7 +5802,7 @@ mod tray_tests {
                     cmd: "native_presentation_ipc_probe".into(),
                     callback: tauri::ipc::CallbackFn(0),
                     error: tauri::ipc::CallbackFn(1),
-                    url: "tauri://localhost".parse().expect("mock IPC URL"),
+                    url: ipc_url,
                     body: tauri::ipc::InvokeBody::Json(serde_json::json!({
                         "available": true,
                     })),
