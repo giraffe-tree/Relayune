@@ -1183,7 +1183,7 @@ function Wait-ForLoopbackPairingRequest {
 function Assert-LoopbackPairingRequestsStopped {
   param([Parameter(Mandatory = $true)]$Stub)
   $countAfterCancel = $Stub.RequestCount
-  $deadline = [DateTime]::UtcNow.AddMilliseconds(2_500)
+  $deadline = [DateTime]::UtcNow.AddMilliseconds(2500)
   do {
     Start-Sleep -Milliseconds 100
     if ($Stub.RequestCount -ne $countAfterCancel) {
@@ -1382,7 +1382,7 @@ function Stop-ExactProcess {
     $Process.Refresh()
     if (-not $Process.HasExited) { throw }
   }
-  if (-not $Process.WaitForExit(10_000)) {
+  if (-not $Process.WaitForExit(10000)) {
     throw "Relayune process $processId survived exact process-tree cleanup."
   }
 }
@@ -1670,7 +1670,7 @@ try {
   $startupRecoveryReopen = Start-InstalledShortcut `
     -Path $desktopShortcut `
     -EntryPoint "startup recovery desktop"
-  if (-not $startupRecoveryReopen.WaitForExit(10_000)) {
+  if (-not $startupRecoveryReopen.WaitForExit(10000)) {
     throw "The startup-recovery shortcut did not hand off to the recovered instance."
   }
   if ($startupRecoveryReopen.ExitCode -ne 0) {
@@ -1720,7 +1720,7 @@ try {
   # installed entry point with a direct executable launch. It must hand off to
   # the existing process and terminate, then reveal the sole login window.
   $secondary = Start-InstalledShortcut -Path $desktopShortcut -EntryPoint "desktop"
-  if (-not $secondary.WaitForExit(10_000)) {
+  if (-not $secondary.WaitForExit(10000)) {
     throw "The desktop shortcut launch did not hand off to the existing instance."
   }
   if ($secondary.ExitCode -ne 0) {
@@ -1757,7 +1757,7 @@ try {
   # The installed Start menu shortcut must also reuse the same process and
   # reveal the hidden login window without starting an unpaired sidecar.
   $reopen = Start-InstalledShortcut -Path $startMenuShortcut -EntryPoint "Start menu"
-  if (-not $reopen.WaitForExit(10_000)) {
+  if (-not $reopen.WaitForExit(10000)) {
     throw "The Start menu shortcut did not hand off after Relayune closed to tray."
   }
   if ($reopen.ExitCode -ne 0) {
@@ -1853,7 +1853,7 @@ try {
   }
   $preUninstallConfigHash = (Get-FileHash -LiteralPath $testConfigPath -Algorithm SHA256).Hash
   Invoke-SilentInstaller -Path $uninstaller
-  if (-not $primary.WaitForExit(10_000)) {
+  if (-not $primary.WaitForExit(10000)) {
     throw "Silent uninstall did not stop the live Relayune tray process."
   }
   Wait-ForOwnedProcessInstancesExit -Snapshot $ownedWebView2Snapshot -ProcessName "msedgewebview2.exe"

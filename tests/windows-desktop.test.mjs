@@ -1491,12 +1491,12 @@ test("Windows CI admits clean install, synthetic upgrade, and exact lifecycle cl
   assert.match(shortcutActivationProbe, /Windows Shell did not return a process/);
   assert.match(
     lifecycle,
-    /\$secondary = Start-InstalledShortcut -Path \$desktopShortcut -EntryPoint "desktop"[\s\S]*?\$secondary\.WaitForExit\(10_000\)[\s\S]*?\$secondary\.ExitCode -ne 0/,
+    /\$secondary = Start-InstalledShortcut -Path \$desktopShortcut -EntryPoint "desktop"[\s\S]*?\$secondary\.WaitForExit\(10000\)[\s\S]*?\$secondary\.ExitCode -ne 0/,
     "the desktop shortcut must drive the interactive single-instance handoff",
   );
   assert.match(
     lifecycle,
-    /CloseWindow\(\$mainWindowHandle\)[\s\S]*?\$reopen = Start-InstalledShortcut -Path \$startMenuShortcut -EntryPoint "Start menu"[\s\S]*?\$reopen\.WaitForExit\(10_000\)[\s\S]*?\$reopen\.ExitCode -ne 0/,
+    /CloseWindow\(\$mainWindowHandle\)[\s\S]*?\$reopen = Start-InstalledShortcut -Path \$startMenuShortcut -EntryPoint "Start menu"[\s\S]*?\$reopen\.WaitForExit\(10000\)[\s\S]*?\$reopen\.ExitCode -ne 0/,
     "the Start menu shortcut must restore the close-to-tray window",
   );
   assert.match(lifecycle, /InstallLocation\.Trim\(\[char\]34\) -ne \$expectedInstallDirectory/);
@@ -1550,7 +1550,7 @@ test("Windows CI admits clean install, synthetic upgrade, and exact lifecycle cl
     /\$ownedWebView2Snapshot = @\([\s\S]*?Get-OwnedProcessInstancesByName -RootProcessId \$primary\.Id -ProcessName "msedgewebview2\.exe"[\s\S]*?Stop-ExactProcess -Process \$primary[\s\S]*?Wait-ForOwnedProcessInstancesExit -Snapshot \$ownedWebView2Snapshot -ProcessName "msedgewebview2\.exe"[\s\S]*?Get-ExactPathProcesses -ExecutablePath \$appExecutable/,
     "captured WebView2 identities must exit before the GUI-path and uninstall assertions continue",
   );
-  assert.match(lifecycle, /\$secondary\.WaitForExit\(10_000\)/);
+  assert.match(lifecycle, /\$secondary\.WaitForExit\(10000\)/);
   assert.match(lifecycle, /\$secondary\.ExitCode -ne 0/);
   assert.match(lifecycle, /if \(!enumerated\)[\s\S]*?EnumWindows failed with Win32 error/);
   assert.match(lifecycle, /\$mainWindowHandle = \$visibleWindows\[0\]/);
@@ -1612,7 +1612,7 @@ test("Windows CI admits clean install, synthetic upgrade, and exact lifecycle cl
   const stoppedPairingProbe = lifecycle.match(/function Assert-LoopbackPairingRequestsStopped \{[\s\S]*?\n\}/)?.[0];
   assert.ok(stoppedPairingProbe, "the native lifecycle must reject UI-only cancellation that leaves pairing retries alive");
   assert.match(stoppedPairingProbe, /\$countAfterCancel = \$Stub\.RequestCount/);
-  assert.match(stoppedPairingProbe, /AddMilliseconds\(2_500\)/);
+  assert.match(stoppedPairingProbe, /AddMilliseconds\(2500\)/);
   assert.match(stoppedPairingProbe, /\$Stub\.RequestCount -ne \$countAfterCancel/);
   assert.match(stoppedPairingProbe, /cancelled first-login flow continued sending pairing-start requests/);
   const loginFocusProbe = lifecycle.match(/function Wait-ForAccessibleLoginKeyboardFocus \{[\s\S]*?\n\}/)?.[0];
@@ -1690,7 +1690,7 @@ test("Windows CI admits clean install, synthetic upgrade, and exact lifecycle cl
   assert.match(lifecycle, /ui_language = \$persistedUiLanguage/);
   assert.match(
     lifecycle,
-    /\$malformedConfigText = "\{"[\s\S]*?WriteAllText\(\$testConfigPath, \$malformedConfigText[\s\S]*?\$malformedConfigHash = \(Get-FileHash -LiteralPath \$testConfigPath -Algorithm SHA256\)\.Hash[\s\S]*?\$primary = Start-InstalledGui -Path \$appExecutable[\s\S]*?Wait-ForAccessibleStartupFailureRetryPattern[\s\S]*?Test-Path -LiteralPath \$testConfigPath -PathType Leaf[\s\S]*?Get-FileHash -LiteralPath \$testConfigPath -Algorithm SHA256\)\.Hash -ne \$malformedConfigHash[\s\S]*?WriteAllText\(\$testConfigPath, \$isolatedConfigJson[\s\S]*?\$startupRetryPattern\.Invoke\(\)[\s\S]*?\$startupRecoveredWindows\[0\] -ne \$startupFailureWindowHandle[\s\S]*?Wait-ForAccessibleLoginAction -WindowHandle \$startupRecoveredWindows\[0\][\s\S]*?Wait-ForAccessibleLoginKeyboardFocus -WindowHandle \$startupRecoveredWindows\[0\][\s\S]*?CloseWindow\(\$startupFailureWindowHandle\)[\s\S]*?\$startupRecoveryReopen = Start-InstalledShortcut[\s\S]*?\$startupRecoveryReopen\.WaitForExit\(10_000\)[\s\S]*?\$startupRecoveryRestoredWindows\[0\] -ne \$startupFailureWindowHandle[\s\S]*?Wait-ForAccessibleLoginAction -WindowHandle \$startupRecoveryRestoredWindows\[0\][\s\S]*?Wait-ForAccessibleLoginKeyboardFocus -WindowHandle \$startupRecoveryRestoredWindows\[0\][\s\S]*?Stop-ExactProcess -Process \$primary[\s\S]*?Start-InstalledGui -Path \$appExecutable -Arguments @\("--background"\)/,
+    /\$malformedConfigText = "\{"[\s\S]*?WriteAllText\(\$testConfigPath, \$malformedConfigText[\s\S]*?\$malformedConfigHash = \(Get-FileHash -LiteralPath \$testConfigPath -Algorithm SHA256\)\.Hash[\s\S]*?\$primary = Start-InstalledGui -Path \$appExecutable[\s\S]*?Wait-ForAccessibleStartupFailureRetryPattern[\s\S]*?Test-Path -LiteralPath \$testConfigPath -PathType Leaf[\s\S]*?Get-FileHash -LiteralPath \$testConfigPath -Algorithm SHA256\)\.Hash -ne \$malformedConfigHash[\s\S]*?WriteAllText\(\$testConfigPath, \$isolatedConfigJson[\s\S]*?\$startupRetryPattern\.Invoke\(\)[\s\S]*?\$startupRecoveredWindows\[0\] -ne \$startupFailureWindowHandle[\s\S]*?Wait-ForAccessibleLoginAction -WindowHandle \$startupRecoveredWindows\[0\][\s\S]*?Wait-ForAccessibleLoginKeyboardFocus -WindowHandle \$startupRecoveredWindows\[0\][\s\S]*?CloseWindow\(\$startupFailureWindowHandle\)[\s\S]*?\$startupRecoveryReopen = Start-InstalledShortcut[\s\S]*?\$startupRecoveryReopen\.WaitForExit\(10000\)[\s\S]*?\$startupRecoveryRestoredWindows\[0\] -ne \$startupFailureWindowHandle[\s\S]*?Wait-ForAccessibleLoginAction -WindowHandle \$startupRecoveryRestoredWindows\[0\][\s\S]*?Wait-ForAccessibleLoginKeyboardFocus -WindowHandle \$startupRecoveryRestoredWindows\[0\][\s\S]*?Stop-ExactProcess -Process \$primary[\s\S]*?Start-InstalledGui -Path \$appExecutable -Arguments @\("--background"\)/,
     "the installed first start must fail on an isolated malformed config, invoke Retry after repair, recover the same HWND, and only then begin the background lifecycle",
   );
   assert.match(lifecycle, /startup failure path deleted the malformed config before the user could repair it/);
@@ -1794,7 +1794,7 @@ test("Windows CI admits clean install, synthetic upgrade, and exact lifecycle cl
   assert.match(lifecycle, /Invoke-SilentInstaller -Path \$uninstaller/);
   assert.match(
     lifecycle,
-    /Set-Content -LiteralPath \$sentinel[\s\S]*?\$primary\.Refresh\(\)[\s\S]*?\$primary\.HasExited[\s\S]*?Get-ExactPathProcesses -ExecutablePath \$appExecutable[\s\S]*?\$ownedWebView2Snapshot = @\([\s\S]*?before live uninstall[\s\S]*?Invoke-SilentInstaller -Path \$uninstaller[\s\S]*?\$primary\.WaitForExit\(10_000\)[\s\S]*?Wait-ForOwnedProcessInstancesExit -Snapshot \$ownedWebView2Snapshot[\s\S]*?Get-ExactPathProcesses -ExecutablePath \$appExecutable[\s\S]*?\$primary = \$null/,
+    /Set-Content -LiteralPath \$sentinel[\s\S]*?\$primary\.Refresh\(\)[\s\S]*?\$primary\.HasExited[\s\S]*?Get-ExactPathProcesses -ExecutablePath \$appExecutable[\s\S]*?\$ownedWebView2Snapshot = @\([\s\S]*?before live uninstall[\s\S]*?Invoke-SilentInstaller -Path \$uninstaller[\s\S]*?\$primary\.WaitForExit\(10000\)[\s\S]*?Wait-ForOwnedProcessInstancesExit -Snapshot \$ownedWebView2Snapshot[\s\S]*?Get-ExactPathProcesses -ExecutablePath \$appExecutable[\s\S]*?\$primary = \$null/,
     "silent uninstall must terminate the real post-cancel tray and owned WebView2 process tree",
   );
   const liveUninstallJourney = lifecycle.slice(
